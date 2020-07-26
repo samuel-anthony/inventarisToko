@@ -15,10 +15,9 @@ class CreateMakananDetailsTable extends Migration
     {
         Schema::create('makanan_details', function (Blueprint $table) {
             $table->bigIncrements('makanan_detail_id');
+            $table->integer('jumlah');
             $table->unsignedBigInteger('bahan_pokok_id');
-            $table->unsignedBigInteger('supplier_id')->nullable();
             $table->foreign('bahan_pokok_id')->references('bahan_pokok_id')->on('bahan_pokoks');
-            $table->foreign('supplier_id')->references('supplier_id')->on('supplier');
             $table->timestamps();
         });
     }
