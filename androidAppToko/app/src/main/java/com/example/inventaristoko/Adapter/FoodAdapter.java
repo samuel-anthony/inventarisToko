@@ -17,11 +17,11 @@ import com.example.inventaristoko.R;
 
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
+public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.MyViewHolder> {
     Context context;
     List<Food> foodList;
 
-    public RecyclerAdapter(Context context, List<Food> foodList) {
+    public FoodAdapter(Context context, List<Food> foodList) {
         this.context = context;
         this.foodList = foodList;
     }
@@ -33,19 +33,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @NonNull
     @Override
-    public RecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_adapter,parent,false);
+    public FoodAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.list_food_item,parent,false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, int position) {
-        holder.id.setText(foodList.get(position).getId());
-        holder.name.setText(foodList.get(position).getName());
-        holder.category.setText(foodList.get(position).getCategory());
-        holder.price.setText(foodList.get(position).getPrice().toString());
+    public void onBindViewHolder(@NonNull FoodAdapter.MyViewHolder holder, int position) {
+        holder.id.setText(foodList.get(position).getmId());
+        holder.name.setText(foodList.get(position).getmName());
+        holder.category.setText(foodList.get(position).getmCategory());
+        holder.price.setText(foodList.get(position).getmPrice().toString());
 
-        Glide.with(context).load(foodList.get(position).getId()).apply(RequestOptions.centerCropTransform()).into(holder.imageUrl);
+        Glide.with(context).load(foodList.get(position).getmId()).apply(RequestOptions.centerCropTransform()).into(holder.imageUrl);
     }
 
     @Override

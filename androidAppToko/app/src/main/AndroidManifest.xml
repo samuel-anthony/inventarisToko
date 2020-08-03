@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.inventaristoko">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,11 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SportActivity"></activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".testVolley" />
-        <activity
-            android:name=".FrontActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".FrontActivity" />
         <activity android:name=".FoodListActivity" />
         <activity
             android:name=".SplashActivity"
@@ -27,5 +24,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

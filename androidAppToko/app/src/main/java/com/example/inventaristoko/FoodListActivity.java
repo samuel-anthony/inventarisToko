@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.inventaristoko.Adapter.RecyclerAdapter;
+import com.example.inventaristoko.Adapter.FoodAdapter;
 import com.example.inventaristoko.Model.Food;
 import com.example.inventaristoko.Retrofit.ApiClient;
 import com.example.inventaristoko.Retrofit.ApiInterface;
@@ -22,7 +22,7 @@ import retrofit2.Response;
 public class FoodListActivity extends AppCompatActivity {
     private List<Food> foodList;
     private RecyclerView recyclerView;
-    private RecyclerAdapter recyclerAdapter;
+    private FoodAdapter foodAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +34,8 @@ public class FoodListActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_food_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerAdapter = new RecyclerAdapter(getApplicationContext(), foodList);
-        recyclerView.setAdapter(recyclerAdapter);
+        foodAdapter = new FoodAdapter(getApplicationContext(), foodList);
+        recyclerView.setAdapter(foodAdapter);
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<List<Food>> call = apiService.getFoods();
@@ -45,7 +45,7 @@ public class FoodListActivity extends AppCompatActivity {
             public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
                 foodList = response.body();
                 Log.d("TAG", "Response = " + foodList);
-                recyclerAdapter.setFoodList(foodList);
+                foodAdapter.setFoodList(foodList);
             }
 
             @Override

@@ -3,29 +3,37 @@ package com.example.inventaristoko.Model;
 import java.math.BigDecimal;
 
 public class Food {
-    private int id;
-    private String name;
-    private String category;
-    private BigDecimal price;
-    private String imageUrl;
+    private int mId;
+    private String mName;
+    private String mCategory;
+    private BigDecimal mPrice;
+    private String mImageUrl;
 
-    public int getId() {
-        return id;
+    public Food(int mId, String mName, String mCategory, BigDecimal mPrice, String mImageUrl) {
+        this.mId = mId;
+        this.mName = mName;
+        this.mCategory = mCategory;
+        this.mPrice = mPrice;
+        this.mImageUrl = mImageUrl;
     }
 
-    public String getName() {
-        return name;
+    public int getmId() {
+        return mId;
     }
 
-    public String getCategory() {
-        return category;
+    public String getmName() {
+        return mName;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public String getmCategory() {
+        return mCategory;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public BigDecimal getmPrice() {
+        return mPrice;
+    }
+
+    public String getmImageUrl() {
+        return mImageUrl;
     }
 }
