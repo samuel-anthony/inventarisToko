@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('bahanPokok','BahanPokokController@index');
+Route::post('testApi','UserController@testApi');
