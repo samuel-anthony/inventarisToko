@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;//INI UNTUK KEPENTINGAN LOGIN
 
 class UserController extends Controller
 {
@@ -17,11 +18,37 @@ class UserController extends Controller
         $user->password = bcrypt($user->password);
         $user->user_role = $request->user_role == '1'? 1 : 0;
         $user->save();
-        return "success";
+        return json_encode([
+            'is_error' => '0',
+            'message' => 'berhasil'
+        ]);
     }
 
     public function login(request $request){
-        
+        $user = User::where('user_id',$request->user_id)->get();
+        if(count($user)>0){
+            if(Auth::attempt([
+                'user_id'=>$request->user_id,
+                'password'=>$request->password
+            ])){
+                return json_encode([
+                    'is_error' => '0',
+                    'message' => 'login berhasil'
+                ]);
+            }
+            else{
+                return json_encode([
+                    'is_error' => '1',
+                    'message' => 'user atau kata sandi salah'
+                ]);
+            }
+        }
+        else{
+            return json_encode([
+                'is_error' => '1',
+                'message' => 'user atau kata sandi salah'
+            ]);
+        }        
     }
 
     public function testApi(request $request){

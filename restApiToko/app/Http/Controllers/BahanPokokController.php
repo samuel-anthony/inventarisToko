@@ -9,6 +9,6 @@ class BahanPokokController extends Controller
 {
     //
     public function index(){
-        return bahanPokok::all();
+        return json_encode(["result"=>bahanPokok::all()]);
     }
 }

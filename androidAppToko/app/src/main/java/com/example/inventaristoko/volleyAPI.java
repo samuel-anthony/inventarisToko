@@ -4,26 +4,16 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.Map;
-
-import static android.content.ContentValues.TAG;
 
 public class volleyAPI {
 
@@ -40,7 +30,7 @@ public class volleyAPI {
         mRequestQueue = Volley.newRequestQueue(context);
     }
 
-    public void putRequest(String service,final VolleyCallback callback){
+    public void putRequest(String service,Map<String, String> params,final VolleyCallback callback){
         mStringRequest = new StringRequest(Request.Method.GET, URL+service, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -52,7 +42,12 @@ public class volleyAPI {
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG,"Error :" + error.toString());
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                return params;
+            }
+        };
         int socketTimeout = 30000;//30 seconds - change to what you want
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         mStringRequest.setRetryPolicy(policy);
