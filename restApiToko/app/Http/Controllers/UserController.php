@@ -51,6 +51,28 @@ class UserController extends Controller
         }        
     }
 
+    public function getAllCustomerUser(){
+        return json_encode([
+            'result' => User::userRole(1)->get() 
+        ]);
+    }
+    
+    public function getUserIdAndPasswordCustomer(request $request){
+        $user = User::userId($request->user_id)->userRole(1)->get();
+        if(count($user)>0){
+            return json_encode([
+                'is_error' => '0',
+                'message' => 'berhasil',
+                'user' => $user
+            ]); 
+        }
+
+        return json_encode([
+            'is_error' => '1',
+            'message' => 'user tidak tersedia'
+        ]);
+    }
+
     public function testApi(request $request){
         return $request->test == null ? "test" : $request->test;
     }

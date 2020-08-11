@@ -62,6 +62,7 @@ public class FrontActivity extends AppCompatActivity implements View.OnClickList
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), LoginActivity.class);
                 startActivityForResult(myIntent, 0);
+                finish();
             }
 
         });
