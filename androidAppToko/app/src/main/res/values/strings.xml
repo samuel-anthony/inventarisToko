@@ -20,17 +20,17 @@
         <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSXsZ76aNqtWuiPXRuuxZYAcTU-rgid0TUJVA&amp;usqp=CAU</item>
         <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSXsZ76aNqtWuiPXRuuxZYAcTU-rgid0TUJVA&amp;usqp=CAU</item>
         <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSXsZ76aNqtWuiPXRuuxZYAcTU-rgid0TUJVA&amp;usqp=CAU</item>
-<!--        <item>https://androidwave.com/media/images/img_baseball.jpg</item>-->
-<!--        <item>https://androidwave.com/media/images/img_badminton.jpg</item>-->
-<!--        <item>https://androidwave.com/media/images/img_basketball.jpg</item>-->
-<!--        <item>https://androidwave.com/media/images/img_bowling.jpg</item>-->
-<!--        <item>https://androidwave.com/media/images/img_cycling.jpg</item>-->
-<!--        <item>https://androidwave.com/media/images/img_golf.jpg</item>-->
-<!--        <item>https://androidwave.com/media/images/img_running.jpg</item>-->
-<!--        <item>https://androidwave.com/media/images/img_soccer.jpg</item>-->
-<!--        <item>https://androidwave.com/media/images/img_swimming.jpg</item>-->
-<!--        <item>https://androidwave.com/media/images/img_tabletennis.jpg</item>-->
-<!--        <item>https://androidwave.com/media/images/img_tennis.jpg</item>-->
+        <!--        <item>https://androidwave.com/media/images/img_baseball.jpg</item>-->
+        <!--        <item>https://androidwave.com/media/images/img_badminton.jpg</item>-->
+        <!--        <item>https://androidwave.com/media/images/img_basketball.jpg</item>-->
+        <!--        <item>https://androidwave.com/media/images/img_bowling.jpg</item>-->
+        <!--        <item>https://androidwave.com/media/images/img_cycling.jpg</item>-->
+        <!--        <item>https://androidwave.com/media/images/img_golf.jpg</item>-->
+        <!--        <item>https://androidwave.com/media/images/img_running.jpg</item>-->
+        <!--        <item>https://androidwave.com/media/images/img_soccer.jpg</item>-->
+        <!--        <item>https://androidwave.com/media/images/img_swimming.jpg</item>-->
+        <!--        <item>https://androidwave.com/media/images/img_tabletennis.jpg</item>-->
+        <!--        <item>https://androidwave.com/media/images/img_tennis.jpg</item>-->
     </string-array>
     <string-array name="sports_titles">
         <item>Baseball</item>

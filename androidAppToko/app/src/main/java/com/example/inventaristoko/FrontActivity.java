@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
+import com.example.inventaristoko.Screens.LoginActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -23,7 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FrontActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button buttonGuest;
+    private Button buttonGuest, buttonAdmin;
+    private EditText etLoginId, etLoginPassword;
     private TextView textViewNama;
     private IntentIntegrator intentIntegrator;
 
@@ -50,9 +53,18 @@ public class FrontActivity extends AppCompatActivity implements View.OnClickList
 //            }
 //        });
         buttonGuest = (Button) findViewById(R.id.buttonGuest);
+        buttonAdmin = (Button) findViewById(R.id.buttonAdmin);
         textViewNama = (TextView) findViewById(R.id.logoName);
 
         buttonGuest.setOnClickListener(this);
+
+        buttonAdmin.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), LoginActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+
+        });
     }
 
     @Override
