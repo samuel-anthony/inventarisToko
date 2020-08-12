@@ -1,45 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".FrontActivity">
+    tools:context=".Screens.FrontActivity">
 
-    <TextView
-        android:id="@+id/logoName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_weight="4"
+            android:src="@drawable/ic_login"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+        <View
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/logo_name"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonGuest"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.455" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/buttonGuest"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="20dp"
-        android:text="Login as Guest"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAdmin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:layout_margin="?actionBarSize"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:textColor="#fff"
+            android:text="@string/logo_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/buttonAdmin"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="360dp"
-        android:text="Login as Admin"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/buttonGuest"
+            android:paddingRight="50dp"
+            android:paddingLeft="50dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/rounded_corner_button"
+            android:text="Masuk Sebagai Pelangan"
+            android:textColor="#FFCC2B"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp" />
+
+        <Button
+            android:id="@+id/buttonAdmin"
+            android:paddingRight="50dp"
+            android:paddingLeft="50dp"
+            android:background="@drawable/rounded_corner_button"
+            android:text="Masuk Sebagai Admin"
+            android:textColor="#FFCC2B"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp" />
+    </LinearLayout>
+</RelativeLayout>

@@ -9,23 +9,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Screens.LoginActivity"></activity>
-        <activity android:name=".SportActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".testVolley" />
-        <activity android:name=".FrontActivity" />
+        <activity
+            android:name=".Screens.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Screens.LoginActivity"
+            android:theme="@style/FrontTheme" />
+        <activity
+            android:name=".Screens.FrontActivity"
+            android:theme="@style/FrontTheme" />
         <activity android:name=".FoodListActivity" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".Screens.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
     <uses-permission android:name="android.permission.INTERNET" />
-
 </manifest>
