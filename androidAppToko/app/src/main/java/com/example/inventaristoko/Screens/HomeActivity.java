@@ -118,7 +118,7 @@ public class HomeActivity extends AppCompatActivity {
             String[] sportsInfo = getResources().getStringArray(R.array.sports_info);
             String[] sportsImage = getResources().getStringArray(R.array.sports_images);
             for (int i = 0; i < sportsList.length; i++) {
-                mSports.add(new Sport(sportsImage[i], sportsInfo[i], "News", sportsList[i]));
+                mSports.add(new Sport(sportsImage[i], sportsInfo[i], "1", sportsList[i]));
             }
             mSportAdapter.addItems(mSports);
             mRecyclerView.setAdapter(mSportAdapter);
