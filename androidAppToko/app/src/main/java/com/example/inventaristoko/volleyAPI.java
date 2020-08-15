@@ -18,7 +18,7 @@ import java.util.Map;
 public class volleyAPI {
 
     private static final String TAG = volleyAPI.class.getName();
-    private String ip = "http://192.168.18.5:8000/";
+    private String ip = "http://10.107.231.6:8000/";
     private String URL = ip+"api/";
 
     private RequestQueue mRequestQueue;
