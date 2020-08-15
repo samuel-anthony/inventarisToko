@@ -29,7 +29,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/newsTitle"
+                    android:id="@+id/urutan"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -56,7 +56,7 @@
                     android:text="@string/nomor_pesanan" />
 
                 <TextView
-                    android:id="@+id/newsInfo"
+                    android:id="@+id/subTitle"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,15 +64,15 @@
                     android:padding="@dimen/_8dp"
                     android:text="@string/status_pesanan" />
 
-                <ImageView
-                    android:id="@+id/thumbnail"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="fitXY"
-                    android:padding="@dimen/_8dp"
-                    android:layout_marginVertical="10dp"
-                    android:layout_gravity="center"/>
+<!--                <ImageView-->
+<!--                    android:id="@+id/thumbnail"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--                    android:scaleType="fitXY"-->
+<!--                    android:padding="@dimen/_8dp"-->
+<!--                    android:layout_marginVertical="10dp"-->
+<!--                    android:layout_gravity="center"/>-->
             </LinearLayout>
 
             <LinearLayout
@@ -82,17 +82,17 @@
                 android:orientation="vertical"
                 android:gravity="center">
 
-                <Button
-                    android:id="@+id/buttonLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:paddingRight="15dp"
-                    android:paddingLeft="15dp"
-                    android:text="@string/button_detail"
-                    android:textColor="@color/colorWhite"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/text_medium"
-                    android:background="@drawable/button_primary" />
+<!--                <Button-->
+<!--                    android:id="@+id/buttonLogin"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:paddingRight="15dp"-->
+<!--                    android:paddingLeft="15dp"-->
+<!--                    android:text="@string/button_detail"-->
+<!--                    android:textColor="@color/colorWhite"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textSize="@dimen/text_medium"-->
+<!--                    android:background="@drawable/button_primary" />-->
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

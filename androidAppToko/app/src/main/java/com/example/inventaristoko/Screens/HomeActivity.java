@@ -9,11 +9,15 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
 
+import com.example.inventaristoko.Adapter.PenjualanAdapter;
 import com.example.inventaristoko.Adapter.SportAdapter;
+import com.example.inventaristoko.Model.Penjualan;
 import com.example.inventaristoko.Model.Sport;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.DividerItemDecoration;
+import com.example.inventaristoko.VolleyCallback;
+import com.example.inventaristoko.volleyAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -30,7 +34,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 
@@ -38,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private RecyclerView mRecyclerView;
     private SportAdapter mSportAdapter;
+    private PenjualanAdapter mPenjualanAdapter;
     private LinearLayoutManager mLayoutManager;
 
     @Override
@@ -46,6 +58,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,25 +116,39 @@ public class HomeActivity extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider_drawable);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(dividerDrawable));
-        mSportAdapter = new SportAdapter(new ArrayList<>());
+        mPenjualanAdapter = new PenjualanAdapter(new ArrayList<>());
 
-        prepareDemoContent();
+        prepareDataPenjualan();
     }
 
-    private void prepareDemoContent() {
+    private void prepareDataPenjualan() {
         CommonUtils.showLoading(HomeActivity.this);
+
+        volleyAPI volleyAPI = new volleyAPI(this);
+        Map<String, String> params = new HashMap<>();
         new Handler().postDelayed(() -> {
-            //prepare data and show loading
             CommonUtils.hideLoading();
-            ArrayList<Sport> mSports = new ArrayList<>();
-            String[] sportsList = getResources().getStringArray(R.array.sports_titles);
-            String[] sportsInfo = getResources().getStringArray(R.array.sports_info);
-            String[] sportsImage = getResources().getStringArray(R.array.sports_images);
-            for (int i = 0; i < sportsList.length; i++) {
-                mSports.add(new Sport(sportsImage[i], sportsInfo[i], "1", sportsList[i]));
-            }
-            mSportAdapter.addItems(mSports);
-            mRecyclerView.setAdapter(mSportAdapter);
+            volleyAPI.putRequest("getPesananBelumSelesai", params, new VolleyCallback() {
+                @Override
+                public void onSuccessResponse(String result) {
+                    try {
+                        ArrayList<Penjualan> mPenjualan = new ArrayList<>();
+                        JSONObject resultJSON = new JSONObject(result);
+                        JSONArray resultArray = resultJSON.getJSONArray("result");
+                        for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                            JSONObject dataPenjualan = (JSONObject) resultArray.get(i);
+                            String  urutanPenjualan = String.valueOf(i+1);
+                            String noPenjualan = dataPenjualan.getString("ref_no");
+                            String statusPenjualan = dataPenjualan.getString("status");
+                            mPenjualan.add(new Penjualan(noPenjualan, statusPenjualan, urutanPenjualan));
+                        }
+                        mPenjualanAdapter.addItems(mPenjualan);
+                        mRecyclerView.setAdapter(mPenjualanAdapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }, 2000);
     }
 }
