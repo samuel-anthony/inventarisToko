@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("user_id",etLoginId.getText().toString());
                 params.put("password",etLoginPassword.getText().toString());
-                volleyAPI.postRequest("login",params, new VolleyCallback() {
+                volleyAPI.getRequest("login",params, new VolleyCallback() {
                     @Override
                     public void onSuccessResponse(String result) {
                         try {

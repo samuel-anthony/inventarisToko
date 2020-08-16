@@ -30,8 +30,33 @@ public class volleyAPI {
         mRequestQueue = Volley.newRequestQueue(context);
     }
 
-    public void putRequest(String service,Map<String, String> params,final VolleyCallback callback){
+
+    public void getRequest(String service,Map<String, String> params,final VolleyCallback callback){
         mStringRequest = new StringRequest(Request.Method.GET, URL+service, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
+                callback.onSuccessResponse(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(TAG,"Error :" + error.toString());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                return params;
+            }
+        };
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        mStringRequest.setRetryPolicy(policy);
+        mRequestQueue.add(mStringRequest);
+    }
+
+    public void putRequest(String service,Map<String, String> params,final VolleyCallback callback){
+        mStringRequest = new StringRequest(Request.Method.PUT, URL+service, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(context,"Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
@@ -56,6 +81,32 @@ public class volleyAPI {
 
     public void postRequest(String service,Map<String, String> params,final VolleyCallback callback){
         mStringRequest = new StringRequest(Request.Method.POST, URL+service, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
+                callback.onSuccessResponse(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(TAG,"Error :" + error.toString());
+                Log.i(TAG,"Error :" + error.getMessage());
+                Log.i(TAG,"Error :" + error.getCause());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                return params;
+            }
+        };
+        int socketTimeout = 10000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        mStringRequest.setRetryPolicy(policy);
+        mRequestQueue.add(mStringRequest);
+    }
+
+    public void deleteRequest(String service,Map<String, String> params,final VolleyCallback callback){
+        mStringRequest = new StringRequest(Request.Method.DELETE, URL+service, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(context,"Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen

@@ -128,7 +128,7 @@ public class HomeActivity extends AppCompatActivity {
         Map<String, String> params = new HashMap<>();
         new Handler().postDelayed(() -> {
             CommonUtils.hideLoading();
-            volleyAPI.putRequest("getPesananBelumSelesai", params, new VolleyCallback() {
+            volleyAPI.getRequest("getPesananBelumSelesai", params, new VolleyCallback() {
                 @Override
                 public void onSuccessResponse(String result) {
                     try {
