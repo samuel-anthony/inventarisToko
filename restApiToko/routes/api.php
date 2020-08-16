@@ -18,8 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//get request
+Route::get('getPesananBelumSelesai','PesananController@getAllTodayUnfinishedOrder');
 Route::get('bahanPokok','BahanPokokController@index');
-Route::get('pesananBelumSelesai','PesananController@getAllTodayUnfinishedOrder');
+
+
 Route::post('testApi','UserController@testApi');
 Route::post('register','UserController@register');
-Route::post('login','UserController@login');
+Route::post('login','UserController@loginAdmin');
+Route::post('loginQR','UserController@loginCustomer');

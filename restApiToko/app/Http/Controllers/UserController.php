@@ -24,8 +24,35 @@ class UserController extends Controller
         ]);
     }
 
-    public function login(request $request){
-        $user = User::where('user_id',$request->user_id)->get();
+    public function loginCustomer(request $request){
+        $user = User::where('user_id',$request->user_id)->whereUserRole('1')->get();
+        if(count($user)>0){
+            if(Auth::attempt([
+                'user_id'=>$request->user_id,
+                'password'=>$request->password
+            ])){
+                return json_encode([
+                    'is_error' => '0',
+                    'message' => 'login berhasil'
+                ]);
+            }
+            else{
+                return json_encode([
+                    'is_error' => '1',
+                    'message' => 'user atau kata sandi salah'
+                ]);
+            }
+        }
+        else{
+            return json_encode([
+                'is_error' => '1',
+                'message' => 'user atau kata sandi salah'
+            ]);
+        }        
+    }
+
+    public function loginAdmin(request $request){
+        $user = User::where('user_id',$request->user_id)->whereUserRole('0')->get();
         if(count($user)>0){
             if(Auth::attempt([
                 'user_id'=>$request->user_id,
