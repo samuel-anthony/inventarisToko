@@ -1,0 +1,32 @@
+--rootAdmin 12345678
+--admin 1234
+--table_1 udin123
+INSERT INTO users (name,user_id,user_role,password)
+values('rootAdmin','rootAdmin',0,
+'$2y$10$CyNNXCnGk/ELsAWBcRNekOAHAjCJTElr5LoRrDJcCvWRPOL6HsXXa'),
+('admin','admin',0,
+'$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa')
+('table1', 'table_1', 1, NULL, '$2y$10$kUohBwVi5/b37.qEoXd5V.kGb082uGPzKPknug5vRVMfgGDJAXB3a', NULL, NULL, NULL);
+
+
+
+
+
+INSERT INTO `makanans` (`makanan_id`, `nama`, `harga_jual`, `created_at`, `updated_at`) VALUES
+(1, 'makanan_1', 10000, NULL, NULL),
+(2, 'makanan_2', 11000, NULL, NULL),
+(3, 'minuman_1', 2000, NULL, NULL),
+(4, 'minuman_2', 3000, NULL, NULL);
+
+
+
+INSERT INTO `pesanan_masters` (`pesanan_master_id`, `ref_no`, `status`, `status_code`, `total_harga`, `total_charges`, `total_pesanan`, `user_id`, `created_at`, `updated_at`) VALUES
+(2, '202008150001', 'dipesan', '001', 13000, 1300, 2, 'table_1', NULL, NULL),
+(3, '202008150002', 'aldo bangsat', '002', 14000, 1400, 2, 'table_1', NULL, NULL);
+
+
+INSERT INTO `pesanan_details` (`pesanan_detail_id`, `makanan_id`, `pesanan_master_id`, `created_at`, `updated_at`) VALUES
+(1, 2, 2, NULL, NULL),
+(2, 4, 2, NULL, NULL),
+(3, 2, 3, NULL, NULL),
+(4, 3, 3, NULL, NULL);
