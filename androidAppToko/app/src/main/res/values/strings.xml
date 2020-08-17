@@ -22,13 +22,23 @@
 
     <string name="action_logout">Logout</string>
 
+    <string name="admin">Admin</string>
+    <string name="label_detil_pesanan">Detil Pesanan</string>
+
     <!--Button-->
-    <string name="button_detail">Detail</string>
+    <string name="button_detail">Detil</string>
+    <string name="button_done">Selesai</string>
 
     <!--Text List-->
     <string name="nomor_pesanan">Nomor Pesanan</string>
     <string name="status_pesanan">Status Pesanan</string>
     <string name="nomor_antrian">Nomor Antrian</string>
+    <string name="tanggal_pesanan">Tanggal Pesanan</string>
+    <string name="status">Status</string>
+    <string name="ubah_status">Ubah Status</string>
+    <string name="total">Total</string>
+    <string name="total_harga">Total Harga</string>
+
 
 
     <string name="home_second">Home Second</string>
@@ -62,5 +72,17 @@
         <item>Finished</item>
         <item>Finished</item>
         <item>Finished</item>
+    </string-array>
+
+    <string-array name="status">
+        <item>Ordering</item>
+        <item>On Going</item>
+        <item>Finished</item>
+    </string-array>
+
+    <string-array name="detil_makanan">
+        <item>Bakso 14 Ribu</item>
+        <item>Es Teh 4 Ribu</item>
+        <item>Mie Ayam 25 Ribu</item>
     </string-array>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.inventaristoko">
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,14 +13,14 @@
         <activity
             android:name=".Screens.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".Screens.LoginActivity"
-            android:theme="@style/FrontTheme" />
-        <activity
-            android:name=".Screens.FrontActivity"
-            android:theme="@style/FrontTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Screens.LoginActivity" />
+        <activity android:name=".Screens.FrontActivity" />
         <activity android:name=".FoodListActivity" />
+        <activity
+            android:name=".Screens.PenjualanDetailActivity"
+            android:theme="@style/MyMaterialTheme"
+            android:parentActivityName=".Screens.HomeActivity"/>
         <activity
             android:name=".Screens.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -29,5 +30,4 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

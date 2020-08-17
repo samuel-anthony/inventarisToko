@@ -11,4 +11,8 @@
     <color name="black_effective">#2a2a2a</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
+
+    <color name="colorSuccess">#40C5AF</color>
+    <color name="colorProcess">#409AE1</color>
+    <color name="colorFailed">#EF6950</color>
 </resources>

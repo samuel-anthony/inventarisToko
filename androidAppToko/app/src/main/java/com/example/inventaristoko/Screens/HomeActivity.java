@@ -1,12 +1,13 @@
 package com.example.inventaristoko.Screens;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.PenjualanAdapter;
@@ -15,14 +16,13 @@ import com.example.inventaristoko.Model.Penjualan;
 import com.example.inventaristoko.Model.Sport;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
-import com.example.inventaristoko.Utils.DividerItemDecoration;
 import com.example.inventaristoko.VolleyCallback;
 import com.example.inventaristoko.volleyAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -37,10 +37,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -50,23 +54,31 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private SportAdapter mSportAdapter;
     private PenjualanAdapter mPenjualanAdapter;
-    private LinearLayoutManager mLayoutManager;
+    private TextView tvDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        tvDate = findViewById(R.id.tanggal);
+        tvDate.setText(formattedDate);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.admin);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Tidak ada Pesan Disini", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -85,12 +97,50 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.string.action_logout) {
-            Toast.makeText(HomeActivity.this, "Logout is Successfully", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent (HomeActivity.this, FrontActivity.class);
-            startActivity(intent);
-            finish();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Anda Yakin Ingin Keluar?");
+            builder.setCancelable(false);
+            builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    CommonUtils.showLoading(HomeActivity.this);
+                    volleyAPI volleyAPI = new volleyAPI(HomeActivity.this);
+                    Map<String, String> params = new HashMap<>();
+                    new Handler().postDelayed(() -> {
+                        volleyAPI.getRequest("logout", params, new VolleyCallback() {
+                            @Override
+                            public void onSuccessResponse(String result) {
+                                try {
+                                    JSONObject resultJSON = new JSONObject(result);
+                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                                    if (resultJSON.getString("is_error").equalsIgnoreCase("0")) {
+                                        Intent myIntent = new Intent(getApplicationContext(), FrontActivity.class);
+                                        startActivityForResult(myIntent, 0);
+                                        Toast.makeText(getApplicationContext(), "Berhasil Keluar", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        CommonUtils.hideLoading();
+                    }, 2000);
+                }
+            });
+            builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            builder.show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -102,32 +152,24 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
-
     private void setUp() {
-        mLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider_drawable);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(dividerDrawable));
-        mPenjualanAdapter = new PenjualanAdapter(new ArrayList<>());
 
-        prepareDataPenjualan();
+//        mPenjualanAdapter = new PenjualanAdapter(new ArrayList<>());
+        mSportAdapter = new SportAdapter(new ArrayList<>());
+
+        prepareDummyData();
+//        prepareDataPenjualan();
     }
 
     private void prepareDataPenjualan() {
         CommonUtils.showLoading(HomeActivity.this);
-
         volleyAPI volleyAPI = new volleyAPI(this);
         Map<String, String> params = new HashMap<>();
         new Handler().postDelayed(() -> {
-            CommonUtils.hideLoading();
             volleyAPI.getRequest("getPesananBelumSelesai", params, new VolleyCallback() {
                 @Override
                 public void onSuccessResponse(String result) {
@@ -137,18 +179,36 @@ public class HomeActivity extends AppCompatActivity {
                         JSONArray resultArray = resultJSON.getJSONArray("result");
                         for(int i = 0 ; i < resultArray.length() ; i ++ ) {
                             JSONObject dataPenjualan = (JSONObject) resultArray.get(i);
-                            String  urutanPenjualan = String.valueOf(i+1);
+                            String urutanPenjualan = String.valueOf(i+1);
                             String noPenjualan = dataPenjualan.getString("ref_no");
                             String statusPenjualan = dataPenjualan.getString("status");
                             mPenjualan.add(new Penjualan(noPenjualan, statusPenjualan, urutanPenjualan));
                         }
                         mPenjualanAdapter.addItems(mPenjualan);
                         mRecyclerView.setAdapter(mPenjualanAdapter);
+                        CommonUtils.hideLoading();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
             });
+        }, 2000);
+    }
+
+    private void prepareDummyData() {
+        CommonUtils.showLoading(HomeActivity.this);
+        new Handler().postDelayed(() -> {
+            //prepare data and show loading
+            ArrayList<Sport> mSports = new ArrayList<>();
+            String[] sportsList = getResources().getStringArray(R.array.sports_titles);
+            String[] sportsInfo = getResources().getStringArray(R.array.sports_info);
+            String[] sportsImage = getResources().getStringArray(R.array.sports_images);
+            for (int i = 0; i < sportsList.length; i++) {
+                mSports.add(new Sport(sportsImage[i], sportsInfo[i], "1", sportsList[i]));
+            }
+            mSportAdapter.addItems(mSports);
+            mRecyclerView.setAdapter(mSportAdapter);
+            CommonUtils.hideLoading();
         }, 2000);
     }
 }

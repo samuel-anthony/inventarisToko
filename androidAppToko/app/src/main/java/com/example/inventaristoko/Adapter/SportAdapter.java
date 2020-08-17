@@ -1,22 +1,28 @@
 package com.example.inventaristoko.Adapter;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.inventaristoko.Model.Sport;
 import com.example.inventaristoko.R;
+import com.example.inventaristoko.Screens.HomeActivity;
+import com.example.inventaristoko.Screens.PenjualanDetailActivity;
+import com.example.inventaristoko.Screens.SplashActivity;
 import com.example.inventaristoko.Utils.BaseViewHolder;
+import com.example.inventaristoko.Utils.CommonUtils;
+import com.example.inventaristoko.VolleyCallback;
+import com.example.inventaristoko.volleyAPI;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,8 +58,7 @@ public class SportAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             case VIEW_TYPE_EMPTY:
             default:
                 return new EmptyViewHolder(
-                        LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.item_empty_view, parent, false));
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_empty_view, parent, false));
         }
     }
 
@@ -87,16 +92,16 @@ public class SportAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public class ViewHolder extends BaseViewHolder {
 
 //        @BindView(R.id.thumbnail)
-        ImageView coverImageView;
+//        ImageView coverImageView;
 
         @BindView(R.id.title)
         TextView titleTextView;
 
-//        @BindView(R.id.newsTitle)
+        @BindView(R.id.subTitle)
         TextView newsTextView;
-
+//
 //        @BindView(R.id.newsInfo)
-        TextView infoTextView;
+//        TextView infoTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -104,10 +109,10 @@ public class SportAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
         protected void clear() {
-            coverImageView.setImageDrawable(null);
+//            coverImageView.setImageDrawable(null);
             titleTextView.setText("");
             newsTextView.setText("");
-            infoTextView.setText("");
+//            infoTextView.setText("");
         }
 
         public void onBind(int position) {
@@ -115,11 +120,11 @@ public class SportAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             final Sport mSport = mSportList.get(position);
 
-            if (mSport.getImageUrl() != null) {
-                Glide.with(itemView.getContext())
-                        .load(mSport.getImageUrl())
-                        .into(coverImageView);
-            }
+//            if (mSport.getImageUrl() != null) {
+//                Glide.with(itemView.getContext())
+//                        .load(mSport.getImageUrl())
+//                        .into(coverImageView);
+//            }
 
             if (mSport.getTitle() != null) {
                 titleTextView.setText(mSport.getTitle());
@@ -129,21 +134,13 @@ public class SportAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 newsTextView.setText(mSport.getSubTitle());
             }
 
-            if (mSport.getInfo() != null) {
-                infoTextView.setText(mSport.getInfo());
-            }
+//            if (mSport.getInfo() != null) {
+//                infoTextView.setText(mSport.getInfo());
+//            }
 
             itemView.setOnClickListener(v -> {
-                if (mSport.getImageUrl() != null) {
-                    try {
-                        Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                        intent.setData(Uri.parse(mSport.getImageUrl()));
-                        itemView.getContext().startActivity(intent);
-                    } catch (Exception e) {
-                        Log.e(TAG, "onClick: Image url is not correct");
-                    }
+                if (mSport.getTitle() != null) {
+                    cobaPindah(v, mSport.getTitle());
                 }
             });
         }
@@ -164,5 +161,15 @@ public class SportAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @Override
         protected void clear() {
         }
+    }
+
+    private void cobaPindah(View v, String refNo) {
+        CommonUtils.showLoading(v.getContext());
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent (v.getContext(), PenjualanDetailActivity.class);
+            v.getContext().startActivity(intent);
+
+            Toast.makeText(v.getContext(), refNo, Toast.LENGTH_SHORT).show();
+        }, 2000);
     }
 }

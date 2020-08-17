@@ -1,30 +1,34 @@
 package com.example.inventaristoko.Adapter;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.inventaristoko.Model.Penjualan;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.HomeActivity;
 import com.example.inventaristoko.Screens.PenjualanDetailActivity;
 import com.example.inventaristoko.Utils.BaseViewHolder;
+import com.example.inventaristoko.Utils.CommonUtils;
+import com.example.inventaristoko.volleyAPI;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final String TAG = "PenjualanAdapter";
-    public static final int VIEW_TYPE_EMPTY = 0;
-    public static final int VIEW_TYPE_NORMAL = 1;
+    private static final int VIEW_TYPE_EMPTY = 0;
+    private static final int VIEW_TYPE_NORMAL = 1;
 
     private Callback mCallback;
     private List<Penjualan> mPenjualanList;
@@ -38,7 +42,7 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
                 return new ViewHolder(
@@ -93,7 +97,7 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.subTitle)
         TextView subTextView;
 
-        public ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -122,11 +126,7 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             itemView.setOnClickListener(v -> {
                 if (mPenjualan.getRefNo() != null) {
                     try {
-                        Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                        intent.setData(Uri.parse(mPenjualan.getRefNo()));
-                        itemView.getContext().startActivity(intent);
+                        prepareDataDetailPenjualan(v, mPenjualan.getRefNo());
                     } catch (Exception e) {
                         Log.e(TAG, "onClick: Url is not correct");
                     }
@@ -150,5 +150,41 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @Override
         protected void clear() {
         }
+    }
+
+    private void prepareDataDetailPenjualan(View v, String refNo) {
+        CommonUtils.showLoading(v.getContext());
+
+        volleyAPI volleyAPI = new volleyAPI(v.getContext());
+        Map<String, String> params = new HashMap<>();
+        params.put("ref_no", refNo);
+//        new Handler().postDelayed(() -> {
+//            volleyAPI.getRequest("getPesananDetil", params, new VolleyCallback() {
+//                @Override
+//                public void onSuccessResponse(String result) {
+//                    try {
+//                        ArrayList<Penjualan> mPenjualan = new ArrayList<>();
+//                        JSONObject resultJSON = new JSONObject(result);
+//                        JSONArray resultArray = resultJSON.getJSONArray("result");
+//                        for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+//                            JSONObject dataPenjualan = (JSONObject) resultArray.get(i);
+//                            String urutanPenjualan = String.valueOf(i+1);
+//                            String noPenjualan = dataPenjualan.getString("ref_no");
+//                            String statusPenjualan = dataPenjualan.getString("status");
+//                            mPenjualan.add(new Penjualan(noPenjualan, statusPenjualan, urutanPenjualan));
+//                        }
+//                        mPenjualanAdapter.addItems(mPenjualan);
+//                        mRecyclerView.setAdapter(mPenjualanAdapter);
+//                        CommonUtils.hideLoading();
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//        }, 2000);
+        Intent intent = new Intent (v.getContext(), PenjualanDetailActivity.class);
+        v.getContext().startActivity(intent);
+
+        Toast.makeText(v.getContext(), refNo, Toast.LENGTH_SHORT).show();
     }
 }
