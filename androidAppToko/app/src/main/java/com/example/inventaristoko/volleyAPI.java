@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,12 +14,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class volleyAPI {
 
     private static final String TAG = volleyAPI.class.getName();
-    private String ip = "http://10.107.231.6:8000/";
+    private String ip = "http://192.168.18.5:8000/";
     private String URL = ip+"api/";
 
     private RequestQueue mRequestQueue;
@@ -35,7 +37,7 @@ public class volleyAPI {
         mStringRequest = new StringRequest(Request.Method.GET, URL+service, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(context,"Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
+                //Toast.makeText(context,"Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
                 callback.onSuccessResponse(response);
             }
         }, new Response.ErrorListener() {
@@ -48,6 +50,12 @@ public class volleyAPI {
             protected Map<String, String> getParams() {
                 return params;
             }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> param = new HashMap<String, String>();
+                param.put("Content-Type","application/x-www-form-urlencoded");
+                return param;
+            }
         };
         int socketTimeout = 30000;//30 seconds - change to what you want
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
@@ -59,7 +67,6 @@ public class volleyAPI {
         mStringRequest = new StringRequest(Request.Method.PUT, URL+service, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(context,"Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
                 callback.onSuccessResponse(response);
             }
         }, new Response.ErrorListener() {
@@ -83,7 +90,6 @@ public class volleyAPI {
         mStringRequest = new StringRequest(Request.Method.POST, URL+service, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(context,"Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
                 callback.onSuccessResponse(response);
             }
         }, new Response.ErrorListener() {

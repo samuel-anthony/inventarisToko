@@ -51,7 +51,7 @@ class UserController extends Controller
         }        
     }
 
-    public function loginAdmin(request $request){
+    public function loginAdmin(Request $request){
         $user = User::where('user_id',$request->user_id)->whereUserRole('0')->get();
         if(count($user)>0){
             if(Auth::attempt([
@@ -73,7 +73,8 @@ class UserController extends Controller
         else{
             return json_encode([
                 'is_error' => '1',
-                'message' => 'user atau kata sandi salah'
+                'message' => 'user atau kata sandi salah',
+                'user_id' => $request
             ]);
         }        
     }
