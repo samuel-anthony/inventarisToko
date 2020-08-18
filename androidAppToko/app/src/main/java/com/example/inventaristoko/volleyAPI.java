@@ -34,7 +34,13 @@ public class volleyAPI {
 
 
     public void getRequest(String service,Map<String, String> params,final VolleyCallback callback){
-        mStringRequest = new StringRequest(Request.Method.GET, URL+service, new Response.Listener<String>() {
+        String urlGET = URL+service+"?";
+        int iterator = 0;
+        for (String key : params.keySet()) {
+            urlGET += iterator < (params.size() -1) ? key + "=" + params.get(key) + "&": key + "=" + params.get(key) ;
+            iterator++;
+        }
+        mStringRequest = new StringRequest(Request.Method.GET, urlGET, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(context,"Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
@@ -52,9 +58,8 @@ public class volleyAPI {
             }
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> param = new HashMap<String, String>();
-                param.put("Content-Type","application/x-www-form-urlencoded");
-                return param;
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
             }
         };
         int socketTimeout = 30000;//30 seconds - change to what you want

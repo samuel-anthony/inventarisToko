@@ -21,9 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //get request
 Route::get('getPesananBelumSelesai','PesananController@getAllTodayUnfinishedOrder');
 Route::get('bahanPokok','BahanPokokController@index');
-
+Route::get('login','UserController@loginAdmin');
 Route::get('loginQR','UserController@loginCustomer');
 
-Route::post('login','UserController@loginAdmin');
+
 Route::post('testApi','UserController@testApi');
 Route::post('register','UserController@register');
