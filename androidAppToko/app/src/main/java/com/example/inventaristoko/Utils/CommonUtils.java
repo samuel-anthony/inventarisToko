@@ -7,13 +7,18 @@ import android.graphics.drawable.ColorDrawable;
 
 import com.example.inventaristoko.R;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public final class CommonUtils {
     static ProgressDialog progressDialog;
     private static final String TAG = "CommonUtils";
 
-    private CommonUtils() {
-        // This utility class is not publicly instantiable
-    }
+    private CommonUtils() { }
 
     public static ProgressDialog showLoading(Context context) {
         progressDialog = new ProgressDialog(context);
@@ -33,5 +38,27 @@ public final class CommonUtils {
             return;
         }
         progressDialog.dismiss();
+    }
+
+    public static String currencyFormat(String nominal){
+        DecimalFormat toRupiah = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols formatAngka = new DecimalFormatSymbols();
+
+        formatAngka.setCurrencySymbol("Rp. ");
+        formatAngka.setMonetaryDecimalSeparator(',');
+        formatAngka.setGroupingSeparator('.');
+
+        toRupiah.setDecimalFormatSymbols(formatAngka);
+        String hasil = toRupiah.format(Double.valueOf(nominal));
+
+        return hasil;
+    }
+
+    public static String dateFormat() {
+        Date d = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+        String hasil = df.format(d);
+
+        return hasil;
     }
 }

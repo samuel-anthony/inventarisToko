@@ -61,11 +61,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-        String formattedDate = df.format(c);
         tvDate = findViewById(R.id.tanggal);
-        tvDate.setText(formattedDate);
+        tvDate.setText(CommonUtils.dateFormat());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -158,11 +155,11 @@ public class HomeActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-//        mPenjualanAdapter = new PenjualanAdapter(new ArrayList<>());
-        mSportAdapter = new SportAdapter(new ArrayList<>());
+        mPenjualanAdapter = new PenjualanAdapter(new ArrayList<>());
+//        mSportAdapter = new SportAdapter(new ArrayList<>());
 
-        prepareDummyData();
-//        prepareDataPenjualan();
+//        prepareDummyData();
+        prepareDataPenjualan();
     }
 
     private void prepareDataPenjualan() {
@@ -182,7 +179,12 @@ public class HomeActivity extends AppCompatActivity {
                             String urutanPenjualan = String.valueOf(i+1);
                             String noPenjualan = dataPenjualan.getString("ref_no");
                             String statusPenjualan = dataPenjualan.getString("status");
-                            mPenjualan.add(new Penjualan(noPenjualan, statusPenjualan, urutanPenjualan));
+                            String statusCodePenjualan = dataPenjualan.getString("status_code");
+                            String totalPenjualan = dataPenjualan.getString("total_harga");
+                            String tanggalPenjualan = dataPenjualan.getString("created_at");
+//                            String detailPenjualan = dataDetail.getString(0);
+
+                            mPenjualan.add(new Penjualan(urutanPenjualan, noPenjualan, statusPenjualan, statusCodePenjualan, totalPenjualan, tanggalPenjualan));
                         }
                         mPenjualanAdapter.addItems(mPenjualan);
                         mRecyclerView.setAdapter(mPenjualanAdapter);

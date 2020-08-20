@@ -75,9 +75,9 @@
     </string-array>
 
     <string-array name="status">
-        <item>Ordering</item>
-        <item>On Going</item>
-        <item>Finished</item>
+        <item>Dipesan</item>
+        <item>Sedang Dibuat</item>
+        <item>Sudah Selesai</item>
     </string-array>
 
     <string-array name="detil_makanan">

@@ -1,6 +1,7 @@
 package com.example.inventaristoko.Adapter;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,7 +127,14 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             itemView.setOnClickListener(v -> {
                 if (mPenjualan.getRefNo() != null) {
                     try {
-                        prepareDataDetailPenjualan(v, mPenjualan.getRefNo());
+                        Map<String, String> params = new HashMap<>();
+                        params.put("refNo",  mPenjualan.getRefNo());
+                        params.put("createdAt", mPenjualan.getCreatedAt());
+                        params.put("statusCode", mPenjualan.getStatusCode());
+                        params.put("totalHarga", CommonUtils.currencyFormat(mPenjualan.getTotalHarga()));
+//                        params.put("details", mPenjualan.getDetails());
+
+                        prepareDataDetailPenjualan(v, params);
                     } catch (Exception e) {
                         Log.e(TAG, "onClick: Url is not correct");
                     }
@@ -152,12 +160,12 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
     }
 
-    private void prepareDataDetailPenjualan(View v, String refNo) {
+    private void prepareDataDetailPenjualan(View v, Map<String, String> params) {
         CommonUtils.showLoading(v.getContext());
 
         volleyAPI volleyAPI = new volleyAPI(v.getContext());
-        Map<String, String> params = new HashMap<>();
-        params.put("ref_no", refNo);
+//        Map<String, String> params = new HashMap<>();
+//        params.put("ref_no", refNo);
 //        new Handler().postDelayed(() -> {
 //            volleyAPI.getRequest("getPesananDetil", params, new VolleyCallback() {
 //                @Override
@@ -182,9 +190,16 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 //                }
 //            });
 //        }, 2000);
+
         Intent intent = new Intent (v.getContext(), PenjualanDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("refNo", params.get("refNo"));
+        bundle.putString("createdAt", params.get("createdAt"));
+        bundle.putString("statusCode", params.get("statusCode"));
+        bundle.putString("totalHarga", params.get("totalHarga"));
+        intent.putExtras(bundle);
         v.getContext().startActivity(intent);
 
-        Toast.makeText(v.getContext(), refNo, Toast.LENGTH_SHORT).show();
+        Toast.makeText(v.getContext(), params.get("refNo"), Toast.LENGTH_SHORT).show();
     }
 }
