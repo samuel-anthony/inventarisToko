@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Penjualan.PenjualanAdapter;
-import com.example.inventaristoko.Adapter.SportAdapter;
 import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.FrontActivity;
@@ -47,7 +46,6 @@ import butterknife.ButterKnife;
 public class PenjualanActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private RecyclerView mRecyclerView;
-    private SportAdapter mSportAdapter;
     private PenjualanAdapter mPenjualanAdapter;
     private TextView tvDate;
 

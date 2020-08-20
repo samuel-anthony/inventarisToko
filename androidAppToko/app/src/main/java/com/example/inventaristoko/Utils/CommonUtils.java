@@ -45,7 +45,7 @@ public final class CommonUtils {
         DecimalFormatSymbols formatAngka = new DecimalFormatSymbols();
 
         formatAngka.setCurrencySymbol("Rp. ");
-        formatAngka.setMonetaryDecimalSeparator(',');
+        formatAngka.setMonetaryDecimalSeparator('.');
         formatAngka.setGroupingSeparator('.');
 
         toRupiah.setDecimalFormatSymbols(formatAngka);
