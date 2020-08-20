@@ -5,8 +5,8 @@ INSERT INTO users (name,user_id,user_role,password)
 values('rootAdmin','rootAdmin',0,
 '$2y$10$CyNNXCnGk/ELsAWBcRNekOAHAjCJTElr5LoRrDJcCvWRPOL6HsXXa'),
 ('admin','admin',0,
-'$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa')
-('table1', 'table_1', 1, NULL, '$2y$10$kUohBwVi5/b37.qEoXd5V.kGb082uGPzKPknug5vRVMfgGDJAXB3a', NULL, NULL, NULL);
+'$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa'),
+('table1', 'table_1', 1, '$2y$10$kUohBwVi5/b37.qEoXd5V.kGb082uGPzKPknug5vRVMfgGDJAXB3a');
 
 
 
