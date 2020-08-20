@@ -1,88 +1,51 @@
 <resources>
     <string name="app_name">Warung Bakso Mba Welo</string>
     <string name="logo_name">Warung Bakso Mba Welo</string>
-
     <string name="title_placeholder">Title</string>
     <string name="order_placeholder">1</string>
     <string name="sports_info_placeholder">Here is some news</string>
     <string name="empty_screen">We do not have anything\nhere right now. Please Retry</string>
     <string name="btn_retry">Retry</string>
-
     <string name="title_activity_home">HomeActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
-
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-
     <string name="action_logout">Logout</string>
-
     <string name="admin">Admin</string>
     <string name="label_detil_pesanan">Detil Pesanan</string>
 
-    <!--Button-->
-    <string name="button_detail">Detil</string>
+    <!--Menu DONE-->
+    <string name="menu_category">Data Kategori</string>
+    <string name="menu_food">Data Makanan</string>
+    <string name="menu_user">Data Pengguna</string>
+    <string name="menu_staple">Data Bahan Pokok</string>
+    <string name="menu_table">Data Meja</string>
+
+    <!--Button DONE-->
+    <string name="button_guest">Masuk Sebagai Pelanggan</string>
+    <string name="button_admin">Masuk Sebagai Admin</string>
+    <string name="button_login">Masuk</string>
+    <string name="button_logout">Keluar</string>
     <string name="button_done">Selesai</string>
 
-    <!--Text List-->
-    <string name="nomor_pesanan">Nomor Pesanan</string>
-    <string name="status_pesanan">Status Pesanan</string>
-    <string name="nomor_antrian">Nomor Antrian</string>
-    <string name="tanggal_pesanan">Tanggal Pesanan</string>
-    <string name="status">Status</string>
-    <string name="ubah_status">Ubah Status</string>
+    <!--Data Penjualan DONE-->
+    <string name="order_no">1</string>
+    <string name="order_master_id">1</string>
+    <string name="order_detail_id">1</string>
+    <string name="order_id">1</string>
+    <string name="order_name">Order Name</string>
+    <string name="amount">0</string>
+    <string name="price">0</string>
+    <string name="total_price">0</string>
+    <string name="total_charge">0</string>
+    <string name="note">Note</string>
+    <string name="created_at">Tanggal</string>
+    <string name="updated_at">Tanggal</string>
     <string name="total">Total</string>
-    <string name="total_harga">Total Harga</string>
-
-
-
-    <string name="home_second">Home Second</string>
-    <string-array name="sports_images">
-        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSXsZ76aNqtWuiPXRuuxZYAcTU-rgid0TUJVA&amp;usqp=CAU</item>
-        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSXsZ76aNqtWuiPXRuuxZYAcTU-rgid0TUJVA&amp;usqp=CAU</item>
-        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSXsZ76aNqtWuiPXRuuxZYAcTU-rgid0TUJVA&amp;usqp=CAU</item>
-        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSXsZ76aNqtWuiPXRuuxZYAcTU-rgid0TUJVA&amp;usqp=CAU</item>
-        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSXsZ76aNqtWuiPXRuuxZYAcTU-rgid0TUJVA&amp;usqp=CAU</item>
-        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSXsZ76aNqtWuiPXRuuxZYAcTU-rgid0TUJVA&amp;usqp=CAU</item>
-        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSXsZ76aNqtWuiPXRuuxZYAcTU-rgid0TUJVA&amp;usqp=CAU</item>
-        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSXsZ76aNqtWuiPXRuuxZYAcTU-rgid0TUJVA&amp;usqp=CAU</item>
-    </string-array>
-    <string-array name="sports_titles">
-        <item>Meja 001</item>
-        <item>Meja 002</item>
-        <item>Meja 003</item>
-        <item>Meja 004</item>
-        <item>Meja 005</item>
-        <item>Meja 006</item>
-        <item>Meja 007</item>
-        <item>Meja 008</item>
-    </string-array>
-
-    <string-array name="sports_info">
-        <item>On Process</item>
-        <item>Ordering</item>
-        <item>On Process</item>
-        <item>Ordering</item>
-        <item>On Process</item>
-        <item>Finished</item>
-        <item>Finished</item>
-        <item>Finished</item>
-    </string-array>
-
-    <string-array name="status">
-        <item>Dipesan</item>
-        <item>Sedang Dibuat</item>
-        <item>Sudah Selesai</item>
-    </string-array>
-
-    <string-array name="detil_makanan">
-        <item>Bakso 14 Ribu</item>
-        <item>Es Teh 4 Ribu</item>
-        <item>Mie Ayam 25 Ribu</item>
-    </string-array>
+    <string name="ref_no">1</string>
+    <string name="status">Status</string>
+    <string name="status_code">1</string>
 </resources>

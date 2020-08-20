@@ -1,4 +1,4 @@
-package com.example.inventaristoko;
+package com.example.inventaristoko.Utils;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,20 +14,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.util.HashMap;
 import java.util.Map;
 
-public class volleyAPI {
+public class VolleyAPI {
 
-    private static final String TAG = volleyAPI.class.getName();
-    private String ip = "http://192.168.18.5:8000/";
+    private static final String TAG = VolleyAPI.class.getName();
+    private String ip = "http://0.0.0.0:8000/";
     private String URL = ip+"api/";
 
     private RequestQueue mRequestQueue;
     private StringRequest mStringRequest;
     private Context context;
 
-    public volleyAPI(Context context){
+    public VolleyAPI(Context context){
         this.context = context;
         mRequestQueue = Volley.newRequestQueue(context);
     }

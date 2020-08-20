@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:padding="@dimen/_4dp"
-                android:text="@string/nomor_pesanan"/>
+                android:text="@string/order_master_id"/>
 
             <TextView
                 android:id="@+id/tanggalPesanan"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:padding="@dimen/_4dp"
-                android:text="@string/tanggal_pesanan"/>
+                android:text="@string/created_at"/>
         </LinearLayout>
 
         <LinearLayout
@@ -56,7 +56,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <Spinner
                     android:id="@+id/statusDroplist"
@@ -71,11 +71,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:orientation="vertical" >
-        <ListView
-            android:id="@+id/listView"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPenjualanDetail"
             android:layout_width="match_parent"
-            android:layout_height="500dp"/>
+            android:layout_height="500dp"
+            android:layout_margin="@dimen/_8dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -101,7 +103,7 @@
             android:layout_weight="1"
             style="@style/TextAppearance.AppCompat.Title"
             android:padding="@dimen/_4dp"
-            android:text="@string/total_harga"
+            android:text="@string/total_price"
             android:textAlignment="textEnd"/>
     </LinearLayout>
 

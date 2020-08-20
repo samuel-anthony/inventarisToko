@@ -1,4 +1,4 @@
-package com.example.inventaristoko.Screens;
+package com.example.inventaristoko.Screens.Penjualan;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,14 +10,14 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.inventaristoko.Adapter.PenjualanAdapter;
+import com.example.inventaristoko.Adapter.Penjualan.PenjualanAdapter;
 import com.example.inventaristoko.Adapter.SportAdapter;
-import com.example.inventaristoko.Model.Penjualan;
-import com.example.inventaristoko.Model.Sport;
+import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
+import com.example.inventaristoko.Screens.FrontActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
-import com.example.inventaristoko.VolleyCallback;
-import com.example.inventaristoko.volleyAPI;
+import com.example.inventaristoko.Utils.VolleyCallback;
+import com.example.inventaristoko.Utils.VolleyAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -37,19 +37,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import butterknife.ButterKnife;
 
-public class HomeActivity extends AppCompatActivity {
+public class PenjualanActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private RecyclerView mRecyclerView;
     private SportAdapter mSportAdapter;
@@ -59,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_penjualan);
 
         tvDate = findViewById(R.id.tanggal);
         tvDate.setText(CommonUtils.dateFormat());
@@ -78,8 +73,6 @@ public class HomeActivity extends AppCompatActivity {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery)
                 .setDrawerLayout(drawer)
@@ -108,8 +101,8 @@ public class HomeActivity extends AppCompatActivity {
             builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    CommonUtils.showLoading(HomeActivity.this);
-                    volleyAPI volleyAPI = new volleyAPI(HomeActivity.this);
+                    CommonUtils.showLoading(PenjualanActivity.this);
+                    VolleyAPI volleyAPI = new VolleyAPI(PenjualanActivity.this);
                     Map<String, String> params = new HashMap<>();
                     new Handler().postDelayed(() -> {
                         volleyAPI.getRequest("logout", params, new VolleyCallback() {
@@ -144,8 +137,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
+        getMenuInflater().inflate(R.menu.nav_title, menu);
         return true;
     }
 
@@ -154,63 +146,46 @@ public class HomeActivity extends AppCompatActivity {
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         mPenjualanAdapter = new PenjualanAdapter(new ArrayList<>());
-//        mSportAdapter = new SportAdapter(new ArrayList<>());
 
-//        prepareDummyData();
         prepareDataPenjualan();
     }
 
     private void prepareDataPenjualan() {
-        CommonUtils.showLoading(HomeActivity.this);
-        volleyAPI volleyAPI = new volleyAPI(this);
+        CommonUtils.showLoading(PenjualanActivity.this);
+        VolleyAPI volleyAPI = new VolleyAPI(this);
         Map<String, String> params = new HashMap<>();
-        new Handler().postDelayed(() -> {
-            volleyAPI.getRequest("getPesananBelumSelesai", params, new VolleyCallback() {
-                @Override
-                public void onSuccessResponse(String result) {
-                    try {
-                        ArrayList<Penjualan> mPenjualan = new ArrayList<>();
-                        JSONObject resultJSON = new JSONObject(result);
-                        JSONArray resultArray = resultJSON.getJSONArray("result");
-                        for(int i = 0 ; i < resultArray.length() ; i ++ ) {
-                            JSONObject dataPenjualan = (JSONObject) resultArray.get(i);
-                            String urutanPenjualan = String.valueOf(i+1);
-                            String noPenjualan = dataPenjualan.getString("ref_no");
-                            String statusPenjualan = dataPenjualan.getString("status");
-                            String statusCodePenjualan = dataPenjualan.getString("status_code");
-                            String totalPenjualan = dataPenjualan.getString("total_harga");
-                            String tanggalPenjualan = dataPenjualan.getString("created_at");
-//                            String detailPenjualan = dataDetail.getString(0);
+        volleyAPI.getRequest("getPesananBelumSelesai", params, new VolleyCallback() {
+            @Override
+            public void onSuccessResponse(String result) {
+                try {
+                    ArrayList<Penjualan> mPenjualan = new ArrayList<>();
+                    JSONObject resultJSON = new JSONObject(result);
+                    JSONArray resultArray = resultJSON.getJSONArray("result");
+                    for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                        JSONObject dataPenjualan = (JSONObject) resultArray.get(i);
+                        Penjualan penjualan = new Penjualan();
+                        penjualan.setOrderNo(String.valueOf(i+1));
+                        penjualan.setOrderMasterId(dataPenjualan.getString("pesanan_master_id"));
+                        penjualan.setRefNo(dataPenjualan.getString("ref_no"));
+                        penjualan.setStatus(dataPenjualan.getString("status"));
+                        penjualan.setStatusCode(dataPenjualan.getString("status_code"));
+                        penjualan.setTotalPrice(dataPenjualan.getString("total_harga"));
+                        penjualan.setTotalCharge(dataPenjualan.getString("total_charges"));
+                        penjualan.setAmount(dataPenjualan.getString("total_pesanan"));
+                        penjualan.setUserId(dataPenjualan.getString("user_id"));
+                        penjualan.setCreatedAt(dataPenjualan.getString("created_at"));
+                        penjualan.setUpdatedAt(dataPenjualan.getString("updated_at"));
 
-                            mPenjualan.add(new Penjualan(urutanPenjualan, noPenjualan, statusPenjualan, statusCodePenjualan, totalPenjualan, tanggalPenjualan));
-                        }
-                        mPenjualanAdapter.addItems(mPenjualan);
-                        mRecyclerView.setAdapter(mPenjualanAdapter);
-                        CommonUtils.hideLoading();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        mPenjualan.add(penjualan);
                     }
+                    mPenjualanAdapter.addItems(mPenjualan);
+                    mRecyclerView.setAdapter(mPenjualanAdapter);
+                    CommonUtils.hideLoading();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            });
-        }, 2000);
-    }
-
-    private void prepareDummyData() {
-        CommonUtils.showLoading(HomeActivity.this);
-        new Handler().postDelayed(() -> {
-            //prepare data and show loading
-            ArrayList<Sport> mSports = new ArrayList<>();
-            String[] sportsList = getResources().getStringArray(R.array.sports_titles);
-            String[] sportsInfo = getResources().getStringArray(R.array.sports_info);
-            String[] sportsImage = getResources().getStringArray(R.array.sports_images);
-            for (int i = 0; i < sportsList.length; i++) {
-                mSports.add(new Sport(sportsImage[i], sportsInfo[i], "1", sportsList[i]));
             }
-            mSportAdapter.addItems(mSports);
-            mRecyclerView.setAdapter(mSportAdapter);
-            CommonUtils.hideLoading();
-        }, 2000);
+        });
     }
 }

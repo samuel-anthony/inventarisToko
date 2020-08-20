@@ -12,17 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.inventaristoko.Model.Sport;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.HomeActivity;
-import com.example.inventaristoko.Screens.PenjualanDetailActivity;
-import com.example.inventaristoko.Screens.SplashActivity;
+import com.example.inventaristoko.Screens.Penjualan.PenjualanDetailActivity;
 import com.example.inventaristoko.Utils.BaseViewHolder;
 import com.example.inventaristoko.Utils.CommonUtils;
-import com.example.inventaristoko.VolleyCallback;
-import com.example.inventaristoko.volleyAPI;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,7 +48,7 @@ public class SportAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
                 return new ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false));
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.list_penjualan, parent, false));
             case VIEW_TYPE_EMPTY:
             default:
                 return new EmptyViewHolder(
@@ -94,10 +88,10 @@ public class SportAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 //        @BindView(R.id.thumbnail)
 //        ImageView coverImageView;
 
-        @BindView(R.id.title)
+        @BindView(R.id.tvRefNo)
         TextView titleTextView;
 
-        @BindView(R.id.subTitle)
+        @BindView(R.id.tvStatus)
         TextView newsTextView;
 //
 //        @BindView(R.id.newsInfo)

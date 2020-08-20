@@ -11,16 +11,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Screens.HomeActivity"
+            android:name=".Screens.Penjualan.PenjualanActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Screens.LoginActivity" />
         <activity android:name=".Screens.FrontActivity" />
-        <activity android:name=".FoodListActivity" />
         <activity
-            android:name=".Screens.PenjualanDetailActivity"
+            android:name=".Screens.Penjualan.PenjualanDetailActivity"
             android:theme="@style/MyMaterialTheme"
-            android:parentActivityName=".Screens.HomeActivity"/>
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity"/>
         <activity
             android:name=".Screens.SplashActivity"
             android:theme="@style/SplashTheme">

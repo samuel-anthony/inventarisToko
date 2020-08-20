@@ -10,8 +10,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.VolleyCallback;
-import com.example.inventaristoko.volleyAPI;
+import com.example.inventaristoko.Screens.Penjualan.PenjualanActivity;
+import com.example.inventaristoko.Utils.CommonUtils;
+import com.example.inventaristoko.Utils.VolleyCallback;
+import com.example.inventaristoko.Utils.VolleyAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,13 +25,13 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etLoginId, etLoginPassword;
     private Button btnLogin;
 
-    com.example.inventaristoko.volleyAPI volleyAPI;
+    VolleyAPI volleyAPI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        volleyAPI volleyAPI = new volleyAPI(this);
+        VolleyAPI volleyAPI = new VolleyAPI(this);
         etLoginId = findViewById(R.id.loginId);
         etLoginPassword = findViewById(R.id.loginPass);
         btnLogin = findViewById(R.id.buttonLogin);
@@ -37,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CommonUtils.showLoading(LoginActivity.this);
                 Map<String, String> params = new HashMap<>();
                 params.put("user_id",etLoginId.getText().toString());
                 params.put("password",etLoginPassword.getText().toString());
@@ -47,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject resultJSON = new JSONObject(result);
                             Toast.makeText(getApplicationContext(),resultJSON.getString("message"),Toast.LENGTH_SHORT).show();
                             if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
-                                Intent myIntent = new Intent(v.getContext(), HomeActivity.class);
+                                Intent myIntent = new Intent(v.getContext(), PenjualanActivity.class);
                                 startActivityForResult(myIntent, 0);
                             }
                         } catch (JSONException e) {
@@ -55,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+                CommonUtils.hideLoading();
             }
         });
     }

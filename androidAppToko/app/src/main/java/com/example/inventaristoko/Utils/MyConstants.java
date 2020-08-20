@@ -8,4 +8,8 @@ public interface MyConstants {
     String ORDER_NAME = "Dipesan";
     String GOING_NAME = "Sedang Dibuat";
     String FINISH_NAME = "Sudah Selesai";
+
+    int ORDER_COLOR = 0xFF000000;
+    int GOING_COLOR = 0xFF409AE1;
+    int FINISH_COLOR = 0xFF40C5AF;
 }

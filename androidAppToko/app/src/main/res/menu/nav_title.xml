@@ -4,7 +4,7 @@
     <item
         android:id="@string/action_logout"
         android:orderInCategory="100"
-        android:title="KELUAR"
+        android:title="@string/button_logout"
         android:icon="@drawable/ic_clear_white"
         app:showAsAction="ifRoom" />
 </menu>

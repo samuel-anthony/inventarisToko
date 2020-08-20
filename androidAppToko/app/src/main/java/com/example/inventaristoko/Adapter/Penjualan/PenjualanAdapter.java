@@ -1,4 +1,4 @@
-package com.example.inventaristoko.Adapter;
+package com.example.inventaristoko.Adapter.Penjualan;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,12 +12,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.inventaristoko.Model.Penjualan;
+import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.PenjualanDetailActivity;
+import com.example.inventaristoko.Screens.Penjualan.PenjualanDetailActivity;
 import com.example.inventaristoko.Utils.BaseViewHolder;
 import com.example.inventaristoko.Utils.CommonUtils;
-import com.example.inventaristoko.volleyAPI;
+import com.example.inventaristoko.Utils.MyConstants;
+import com.example.inventaristoko.Utils.VolleyAPI;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +48,7 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
                 return new ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false));
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.list_penjualan, parent, false));
             case VIEW_TYPE_EMPTY:
             default:
                 return new EmptyViewHolder(
@@ -89,14 +90,17 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class ViewHolder extends BaseViewHolder {
-        @BindView(R.id.urutan)
-        TextView urutanTextView;
+        @BindView(R.id.tvOrderNo)
+        TextView tvOrderNo;
 
-        @BindView(R.id.title)
-        TextView titleTextView;
+        @BindView(R.id.tvRefNo)
+        TextView tvRefNo;
 
-        @BindView(R.id.subTitle)
-        TextView subTextView;
+        @BindView(R.id.tvStatus)
+        TextView tvStatus;
+
+        @BindView(R.id.tvTotalPrice)
+        TextView tvTotalPrice;
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -104,9 +108,10 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
         protected void clear() {
-            titleTextView.setText("");
-            subTextView.setText("");
-            urutanTextView.setText("");
+            tvOrderNo.setText("");
+            tvRefNo.setText("");
+            tvStatus.setText("");
+            tvTotalPrice.setText("");
         }
 
         public void onBind(int position) {
@@ -114,14 +119,21 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             final Penjualan mPenjualan = mPenjualanList.get(position);
 
-            urutanTextView.setText(mPenjualan.getUrutan());
+            tvOrderNo.setText(mPenjualan.getOrderNo());
+            tvRefNo.setText(mPenjualan.getRefNo());
+            tvTotalPrice.setText(CommonUtils.currencyFormat(mPenjualan.getTotalPrice()));
 
-            if (mPenjualan.getRefNo() != null) {
-                titleTextView.setText(mPenjualan.getRefNo());
-            }
-
-            if (mPenjualan.getStatus() != null) {
-                subTextView.setText(mPenjualan.getStatus());
+            if (mPenjualan.getStatusCode() != null) {
+                if(mPenjualan.getStatusCode().equals(MyConstants.ORDER_CODE)) {
+                    tvStatus.setText(MyConstants.ORDER_NAME);
+                    tvStatus.setTextColor(MyConstants.ORDER_COLOR);
+                } else if(mPenjualan.getStatusCode().equals(MyConstants.GOING_CODE)) {
+                    tvStatus.setText(MyConstants.GOING_NAME);
+                    tvStatus.setTextColor(MyConstants.GOING_COLOR);
+                } else if(mPenjualan.getStatusCode().equals(MyConstants.FINISH_CODE)) {
+                    tvStatus.setText(MyConstants.FINISH_NAME);
+                    tvStatus.setTextColor(MyConstants.FINISH_COLOR);
+                }
             }
 
             itemView.setOnClickListener(v -> {
@@ -131,10 +143,16 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         params.put("refNo",  mPenjualan.getRefNo());
                         params.put("createdAt", mPenjualan.getCreatedAt());
                         params.put("statusCode", mPenjualan.getStatusCode());
-                        params.put("totalHarga", CommonUtils.currencyFormat(mPenjualan.getTotalHarga()));
-//                        params.put("details", mPenjualan.getDetails());
+                        params.put("totalHarga", CommonUtils.currencyFormat(mPenjualan.getTotalPrice()));
 
-                        prepareDataDetailPenjualan(v, params);
+                        Intent intent = new Intent (v.getContext(), PenjualanDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("refNo", params.get("refNo"));
+                        bundle.putString("createdAt", params.get("createdAt"));
+                        bundle.putString("statusCode", params.get("statusCode"));
+                        bundle.putString("totalHarga", params.get("totalHarga"));
+                        intent.putExtras(bundle);
+                        v.getContext().startActivity(intent);
                     } catch (Exception e) {
                         Log.e(TAG, "onClick: Url is not correct");
                     }
@@ -158,48 +176,5 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @Override
         protected void clear() {
         }
-    }
-
-    private void prepareDataDetailPenjualan(View v, Map<String, String> params) {
-        CommonUtils.showLoading(v.getContext());
-
-        volleyAPI volleyAPI = new volleyAPI(v.getContext());
-//        Map<String, String> params = new HashMap<>();
-//        params.put("ref_no", refNo);
-//        new Handler().postDelayed(() -> {
-//            volleyAPI.getRequest("getPesananDetil", params, new VolleyCallback() {
-//                @Override
-//                public void onSuccessResponse(String result) {
-//                    try {
-//                        ArrayList<Penjualan> mPenjualan = new ArrayList<>();
-//                        JSONObject resultJSON = new JSONObject(result);
-//                        JSONArray resultArray = resultJSON.getJSONArray("result");
-//                        for(int i = 0 ; i < resultArray.length() ; i ++ ) {
-//                            JSONObject dataPenjualan = (JSONObject) resultArray.get(i);
-//                            String urutanPenjualan = String.valueOf(i+1);
-//                            String noPenjualan = dataPenjualan.getString("ref_no");
-//                            String statusPenjualan = dataPenjualan.getString("status");
-//                            mPenjualan.add(new Penjualan(noPenjualan, statusPenjualan, urutanPenjualan));
-//                        }
-//                        mPenjualanAdapter.addItems(mPenjualan);
-//                        mRecyclerView.setAdapter(mPenjualanAdapter);
-//                        CommonUtils.hideLoading();
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//        }, 2000);
-
-        Intent intent = new Intent (v.getContext(), PenjualanDetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("refNo", params.get("refNo"));
-        bundle.putString("createdAt", params.get("createdAt"));
-        bundle.putString("statusCode", params.get("statusCode"));
-        bundle.putString("totalHarga", params.get("totalHarga"));
-        intent.putExtras(bundle);
-        v.getContext().startActivity(intent);
-
-        Toast.makeText(v.getContext(), params.get("refNo"), Toast.LENGTH_SHORT).show();
     }
 }
