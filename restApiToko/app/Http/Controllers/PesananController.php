@@ -33,6 +33,6 @@ class PesananController extends Controller
             array_push($listDetails,$pesanan_detail);
         }
         $pesanan->details = json_decode(json_encode($listDetails));
-        return json_encode(["result"=>$pesanan]);
+        return json_encode(["result"=>$pesanan_details]);
     }
 }
