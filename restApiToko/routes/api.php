@@ -31,4 +31,4 @@ Route::post('testApi','UserController@testApi');
 Route::post('register','UserController@register');
 
 Route::put('updateStatusPesanan','PesananController@updateStatusRefNo');
-Route::put('updateStatusPesanan','PesananController@updateStatusFinishRefNo');
+Route::put('updateStatusPesananSelesai','PesananController@updateStatusFinishRefNo');
