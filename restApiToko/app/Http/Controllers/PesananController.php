@@ -34,4 +34,37 @@ class PesananController extends Controller
         }
         return json_encode(["result"=>$pesanan_details]);
     }
+
+    public function updateStatusRefNo(request $request){
+        $pesanan = pesananMaster::whereRefNo($request->ref_no)->first();
+        switch($pesanan->status_code){
+            case '001' :
+                $pesanan->status_code = '002';
+                $pesanan->status = 'pesanan dibuat';       
+                break;
+            case '002' :
+                $pesanan->status_code = '003';
+                $pesanan->status = 'pesanan diterima';
+                break;
+            case '003' :
+                $pesanan->status_code = '004';
+                $pesanan->status = 'pesanan selesai';
+                break;            
+            // case '004' :
+            //     $pesanan->status_code = '002';
+            //     $pesanan->status = 'pesanan dibuat';
+            //     break;
+        } 
+        $pesanan->save();
+        return json_encode(["message"=>"status selesai diubah"]);
+    }
+    
+
+    public function updateStatusFinishRefNo(request $request){
+        $pesanan = pesananMaster::whereRefNo($request->ref_no)->first();
+        $pesanan->status_code = '004';
+        $pesanan->status = 'pesanan selesai';
+        $pesanan->save();
+        return json_encode(["message"=>"status selesai diubah"]);
+    }
 }
