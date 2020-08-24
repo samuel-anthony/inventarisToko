@@ -7,4 +7,22 @@
         android:title="@string/button_logout"
         android:icon="@drawable/ic_clear_white"
         app:showAsAction="ifRoom" />
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@string/menu_category"
+            android:title="@string/menu_category" />
+        <item
+            android:id="@string/menu_food"
+            android:title="@string/menu_food" />
+        <item
+            android:id="@string/menu_user"
+            android:title="@string/menu_user" />
+        <item
+            android:id="@string/menu_staple"
+            android:title="@string/menu_staple" />
+        <item
+            android:id="@string/menu_table"
+            android:title="@string/menu_table" />
+    </group>
 </menu>

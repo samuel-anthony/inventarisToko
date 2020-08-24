@@ -14,6 +14,7 @@ import com.example.inventaristoko.Adapter.Penjualan.PenjualanAdapter;
 import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.FrontActivity;
+import com.example.inventaristoko.Screens.Pengguna.PenggunaActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.VolleyCallback;
 import com.example.inventaristoko.Utils.VolleyAPI;
@@ -79,7 +80,7 @@ public class PenjualanActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        mRecyclerView = findViewById(R.id.mRecyclerView);
+        mRecyclerView = findViewById(R.id.rvPenjualan);
         ButterKnife.bind(this);
         setUp();
     }
@@ -129,6 +130,17 @@ public class PenjualanActivity extends AppCompatActivity {
                 }
             });
             builder.show();
+        } else if (item.getItemId() == R.string.menu_category) {
+            Toast.makeText(getApplicationContext(), "Kategori", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.string.menu_food) {
+            Toast.makeText(getApplicationContext(), "Makanan", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.string.menu_user) {
+            Intent myIntent = new Intent(getApplicationContext(), PenggunaActivity.class);
+            startActivityForResult(myIntent, 0);
+        } else if (item.getItemId() == R.string.menu_staple) {
+            Toast.makeText(getApplicationContext(), "Bahan Pokok", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.string.menu_table) {
+            Toast.makeText(getApplicationContext(), "Meja", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

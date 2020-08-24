@@ -38,7 +38,7 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
     private RecyclerView mRecyclerView;
     private PenjualanDetailAdapter mPenjualanDetailAdapter;
     private TextView tvRefNo, tvTanggalPesanan, tvStatus, tvTotalHarga;
-    private String[] statues = { "Dipesan", "Sedang Dibuat", "Sudah Selesai"};
+    private String[] statues = { "Dipesan", "Sedang Dibuat"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,9 +66,6 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
         } else if (statusCode.equals(MyConstants.GOING_CODE)) {
             tvStatus.setTextColor(getResources().getColor(R.color.colorProcess));
             tvStatus.setText(MyConstants.GOING_NAME);
-        } else if (statusCode.equals(MyConstants.FINISH_CODE)) {
-            tvStatus.setTextColor(getResources().getColor(R.color.colorSuccess));
-            tvStatus.setText(MyConstants.FINISH_NAME);
         }
 
         ExtendedFloatingActionButton floatingActionButton = findViewById(R.id.doneButton);
@@ -86,22 +83,19 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
 
                         CommonUtils.showLoading(PenjualanDetailActivity.this);
                         VolleyAPI volleyAPI = new VolleyAPI(PenjualanDetailActivity.this);
-//                        volleyAPI.getRequest("logout", params, new VolleyCallback() {
-//                            @Override
-//                            public void onSuccessResponse(String result) {
-//                                try {
-//                                    JSONObject resultJSON = new JSONObject(result);
-//                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-//                                    if (resultJSON.getString("is_error").equalsIgnoreCase("0")) {
-//                                        Intent myIntent = new Intent(getApplicationContext(), PenjualanActivity.class);
-//                                        startActivityForResult(myIntent, 0);
-//                                        Toast.makeText(getApplicationContext(), "Berhasil Keluar", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        });
+                        volleyAPI.putRequest("updateStatusPesananSelesai", params, new VolleyCallback() {
+                            @Override
+                            public void onSuccessResponse(String result) {
+                                try {
+                                    JSONObject resultJSON = new JSONObject(result);
+                                    Intent myIntent = new Intent(getApplicationContext(), PenjualanActivity.class);
+                                    startActivityForResult(myIntent, 0);
+                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                         CommonUtils.hideLoading();
                     }
                 });
@@ -128,16 +122,52 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
 
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position,long id) {
-        Toast.makeText(getApplicationContext(), "Selected User: "+ statues[position] ,Toast.LENGTH_SHORT).show();
-        tvStatus.setText(statues[position]);
+        AlertDialog.Builder builder = new AlertDialog.Builder(PenjualanDetailActivity.this);
+        builder.setMessage("Anda Yakin Ingin Mengubah Status Pesanan Menjadi " + tvStatus.getText().toString() + "?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                tvStatus.setText(statues[position]);
 
-        if(tvStatus.getText() == MyConstants.ORDER_NAME) {
-            tvStatus.setTextColor(getResources().getColor(R.color.colorBlack));
-        } else if(tvStatus.getText() == MyConstants.GOING_NAME) {
-            tvStatus.setTextColor(getResources().getColor(R.color.colorProcess));
-        } else if(tvStatus.getText() == MyConstants.FINISH_NAME) {
-            tvStatus.setTextColor(getResources().getColor(R.color.colorSuccess));
-        }
+                String statusCode = "";
+                if(tvStatus.getText() == MyConstants.ORDER_NAME) {
+                    statusCode = "001";
+                    tvStatus.setTextColor(getResources().getColor(R.color.colorBlack));
+                } else if(tvStatus.getText() == MyConstants.GOING_NAME) {
+                    statusCode = "002";
+                    tvStatus.setTextColor(getResources().getColor(R.color.colorProcess));
+                }
+
+                Map<String, String> params = new HashMap<>();
+                params.put("ref_no", tvRefNo.getText().toString());
+                params.put("status_code", statusCode);
+
+                CommonUtils.showLoading(PenjualanDetailActivity.this);
+                VolleyAPI volleyAPI = new VolleyAPI(PenjualanDetailActivity.this);
+                volleyAPI.putRequest("updateStatusPesanan", params, new VolleyCallback() {
+                    @Override
+                    public void onSuccessResponse(String result) {
+                        try {
+                            JSONObject resultJSON = new JSONObject(result);
+                            Intent myIntent = new Intent(getApplicationContext(), PenjualanActivity.class);
+                            startActivityForResult(myIntent, 0);
+                            Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                CommonUtils.hideLoading();
+            }
+        });
+        builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
+
     }
 
     @Override
@@ -175,7 +205,7 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
                         penjualanDetail.setOrderId(dataPenjualanDetail.getString("makanan_id"));
                         penjualanDetail.setOrderName(dataPenjualanDetail.getString("nama"));
                         penjualanDetail.setAmount(dataPenjualanDetail.getString("jumlah"));
-                        penjualanDetail.setPrice(dataPenjualanDetail.getString("harga_jual"));
+                        penjualanDetail.setPrice(dataPenjualanDetail.getString("harga_makanan"));
                         penjualanDetail.setNote(dataPenjualanDetail.getString("notes"));
                         penjualanDetail.setCreatedAt(dataPenjualanDetail.getString("created_at"));
                         penjualanDetail.setUpdatedAt(dataPenjualanDetail.getString("updated_at"));

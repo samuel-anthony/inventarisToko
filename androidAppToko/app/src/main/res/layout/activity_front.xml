@@ -42,8 +42,8 @@
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:layout_marginBottom="30dp"
-            android:background="@drawable/rounded_corner_button"
-            android:text="Masuk Sebagai Pelangan"
+            android:background="@drawable/rounded_corner_white_button"
+            android:text="@string/button_guest"
             android:textColor="#FFCC2B"
             android:layout_width="wrap_content"
             android:layout_height="45dp" />
@@ -52,8 +52,8 @@
             android:id="@+id/buttonAdmin"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
-            android:background="@drawable/rounded_corner_button"
-            android:text="Masuk Sebagai Admin"
+            android:background="@drawable/rounded_corner_white_button"
+            android:text="@string/button_admin"
             android:textColor="#FFCC2B"
             android:layout_width="wrap_content"
             android:layout_height="45dp" />
