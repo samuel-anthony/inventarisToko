@@ -22,7 +22,7 @@
                 android:id="@+id/buttonLogin"
                 android:paddingRight="50dp"
                 android:paddingLeft="50dp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/rounded_corner_yellow_button"
                 android:text="@string/button_add"
                 android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"

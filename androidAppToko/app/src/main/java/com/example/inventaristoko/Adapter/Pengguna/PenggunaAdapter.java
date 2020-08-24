@@ -93,14 +93,11 @@ public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.tvUserNo)
         TextView tvUserNo;
 
+        @BindView(R.id.tvFullName)
+        TextView tvFullName;
+
         @BindView(R.id.tvUserName)
         TextView tvUserName;
-
-        @BindView(R.id.tvUserId)
-        TextView tvUserId;
-
-        @BindView(R.id.tvUserLevel)
-        TextView tvUserLevel;
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -109,9 +106,8 @@ public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         protected void clear() {
             tvUserNo.setText("");
+            tvFullName.setText("");
             tvUserName.setText("");
-            tvUserId.setText("");
-            tvUserLevel.setText("");
         }
 
         public void onBind(int position) {
@@ -120,9 +116,8 @@ public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             final Pengguna mPengguna = mPenggunaList.get(position);
 
             tvUserNo.setText(mPengguna.getUserNo());
+            tvFullName.setText(mPengguna.getFullName());
             tvUserName.setText(mPengguna.getUserName());
-            tvUserId.setText(mPengguna.getUserId());
-            tvUserLevel.setText(mPengguna.getUserLevel());
 
             itemView.setOnClickListener(v -> {
                 if (mPengguna.getUserId() != null) {

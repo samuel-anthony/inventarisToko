@@ -47,34 +47,24 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvUserName"
+                    android:id="@+id/tvFullName"
                     style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:padding="@dimen/_8dp"
+                    android:text="@string/full_name"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvUserName"
+                    style="@style/TextAppearance.AppCompat.Subhead"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_8dp"
                     android:text="@string/user_name"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvUserId"
-                    style="@style/TextAppearance.AppCompat.Subhead"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8dp"
-                    android:padding="@dimen/_8dp"
-                    android:text="@string/user_id"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvUserLevel"
-                    style="@style/TextAppearance.AppCompat.Body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8dp"
-                    android:padding="@dimen/_8dp"
-                    android:text="@string/user_level" />
-
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

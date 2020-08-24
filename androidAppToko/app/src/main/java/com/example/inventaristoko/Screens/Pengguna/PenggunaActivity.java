@@ -67,7 +67,7 @@ public class PenggunaActivity extends AppCompatActivity {
         CommonUtils.showLoading(PenggunaActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
         Map<String, String> params = new HashMap<>();
-        volleyAPI.getRequest("getPengguna", params, new VolleyCallback() {
+        volleyAPI.getRequest("getSemuaAdminUser", params, new VolleyCallback() {
             @Override
             public void onSuccessResponse(String result) {
                 try {
@@ -78,9 +78,12 @@ public class PenggunaActivity extends AppCompatActivity {
                         JSONObject dataPengguna = (JSONObject) resultArray.get(i);
                         Pengguna pengguna = new Pengguna();
                         pengguna.setUserNo(String.valueOf(i+1));
+                        pengguna.setFullName(dataPengguna.getString("full_name"));
                         pengguna.setUserName(dataPengguna.getString("user_name"));
+                        pengguna.setEmail(dataPengguna.getString("email"));
+                        pengguna.setPhoneNumber(dataPengguna.getString("phone_number"));
+                        pengguna.setBirthDate(dataPengguna.getString("birth_date"));
                         pengguna.setUserId(dataPengguna.getString("user_id"));
-                        pengguna.setUserLevel(dataPengguna.getString("user_level"));
                         pengguna.setCreatedAt(dataPengguna.getString("created_at"));
                         pengguna.setUpdatedAt(dataPengguna.getString("updated_at"));
 

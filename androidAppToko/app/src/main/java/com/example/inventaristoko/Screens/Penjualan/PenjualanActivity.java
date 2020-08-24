@@ -15,7 +15,6 @@ import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.FrontActivity;
 import com.example.inventaristoko.Screens.Pengguna.PenggunaActivity;
-import com.example.inventaristoko.Screens.SplashActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.VolleyCallback;
 import com.example.inventaristoko.Utils.VolleyAPI;
