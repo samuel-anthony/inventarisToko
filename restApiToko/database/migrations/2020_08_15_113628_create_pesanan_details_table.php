@@ -19,6 +19,7 @@ class CreatePesananDetailsTable extends Migration
             $table->foreign('makanan_id')->references('makanan_id')->on('makanans');
             $table->unsignedBigInteger('pesanan_master_id');
             $table->foreign('pesanan_master_id')->references('pesanan_master_id')->on('pesanan_masters');
+            $table->integer('harga_makanan');
             $table->integer('jumlah')->default(1);
             $table->string('notes')->nullable();
             $table->timestamps();

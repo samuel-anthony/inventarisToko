@@ -25,6 +25,7 @@ Route::get('bahanPokok','BahanPokokController@index');
 Route::get('login','UserController@loginAdmin');
 Route::get('loginQR','UserController@loginCustomer');
 Route::get('getSemuaCustomer','UserController@getAllCustomerUser');
+Route::get('getSemuaAdminUser','UserController@getAllAdminUser');
 
 
 Route::post('testApi','UserController@testApi');

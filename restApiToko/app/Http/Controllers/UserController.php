@@ -81,7 +81,7 @@ class UserController extends Controller
 
     public function getAllCustomerUser(){
         return json_encode([
-            'result' => User::userRole(1)->get() 
+            'result' => User::whereUserRole(1)->get() 
         ]);
     }
     
@@ -103,5 +103,19 @@ class UserController extends Controller
 
     public function testApi(request $request){
         return $request->test == null ? "test" : $request->test;
+    }
+
+    public function getAllAdminUser(){
+        $users = User::whereUserRole(0)->get();
+        $listAdmin = array();
+        foreach($users as $user){
+            $admin = $user->admin;
+            $admin->user_name = $user->user_id;
+            array_push($listAdmin,$admin);
+            // $user->admin = json_decode(json_encode($user->admin));
+        }
+        return json_encode([
+            'result' => $listAdmin
+        ]);
     }
 }
