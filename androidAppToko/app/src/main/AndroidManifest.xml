@@ -21,6 +21,10 @@
             android:theme="@style/MyMaterialTheme"
             android:parentActivityName=".Screens.Penjualan.PenjualanActivity"/>
         <activity
+            android:name=".Screens.Pengguna.PenggunaActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity"/>
+        <activity
             android:name=".Screens.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
