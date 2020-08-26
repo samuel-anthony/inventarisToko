@@ -1,4 +1,4 @@
-package com.example.inventaristoko.Screens;
+package com.example.inventaristoko.Screens.Front;
 
 import android.content.Intent;
 import android.os.Bundle;

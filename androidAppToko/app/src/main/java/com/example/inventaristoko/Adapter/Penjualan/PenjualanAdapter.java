@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +17,6 @@ import com.example.inventaristoko.Screens.Penjualan.PenjualanDetailActivity;
 import com.example.inventaristoko.Utils.BaseViewHolder;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
-import com.example.inventaristoko.Utils.VolleyAPI;
 
 import java.util.HashMap;
 import java.util.List;
@@ -124,15 +122,19 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             tvTotalPrice.setText(CommonUtils.currencyFormat(mPenjualan.getTotalPrice()));
 
             if (mPenjualan.getStatusCode() != null) {
-                if(mPenjualan.getStatusCode().equals(MyConstants.ORDER_CODE)) {
-                    tvStatus.setText(MyConstants.ORDER_NAME);
-                    tvStatus.setTextColor(MyConstants.ORDER_COLOR);
-                } else if(mPenjualan.getStatusCode().equals(MyConstants.GOING_CODE)) {
-                    tvStatus.setText(MyConstants.GOING_NAME);
-                    tvStatus.setTextColor(MyConstants.GOING_COLOR);
-                } else if(mPenjualan.getStatusCode().equals(MyConstants.FINISH_CODE)) {
-                    tvStatus.setText(MyConstants.FINISH_NAME);
-                    tvStatus.setTextColor(MyConstants.FINISH_COLOR);
+                switch (mPenjualan.getStatusCode()) {
+                    case MyConstants.ORDER_CODE:
+                        tvStatus.setText(MyConstants.ORDER_NAME);
+                        tvStatus.setTextColor(MyConstants.ORDER_COLOR);
+                        break;
+                    case MyConstants.GOING_CODE:
+                        tvStatus.setText(MyConstants.GOING_NAME);
+                        tvStatus.setTextColor(MyConstants.GOING_COLOR);
+                        break;
+                    case MyConstants.FINISH_CODE:
+                        tvStatus.setText(MyConstants.FINISH_NAME);
+                        tvStatus.setTextColor(MyConstants.FINISH_COLOR);
+                        break;
                 }
             }
 

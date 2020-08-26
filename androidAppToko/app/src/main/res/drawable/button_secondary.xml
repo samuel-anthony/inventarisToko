@@ -4,10 +4,10 @@
     <item android:state_pressed="true">
         <shape>
             <solid
-                android:color="@color/colorButtonSecondary" />
+                android:color="@color/colorButtonPrimary" />
             <stroke
                 android:width="1dp"
-                android:color="@color/colorButtonSecondary" />
+                android:color="@color/colorButtonPrimary" />
             <corners
                 android:radius="25dp" />
             <padding
@@ -20,10 +20,10 @@
     <item>
         <shape>
             <solid
-                android:color="@color/colorButtonPrimary" />
+                android:color="@color/colorButtonSecondary" />
             <stroke
                 android:width="1dp"
-                android:color="@color/colorButtonPrimary" />
+                android:color="@color/colorButtonSecondary" />
             <corners
                 android:radius="25dp" />
             <padding

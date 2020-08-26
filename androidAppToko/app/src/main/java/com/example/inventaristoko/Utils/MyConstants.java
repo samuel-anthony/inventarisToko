@@ -12,4 +12,7 @@ public interface MyConstants {
     int ORDER_COLOR = 0xFF000000;
     int GOING_COLOR = 0xFF409AE1;
     int FINISH_COLOR = 0xFF40C5AF;
+
+    String EDIT_PENGGUNA = "Ubah Pengguna";
+    String ADD_PENGGUNA = "Tambah Pengguna";
 }

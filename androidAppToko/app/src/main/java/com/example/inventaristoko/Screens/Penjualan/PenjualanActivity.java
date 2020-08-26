@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.example.inventaristoko.Adapter.Penjualan.PenjualanAdapter;
 import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.FrontActivity;
+import com.example.inventaristoko.Screens.Front.FrontActivity;
 import com.example.inventaristoko.Screens.Pengguna.PenggunaActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.VolleyCallback;

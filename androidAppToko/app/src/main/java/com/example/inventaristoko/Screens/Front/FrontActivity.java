@@ -1,4 +1,4 @@
-package com.example.inventaristoko.Screens;
+package com.example.inventaristoko.Screens.Front;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;

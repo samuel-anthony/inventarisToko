@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    <color name="colorPrimary">#008577</color>-->
+    <!-- MAIN -->
     <color name="colorPrimary">#F7B536</color>
     <color name="colorPrimaryDark">#F8AA12</color>
     <color name="colorAccent">#FF9800</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorIcons">#FFFFFF</color>
-    <color name="colorDivider">#BDBDBD</color>
     <color name="black_effective">#2a2a2a</color>
-    <color name="colorWhite">#FFFFFF</color>
-    <color name="colorBlack">#000000</color>
-
     <color name="colorSuccess">#40C5AF</color>
     <color name="colorProcess">#409AE1</color>
     <color name="colorFailed">#EF6950</color>
+
+    <!-- BUTTON -->
+    <color name="colorButtonPrimary">#F7B536</color>
+    <color name="colorButtonPrimaryDark">#F8AA12</color>
+    <color name="colorButtonSecondary">#FFFFFF</color>
+    <color name="colorButtonDanger">#EF6950</color>
+    <color name="colorButtonSuccess">#40C5AF</color>
+
+    <!-- DEFAULT -->
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+
+    <color name="ic_launcher_background">#F7B536</color>
 </resources>

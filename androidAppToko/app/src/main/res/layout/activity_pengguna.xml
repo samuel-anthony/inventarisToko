@@ -1,45 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/colorWhite">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="@dimen/_8dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="end"
-            android:layout_weight="1">
-
-            <Button
-                android:id="@+id/buttonLogin"
-                android:paddingRight="50dp"
-                android:paddingLeft="50dp"
-                android:background="@drawable/rounded_corner_yellow_button"
-                android:text="@string/button_add"
-                android:textColor="@color/colorWhite"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_marginVertical="@dimen/_12dp"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
+        <Button
+            android:id="@+id/buttonAdd"
+            android:paddingRight="50dp"
+            android:paddingLeft="50dp"
+            android:background="@drawable/button_primary"
+            android:text="@string/button_add"
+            android:textColor="@drawable/button_primary_text"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:layout_marginVertical="20dp"
+            android:layout_marginHorizontal="@dimen/_8dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPengguna"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_8dp" />
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin" />
     </LinearLayout>
-</LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPengguna"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_file_white" />
+</FrameLayout >

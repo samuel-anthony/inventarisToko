@@ -13,6 +13,7 @@ import com.example.inventaristoko.Adapter.Penjualan.PenjualanAdapter;
 import com.example.inventaristoko.Model.Pengguna.Pengguna;
 import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
+import com.example.inventaristoko.Screens.Pengguna.PenggunaDetailActivity;
 import com.example.inventaristoko.Screens.Penjualan.PenjualanDetailActivity;
 import com.example.inventaristoko.Utils.BaseViewHolder;
 import com.example.inventaristoko.Utils.CommonUtils;
@@ -120,18 +121,17 @@ public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             tvUserName.setText(mPengguna.getUserName());
 
             itemView.setOnClickListener(v -> {
-                if (mPengguna.getUserId() != null) {
+                if (mPengguna.getFullName() != null) {
                     try {
-//                        Map<String, String> params = new HashMap<>();
-//                        params.put("userNo",  mPengguna.getUserNo());
-//
-//                        Intent intent = new Intent (v.getContext(), PenggunaDetailActivity.class);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("userNo", params.get("userNo"));
-//                        intent.putExtras(bundle);
-//                        v.getContext().startActivity(intent);
-
-                        Toast.makeText(v.getContext(), mPengguna.getUserId(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent (v.getContext(), PenggunaDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("fullName", mPengguna.getFullName());
+                        bundle.putString("userName", mPengguna.getUserName());
+                        bundle.putString("email", mPengguna.getEmail());
+                        bundle.putString("phoneNumber", mPengguna.getPhoneNumber());
+                        bundle.putString("birthDate", mPengguna.getBirthDate());
+                        intent.putExtras(bundle);
+                        v.getContext().startActivity(intent);
                     } catch (Exception e) {
                         Log.e(TAG, "onClick: Url is not correct");
                     }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Screens.FrontActivity">
+    tools:context=".Screens.Front.FrontActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
         <ImageView
             android:layout_weight="4"
-            android:src="@drawable/ic_login"
+            android:src="@drawable/background_front"
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="0dp" />
@@ -42,20 +42,21 @@
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:layout_marginBottom="30dp"
-            android:background="@drawable/rounded_corner_white_button"
+            android:background="@drawable/button_secondary"
             android:text="@string/button_guest"
-            android:textColor="#FFCC2B"
+            android:textColor="@drawable/button_secondary_text"
             android:layout_width="wrap_content"
-            android:layout_height="45dp" />
+            android:layout_height="50dp" />
 
         <Button
             android:id="@+id/buttonAdmin"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
-            android:background="@drawable/rounded_corner_white_button"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/button_secondary"
             android:text="@string/button_admin"
-            android:textColor="#FFCC2B"
+            android:textColor="@drawable/button_secondary_text"
             android:layout_width="wrap_content"
-            android:layout_height="45dp" />
+            android:layout_height="50dp" />
     </LinearLayout>
 </RelativeLayout>
