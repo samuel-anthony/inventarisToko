@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginHorizontal="@dimen/_8dp">
+            android:layout_marginHorizontal="@dimen/_8dp" >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                     android:maxLines="1"
                     android:lines="1"
                     android:singleLine="true"
-                    android:maxLength="20"
+                    android:maxLength="50"
                     android:textColor="#000"
                     android:textSize="17sp"/>
             </LinearLayout>
@@ -149,7 +149,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_margin="@dimen/_4dp">
+                android:layout_margin="@dimen/_4dp"
+                android:paddingBottom="@dimen/_12dp">
 
                 <TextView
                     android:id="@+id/labelBirth"

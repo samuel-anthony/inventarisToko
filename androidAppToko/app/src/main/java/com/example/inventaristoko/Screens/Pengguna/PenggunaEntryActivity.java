@@ -17,9 +17,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.inventaristoko.R;
+import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
+import com.example.inventaristoko.Utils.VolleyAPI;
+import com.example.inventaristoko.Utils.VolleyCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PenggunaEntryActivity extends AppCompatActivity {
     private DatePickerDialog datePicker;
@@ -61,10 +69,16 @@ public class PenggunaEntryActivity extends AppCompatActivity {
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 // date picker dialog
+
                 datePicker = new DatePickerDialog(PenggunaEntryActivity.this, new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                etBirth.setText(dayOfMonth + " - " + (monthOfYear + 1) + " - " + year);
+                                String monthLabel, dayLabel;
+
+                                monthLabel = (monthOfYear + 1) < 10 ? "0" + (monthOfYear + 1) : String.valueOf(monthOfYear + 1);
+                                dayLabel  = dayOfMonth < 10 ? "0" + dayOfMonth : String.valueOf(dayOfMonth);
+
+                                etBirth.setText(year + "-" + monthLabel + "-" + dayLabel);
                             }
                         }, year, month, day);
                 datePicker.show();
@@ -81,7 +95,49 @@ public class PenggunaEntryActivity extends AppCompatActivity {
                 builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(v.getContext(), "Kirim Berhasil", Toast.LENGTH_SHORT).show();
+                        CommonUtils.showLoading(PenggunaEntryActivity.this);
+                        VolleyAPI volleyAPI = new VolleyAPI(PenggunaEntryActivity.this);
+                        Map<String, String> params = new HashMap<>();
+                        params.put("user_name", etUSerName.getText().toString());
+
+                        if (screenState.equals(MyConstants.EDIT_PENGGUNA)) {
+                            params.put("user_name_old", bundle.getString("userName"));
+                        }
+
+                        params.put("full_name", etFullName.getText().toString());
+                        params.put("email", etEmail.getText().toString());
+                        params.put("phone_number", etPhone.getText().toString());
+                        params.put("birth_date", etBirth.getText().toString());
+
+                        if (screenState.equals(MyConstants.EDIT_PENGGUNA)) {
+                            volleyAPI.putRequest("updateAdminUser", params, new VolleyCallback() {
+                                @Override
+                                public void onSuccessResponse(String result) {
+                                    try {
+                                        JSONObject resultJSON = new JSONObject(result);
+                                        Intent myIntent = new Intent(getApplicationContext(), PenggunaActivity.class);
+                                        startActivityForResult(myIntent, 0);
+                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        } else if (screenState.equals(MyConstants.ADD_PENGGUNA)) {
+                            volleyAPI.postRequest("registerAdmin", params, new VolleyCallback() {
+                                @Override
+                                public void onSuccessResponse(String result) {
+                                    try {
+                                        JSONObject resultJSON = new JSONObject(result);
+                                        Intent myIntent = new Intent(getApplicationContext(), PenggunaActivity.class);
+                                        startActivityForResult(myIntent, 0);
+                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
                     }
                 });
                 builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
