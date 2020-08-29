@@ -13,7 +13,6 @@ class UserController extends Controller
     public function register(request $request){
         
         $user = new User;
-        $user->name = 'table' + count(User::userRole(1)->get());
         $user->user_id = $request->user_id;
         $user->password = $request->user_role == '1'? 'udin123' : $request->password;
         $user->password = bcrypt($user->password);
@@ -28,10 +27,8 @@ class UserController extends Controller
     public function registerAdmin(request $request){
         
         $user = new User;
-        $nama = ($request->full_name).split(" ");
-        $user->name = 'admin '+$nama[0];
         $user->user_id = $request->user_name;
-        $user->password = $request->user_role == '1'? 'udin123' : $request->password;
+        $user->password = $request->password;
         $user->password = bcrypt($user->password);
         $user->user_role = 1;
         $user->save();
@@ -50,13 +47,15 @@ class UserController extends Controller
     }
 
     public function updateAdminUser(request $request){
-        $user = User::whereUserId($request->user_name)->first();
+        $user = User::whereUserId($request->user_name_old)->first();
         $userAdmin = userAdmin::find($user->id);
         $userAdmin->full_name = $request->full_name;
         $userAdmin->email = $request->email;
         $userAdmin->phone_number = $request->phone_number;
         $userAdmin->birth_date = $request->birth_date;
         $userAdmin->save();
+        $user->user_id = $request->user_name;
+        $user->save();
         return json_encode([
             'is_error' => '0',
             'message' => 'berhasil'
