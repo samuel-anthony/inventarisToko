@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\userAdmin;
 use Illuminate\Support\Facades\Auth;//INI UNTUK KEPENTINGAN LOGIN
 
 class UserController extends Controller
@@ -12,12 +13,65 @@ class UserController extends Controller
     public function register(request $request){
         
         $user = new User;
-        $user->name = $request->user_role == '1'? 'table' + count(User::userRole(1)->get()) : 'admin' + count(User::userRole(0)->get());
+        $user->name = 'table' + count(User::userRole(1)->get());
         $user->user_id = $request->user_id;
         $user->password = $request->user_role == '1'? 'udin123' : $request->password;
         $user->password = bcrypt($user->password);
-        $user->user_role = $request->user_role == '1'? 1 : 0;
+        $user->user_role = 1;
         $user->save();
+        return json_encode([
+            'is_error' => '0',
+            'message' => 'berhasil'
+        ]);
+    }
+
+    public function registerAdmin(request $request){
+        
+        $user = new User;
+        $nama = ($request->full_name).split(" ");
+        $user->name = 'admin '+$nama[0];
+        $user->user_id = $request->user_name;
+        $user->password = $request->user_role == '1'? 'udin123' : $request->password;
+        $user->password = bcrypt($user->password);
+        $user->user_role = 1;
+        $user->save();
+
+        $userAdmin = new userAdmin;
+        $userAdmin->full_name = $request->full_name;
+        $userAdmin->email = $request->email;
+        $userAdmin->phone_number = $request->phone_number;
+        $userAdmin->birth_date = $request->birth_date;
+        $userAdmin->user_id = $user->id;
+        $userAdmin->save();
+        return json_encode([
+            'is_error' => '0',
+            'message' => 'berhasil'
+        ]);
+    }
+
+    public function updateAdminUser(request $request){
+        $user = User::whereUserId($request->user_name)->first();
+        $userAdmin = userAdmin::find($user->id);
+        $userAdmin->full_name = $request->full_name;
+        $userAdmin->email = $request->email;
+        $userAdmin->phone_number = $request->phone_number;
+        $userAdmin->birth_date = $request->birth_date;
+        $userAdmin->save();
+        return json_encode([
+            'is_error' => '0',
+            'message' => 'berhasil'
+        ]);
+    }
+
+    public function deleteAdmin(request $request){
+        $user = User::whereUserId($request->user_name)->first();
+        $userAdmin = userAdmin::find($user->id);
+        $userAdmin->full_name = $request->full_name;
+        $userAdmin->email = $request->email;
+        $userAdmin->phone_number = $request->phone_number;
+        $userAdmin->birth_date = $request->birth_date;
+        $userAdmin->delete();
+        $user->delete();
         return json_encode([
             'is_error' => '0',
             'message' => 'berhasil'

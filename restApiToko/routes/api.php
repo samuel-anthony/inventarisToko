@@ -30,6 +30,9 @@ Route::get('getSemuaAdminUser','UserController@getAllAdminUser');
 
 Route::post('testApi','UserController@testApi');
 Route::post('register','UserController@register');
+Route::post('registerAdmin','UserController@registerAdmin');
 
 Route::put('updateStatusPesanan','PesananController@updateStatusRefNo');
 Route::put('updateStatusPesananSelesai','PesananController@updateStatusFinishRefNo');
+Route::put('updateAdminUser','UserController@updateAdminUser');
+Route::put('deleteAdmin','UserController@deleteAdmin');
