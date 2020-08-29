@@ -24,7 +24,7 @@ Route::get('getPesananDetailRefNo','PesananController@getOrderByRefNo');
 Route::get('bahanPokok','BahanPokokController@index');
 Route::get('login','UserController@loginAdmin');
 Route::get('loginQR','UserController@loginCustomer');
-Route::get('getSemuaCustomer','UserController@getAllCustomerUser');
+Route::get('getSemuaDataMeja','UserController@getAllCustomerUser');
 Route::get('getSemuaAdminUser','UserController@getAllAdminUser');
 
 

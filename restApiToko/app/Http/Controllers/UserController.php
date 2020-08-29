@@ -27,10 +27,15 @@ class UserController extends Controller
     public function registerAdmin(request $request){
         
         $user = new User;
+        $temp = explode("-",$request->birth_date);
+        $password = $request->user_name;
+        foreach($temp as $satuan){
+            $password = $password.$satuan;
+        }
         $user->user_id = $request->user_name;
-        $user->password = $request->password;
+        $user->password = $password;
         $user->password = bcrypt($user->password);
-        $user->user_role = 1;
+        $user->user_role = 0;
         $user->save();
 
         $userAdmin = new userAdmin;
@@ -64,7 +69,7 @@ class UserController extends Controller
 
     public function deleteAdmin(request $request){
         $user = User::whereUserId($request->user_name)->first();
-        $userAdmin = userAdmin::find($user->id);
+        $userAdmin = userAdmin::whereUserId($user->id);
         $userAdmin->delete();
         $user->delete();
         return json_encode([

@@ -3,7 +3,7 @@ INSERT INTO users (id, user_id, user_role, email_verified_at, password, remember
 (2, 'admin', 0, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL),
 (3, 'budi123', 0, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL),
 (4, 'sulaideh', 0, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL),
-(5, 'table1', 'table_1', 1, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL);
+(5, 'table_1', 1, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL);
 
 INSERT INTO `bahan_pokoks` (`bahan_pokok_id`, `nama`, `jumlah`, `satuan`, `created_at`, `updated_at`) VALUES
 (1, 'daging sapi cincang', 1000, 'gram', NULL, NULL),
