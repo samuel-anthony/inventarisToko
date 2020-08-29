@@ -53,7 +53,7 @@
             android:textColor="#000"
             android:textColorHint="#ccc"
             android:textSize="17sp"
-            android:maxLength="20" />
+            android:maxLength="50" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etPasswordLayout"
@@ -76,7 +76,7 @@
                 android:textColor="#000"
                 android:textColorHint="#ccc"
                 android:textSize="17sp"
-                android:maxLength="8" />
+                android:maxLength="50" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

@@ -13,7 +13,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.inventaristoko.R;
+import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
+import com.example.inventaristoko.Utils.VolleyAPI;
+import com.example.inventaristoko.Utils.VolleyCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PenggunaDetailActivity extends AppCompatActivity {
     private Button btnDelete, btnEdit;
@@ -51,7 +62,24 @@ public class PenggunaDetailActivity extends AppCompatActivity {
                 builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(v.getContext(), "Hapus Berhasil", Toast.LENGTH_SHORT).show();
+                        CommonUtils.showLoading(PenggunaDetailActivity.this);
+                        VolleyAPI volleyAPI = new VolleyAPI(PenggunaDetailActivity.this);
+                        Map<String, String> params = new HashMap<>();
+                        params.put("user_name", tvUserName.getText().toString());
+
+                        volleyAPI.putRequest("deleteAdmin", params, new VolleyCallback() {
+                            @Override
+                            public void onSuccessResponse(String result) {
+                                try {
+                                    JSONObject resultJSON = new JSONObject(result);
+                                    Intent myIntent = new Intent(getApplicationContext(), PenggunaActivity.class);
+                                    startActivityForResult(myIntent, 0);
+                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                     }
                 });
                 builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {

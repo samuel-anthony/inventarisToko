@@ -66,6 +66,9 @@
     <string name="user_id">1</string>
     <string name="user_level">User Level</string>
 
+    <!--Data Meja-->
+    <string name="meja_id">1</string>
+
     <string name="label_full_name">Nama Lengkap</string>
     <string name="label_value_full_name">Value Full Name</string>
     <string name="label_user_name">User Name</string>

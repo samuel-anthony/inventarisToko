@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.inventaristoko">
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,16 +15,16 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Screens.Front.FrontActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Screens.Front.LoginActivity"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".Screens.Penjualan.PenjualanActivity"
             android:label="@string/title_activity_home"
@@ -33,16 +32,21 @@
         <activity
             android:name=".Screens.Penjualan.PenjualanDetailActivity"
             android:parentActivityName=".Screens.Penjualan.PenjualanActivity"
-            android:theme="@style/MyMaterialTheme"/>
-
+            android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".Screens.Pengguna.PenggunaActivity"
-            android:parentActivityName=".Screens.Penjualan.PenjualanActivity"/>
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
         <activity
             android:name=".Screens.Pengguna.PenggunaDetailActivity"
             android:parentActivityName=".Screens.Pengguna.PenggunaActivity" />
         <activity
             android:name=".Screens.Pengguna.PenggunaEntryActivity"
             android:parentActivityName=".Screens.Pengguna.PenggunaActivity" />
+        <activity
+            android:name=".Screens.Meja.MejaActivity"
+            android:parentActivityName=".Screens.Pengguna.PenggunaActivity" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>
