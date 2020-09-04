@@ -36,3 +36,5 @@ Route::put('updateStatusPesanan','PesananController@updateStatusRefNo');
 Route::put('updateStatusPesananSelesai','PesananController@updateStatusFinishRefNo');
 Route::put('updateAdminUser','UserController@updateAdminUser');
 Route::put('deleteAdmin','UserController@deleteAdmin');
+Route::put('updateUser','UserController@updateUser');
+Route::put('deleteUser','UserController@deleteUser');

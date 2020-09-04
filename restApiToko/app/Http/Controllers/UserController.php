@@ -67,10 +67,29 @@ class UserController extends Controller
         ]);
     }
 
+    public function updateUser(request $request){
+        $user = User::whereUserId($request->user_name_old)->first();
+        $user->user_id = $request->user_name;
+        $user->save();
+        return json_encode([
+            'is_error' => '0',
+            'message' => 'berhasil'
+        ]);
+    }
+
     public function deleteAdmin(request $request){
         $user = User::whereUserId($request->user_name)->first();
         $userAdmin = userAdmin::whereUserId($user->id);
         $userAdmin->delete();
+        $user->delete();
+        return json_encode([
+            'is_error' => '0',
+            'message' => 'berhasil'
+        ]);
+    }
+
+    public function deleteUser(request $request){
+        $user = User::whereUserId($request->user_name)->first();
         $user->delete();
         return json_encode([
             'is_error' => '0',
