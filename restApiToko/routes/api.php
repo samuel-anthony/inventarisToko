@@ -26,11 +26,15 @@ Route::get('login','UserController@loginAdmin');
 Route::get('loginQR','UserController@loginCustomer');
 Route::get('getSemuaDataMeja','UserController@getAllCustomerUser');
 Route::get('getSemuaAdminUser','UserController@getAllAdminUser');
-
+Route::get('getSemuaBahanPokok','BahanPokokController@index');
+Route::get('getSemuaMakanan','MakananController@index');
 
 Route::post('testApi','UserController@testApi');
 Route::post('register','UserController@register');
 Route::post('registerAdmin','UserController@registerAdmin');
+Route::post('addBahanPokokBaru','BahanPokokController@addBahanPokokBaru');
+Route::post('addRiwayatBahanPokok','BahanPokokController@addRiwayatBahanPokok');
+Route::post('addMakanan','MakananController@addNewMakanan');
 
 Route::put('updateStatusPesanan','PesananController@updateStatusRefNo');
 Route::put('updateStatusPesananSelesai','PesananController@updateStatusFinishRefNo');

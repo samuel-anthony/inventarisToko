@@ -17,7 +17,7 @@ class CreateMakanansTable extends Migration
             $table->bigIncrements('makanan_id');
             $table->string('nama');
             $table->integer('harga_jual');
-            $table->longText('gambar_makanan');
+            $table->longText('gambar_makanan')->nullable();
             $table->timestamps();
         });
     }

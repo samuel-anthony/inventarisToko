@@ -17,7 +17,7 @@ class CreateRiwayatBahanPokoksTable extends Migration
             $table->bigIncrements('riwayat_bahan_pokok_id');
             $table->tinyInteger('aksi')->default(0);//nilai 0 untuk pengambilan, nilai 1 untuk penambahan kuantitas
             $table->integer('jumlah');//jumlah yang diambil/ditambah, jika ditambah wajib menambahkan data supplier
-            $table->integer('harga');//dalam rupiah
+            $table->integer('harga')->default(0);//dalam rupiah, default 0 karena jika pengambilan tidak melakukan pengeluaran
             $table->unsignedBigInteger('bahan_pokok_id');
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->foreign('bahan_pokok_id')->references('bahan_pokok_id')->on('bahan_pokoks');
