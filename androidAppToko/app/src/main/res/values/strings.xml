@@ -22,6 +22,9 @@
     <string name="label_edit_pengguna">Ubah Pengguna</string>
     <string name="label_add_pengguna">Tambah Pengguna</string>
     <string name="label_data_pengguna">Data Pengguna</string>
+    <string name="label_detil_meja">Detil Meja</string>
+    <string name="label_edit_meja">Ubah Meja</string>
+    <string name="label_add_meja">Tambah Meja</string>
 
     <!--Menu DONE-->
     <string name="menu_category">Data Kategori</string>
@@ -40,6 +43,7 @@
     <string name="button_delete">Hapus</string>
     <string name="button_edit">Ubah</string>
     <string name="button_submit">Kirim</string>
+    <string name="button_generate">Generate QR Code</string>
 
     <!--Data Penjualan DONE-->
     <string name="order_no">1</string>
@@ -67,6 +71,7 @@
     <string name="user_level">User Level</string>
 
     <!--Data Meja-->
+    <string name="label_nama_id">Nama Meja</string>
     <string name="meja_id">1</string>
 
     <string name="label_full_name">Nama Lengkap</string>

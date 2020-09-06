@@ -15,4 +15,7 @@ public interface MyConstants {
 
     String EDIT_PENGGUNA = "Ubah Pengguna";
     String ADD_PENGGUNA = "Tambah Pengguna";
+
+    String EDIT_MEJA = "Edit Meja";
+    String ADD_MEJA = "Tambah Meja";
 }

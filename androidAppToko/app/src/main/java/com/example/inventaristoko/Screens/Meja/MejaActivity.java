@@ -6,24 +6,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Meja.MejaAdapter;
 import com.example.inventaristoko.Model.Meja.Meja;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
+import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.example.inventaristoko.Utils.VolleyCallback;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,17 +42,23 @@ public class MejaActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.menu_table);
 
+        FloatingActionButton fab = findViewById(R.id.fabMeja);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
+
         btnAddMeja = findViewById(R.id.buttonAddMeja);
         btnAddMeja.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent (v.getContext(), MejaEntryActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("screenState", MyConstants.ADD_MEJA);
-//                intent.putExtras(bundle);
-//                v.getContext().startActivity(intent);
-
-                Toast.makeText(v.getContext(), "Tambah", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent (v.getContext(), MejaEntryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("screenState", MyConstants.ADD_MEJA);
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
             }
 
         });

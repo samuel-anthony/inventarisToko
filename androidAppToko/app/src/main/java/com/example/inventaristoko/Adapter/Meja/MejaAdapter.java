@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.inventaristoko.Model.Meja.Meja;
 import com.example.inventaristoko.R;
+import com.example.inventaristoko.Screens.Meja.MejaDetailActivity;
+import com.example.inventaristoko.Screens.Pengguna.PenggunaDetailActivity;
 import com.example.inventaristoko.Utils.BaseViewHolder;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -127,22 +129,21 @@ public class MejaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
 
             itemView.setOnClickListener(v -> {
-//                if (mPengguna.getFullName() != null) {
-//                    try {
-//                        Intent intent = new Intent (v.getContext(), PenggunaDetailActivity.class);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("fullName", mPengguna.getFullName());
-//                        bundle.putString("userName", mPengguna.getUserName());
-//                        bundle.putString("email", mPengguna.getEmail());
-//                        bundle.putString("phoneNumber", mPengguna.getPhoneNumber());
-//                        bundle.putString("birthDate", mPengguna.getBirthDate());
-//                        intent.putExtras(bundle);
-//                        v.getContext().startActivity(intent);
-//                    } catch (Exception e) {
-//                        Log.e(TAG, "onClick: Url is not correct");
-//                    }
-//                }
-                Toast.makeText(v.getContext(), mMeja.getUserId(), Toast.LENGTH_SHORT).show();
+                if (mMeja.getUserId() != null) {
+                    try {
+                        Intent intent = new Intent (v.getContext(), MejaDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", mMeja.getId());
+                        bundle.putString("userId", mMeja.getUserId());
+                        bundle.putString("userRole", mMeja.getUserRole());
+                        bundle.putString("createdAt", mMeja.getCreatedAt());
+                        bundle.putString("updatedAt", mMeja.getUpdatedAt());
+                        intent.putExtras(bundle);
+                        v.getContext().startActivity(intent);
+                    } catch (Exception e) {
+                        Log.e(TAG, "onClick: Url is not correct");
+                    }
+                }
             });
         }
     }

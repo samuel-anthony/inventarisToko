@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/SecondTheme">
-
         <activity
             android:name=".Screens.Front.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -44,7 +43,13 @@
             android:parentActivityName=".Screens.Pengguna.PenggunaActivity" />
         <activity
             android:name=".Screens.Meja.MejaActivity"
-            android:parentActivityName=".Screens.Pengguna.PenggunaActivity" />
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
+        <activity
+            android:name=".Screens.Meja.MejaDetailActivity"
+            android:parentActivityName=".Screens.Meja.MejaActivity" />
+        <activity
+            android:name=".Screens.Meja.MejaEntryActivity"
+            android:parentActivityName=".Screens.Meja.MejaActivity" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
