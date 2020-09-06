@@ -1,0 +1,6 @@
+
+androidAppToko/app/.idea/*
+androidAppToko/app/gradle/*
+androidAppToko/app/gradlew
+androidAppToko/app/gradlew.bat
+androidAppToko/app/local.properties
