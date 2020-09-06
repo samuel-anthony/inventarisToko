@@ -90,71 +90,58 @@ public class MejaEntryActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(MejaEntryActivity.this);
-//                builder.setMessage("Anda Yakin Ingin Kirim Data ini?");
-//                builder.setCancelable(false);
-//                builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        CommonUtils.showLoading(MejaEntryActivity.this);
-//                        VolleyAPI volleyAPI = new VolleyAPI(MejaEntryActivity.this);
-//                        Map<String, String> params = new HashMap<>();
-//                        params.put("user_id", etMejaId.getText().toString());
-//
-//                        if (screenState.equals(MyConstants.EDIT_PENGGUNA)) {
-//                            params.put("user_id_old", bundle.getString("userId"));
-//                        }
-//
-//                        try {
-//                            String text = etMejaId.getText().toString();
-//                            MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-//                            BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,150,150);
-//                            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-//                            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-//                            params.put("gambar_makanan", etMejaId.getText().toString());
-//                        } catch (WriterException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        if (screenState.equals(MyConstants.EDIT_PENGGUNA)) {
-//                            volleyAPI.putRequest("updateMeja", params, new VolleyCallback() {
-//                                @Override
-//                                public void onSuccessResponse(String result) {
-//                                    try {
-//                                        JSONObject resultJSON = new JSONObject(result);
-//                                        Intent myIntent = new Intent(getApplicationContext(), MejaActivity.class);
-//                                        startActivityForResult(myIntent, 0);
-//                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            });
-//                        } else if (screenState.equals(MyConstants.ADD_PENGGUNA)) {
-//                            volleyAPI.postRequest("registerMeja", params, new VolleyCallback() {
-//                                @Override
-//                                public void onSuccessResponse(String result) {
-//                                    try {
-//                                        JSONObject resultJSON = new JSONObject(result);
-//                                        Intent myIntent = new Intent(getApplicationContext(), MejaActivity.class);
-//                                        startActivityForResult(myIntent, 0);
-//                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            });
-//                        }
-//                    }
-//                });
-//                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                    }
-//                });
-//                builder.show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MejaEntryActivity.this);
+                builder.setMessage("Anda Yakin Ingin Kirim Data ini?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        CommonUtils.showLoading(MejaEntryActivity.this);
+                        VolleyAPI volleyAPI = new VolleyAPI(MejaEntryActivity.this);
+                        Map<String, String> params = new HashMap<>();
+                        params.put("uesr_name", etMejaId.getText().toString());
 
-                Toast.makeText(getApplicationContext(), "Submit Clicked", Toast.LENGTH_SHORT).show();
+                        if (screenState.equals(MyConstants.EDIT_MEJA)) {
+                            params.put("user_name_old", bundle.getString("userId"));
+                        }
+
+                        if (screenState.equals(MyConstants.EDIT_MEJA)) {
+                            volleyAPI.putRequest("updateUser", params, new VolleyCallback() {
+                                @Override
+                                public void onSuccessResponse(String result) {
+                                    try {
+                                        JSONObject resultJSON = new JSONObject(result);
+                                        Intent myIntent = new Intent(getApplicationContext(), MejaActivity.class);
+                                        startActivityForResult(myIntent, 0);
+                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        } else if (screenState.equals(MyConstants.ADD_MEJA)) {
+                            volleyAPI.postRequest("registerMeja", params, new VolleyCallback() {
+                                @Override
+                                public void onSuccessResponse(String result) {
+                                    try {
+                                        JSONObject resultJSON = new JSONObject(result);
+                                        Intent myIntent = new Intent(getApplicationContext(), MejaActivity.class);
+                                        startActivityForResult(myIntent, 0);
+                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.show();
             }
         });
 

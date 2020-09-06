@@ -62,39 +62,38 @@ public class MejaDetailActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(MejaDetailActivity.this);
-//                builder.setMessage("Anda Yakin Ingin Menghapus Data ini?");
-//                builder.setCancelable(false);
-//                builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        CommonUtils.showLoading(MejaDetailActivity.this);
-//                        VolleyAPI volleyAPI = new VolleyAPI(MejaDetailActivity.this);
-//                        Map<String, String> params = new HashMap<>();
-//                        params.put("user_id", tvMejaId.getText().toString());
-//
-//                        volleyAPI.putRequest("deleteMeja", params, new VolleyCallback() {
-//                            @Override
-//                            public void onSuccessResponse(String result) {
-//                                try {
-//                                    JSONObject resultJSON = new JSONObject(result);
-//                                    Intent myIntent = new Intent(getApplicationContext(), MejaActivity.class);
-//                                    startActivityForResult(myIntent, 0);
-//                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        });
-//                    }
-//                });
-//                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                    }
-//                });
-//                builder.show();
-                Toast.makeText(getApplicationContext(), "Delete Clicked", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MejaDetailActivity.this);
+                builder.setMessage("Anda Yakin Ingin Menghapus Data ini?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        CommonUtils.showLoading(MejaDetailActivity.this);
+                        VolleyAPI volleyAPI = new VolleyAPI(MejaDetailActivity.this);
+                        Map<String, String> params = new HashMap<>();
+                        params.put("user_name", tvMejaId.getText().toString());
+
+                        volleyAPI.putRequest("deleteUser", params, new VolleyCallback() {
+                            @Override
+                            public void onSuccessResponse(String result) {
+                                try {
+                                    JSONObject resultJSON = new JSONObject(result);
+                                    Intent myIntent = new Intent(getApplicationContext(), MejaActivity.class);
+                                    startActivityForResult(myIntent, 0);
+                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                });
+                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.show();
             }
         });
 

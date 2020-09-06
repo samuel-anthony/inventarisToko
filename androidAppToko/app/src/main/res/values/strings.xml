@@ -25,6 +25,10 @@
     <string name="label_detil_meja">Detil Meja</string>
     <string name="label_edit_meja">Ubah Meja</string>
     <string name="label_add_meja">Tambah Meja</string>
+    <string name="label_data_bahan_pokok">Data Bahan Pokok</string>
+    <string name="label_detil_bahan_pokok">Detil Bahan Pokok</string>
+    <string name="label_edit_bahan_pokok">Ubah Bahan Pokok</string>
+    <string name="label_add_bahan_pokok">Tambah Bahan Pokok</string>
 
     <!--Menu DONE-->
     <string name="menu_category">Data Kategori</string>
@@ -44,6 +48,7 @@
     <string name="button_edit">Ubah</string>
     <string name="button_submit">Kirim</string>
     <string name="button_generate">Generate QR Code</string>
+    <string name="button_add_detail">Tambah Detil</string>
 
     <!--Data Penjualan DONE-->
     <string name="order_no">1</string>
@@ -93,4 +98,15 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <!-- Data Bahan Pokok -->
+    <string name="label_bahan_pokok_nama">Nama Bahan Pokok</string>
+    <string name="label_bahan_pokok_satuan">Jumlah Satuan</string>
+    <string name="label_value_bahan_pokok_nama">Bahan Pokok</string>
+    <string name="label_value_bahan_pokok_satuan">1</string>
+    <string name="id">1</string>
+    <string name="staple_name">Bahan Pokok</string>
+    <string name="staple_store_name">Toko Bahan Pokok</string>
+    <string name="staple_price">1</string>
+    <string name="staple_amount">1</string>
 </resources>

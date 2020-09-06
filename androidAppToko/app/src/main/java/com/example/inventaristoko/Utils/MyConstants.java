@@ -18,4 +18,7 @@ public interface MyConstants {
 
     String EDIT_MEJA = "Edit Meja";
     String ADD_MEJA = "Tambah Meja";
+
+    String EDIT_BAHAN_POKOK = "Edit Bahan Pokok";
+    String ADD_BAHAN_POKOK = "Tambah Bahan Pokok";
 }

@@ -50,6 +50,15 @@
         <activity
             android:name=".Screens.Meja.MejaEntryActivity"
             android:parentActivityName=".Screens.Meja.MejaActivity" />
+        <activity
+            android:name=".Screens.BahanPokok.BahanPokokActivity"
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity"/>
+        <activity
+            android:name=".Screens.BahanPokok.BahanPokokDetailActivity"
+            android:parentActivityName=".Screens.BahanPokok.BahanPokokActivity"/>
+        <activity
+            android:name=".Screens.BahanPokok.BahanPokokEntryActivity"
+            android:parentActivityName=".Screens.BahanPokok.BahanPokokActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

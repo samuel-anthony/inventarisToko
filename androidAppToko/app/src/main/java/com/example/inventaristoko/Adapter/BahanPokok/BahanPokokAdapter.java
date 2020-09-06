@@ -1,4 +1,4 @@
-package com.example.inventaristoko.Adapter.Pengguna;
+package com.example.inventaristoko.Adapter.BahanPokok;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.inventaristoko.Model.Pengguna.Pengguna;
+import com.example.inventaristoko.Model.BahanPokok.BahanPokok;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.Pengguna.PenggunaDetailActivity;
+import com.example.inventaristoko.Screens.BahanPokok.BahanPokokDetailActivity;
 import com.example.inventaristoko.Utils.BaseViewHolder;
 
 import java.util.List;
@@ -20,19 +20,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
-    private static final String TAG = "PenggunaAdapter";
+public class BahanPokokAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+    private static final String TAG = "BahanPokokAdapter";
     private static final int VIEW_TYPE_EMPTY = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
 
-    private PenggunaAdapter.Callback mCallback;
-    private List<Pengguna> mPenggunaList;
+    private BahanPokokAdapter.Callback mCallback;
+    private List<BahanPokok> mBahanPokokList;
 
-    public PenggunaAdapter(List<Pengguna> penggunaList) {
-        mPenggunaList = penggunaList;
+    public BahanPokokAdapter(List<BahanPokok> bahanPokokList) {
+        mBahanPokokList = bahanPokokList;
     }
 
-    public void setCallback(PenggunaAdapter.Callback callback) {
+    public void setCallback(BahanPokokAdapter.Callback callback) {
         mCallback = callback;
     }
 
@@ -40,11 +40,11 @@ public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
-                return new PenggunaAdapter.ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.list_pengguna, parent, false));
+                return new BahanPokokAdapter.ViewHolder(
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.list_bahan_pokok, parent, false));
             case VIEW_TYPE_EMPTY:
             default:
-                return new PenggunaAdapter.EmptyViewHolder(
+                return new BahanPokokAdapter.EmptyViewHolder(
                         LayoutInflater.from(parent.getContext())
                                 .inflate(R.layout.item_empty_view, parent, false));
         }
@@ -52,7 +52,7 @@ public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (mPenggunaList != null && mPenggunaList.size() > 0) {
+        if (mBahanPokokList != null && mBahanPokokList.size() > 0) {
             return VIEW_TYPE_NORMAL;
         } else {
             return VIEW_TYPE_EMPTY;
@@ -66,15 +66,15 @@ public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public int getItemCount() {
-        if (mPenggunaList != null && mPenggunaList.size() > 0) {
-            return mPenggunaList.size();
+        if (mBahanPokokList != null && mBahanPokokList.size() > 0) {
+            return mBahanPokokList.size();
         } else {
             return 1;
         }
     }
 
-    public void addItems(List<Pengguna> penggunaList) {
-        mPenggunaList.addAll(penggunaList);
+    public void addItems(List<BahanPokok> bahanPokokList) {
+        mBahanPokokList.addAll(bahanPokokList);
         notifyDataSetChanged();
     }
 
@@ -83,14 +83,14 @@ public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class ViewHolder extends BaseViewHolder {
-        @BindView(R.id.tvUserNo)
-        TextView tvUserNo;
+        @BindView(R.id.tvId)
+        TextView tvId;
 
-        @BindView(R.id.tvFullName)
-        TextView tvFullName;
+        @BindView(R.id.tvBahanPokokNama)
+        TextView tvBahanPokokNama;
 
-        @BindView(R.id.tvUserName)
-        TextView tvUserName;
+        @BindView(R.id.tvBahanPokokJumlah)
+        TextView tvBahanPokokJumlah;
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -98,30 +98,29 @@ public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
         protected void clear() {
-            tvUserNo.setText("");
-            tvFullName.setText("");
-            tvUserName.setText("");
+            tvId.setText("");
+            tvBahanPokokNama.setText("");
+            tvBahanPokokJumlah.setText("");
         }
 
         public void onBind(int position) {
             super.onBind(position);
 
-            final Pengguna mPengguna = mPenggunaList.get(position);
+            final BahanPokok mBahanPokok = mBahanPokokList.get(position);
 
-            tvUserNo.setText(mPengguna.getUserNo());
-            tvFullName.setText(mPengguna.getFullName());
-            tvUserName.setText(mPengguna.getUserName());
+            tvId.setText(mBahanPokok.getId());
+            tvBahanPokokNama.setText(mBahanPokok.getStapleName());
+            tvBahanPokokJumlah.setText(mBahanPokok.getStapleAmount() + " " + mBahanPokok.getStapleUnit());
 
             itemView.setOnClickListener(v -> {
-                if (mPengguna.getFullName() != null) {
+                if (mBahanPokok.getStapleId() != null) {
                     try {
-                        Intent intent = new Intent (v.getContext(), PenggunaDetailActivity.class);
+                        Intent intent = new Intent (v.getContext(), BahanPokokDetailActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("fullName", mPengguna.getFullName());
-                        bundle.putString("userName", mPengguna.getUserName());
-                        bundle.putString("email", mPengguna.getEmail());
-                        bundle.putString("phoneNumber", mPengguna.getPhoneNumber());
-                        bundle.putString("birthDate", mPengguna.getBirthDate());
+                        bundle.putString("stapleId", mBahanPokok.getStapleId());
+                        bundle.putString("stapleName", mBahanPokok.getStapleName());
+                        bundle.putString("stapleAmount", mBahanPokok.getStapleAmount());
+                        bundle.putString("stapleUnit", mBahanPokok.getStapleUnit());
                         intent.putExtras(bundle);
                         v.getContext().startActivity(intent);
                     } catch (Exception e) {

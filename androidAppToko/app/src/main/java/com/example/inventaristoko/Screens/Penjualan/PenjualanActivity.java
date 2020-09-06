@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.inventaristoko.Adapter.Penjualan.PenjualanAdapter;
 import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
+import com.example.inventaristoko.Screens.BahanPokok.BahanPokokActivity;
 import com.example.inventaristoko.Screens.Front.FrontActivity;
 import com.example.inventaristoko.Screens.Meja.MejaActivity;
 import com.example.inventaristoko.Screens.Pengguna.PenggunaActivity;
@@ -139,7 +140,8 @@ public class PenjualanActivity extends AppCompatActivity {
             Intent myIntent = new Intent(getApplicationContext(), PenggunaActivity.class);
             startActivityForResult(myIntent, 0);
         } else if (item.getItemId() == R.string.menu_staple) {
-            Toast.makeText(getApplicationContext(), "Bahan Pokok", Toast.LENGTH_SHORT).show();
+            Intent myIntent = new Intent(getApplicationContext(), BahanPokokActivity.class);
+            startActivityForResult(myIntent, 0);
         } else if (item.getItemId() == R.string.menu_table) {
             Intent myIntent = new Intent(getApplicationContext(), MejaActivity.class);
             startActivityForResult(myIntent, 0);
