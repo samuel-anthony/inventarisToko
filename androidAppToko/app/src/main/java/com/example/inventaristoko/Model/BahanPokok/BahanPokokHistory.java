@@ -1,12 +1,14 @@
 package com.example.inventaristoko.Model.BahanPokok;
 
-public class BahanPokokDetail {
+public class BahanPokokHistory {
     private String detailId;
     private String stapleDetailId;
     private String stapleDetailName;
     private String stapleDetailStoreName;
     private String stapleDetailAmount;
+    private String stapleDetailUnit;
     private String stapleDetailPrice;
+    private String stapleDetailAction;
     private String stapleDetailCreatedAt;
     private String stapleDetailUpdatedAt;
 
@@ -50,12 +52,28 @@ public class BahanPokokDetail {
         this.stapleDetailAmount = stapleDetailAmount;
     }
 
+    public String getStapleDetailUnit() {
+        return stapleDetailUnit;
+    }
+
+    public void setStapleDetailUnit(String stapleDetailUnit) {
+        this.stapleDetailUnit = stapleDetailUnit;
+    }
+
     public String getStapleDetailPrice() {
         return stapleDetailPrice;
     }
 
     public void setStapleDetailPrice(String stapleDetailPrice) {
         this.stapleDetailPrice = stapleDetailPrice;
+    }
+
+    public String getStapleDetailAction() {
+        return stapleDetailAction;
+    }
+
+    public void setStapleDetailAction(String stapleDetailAction) {
+        this.stapleDetailAction = stapleDetailAction;
     }
 
     public String getStapleDetailCreatedAt() {

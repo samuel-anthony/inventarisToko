@@ -1,26 +1,24 @@
 package com.example.inventaristoko.Screens.BahanPokok;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.inventaristoko.Adapter.BahanPokok.BahanPokokDetailAdapter;
-import com.example.inventaristoko.Model.BahanPokok.BahanPokok;
-import com.example.inventaristoko.Model.BahanPokok.BahanPokokDetail;
+import com.example.inventaristoko.Adapter.BahanPokok.BahanPokokHistoryAdapter;
+import com.example.inventaristoko.Model.BahanPokok.BahanPokokHistory;
+import com.example.inventaristoko.Model.BahanPokok.BahanPokokMakanan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
-import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.example.inventaristoko.Utils.VolleyCallback;
 
@@ -34,8 +32,10 @@ import java.util.Map;
 
 public class BahanPokokDetailActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private BahanPokokDetailAdapter mBahanPokokDetailAdapter;
-    private Button btnDelete, btnEdit, btnAddDetail;
+    private ListView mListView;
+    ArrayAdapter<CharSequence> adapter;
+    private BahanPokokHistoryAdapter mBahanPokokHistoryAdapter;
+    private Button btnAddDetail;
     private TextView tvStapleName, tvStapleAmount;
 
     @Override
@@ -48,65 +48,11 @@ public class BahanPokokDetailActivity extends AppCompatActivity {
         tvStapleName = findViewById(R.id.labelValueBahanPokokNama);
         tvStapleAmount = findViewById(R.id.labelValueBahanPokokSatuan);
 
-        btnDelete = findViewById(R.id.buttonDelete);
-        btnEdit = findViewById(R.id.buttonEdit);
         btnAddDetail = findViewById(R.id.buttonAddDetail);
 
         Bundle bundle = getIntent().getExtras();
         tvStapleName.setText(bundle.getString("stapleName"));
-        tvStapleAmount.setText(bundle.getString("stapleAmount"));
-
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(BahanPokokDetailActivity.this);
-                builder.setMessage("Anda Yakin Ingin Menghapus Data ini?");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        CommonUtils.showLoading(BahanPokokDetailActivity.this);
-//                        VolleyAPI volleyAPI = new VolleyAPI(BahanPokokDetailActivity.this);
-//                        Map<String, String> params = new HashMap<>();
-//                        params.put("user_name", tvUserName.getText().toString());
-//
-//                        volleyAPI.putRequest("deleteBahanPokok", params, new VolleyCallback() {
-//                            @Override
-//                            public void onSuccessResponse(String result) {
-//                                try {
-//                                    JSONObject resultJSON = new JSONObject(result);
-//                                    Intent myIntent = new Intent(getApplicationContext(), PenggunaActivity.class);
-//                                    startActivityForResult(myIntent, 0);
-//                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        });
-                        Toast.makeText(getApplicationContext(), "Ups! Something Wrong", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.show();
-            }
-        });
-
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), BahanPokokEntryActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("screenState", MyConstants.EDIT_BAHAN_POKOK);
-                bundle.putString("stapleName", tvStapleName.getText().toString());
-                bundle.putString("stapleAmount", tvStapleAmount.getText().toString());
-                intent.putExtras(bundle);
-                v.getContext().startActivity(intent);
-            }
-        });
+        tvStapleAmount.setText(bundle.getString("stapleAmount") + " " + bundle.getString("stapleUnit"));
 
         btnAddDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,46 +71,89 @@ public class BahanPokokDetailActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.rvBahanPokokDetail);
         ButterKnife.bind(this);
-        setUp();
+
+        setUpRiwayatMakanan();
+
+        mListView = findViewById(R.id.lvMakananBahanPokok);
+        ButterKnife.bind(this);
+        setUpDetailMakanan();
     }
 
-    private void setUp() {
+    private void setUpDetailMakanan() {
+        adapter = ArrayAdapter.createFromResource(this,R.array.countries_arry,android.R.layout.simple_list_item_1);
+        prepareDataBahanPokokMakananDetail();
+    }
+
+    private void prepareDataBahanPokokMakananDetail() {
+        CommonUtils.showLoading(BahanPokokDetailActivity.this);
+        VolleyAPI volleyAPI = new VolleyAPI(this);
+        Bundle bundle = getIntent().getExtras();
+        Map<String, String> params = new HashMap<>();
+        params.put("bahan_pokok_id", bundle.getString("stapleId"));
+
+        volleyAPI.getRequest("getBahanPokokDetailHistory", params, new VolleyCallback() {
+            @Override
+            public void onSuccessResponse(String result) {
+                try {
+                    ArrayList<BahanPokokMakanan> mBahanPokokMakanan = new ArrayList<>();
+                    JSONObject resultJSON = new JSONObject(result);
+                    JSONObject resultArray = resultJSON.getJSONObject("result");
+                    JSONArray historyArray = resultArray.getJSONArray("makanan_details");
+
+                    for(int i = 0 ; i < historyArray.length() ; i ++ ) {
+                        JSONObject dataBahanPokokDetail = (JSONObject) historyArray.get(i);
+                        BahanPokokMakanan bahanPokokMakanan = new BahanPokokMakanan();
+                        bahanPokokMakanan.setNamaMakanan(dataBahanPokokDetail.getString("nama"));
+                        mBahanPokokMakanan.add(bahanPokokMakanan);
+                    }
+                    adapter.addAll((CharSequence) mBahanPokokMakanan);
+                    mListView.setAdapter(adapter);
+                    CommonUtils.hideLoading();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void setUpRiwayatMakanan() {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mBahanPokokDetailAdapter = new BahanPokokDetailAdapter(new ArrayList<>());
+        mBahanPokokHistoryAdapter = new BahanPokokHistoryAdapter(new ArrayList<>());
 
-        prepareDataBahanPokokDetail();
+        prepareDataBahanPokokRiwayatDetail();
     }
 
-    private void prepareDataBahanPokokDetail() {
+    private void prepareDataBahanPokokRiwayatDetail() {
         CommonUtils.showLoading(BahanPokokDetailActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
+        Bundle bundle = getIntent().getExtras();
         Map<String, String> params = new HashMap<>();
-        volleyAPI.getRequest("getSemuaDetailBahanPokok", params, new VolleyCallback() {
+        params.put("bahan_pokok_id", bundle.getString("stapleId"));
+
+        volleyAPI.getRequest("getBahanPokokDetailHistory", params, new VolleyCallback() {
             @Override
             public void onSuccessResponse(String result) {
                 try {
-                    ArrayList<BahanPokokDetail> mBahanPokokDetail = new ArrayList<>();
+                    ArrayList<BahanPokokHistory> mBahanPokokHistory = new ArrayList<>();
                     JSONObject resultJSON = new JSONObject(result);
-                    JSONArray resultArray = resultJSON.getJSONArray("result");
-                    for(int i = 0 ; i < resultArray.length() ; i ++ ) {
-                        JSONObject dataBahanPokokDetail = (JSONObject) resultArray.get(i);
-                        BahanPokokDetail bahanPokokDetail = new BahanPokokDetail();
-                        bahanPokokDetail.setDetailId(String.valueOf(i+1));
-                        bahanPokokDetail.setStapleDetailId(dataBahanPokokDetail.getString("bahan_pokok_detail_id"));
-                        bahanPokokDetail.setStapleDetailName(dataBahanPokokDetail.getString("nama"));
-                        bahanPokokDetail.setStapleDetailStoreName(dataBahanPokokDetail.getString("nama_toko"));
-                        bahanPokokDetail.setStapleDetailAmount(dataBahanPokokDetail.getString("jumlah"));
-                        bahanPokokDetail.setStapleDetailPrice(dataBahanPokokDetail.getString("harga"));
-                        bahanPokokDetail.setStapleDetailCreatedAt(dataBahanPokokDetail.getString("created_at"));
-                        bahanPokokDetail.setStapleDetailUpdatedAt(dataBahanPokokDetail.getString("updated_at"));
+                    JSONObject resultArray = resultJSON.getJSONObject("result");
+                    JSONArray historyArray = resultArray.getJSONArray("riwayats");
 
-                        mBahanPokokDetail.add(bahanPokokDetail);
+                    for(int i = 0 ; i < historyArray.length() ; i ++ ) {
+                        JSONObject dataBahanPokokDetail = (JSONObject) historyArray.get(i);
+                        BahanPokokHistory bahanPokokHistory = new BahanPokokHistory();
+                        bahanPokokHistory.setStapleDetailAmount(dataBahanPokokDetail.getString("jumlah"));
+                        bahanPokokHistory.setStapleDetailAction(dataBahanPokokDetail.getString("aksi"));
+                        bahanPokokHistory.setStapleDetailStoreName(dataBahanPokokDetail.getString("nama_toko"));
+                        bahanPokokHistory.setStapleDetailPrice(dataBahanPokokDetail.getString("harga"));
+                        bahanPokokHistory.setStapleDetailCreatedAt(dataBahanPokokDetail.getString("created_at"));
+                        mBahanPokokHistory.add(bahanPokokHistory);
                     }
-                    mBahanPokokDetailAdapter.addItems(mBahanPokokDetail);
-                    mRecyclerView.setAdapter(mBahanPokokDetailAdapter);
+                    mBahanPokokHistoryAdapter.addItems(mBahanPokokHistory);
+                    mRecyclerView.setAdapter(mBahanPokokHistoryAdapter);
                     CommonUtils.hideLoading();
                 } catch (JSONException e) {
                     e.printStackTrace();

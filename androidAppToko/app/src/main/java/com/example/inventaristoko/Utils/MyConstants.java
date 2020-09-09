@@ -5,6 +5,9 @@ public interface MyConstants {
     String GOING_CODE = "002";
     String FINISH_CODE = "003";
 
+    String INCREASE_CODE = "1";
+    String DECREASE_CODE = "0";
+
     String ORDER_NAME = "Dipesan";
     String GOING_NAME = "Sedang Dibuat";
     String FINISH_NAME = "Sudah Selesai";

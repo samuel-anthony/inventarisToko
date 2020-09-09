@@ -109,4 +109,7 @@
     <string name="staple_store_name">Toko Bahan Pokok</string>
     <string name="staple_price">1</string>
     <string name="staple_amount">1</string>
+    <string name="staple_detail_amount">1</string>
+    <string name="staple_detail_price">1</string>
+    <string name="staple_detail_date">01 - 01 - 2001</string>
 </resources>

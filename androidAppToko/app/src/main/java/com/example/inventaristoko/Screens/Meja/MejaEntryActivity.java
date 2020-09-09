@@ -99,10 +99,10 @@ public class MejaEntryActivity extends AppCompatActivity {
                         CommonUtils.showLoading(MejaEntryActivity.this);
                         VolleyAPI volleyAPI = new VolleyAPI(MejaEntryActivity.this);
                         Map<String, String> params = new HashMap<>();
-                        params.put("uesr_name", etMejaId.getText().toString());
+                        params.put("nama_meja", etMejaId.getText().toString());
 
                         if (screenState.equals(MyConstants.EDIT_MEJA)) {
-                            params.put("user_name_old", bundle.getString("userId"));
+                            params.put("nama_meja_old", bundle.getString("userId"));
                         }
 
                         if (screenState.equals(MyConstants.EDIT_MEJA)) {
@@ -120,7 +120,7 @@ public class MejaEntryActivity extends AppCompatActivity {
                                 }
                             });
                         } else if (screenState.equals(MyConstants.ADD_MEJA)) {
-                            volleyAPI.postRequest("registerMeja", params, new VolleyCallback() {
+                            volleyAPI.postRequest("register", params, new VolleyCallback() {
                                 @Override
                                 public void onSuccessResponse(String result) {
                                     try {

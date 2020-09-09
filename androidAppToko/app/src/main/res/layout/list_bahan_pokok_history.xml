@@ -24,20 +24,20 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvDetailId"
+                    android:id="@+id/tvBahanPokokDetailJumlah"
                     style="@style/TextAppearance.AppCompat.Title"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:text="@string/id"
-                    android:textSize="@dimen/text_large"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:text="@string/staple_detail_amount"
+                    android:textSize="@dimen/text_extra_large"
                     android:gravity="center"
                     android:textColor="@color/colorWhite"
-                    android:background="@drawable/button_primary"/>
+                    android:background="@drawable/ic_circle_success_background"/>
             </LinearLayout>
 
             <LinearLayout
@@ -47,50 +47,31 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvBahanPokokDetailNama"
+                    android:id="@+id/tvBahanPokokDetailNamaToko"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
-                    android:padding="@dimen/_8dp"
-                    android:text="@string/staple_name"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvBahanPokokDetailNamaToko"
-                    style="@style/TextAppearance.AppCompat.Body1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8dp"
-                    android:padding="@dimen/_8dp"
+                    android:padding="@dimen/_4dp"
                     android:text="@string/staple_store_name"
                     android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvBahanPokokDetailJumlah"
-                    style="@style/TextAppearance.AppCompat.Body1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8dp"
-                    android:padding="@dimen/_8dp"
-                    android:text="@string/staple_amount"
-                    android:textStyle="bold" />
-
                 <TextView
                     android:id="@+id/tvBahanPokokDetailHarga"
+                    style="@style/TextAppearance.AppCompat.Subhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:padding="@dimen/_4dp"
+                    android:text="@string/staple_detail_price"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvBahanPokokDetailTanggal"
                     style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
-                    android:padding="@dimen/_8dp"
-                    android:text="@string/staple_price"
+                    android:padding="@dimen/_4dp"
+                    android:text="@string/staple_detail_date"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

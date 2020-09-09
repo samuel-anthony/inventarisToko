@@ -81,36 +81,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="@dimen/_8dp"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/buttonDelete"
-            android:paddingRight="50dp"
-            android:paddingLeft="50dp"
-            android:background="@drawable/button_danger"
-            android:text="@string/button_delete"
-            android:textColor="@drawable/button_danger_text"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_margin="@dimen/_12dp"/>
-
-        <Button
-            android:id="@+id/buttonEdit"
-            android:paddingRight="50dp"
-            android:paddingLeft="50dp"
-            android:background="@drawable/button_secondary"
-            android:text="@string/button_edit"
-            android:textColor="@drawable/button_secondary_text"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_margin="@dimen/_12dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="@dimen/_8dp"
         android:gravity="center">
@@ -132,8 +102,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tvRiwayatBahanPokok"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Riwayat Pembelian Bahan Pokok"
+            android:layout_marginVertical="@dimen/_12dp"
+            android:layout_marginStart="@dimen/_12dp"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBahanPokokDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin" />
+
+        <ListView
+            android:id="@+id/lvMakananBahanPokok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin" />

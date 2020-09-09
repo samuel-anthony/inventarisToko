@@ -19,7 +19,7 @@ import java.util.Map;
 public class VolleyAPI {
 
     private static final String TAG = VolleyAPI.class.getName();
-    private String ip = "http://192.168.43.232:8000/";
+    private String ip = "http://192.168.43.173:8000/";
     private String URL = ip+"api/";
 
     private RequestQueue mRequestQueue;
