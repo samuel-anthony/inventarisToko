@@ -19,8 +19,8 @@ import java.util.Map;
 public class VolleyAPI {
 
     private static final String TAG = VolleyAPI.class.getName();
-    private String ip = "http://192.168.43.173:8000/";
-    private String URL = ip+"api/";
+    private String ip = "http://0.0.0.0:8000/";
+    private String URL = ip + "api/";
 
     private RequestQueue mRequestQueue;
     private StringRequest mStringRequest;
@@ -30,7 +30,6 @@ public class VolleyAPI {
         this.context = context;
         mRequestQueue = Volley.newRequestQueue(context);
     }
-
 
     public void getRequest(String service,Map<String, String> params,final VolleyCallback callback){
         String urlGET = URL+service+"?";

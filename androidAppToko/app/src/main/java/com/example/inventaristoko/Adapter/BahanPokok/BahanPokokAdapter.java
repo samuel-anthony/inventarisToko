@@ -46,7 +46,7 @@ public class BahanPokokAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             default:
                 return new BahanPokokAdapter.EmptyViewHolder(
                         LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.item_empty_view, parent, false));
+                                .inflate(R.layout.list_kosong, parent, false));
         }
     }
 
@@ -132,15 +132,13 @@ public class BahanPokokAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class EmptyViewHolder extends BaseViewHolder {
-        @BindView(R.id.tv_message)
-        TextView messageTextView;
-        @BindView(R.id.buttonRetry)
-        TextView buttonRetry;
+        @BindView(R.id.btnCobaUlang)
+        TextView btnCobaUlang;
 
         EmptyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            buttonRetry.setOnClickListener(v -> mCallback.onEmptyViewRetryClick());
+            btnCobaUlang.setOnClickListener(v -> mCallback.onEmptyViewRetryClick());
         }
 
         @Override

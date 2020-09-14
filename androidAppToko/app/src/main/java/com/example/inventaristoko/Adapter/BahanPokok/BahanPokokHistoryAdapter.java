@@ -1,8 +1,5 @@
 package com.example.inventaristoko.Adapter.BahanPokok;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +7,6 @@ import android.widget.TextView;
 
 import com.example.inventaristoko.Model.BahanPokok.BahanPokokHistory;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.BahanPokok.BahanPokokDetailActivity;
 import com.example.inventaristoko.Utils.BaseViewHolder;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
@@ -48,7 +44,7 @@ public class BahanPokokHistoryAdapter extends RecyclerView.Adapter<BaseViewHolde
             default:
                 return new BahanPokokHistoryAdapter.EmptyViewHolder(
                         LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.item_empty_view, parent, false));
+                                .inflate(R.layout.list_kosong, parent, false));
         }
     }
 
@@ -129,15 +125,13 @@ public class BahanPokokHistoryAdapter extends RecyclerView.Adapter<BaseViewHolde
     }
 
     public class EmptyViewHolder extends BaseViewHolder {
-        @BindView(R.id.tv_message)
-        TextView messageTextView;
-        @BindView(R.id.buttonRetry)
-        TextView buttonRetry;
+        @BindView(R.id.btnCobaUlang)
+        TextView btnCobaUlang;
 
         EmptyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            buttonRetry.setOnClickListener(v -> mCallback.onEmptyViewRetryClick());
+            btnCobaUlang.setOnClickListener(v -> mCallback.onEmptyViewRetryClick());
         }
 
         @Override

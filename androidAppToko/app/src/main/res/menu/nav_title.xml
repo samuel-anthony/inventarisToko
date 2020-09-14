@@ -10,8 +10,8 @@
 
     <group android:checkableBehavior="none">
         <item
-            android:id="@string/menu_category"
-            android:title="@string/menu_category" />
+            android:id="@string/menu_kategori"
+            android:title="@string/menu_kategori" />
         <item
             android:id="@string/menu_food"
             android:title="@string/menu_food" />

@@ -17,7 +17,6 @@ import com.google.zxing.integration.android.IntentResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 public class FrontActivity extends AppCompatActivity implements View.OnClickListener {
     private Button buttonGuest, buttonAdmin;
     private TextView textViewNama;

@@ -15,6 +15,7 @@ import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.BahanPokok.BahanPokokActivity;
 import com.example.inventaristoko.Screens.Front.FrontActivity;
+import com.example.inventaristoko.Screens.Kategori.KategoriActivity;
 import com.example.inventaristoko.Screens.Meja.MejaActivity;
 import com.example.inventaristoko.Screens.Pengguna.PenggunaActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
@@ -132,8 +133,9 @@ public class PenjualanActivity extends AppCompatActivity {
                 }
             });
             builder.show();
-        } else if (item.getItemId() == R.string.menu_category) {
-            Toast.makeText(getApplicationContext(), "Kategori", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.string.menu_kategori) {
+            Intent myIntent = new Intent(getApplicationContext(), KategoriActivity.class);
+            startActivityForResult(myIntent, 0);
         } else if (item.getItemId() == R.string.menu_food) {
             Toast.makeText(getApplicationContext(), "Makanan", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.string.menu_user) {

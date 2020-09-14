@@ -52,13 +52,25 @@
             android:parentActivityName=".Screens.Meja.MejaActivity" />
         <activity
             android:name=".Screens.BahanPokok.BahanPokokActivity"
-            android:parentActivityName=".Screens.Penjualan.PenjualanActivity"/>
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
         <activity
             android:name=".Screens.BahanPokok.BahanPokokDetailActivity"
-            android:parentActivityName=".Screens.BahanPokok.BahanPokokActivity"/>
+            android:parentActivityName=".Screens.BahanPokok.BahanPokokActivity" />
         <activity
             android:name=".Screens.BahanPokok.BahanPokokEntryActivity"
-            android:parentActivityName=".Screens.BahanPokok.BahanPokokActivity"/>
+            android:parentActivityName=".Screens.BahanPokok.BahanPokokActivity" />
+        <activity
+            android:name=".Screens.Kategori.KategoriActivity"
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
+        <activity
+            android:name=".Screens.Kategori.KategoriDetailActivity"
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
+        <activity
+            android:name=".Screens.Makanan.MakananActivity"
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
+        <activity
+            android:name=".Screens.Makanan.MakananDetailActivity"
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

@@ -15,6 +15,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_logout">Logout</string>
     <string name="admin">Admin</string>
+    <string name="label_list_kosong">Tidak ada data disini, coba lagi.</string>
 
     <!--Title Bar-->
     <string name="label_detil_pesanan">Detil Pesanan</string>
@@ -28,16 +29,24 @@
     <string name="label_data_bahan_pokok">Data Bahan Pokok</string>
     <string name="label_detil_bahan_pokok">Detil Bahan Pokok</string>
     <string name="label_edit_bahan_pokok">Ubah Bahan Pokok</string>
-    <string name="label_add_bahan_pokok">Tambah Bahan Pokok</string>
+    <string name="menu_detail_kategori">Detail Kategori</string>
+    <string name="menu_add_kategori">Add Kategori</string>
+    <string name="menu_ubah_kategori">Ubah Kategori</string>
 
     <!--Menu DONE-->
-    <string name="menu_category">Data Kategori</string>
+    <string name="menu_kategori">Data Kategori</string>
+    <string name="menu_makanan">Data Makanan</string>
     <string name="menu_food">Data Makanan</string>
     <string name="menu_user">Data Pengguna</string>
     <string name="menu_staple">Data Bahan Pokok</string>
     <string name="menu_table">Data Meja</string>
 
     <!--Button DONE-->
+    <string name="tombol_tambah">Tambah</string>
+    <string name="tombol_coba_ulang">Coba Ulang</string>
+    <string name="tombol_hapus">Hapus</string>
+    <string name="tombol_ubah">Ubah</string>
+
     <string name="button_guest">Masuk Sebagai Pelanggan</string>
     <string name="button_admin">Masuk Sebagai Admin</string>
     <string name="button_login">Masuk</string>
@@ -49,6 +58,16 @@
     <string name="button_submit">Kirim</string>
     <string name="button_generate">Generate QR Code</string>
     <string name="button_add_detail">Tambah Detil</string>
+
+    <!--Data Kategori-->
+    <string name="label_id">1</string>
+    <string name="label_nama_kategori">Nama Kategori</string>
+    <string name="label_id_kategori">Id Kategori</string>
+    <string name="label_value_nama_kategori">Value Nama Kategori</string>
+    <string name="label_value_id_kategori">Value Id Kategori</string>
+
+    <string name="label_nama_makanan">Nama Makanan</string>
+    <string name="label_harga_makanan">Harga Makanan</string>
 
     <!--Data Penjualan DONE-->
     <string name="order_no">1</string>

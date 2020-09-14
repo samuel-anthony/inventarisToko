@@ -16,12 +16,15 @@ public interface MyConstants {
     int GOING_COLOR = 0xFF409AE1;
     int FINISH_COLOR = 0xFF40C5AF;
 
-    String EDIT_PENGGUNA = "Ubah Pengguna";
     String ADD_PENGGUNA = "Tambah Pengguna";
+    String EDIT_PENGGUNA = "Ubah Pengguna";
 
-    String EDIT_MEJA = "Edit Meja";
     String ADD_MEJA = "Tambah Meja";
+    String EDIT_MEJA = "Edit Meja";
 
-    String EDIT_BAHAN_POKOK = "Edit Bahan Pokok";
     String ADD_BAHAN_POKOK = "Tambah Bahan Pokok";
+    String EDIT_BAHAN_POKOK = "Edit Bahan Pokok";
+
+    String TAMBAH_KATEGORI = "Tambahn Kategori";
+    String UBAH_KATEGORI = "Ubah Kategori";
 }

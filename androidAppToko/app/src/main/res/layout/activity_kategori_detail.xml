@@ -9,7 +9,7 @@
     tools:context=".Screens.Pengguna.PenggunaDetailActivity">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/cvDataKategori"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -32,22 +32,22 @@
                 android:layout_marginHorizontal="@dimen/_8dp">
 
                 <TextView
-                    android:id="@+id/labelBahanPokokNama"
+                    android:id="@+id/tvNamaKategori"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_bahan_pokok_nama"/>
+                    android:text="@string/label_nama_kategori"/>
 
                 <TextView
-                    android:id="@+id/labelValueBahanPokokNama"
+                    android:id="@+id/tvValueNamaKategori"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_value_bahan_pokok_nama"/>
+                    android:text="@string/label_value_nama_kategori"/>
             </LinearLayout>
 
             <LinearLayout
@@ -58,22 +58,22 @@
                 android:layout_marginHorizontal="@dimen/_8dp">
 
                 <TextView
-                    android:id="@+id/labelBahanPokokSatuan"
+                    android:id="@+id/tvIdKategori"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_bahan_pokok_satuan"/>
+                    android:text="@string/label_id_kategori"/>
 
                 <TextView
-                    android:id="@+id/labelValueBahanPokokSatuan"
+                    android:id="@+id/tvValueIdKategori"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_value_bahan_pokok_satuan"/>
+                    android:text="@string/label_value_id_kategori"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -81,20 +81,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_margin="@dimen/_8dp"
         android:gravity="center">
 
         <Button
-            android:id="@+id/buttonAddDetail"
+            android:id="@+id/btnHapusKategori"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
-            android:background="@drawable/button_primary"
-            android:text="@string/button_add_detail"
-            android:textColor="@drawable/button_primary_text"
+            android:background="@drawable/button_danger"
+            android:text="@string/tombol_tambah"
+            android:textColor="@drawable/button_danger_text"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_margin="@dimen/_4dp"/>
+            android:layout_margin="@dimen/_12dp"/>
+
+        <Button
+            android:id="@+id/btnUbahKategori"
+            android:paddingRight="50dp"
+            android:paddingLeft="50dp"
+            android:background="@drawable/button_secondary"
+            android:text="@string/tombol_ubah"
+            android:textColor="@drawable/button_secondary_text"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/_12dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -103,31 +114,16 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvRiwayatBahanPokok"
+            android:id="@+id/tvDataMakanan"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Riwayat Pembelian Bahan Pokok"
+            android:text="@string/menu_makanan"
             android:layout_marginVertical="@dimen/_12dp"
             android:layout_marginStart="@dimen/_12dp"/>
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvBahanPokokDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/activity_horizontal_margin" />
-
-        <TextView
-            android:id="@+id/tvRiwayatMakananBahanPokok"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Riwayat Makanan Bahan Pokok"
-            android:layout_marginVertical="@dimen/_12dp"
-            android:layout_marginStart="@dimen/_12dp"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvBahanPokokMakanan"
+            android:id="@+id/rvKategoriDetailMakanan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin" />

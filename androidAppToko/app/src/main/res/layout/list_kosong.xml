@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_message"
+        android:id="@+id/tvPesanListKosong"
         style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="@string/empty_screen"
+        android:text="@string/label_list_kosong"
         android:textColor="@color/colorSecondaryText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,15 +24,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonRetry"
+        android:id="@+id/btnCobaUlang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="50dp"
         android:layout_margin="@dimen/_12dp"
         android:background="@drawable/button_secondary"
-        android:text="@string/btn_retry"
+        android:text="@string/tombol_coba_ulang"
         android:textColor="@drawable/button_secondary_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_message" />
+        app:layout_constraintTop_toBottomOf="@+id/tvPesanListKosong" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,46 +1,40 @@
-package com.example.inventaristoko.Adapter.Meja;
+package com.example.inventaristoko.Adapter.Makanan;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.inventaristoko.Model.Meja.Meja;
+import com.example.inventaristoko.Model.Makanan.Makanan;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.Meja.MejaDetailActivity;
+import com.example.inventaristoko.Screens.Makanan.MakananDetailActivity;
 import com.example.inventaristoko.Utils.BaseViewHolder;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.example.inventaristoko.Utils.CommonUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MejaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
-    private static final String TAG = "MejaAdapter";
+public class MakananAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+    private static final String TAG = "MakananAdapter";
     private static final int VIEW_TYPE_EMPTY = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
 
-    private MejaAdapter.Callback mCallback;
-    private List<Meja> mMejaList;
+    private MakananAdapter.Callback mCallback;
+    private List<Makanan> mMakananList;
 
-    public MejaAdapter(List<Meja> mejaList) {
-        mMejaList = mejaList;
+    public MakananAdapter(List<Makanan> makananList) {
+        mMakananList = makananList;
     }
 
-    public void setCallback(MejaAdapter.Callback callback) {
+    public void setCallback(MakananAdapter.Callback callback) {
         mCallback = callback;
     }
 
@@ -48,11 +42,11 @@ public class MejaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
-                return new MejaAdapter.ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.list_meja, parent, false));
+                return new MakananAdapter.ViewHolder(
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.list_makanan, parent, false));
             case VIEW_TYPE_EMPTY:
             default:
-                return new MejaAdapter.EmptyViewHolder(
+                return new MakananAdapter.EmptyViewHolder(
                         LayoutInflater.from(parent.getContext())
                                 .inflate(R.layout.list_kosong, parent, false));
         }
@@ -60,7 +54,7 @@ public class MejaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (mMejaList != null && mMejaList.size() > 0) {
+        if (mMakananList != null && mMakananList.size() > 0) {
             return VIEW_TYPE_NORMAL;
         } else {
             return VIEW_TYPE_EMPTY;
@@ -74,15 +68,15 @@ public class MejaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public int getItemCount() {
-        if (mMejaList != null && mMejaList.size() > 0) {
-            return mMejaList.size();
+        if (mMakananList != null && mMakananList.size() > 0) {
+            return mMakananList.size();
         } else {
             return 1;
         }
     }
 
-    public void addItems(List<Meja> kategoriList) {
-        mMejaList.addAll(kategoriList);
+    public void addItems(List<Makanan> makananList) {
+        mMakananList.addAll(makananList);
         notifyDataSetChanged();
     }
 
@@ -91,11 +85,14 @@ public class MejaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class ViewHolder extends BaseViewHolder {
-        @BindView(R.id.tvTableId)
-        TextView tvTableId;
+        @BindView(R.id.tvId)
+        TextView tvId;
 
-        @BindView(R.id.ivQrCode)
-        ImageView ivQrCode;
+        @BindView(R.id.tvNamaMakanan)
+        TextView tvNamaMakanan;
+
+        @BindView(R.id.tvHargaMakanan)
+        TextView tvHargaMakanan;
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -103,38 +100,28 @@ public class MejaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
         protected void clear() {
-            tvTableId.setText("");
-            ivQrCode.setImageBitmap(null);
+            tvId.setText("");
+            tvNamaMakanan.setText("");
+            tvHargaMakanan.setText("");
         }
 
         public void onBind(int position) {
             super.onBind(position);
 
-            final Meja mMeja = mMejaList.get(position);
+            final Makanan mMakanan = mMakananList.get(position);
 
-            tvTableId.setText(mMeja.getUserId());
-
-            String text = tvTableId.getText().toString();
-            MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-            try {
-                BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,100,100);
-                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-                ivQrCode.setImageBitmap(bitmap);
-            } catch (WriterException e) {
-                e.printStackTrace();
-            }
+            tvId.setText(mMakanan.getId());
+            tvNamaMakanan.setText(mMakanan.getNamaMakanan());
+            tvHargaMakanan.setText(CommonUtils.currencyFormat(mMakanan.getHargaMakanan()));
 
             itemView.setOnClickListener(v -> {
-                if (mMeja.getUserId() != null) {
+                if (mMakanan.getIdMakanan() != null) {
                     try {
-                        Intent intent = new Intent (v.getContext(), MejaDetailActivity.class);
+                        Intent intent = new Intent (v.getContext(), MakananDetailActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("id", mMeja.getId());
-                        bundle.putString("userId", mMeja.getUserId());
-                        bundle.putString("userRole", mMeja.getUserRole());
-                        bundle.putString("createdAt", mMeja.getCreatedAt());
-                        bundle.putString("updatedAt", mMeja.getUpdatedAt());
+                        bundle.putString("idMakanan", mMakanan.getIdMakanan());
+                        bundle.putString("namaMakanan", mMakanan.getNamaMakanan());
+                        bundle.putString("hargaMakanan", mMakanan.getHargaMakanan());
                         intent.putExtras(bundle);
                         v.getContext().startActivity(intent);
                     } catch (Exception e) {

@@ -6,7 +6,7 @@
     android:background="@color/colorIcons">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/cvDataMakanan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -29,15 +29,15 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvBahanPokokId"
+                    android:id="@+id/tvId"
                     style="@style/TextAppearance.AppCompat.Title"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:text="@string/staple_detail_amount"
-                    android:textSize="@dimen/text_extra_large"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="@string/label_id"
+                    android:textSize="@dimen/text_large"
                     android:gravity="center"
                     android:textColor="@color/colorWhite"
-                    android:background="@drawable/ic_circle_success_background"/>
+                    android:background="@drawable/button_primary"/>
             </LinearLayout>
 
             <LinearLayout
@@ -47,31 +47,23 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvBahanPokokNamaMakanan"
+                    android:id="@+id/tvNamaMakanan"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
-                    android:padding="@dimen/_4dp"
-                    android:text="@string/staple_store_name"
+                    android:padding="@dimen/_8dp"
+                    android:text="@string/label_nama_makanan"
                     android:textStyle="bold" />
+
                 <TextView
-                    android:id="@+id/tvBahanPokokIdMakanan"
-                    style="@style/TextAppearance.AppCompat.Subhead"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8dp"
-                    android:padding="@dimen/_4dp"
-                    android:text="@string/staple_detail_price"
-                    android:textStyle="bold" />
-                <TextView
-                    android:id="@+id/tvBahanPokokTanggalMakanan"
+                    android:id="@+id/tvHargaMakanan"
                     style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
-                    android:padding="@dimen/_4dp"
-                    android:text="@string/staple_detail_date"
+                    android:padding="@dimen/_8dp"
+                    android:text="@string/label_harga_makanan"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navDataKategori"
-            android:title="@string/menu_category" />
+            android:title="@string/menu_kategori" />
         <item
             android:id="@+id/navDataMakanan"
             android:title="@string/menu_food" />
