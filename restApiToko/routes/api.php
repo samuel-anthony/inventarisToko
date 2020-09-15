@@ -28,6 +28,7 @@ Route::get('getSemuaDataMeja','UserController@getAllCustomerUser');
 Route::get('getSemuaAdminUser','UserController@getAllAdminUser');
 Route::get('getSemuaBahanPokok','BahanPokokController@index');
 Route::get('getSemuaMakanan','MakananController@index');
+Route::get('getBahanPokokDetailHistory','BahanPokokController@showBahanPokokDetail');
 
 Route::post('testApi','UserController@testApi');
 Route::post('register','UserController@register');

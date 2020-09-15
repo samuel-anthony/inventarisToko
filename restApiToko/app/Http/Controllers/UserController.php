@@ -13,7 +13,7 @@ class UserController extends Controller
     public function register(request $request){
         
         $user = new User;
-        $user->user_id = $request->user_id;
+        $user->user_id = $request->nama_meja;
         $user->password = $request->user_role == '1'? 'udin123' : $request->password;
         $user->password = bcrypt($user->password);
         $user->user_role = 1;
@@ -68,8 +68,8 @@ class UserController extends Controller
     }
 
     public function updateUser(request $request){
-        $user = User::whereUserId($request->user_name_old)->first();
-        $user->user_id = $request->user_name;
+        $user = User::whereUserId($request->nama_meja_old)->first();
+        $user->user_id = $request->nama_meja;
         $user->save();
         return json_encode([
             'is_error' => '0',

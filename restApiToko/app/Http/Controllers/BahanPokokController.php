@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\bahanPokok;
 use App\riwayatBahanPokok;
 use App\supplier;
+use App\makanan;
+use DateTime;
+
 class BahanPokokController extends Controller
 {
     //
@@ -47,5 +50,34 @@ class BahanPokokController extends Controller
             'is_error' => '0',
             'message' => 'berhasil'
         ]);
+    }
+
+    public function showBahanPokokDetail(request $request){
+        $bahanPokok = bahanPokok::find($request->bahan_pokok_id);
+        $arr = array();
+        foreach($bahanPokok->makananDetails as $detail){
+            $makanan = $detail->makananMaster;            
+            array_push($arr,$makanan);
+        }
+        $bahanPokok->makanan = json_decode(json_encode($arr));
+        $arr = array();
+        $counter = 0;
+        $riwayats = riwayatBahanPokok::whereBahanPokokId($bahanPokok->bahan_pokok_id)->orderBy('created_at','DESC')->take(3)->get();
+        foreach($riwayats as $detail){            
+            $date = date_create($detail->created_at);
+            $detail->created_at = date_format($date, 'Y-m-d');
+            if(!is_null($detail->supplier_id)){
+                $supplier = supplier::find($detail->supplier_id);
+                $detail->nama_toko = $supplier->nama;
+            }
+            else{
+                $detail->nama_toko = "pengambilan tanggal ".date_format($date, 'Y-m-d');
+            }
+            array_push($arr,$detail);
+            $counter++;
+            if($counter>2)break;
+        }
+        $bahanPokok->riwayats = $arr;
+        return json_encode(['result'=>$bahanPokok]);
     }
 }
