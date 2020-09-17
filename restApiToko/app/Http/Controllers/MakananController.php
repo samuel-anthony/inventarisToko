@@ -12,6 +12,18 @@ class MakananController extends Controller
     public function index(){
         return json_encode(['result'=>makanan::all()]);
     }
+
+    public function makananByDetail(request $request){
+        $makanan = makanan::find($request->makanan_id);
+        $temp = array();
+        foreach($makanan->makananDetails as $detail){
+            $bahanPokok = $detail->bahanPokok;
+            $bahanPokok->jumlah = $detail->jumlah;
+            array_push($temp,$bahanPokok);
+        }
+        $makanan->bahanPokoks = $temp;
+        return json_encode(['result'=>$makanan]);
+    }
     
     public function addNewMakanan(request $request){
         $makanan = new makanan;
