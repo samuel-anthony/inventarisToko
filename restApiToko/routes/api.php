@@ -43,3 +43,5 @@ Route::put('updateAdminUser','UserController@updateAdminUser');
 Route::put('deleteAdmin','UserController@deleteAdmin');
 Route::put('updateUser','UserController@updateUser');
 Route::put('deleteUser','UserController@deleteUser');
+Route::put('updateMakanan','MakananController@editMakanan');
+Route::put('deleteMakanan','MakananController@deleteMakanan');

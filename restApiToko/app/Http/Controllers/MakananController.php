@@ -32,4 +32,39 @@ class MakananController extends Controller
             'message' => 'berhasil'
         ]);
     }
+
+    public function editMakanan(request $request){
+        $makanan =  makanan::find($request->makanan_id);
+        $makanan->nama = $request->nama_makanan;
+        $makanan->harga_jual = $request->harga_jual;
+        $makanan->gambar_makanan = $request->gambar_makanan;
+        $makanan->save();
+        $bahanMakanan = json_decode($request->bahanMakanan);
+        foreach($bahanMakanan as $detail){
+            $makananDetail =null;
+            if(!is_null($detail->makanan_detail_id))
+            $makananDetail = makananDetail::find($detail->makanan_detail_id);
+            else
+            $makananDetail = new makananDetail;
+            $makananDetail->jumlah = $detail->jumlah;
+            $makananDetail->bahan_pokok_id = $detail->bahan_pokok_id;
+            $makananDetail->save();
+        }
+        return json_encode([
+            'is_error' => '0',
+            'message' => 'berhasil'
+        ]);
+    }
+
+    public function deleteMakanan(request $request){
+        $makanan =  makanan::find($request->makanan_id);
+        foreach($makanan->makananDetails as $detail){
+            $detail->delete();
+        }
+        $makanan->delete();
+        return json_encode([
+            'is_error' => '0',
+            'message' => 'berhasil'
+        ]);
+    }
 }
