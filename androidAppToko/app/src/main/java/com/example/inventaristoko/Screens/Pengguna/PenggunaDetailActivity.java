@@ -24,33 +24,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PenggunaDetailActivity extends AppCompatActivity {
-    private Button btnDelete, btnEdit;
-    private TextView tvFullName, tvUserName, tvEmail, tvPhone, tvBirth;
+    private Button btnHapusPengguna, btnUbahPengguna;
+    private TextView tvNamaPengguna, tvUsernamePengguna, tvEmailPengguna, tvNomorTeleponPengguna, tvTanggalLahirPengguna;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pengguna_detail);
 
-        getSupportActionBar().setTitle(R.string.label_detil_pengguna);
+        getSupportActionBar().setTitle(R.string.menu_detail_pengguna);
 
-        tvFullName = findViewById(R.id.labelValueFullName);
-        tvUserName = findViewById(R.id.labelValueUserName);
-        tvEmail = findViewById(R.id.labelValueEmail);
-        tvPhone = findViewById(R.id.labelValuePhone);
-        tvBirth = findViewById(R.id.labelValueBirth);
+        tvNamaPengguna = findViewById(R.id.tvValueNamaPengguna);
+        tvUsernamePengguna = findViewById(R.id.tvValueUsernamePengguna);
+        tvEmailPengguna = findViewById(R.id.tvValueEmailPengguna);
+        tvNomorTeleponPengguna = findViewById(R.id.tvValueNomorTeleponPengguna);
+        tvTanggalLahirPengguna = findViewById(R.id.tvValueTanggalLahirPengguna);
 
-        btnDelete = findViewById(R.id.buttonDelete);
-        btnEdit = findViewById(R.id.buttonEdit);
+        btnHapusPengguna = findViewById(R.id.btnHapusPengguna);
+        btnUbahPengguna = findViewById(R.id.btnUbahPengguna);
 
         Bundle bundle = getIntent().getExtras();
-        tvFullName.setText(bundle.getString("fullName"));
-        tvUserName.setText(bundle.getString("userName"));
-        tvEmail.setText(bundle.getString("email"));
-        tvPhone.setText(bundle.getString("phoneNumber"));
-        tvBirth.setText(bundle.getString("birthDate"));
+        tvNamaPengguna.setText(bundle.getString("namaPengguna"));
+        tvUsernamePengguna.setText(bundle.getString("usernamePengguna"));
+        tvEmailPengguna.setText(bundle.getString("emailPengguna"));
+        tvNomorTeleponPengguna.setText(bundle.getString("nomorTeleponPengguna"));
+        tvTanggalLahirPengguna.setText(bundle.getString("tanggalLahirPengguna"));
 
-        btnDelete.setOnClickListener(new View.OnClickListener() {
+        btnHapusPengguna.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(PenggunaDetailActivity.this);
@@ -62,7 +62,7 @@ public class PenggunaDetailActivity extends AppCompatActivity {
                         CommonUtils.showLoading(PenggunaDetailActivity.this);
                         VolleyAPI volleyAPI = new VolleyAPI(PenggunaDetailActivity.this);
                         Map<String, String> params = new HashMap<>();
-                        params.put("user_name", tvUserName.getText().toString());
+                        params.put("user_name", tvUsernamePengguna.getText().toString());
 
                         volleyAPI.putRequest("deleteAdmin", params, new VolleyCallback() {
                             @Override
@@ -88,17 +88,17 @@ public class PenggunaDetailActivity extends AppCompatActivity {
             }
         });
 
-        btnEdit.setOnClickListener(new View.OnClickListener() {
+        btnUbahPengguna.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (v.getContext(), PenggunaEntryActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("screenState", MyConstants.EDIT_PENGGUNA);
-                bundle.putString("fullName", tvFullName.getText().toString());
-                bundle.putString("userName", tvUserName.getText().toString());
-                bundle.putString("email", tvEmail.getText().toString());
-                bundle.putString("phoneNumber", tvPhone.getText().toString());
-                bundle.putString("birthDate", tvBirth.getText().toString());
+                bundle.putString("screenState", MyConstants.UBAH_PENGGUNA);
+                bundle.putString("namaPengguna", tvNamaPengguna.getText().toString());
+                bundle.putString("usernamePengguna", tvUsernamePengguna.getText().toString());
+                bundle.putString("emailPengguna", tvEmailPengguna.getText().toString());
+                bundle.putString("nomorTeleponPengguna", tvNomorTeleponPengguna.getText().toString());
+                bundle.putString("tanggalLahirPengguna", tvTanggalLahirPengguna.getText().toString());
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }

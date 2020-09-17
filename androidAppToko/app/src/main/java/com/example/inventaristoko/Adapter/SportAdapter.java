@@ -88,10 +88,10 @@ public class SportAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 //        @BindView(R.id.thumbnail)
 //        ImageView coverImageView;
 
-        @BindView(R.id.tvRefNo)
+        @BindView(R.id.tvId)
         TextView titleTextView;
 
-        @BindView(R.id.tvStatus)
+        @BindView(R.id.tvStatusPenjualan)
         TextView newsTextView;
 //
 //        @BindView(R.id.newsInfo)

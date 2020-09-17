@@ -11,7 +11,7 @@
     android:focusableInTouchMode="true" >
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/cvDataMejaEntry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -33,16 +33,45 @@
                 android:layout_margin="@dimen/_4dp">
 
                 <TextView
-                    android:id="@+id/labelNamaMeja"
+                    android:id="@+id/tvIdMeja"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
                     android:layout_marginVertical="@dimen/_4dp"
-                    android:text="@string/label_nama_id"/>
+                    android:text="@string/label_id_meja"/>
 
                 <EditText
-                    android:id="@+id/inputMejaId"
+                    android:id="@+id/etIdMeja"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/input_primary"
+                    android:paddingStart="20dp"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:maxLength="50"
+                    android:textColor="#000"
+                    android:textSize="17sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/_4dp">
+
+                <TextView
+                    android:id="@+id/tvNamaMeja"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:padding="@dimen/_4dp"
+                    android:layout_marginVertical="@dimen/_4dp"
+                    android:text="@string/label_nama_meja"/>
+
+                <EditText
+                    android:id="@+id/etNamaMeja"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/input_primary"
@@ -64,11 +93,11 @@
                 android:layout_marginHorizontal="@dimen/_8dp">
 
                 <Button
-                    android:id="@+id/buttonGenerate"
+                    android:id="@+id/btnGenerate"
                     android:paddingRight="50dp"
                     android:paddingLeft="50dp"
                     android:background="@drawable/button_secondary"
-                    android:text="@string/button_generate"
+                    android:text="@string/tombol_generate"
                     android:textColor="@drawable/button_secondary_text"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
@@ -94,11 +123,11 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/buttonSubmit"
+            android:id="@+id/btnKirim"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:background="@drawable/button_success"
-            android:text="@string/button_submit"
+            android:text="@string/tombol_kirim"
             android:textColor="@drawable/button_success_text"
             android:layout_width="wrap_content"
             android:layout_height="50dp"

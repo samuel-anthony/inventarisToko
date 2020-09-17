@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Screens.Front.FrontActivity">
+    tools:context=".Screens.Front.HomeActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -29,32 +29,31 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvNamaToko"
             android:layout_margin="?actionBarSize"
             android:textStyle="bold"
             android:textSize="25sp"
             android:textColor="#fff"
-            android:text="@string/logo_name"
+            android:text="@string/nama_toko"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
         <Button
-            android:id="@+id/buttonGuest"
+            android:id="@+id/btnPengunjung"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:layout_marginBottom="30dp"
             android:background="@drawable/button_secondary"
-            android:text="@string/button_guest"
+            android:text="@string/tombol_pengunjung"
             android:textColor="@drawable/button_secondary_text"
             android:layout_width="wrap_content"
             android:layout_height="50dp" />
-
         <Button
-            android:id="@+id/buttonAdmin"
+            android:id="@+id/btnAdmin"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:layout_marginBottom="30dp"
             android:background="@drawable/button_secondary"
-            android:text="@string/button_admin"
+            android:text="@string/tombol_admin"
             android:textColor="@drawable/button_secondary_text"
             android:layout_width="wrap_content"
             android:layout_height="50dp" />

@@ -9,7 +9,7 @@
     tools:context=".Screens.Pengguna.PenggunaDetailActivity">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/cvDataPenggunaDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -32,22 +32,21 @@
                 android:layout_marginHorizontal="@dimen/_8dp">
 
                 <TextView
-                    android:id="@+id/labelFullName"
+                    android:id="@+id/tvNamaPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_full_name"/>
-
+                    android:text="@string/label_nama_pengguna"/>
                 <TextView
-                    android:id="@+id/labelValueFullName"
+                    android:id="@+id/tvValueNamaPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_value_full_name"/>
+                    android:text="@string/label_nama_pengguna"/>
             </LinearLayout>
 
             <LinearLayout
@@ -58,22 +57,22 @@
                 android:layout_marginHorizontal="@dimen/_8dp">
 
                 <TextView
-                    android:id="@+id/labelUserName"
+                    android:id="@+id/tvUsernamePengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_user_name"/>
+                    android:text="@string/label_username_pengguna"/>
 
                 <TextView
-                    android:id="@+id/labelValueUserName"
+                    android:id="@+id/tvValueUsernamePengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_value_user_name"/>
+                    android:text="@string/label_username_pengguna"/>
             </LinearLayout>
 
             <LinearLayout
@@ -84,22 +83,22 @@
                 android:layout_marginHorizontal="@dimen/_8dp">
 
                 <TextView
-                    android:id="@+id/labelEmail"
+                    android:id="@+id/tvEmailPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_email"/>
+                    android:text="@string/label_email_pengguna"/>
 
                 <TextView
-                    android:id="@+id/labelValueEmail"
+                    android:id="@+id/tvValueEmailPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_value_email"/>
+                    android:text="@string/label_email_pengguna"/>
             </LinearLayout>
 
             <LinearLayout
@@ -110,22 +109,22 @@
                 android:layout_marginHorizontal="@dimen/_8dp">
 
                 <TextView
-                    android:id="@+id/labelPhone"
+                    android:id="@+id/tvNomorTeleponPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_phone"/>
+                    android:text="@string/label_nomor_telepon_pengguna"/>
 
                 <TextView
-                    android:id="@+id/labelValuePhone"
+                    android:id="@+id/tvValueNomorTeleponPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_value_phone"/>
+                    android:text="@string/label_nomor_telepon_pengguna"/>
             </LinearLayout>
 
             <LinearLayout
@@ -136,22 +135,22 @@
                 android:layout_marginHorizontal="@dimen/_8dp">
 
                 <TextView
-                    android:id="@+id/labelBirth"
+                    android:id="@+id/tvTanggalLahirPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_birth"/>
+                    android:text="@string/label_tanggal_lahir_pengguna"/>
 
                 <TextView
-                    android:id="@+id/labelValueBirth"
+                    android:id="@+id/tvValueTanggalLahirPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_value_birth"/>
+                    android:text="@string/label_tanggal_lahir_pengguna"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -164,22 +163,22 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/buttonDelete"
+            android:id="@+id/btnHapusPengguna"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:background="@drawable/button_danger"
-            android:text="@string/button_delete"
+            android:text="@string/tombol_hapus"
             android:textColor="@drawable/button_danger_text"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_margin="@dimen/_12dp"/>
 
         <Button
-            android:id="@+id/buttonEdit"
+            android:id="@+id/btnUbahPengguna"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:background="@drawable/button_secondary"
-            android:text="@string/button_edit"
+            android:text="@string/tombol_ubah"
             android:textColor="@drawable/button_secondary_text"
             android:layout_width="wrap_content"
             android:layout_height="50dp"

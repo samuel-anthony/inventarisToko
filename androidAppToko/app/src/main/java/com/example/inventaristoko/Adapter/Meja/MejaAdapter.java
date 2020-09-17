@@ -91,8 +91,11 @@ public class MejaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class ViewHolder extends BaseViewHolder {
-        @BindView(R.id.tvTableId)
-        TextView tvTableId;
+        @BindView(R.id.tvIdMeja)
+        TextView tvIdMeja;
+
+        @BindView(R.id.tvNamaMeja)
+        TextView tvNamaMeja;
 
         @BindView(R.id.ivQrCode)
         ImageView ivQrCode;
@@ -103,7 +106,8 @@ public class MejaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
         protected void clear() {
-            tvTableId.setText("");
+            tvIdMeja.setText("");
+            tvNamaMeja.setText("");
             ivQrCode.setImageBitmap(null);
         }
 
@@ -112,9 +116,10 @@ public class MejaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             final Meja mMeja = mMejaList.get(position);
 
-            tvTableId.setText(mMeja.getUserId());
+            tvNamaMeja.setText(mMeja.getNamaMeja());
+            tvIdMeja.setText(mMeja.getIdMeja());
 
-            String text = tvTableId.getText().toString();
+            String text = tvIdMeja.getText().toString();
             MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
             try {
                 BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,100,100);
@@ -126,15 +131,12 @@ public class MejaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
 
             itemView.setOnClickListener(v -> {
-                if (mMeja.getUserId() != null) {
+                if (mMeja.getIdMeja() != null) {
                     try {
                         Intent intent = new Intent (v.getContext(), MejaDetailActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("id", mMeja.getId());
-                        bundle.putString("userId", mMeja.getUserId());
-                        bundle.putString("userRole", mMeja.getUserRole());
-                        bundle.putString("createdAt", mMeja.getCreatedAt());
-                        bundle.putString("updatedAt", mMeja.getUpdatedAt());
+                        bundle.putString("idMeja", mMeja.getIdMeja());
+                        bundle.putString("namaMeja", mMeja.getNamaMeja());
                         intent.putExtras(bundle);
                         v.getContext().startActivity(intent);
                     } catch (Exception e) {

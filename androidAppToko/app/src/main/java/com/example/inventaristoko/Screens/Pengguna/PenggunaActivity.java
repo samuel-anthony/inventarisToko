@@ -32,16 +32,16 @@ import butterknife.ButterKnife;
 public class PenggunaActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private PenggunaAdapter mPenggunaAdapter;
-    private Button btnAdd;
+    private Button btnTambahPengguna;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pengguna);
 
-        getSupportActionBar().setTitle(R.string.label_data_pengguna);
+        getSupportActionBar().setTitle(R.string.menu_pengguna);
 
-        FloatingActionButton fab = findViewById(R.id.fabPengguna);
+        FloatingActionButton fab = findViewById(R.id.fabDataPengguna);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,19 +49,19 @@ public class PenggunaActivity extends AppCompatActivity {
             }
         });
 
-        btnAdd = findViewById(R.id.buttonAdd);
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        btnTambahPengguna = findViewById(R.id.btnTambahPengguna);
+        btnTambahPengguna.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (v.getContext(), PenggunaEntryActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("screenState", MyConstants.ADD_PENGGUNA);
+                bundle.putString("screenState", MyConstants.TAMBAH_PENGGUNA);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }
         });
 
-        mRecyclerView = findViewById(R.id.rvPengguna);
+        mRecyclerView = findViewById(R.id.rvDataPengguna);
         ButterKnife.bind(this);
         setUp();
     }
@@ -90,15 +90,14 @@ public class PenggunaActivity extends AppCompatActivity {
                     for(int i = 0 ; i < resultArray.length() ; i ++ ) {
                         JSONObject dataPengguna = (JSONObject) resultArray.get(i);
                         Pengguna pengguna = new Pengguna();
-                        pengguna.setUserNo(String.valueOf(i+1));
-                        pengguna.setFullName(dataPengguna.getString("full_name"));
-                        pengguna.setUserName(dataPengguna.getString("user_name"));
-                        pengguna.setEmail(dataPengguna.getString("email"));
-                        pengguna.setPhoneNumber(dataPengguna.getString("phone_number"));
-                        pengguna.setBirthDate(dataPengguna.getString("birth_date"));
-                        pengguna.setUserId(dataPengguna.getString("user_id"));
-                        pengguna.setCreatedAt(dataPengguna.getString("created_at"));
-                        pengguna.setUpdatedAt(dataPengguna.getString("updated_at"));
+                        pengguna.setId(String.valueOf(i+1));
+                        pengguna.setNamaPengguna(dataPengguna.getString("full_name"));
+                        pengguna.setUsernamePengguna(dataPengguna.getString("user_name"));
+                        pengguna.setEmailPengguna(dataPengguna.getString("email"));
+                        pengguna.setNomorTeleponPengguna(dataPengguna.getString("phone_number"));
+                        pengguna.setTanggalLahirPengguna(dataPengguna.getString("birth_date"));
+                        pengguna.setTanggalTambahPengguna(dataPengguna.getString("created_at"));
+                        pengguna.setTanggalUbahPengguna(dataPengguna.getString("updated_at"));
 
                         mPengguna.add(pengguna);
                     }

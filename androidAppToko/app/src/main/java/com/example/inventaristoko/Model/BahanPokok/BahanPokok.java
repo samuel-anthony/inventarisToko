@@ -2,12 +2,12 @@ package com.example.inventaristoko.Model.BahanPokok;
 
 public class BahanPokok {
     private String id;
-    private String stapleId;
-    private String stapleName;
-    private String stapleAmount;
-    private String stapleUnit;
-    private String stapleCreatedAt;
-    private String stapleUpdatedAt;
+    private String idBahanPokok;
+    private String namaBahanPokok;
+    private String jumlahBahanPokok;
+    private String satuanBahanPokok;
+    private String tanggalTambahBahanPokok;
+    private String tanggalUbahBahanPokok;
 
     public String getId() {
         return id;
@@ -17,51 +17,51 @@ public class BahanPokok {
         this.id = id;
     }
 
-    public String getStapleId() {
-        return stapleId;
+    public String getIdBahanPokok() {
+        return idBahanPokok;
     }
 
-    public void setStapleId(String stapleId) {
-        this.stapleId = stapleId;
+    public void setIdBahanPokok(String idBahanPokok) {
+        this.idBahanPokok = idBahanPokok;
     }
 
-    public String getStapleName() {
-        return stapleName;
+    public String getNamaBahanPokok() {
+        return namaBahanPokok;
     }
 
-    public void setStapleName(String stapleName) {
-        this.stapleName = stapleName;
+    public void setNamaBahanPokok(String namaBahanPokok) {
+        this.namaBahanPokok = namaBahanPokok;
     }
 
-    public String getStapleAmount() {
-        return stapleAmount;
+    public String getJumlahBahanPokok() {
+        return jumlahBahanPokok;
     }
 
-    public void setStapleAmount(String stapleAmount) {
-        this.stapleAmount = stapleAmount;
+    public void setJumlahBahanPokok(String jumlahBahanPokok) {
+        this.jumlahBahanPokok = jumlahBahanPokok;
     }
 
-    public String getStapleUnit() {
-        return stapleUnit;
+    public String getSatuanBahanPokok() {
+        return satuanBahanPokok;
     }
 
-    public void setStapleUnit(String stapleUnit) {
-        this.stapleUnit = stapleUnit;
+    public void setSatuanBahanPokok(String satuanBahanPokok) {
+        this.satuanBahanPokok = satuanBahanPokok;
     }
 
-    public String getStapleCreatedAt() {
-        return stapleCreatedAt;
+    public String getTanggalTambahBahanPokok() {
+        return tanggalTambahBahanPokok;
     }
 
-    public void setStapleCreatedAt(String stapleCreatedAt) {
-        this.stapleCreatedAt = stapleCreatedAt;
+    public void setTanggalTambahBahanPokok(String tanggalTambahBahanPokok) {
+        this.tanggalTambahBahanPokok = tanggalTambahBahanPokok;
     }
 
-    public String getStapleUpdatedAt() {
-        return stapleUpdatedAt;
+    public String getTanggalUbahBahanPokok() {
+        return tanggalUbahBahanPokok;
     }
 
-    public void setStapleUpdatedAt(String stapleUpdatedAt) {
-        this.stapleUpdatedAt = stapleUpdatedAt;
+    public void setTanggalUbahBahanPokok(String tanggalUbahBahanPokok) {
+        this.tanggalUbahBahanPokok = tanggalUbahBahanPokok;
     }
 }

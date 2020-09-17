@@ -83,14 +83,14 @@ public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class ViewHolder extends BaseViewHolder {
-        @BindView(R.id.tvUserNo)
-        TextView tvUserNo;
+        @BindView(R.id.tvId)
+        TextView tvId;
 
-        @BindView(R.id.tvFullName)
-        TextView tvFullName;
+        @BindView(R.id.tvNamaPengguna)
+        TextView tvNamaPengguna;
 
-        @BindView(R.id.tvUserName)
-        TextView tvUserName;
+        @BindView(R.id.tvUsernamePengguna)
+        TextView tvUsernamePengguna;
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -98,9 +98,9 @@ public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
         protected void clear() {
-            tvUserNo.setText("");
-            tvFullName.setText("");
-            tvUserName.setText("");
+            tvId.setText("");
+            tvNamaPengguna.setText("");
+            tvUsernamePengguna.setText("");
         }
 
         public void onBind(int position) {
@@ -108,20 +108,20 @@ public class PenggunaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             final Pengguna mPengguna = mPenggunaList.get(position);
 
-            tvUserNo.setText(mPengguna.getUserNo());
-            tvFullName.setText(mPengguna.getFullName());
-            tvUserName.setText(mPengguna.getUserName());
+            tvId.setText(mPengguna.getId());
+            tvNamaPengguna.setText(mPengguna.getNamaPengguna());
+            tvUsernamePengguna.setText(mPengguna.getUsernamePengguna());
 
             itemView.setOnClickListener(v -> {
-                if (mPengguna.getFullName() != null) {
+                if (mPengguna.getUsernamePengguna() != null) {
                     try {
                         Intent intent = new Intent (v.getContext(), PenggunaDetailActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("fullName", mPengguna.getFullName());
-                        bundle.putString("userName", mPengguna.getUserName());
-                        bundle.putString("email", mPengguna.getEmail());
-                        bundle.putString("phoneNumber", mPengguna.getPhoneNumber());
-                        bundle.putString("birthDate", mPengguna.getBirthDate());
+                        bundle.putString("namaPengguna", mPengguna.getNamaPengguna());
+                        bundle.putString("usernamePengguna", mPengguna.getUsernamePengguna());
+                        bundle.putString("emailPengguna", mPengguna.getEmailPengguna());
+                        bundle.putString("nomorTeleponPengguna", mPengguna.getNomorTeleponPengguna());
+                        bundle.putString("tanggalLahirPengguna", mPengguna.getTanggalLahirPengguna());
                         intent.putExtras(bundle);
                         v.getContext().startActivity(intent);
                     } catch (Exception e) {

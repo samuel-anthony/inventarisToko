@@ -34,7 +34,7 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class MejaEntryActivity extends AppCompatActivity {
-    private EditText etMejaId;
+    private EditText etIdMeja, etNamaMeja;
     private ImageView ivQrCode;
     private Button btnGenerate, btnSubmit;
 
@@ -46,15 +46,16 @@ public class MejaEntryActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String screenState = bundle.getString("screenState");
 
-        etMejaId = findViewById(R.id.inputMejaId);
+        etIdMeja = findViewById(R.id.etIdMeja);
+        etNamaMeja = findViewById(R.id.etNamaMeja);
         ivQrCode = findViewById(R.id.ivQrCode);
 
-        if(screenState.equals(MyConstants.EDIT_MEJA)) {
-            getSupportActionBar().setTitle(R.string.label_edit_meja);
-            etMejaId.setText(bundle.getString("userId"));
+        if(screenState.equals(MyConstants.UBAH_MEJA)) {
+            getSupportActionBar().setTitle(R.string.menu_ubah_meja);
+            etIdMeja.setText(bundle.getString("idMeja"));
 
             try {
-                String text = etMejaId.getText().toString();
+                String text = etIdMeja.getText().toString();
                 MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
                 BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,150,150);
                 BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
@@ -64,15 +65,15 @@ public class MejaEntryActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            getSupportActionBar().setTitle(R.string.label_add_meja);
+            getSupportActionBar().setTitle(R.string.menu_tambah_meja);
         }
 
-        btnGenerate = findViewById(R.id.buttonGenerate);
+        btnGenerate = findViewById(R.id.btnGenerate);
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    String text = etMejaId.getText().toString();
+                    String text = etIdMeja.getText().toString();
                     MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
                     BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,150,150);
                     BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
@@ -85,7 +86,7 @@ public class MejaEntryActivity extends AppCompatActivity {
             }
         });
 
-        btnSubmit = findViewById(R.id.buttonSubmit);
+        btnSubmit = findViewById(R.id.btnKirim);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,13 +99,13 @@ public class MejaEntryActivity extends AppCompatActivity {
                         CommonUtils.showLoading(MejaEntryActivity.this);
                         VolleyAPI volleyAPI = new VolleyAPI(MejaEntryActivity.this);
                         Map<String, String> params = new HashMap<>();
-                        params.put("nama_meja", etMejaId.getText().toString());
+                        params.put("nama_meja", etIdMeja.getText().toString());
 
-                        if (screenState.equals(MyConstants.EDIT_MEJA)) {
-                            params.put("nama_meja_old", bundle.getString("userId"));
+                        if (screenState.equals(MyConstants.UBAH_MEJA)) {
+                            params.put("nama_meja_old", bundle.getString("idMeja"));
                         }
 
-                        if (screenState.equals(MyConstants.EDIT_MEJA)) {
+                        if (screenState.equals(MyConstants.UBAH_MEJA)) {
                             volleyAPI.putRequest("updateUser", params, new VolleyCallback() {
                                 @Override
                                 public void onSuccessResponse(String result) {
@@ -118,7 +119,7 @@ public class MejaEntryActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                        } else if (screenState.equals(MyConstants.ADD_MEJA)) {
+                        } else if (screenState.equals(MyConstants.TAMBAH_MEJA)) {
                             volleyAPI.postRequest("register", params, new VolleyCallback() {
                                 @Override
                                 public void onSuccessResponse(String result) {
@@ -144,7 +145,16 @@ public class MejaEntryActivity extends AppCompatActivity {
             }
         });
 
-        etMejaId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etIdMeja.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
+        etNamaMeja.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {

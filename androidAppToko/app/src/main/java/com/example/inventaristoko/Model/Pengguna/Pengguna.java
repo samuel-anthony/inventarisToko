@@ -1,85 +1,85 @@
 package com.example.inventaristoko.Model.Pengguna;
 
 public class Pengguna {
-    private String userNo;
-    private String fullName;
-    private String userName;
-    private String email;
-    private String phoneNumber;
-    private String birthDate;
-    private String userId;
-    private String createdAt;
-    private String updatedAt;
+    private String id;
+    private String idPengguna;
+    private String namaPengguna;
+    private String usernamePengguna;
+    private String emailPengguna;
+    private String nomorTeleponPengguna;
+    private String tanggalLahirPengguna;
+    private String tanggalTambahPengguna;
+    private String tanggalUbahPengguna;
 
-    public String getUserNo() {
-        return userNo;
+    public String getId() {
+        return id;
     }
 
-    public void setUserNo(String userNo) {
-        this.userNo = userNo;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getIdPengguna() {
+        return idPengguna;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setIdPengguna(String idPengguna) {
+        this.idPengguna = idPengguna;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getNamaPengguna() {
+        return namaPengguna;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setNamaPengguna(String namaPengguna) {
+        this.namaPengguna = namaPengguna;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsernamePengguna() {
+        return usernamePengguna;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsernamePengguna(String usernamePengguna) {
+        this.usernamePengguna = usernamePengguna;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getEmailPengguna() {
+        return emailPengguna;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setEmailPengguna(String emailPengguna) {
+        this.emailPengguna = emailPengguna;
     }
 
-    public String getBirthDate() {
-        return birthDate;
+    public String getNomorTeleponPengguna() {
+        return nomorTeleponPengguna;
     }
 
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
+    public void setNomorTeleponPengguna(String nomorTeleponPengguna) {
+        this.nomorTeleponPengguna = nomorTeleponPengguna;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getTanggalLahirPengguna() {
+        return tanggalLahirPengguna;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setTanggalLahirPengguna(String tanggalLahirPengguna) {
+        this.tanggalLahirPengguna = tanggalLahirPengguna;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getTanggalTambahPengguna() {
+        return tanggalTambahPengguna;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setTanggalTambahPengguna(String tanggalTambahPengguna) {
+        this.tanggalTambahPengguna = tanggalTambahPengguna;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
+    public String getTanggalUbahPengguna() {
+        return tanggalUbahPengguna;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setTanggalUbahPengguna(String tanggalUbahPengguna) {
+        this.tanggalUbahPengguna = tanggalUbahPengguna;
     }
 }

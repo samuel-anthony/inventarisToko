@@ -1,103 +1,85 @@
 package com.example.inventaristoko.Model.Penjualan;
 
 public class PenjualanDetail {
-    private String orderNo;
-    private String orderMasterId;
-    private String orderDetailId;
-    private String orderId;
-    private String orderName;
-    private String amount;
-    private String price;
-    private String totalPrice;
-    private String note;
-    private String createdAt;
-    private String updatedAt;
+    private String idDetail;
+    private String idDetailPenjualan;
+    private String namaDetailPenjualan;
+    private String jumlahDetailPenjualan;
+    private String catatanDetailPenjualan;
+    private String hargaDetailMakanan;
+    private String totalHargaDetailPenjualan;
+    private String tanggalTambahDetailPenjualan;
+    private String tanggalUbahDetailPenjualan;
 
-    public String getOrderNo() {
-        return orderNo;
+    public String getIdDetail() {
+        return idDetail;
     }
 
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
+    public void setIdDetail(String idDetail) {
+        this.idDetail = idDetail;
     }
 
-    public String getOrderMasterId() {
-        return orderMasterId;
+    public String getIdDetailPenjualan() {
+        return idDetailPenjualan;
     }
 
-    public void setOrderMasterId(String orderMasterId) {
-        this.orderMasterId = orderMasterId;
+    public void setIdDetailPenjualan(String idDetailPenjualan) {
+        this.idDetailPenjualan = idDetailPenjualan;
     }
 
-    public String getOrderDetailId() {
-        return orderDetailId;
+    public String getNamaDetailPenjualan() {
+        return namaDetailPenjualan;
     }
 
-    public void setOrderDetailId(String orderDetailId) {
-        this.orderDetailId = orderDetailId;
+    public void setNamaDetailPenjualan(String namaDetailPenjualan) {
+        this.namaDetailPenjualan = namaDetailPenjualan;
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getJumlahDetailPenjualan() {
+        return jumlahDetailPenjualan;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setJumlahDetailPenjualan(String jumlahDetailPenjualan) {
+        this.jumlahDetailPenjualan = jumlahDetailPenjualan;
     }
 
-    public String getOrderName() {
-        return orderName;
+    public String getCatatanDetailPenjualan() {
+        return catatanDetailPenjualan;
     }
 
-    public void setOrderName(String orderName) {
-        this.orderName = orderName;
+    public void setCatatanDetailPenjualan(String catatanDetailPenjualan) {
+        this.catatanDetailPenjualan = catatanDetailPenjualan;
     }
 
-    public String getAmount() {
-        return amount;
+    public String getHargaDetailMakanan() {
+        return hargaDetailMakanan;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setHargaDetailMakanan(String hargaDetailMakanan) {
+        this.hargaDetailMakanan = hargaDetailMakanan;
     }
 
-    public String getPrice() {
-        return price;
+    public String getTotalHargaDetailPenjualan() {
+        return totalHargaDetailPenjualan;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setTotalHargaDetailPenjualan(String totalHargaDetailPenjualan) {
+        this.totalHargaDetailPenjualan = totalHargaDetailPenjualan;
     }
 
-    public String getTotalPrice() {
-        return totalPrice;
+    public String getTanggalTambahDetailPenjualan() {
+        return tanggalTambahDetailPenjualan;
     }
 
-    public void setTotalPrice(String totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setTanggalTambahDetailPenjualan(String tanggalTambahDetailPenjualan) {
+        this.tanggalTambahDetailPenjualan = tanggalTambahDetailPenjualan;
     }
 
-    public String getNote() {
-        return note;
+    public String getTanggalUbahDetailPenjualan() {
+        return tanggalUbahDetailPenjualan;
     }
 
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setTanggalUbahDetailPenjualan(String tanggalUbahDetailPenjualan) {
+        this.tanggalUbahDetailPenjualan = tanggalUbahDetailPenjualan;
     }
 }

@@ -6,7 +6,7 @@
     android:background="@color/colorIcons">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/cvDetailDataPenjualan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -29,11 +29,11 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvAmount"
+                    android:id="@+id/tvJumlahDetailPenjualan"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:text="@string/order_no"
+                    android:text="@string/label_id"
                     android:textSize="@dimen/text_large"
                     android:gravity="center"
                     android:textColor="@color/colorWhite"
@@ -47,22 +47,22 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvOrderName"
+                    android:id="@+id/tvNamaDetailPenjualan"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_8dp"
-                    android:text="@string/order_name" />
+                    android:text="@string/label_value_nama_penjualan" />
 
                 <TextView
-                    android:id="@+id/tvNote"
+                    android:id="@+id/tvCatatanDetailPenjualan"
                     style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_8dp"
-                    android:text="@string/note" />
+                    android:text="@string/label_value_catatan_penjualan" />
             </LinearLayout>
 
             <LinearLayout
@@ -73,13 +73,13 @@
                 android:gravity="bottom">
 
                 <TextView
-                    android:id="@+id/tvTotalPrice"
+                    android:id="@+id/tvTotalHargaDetailPenjualan"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_8dp"
-                    android:text="@string/total_price"
+                    android:text="@string/label_value_total_harga_penjualan"
                     android:gravity="end"
                     android:textStyle="bold"/>
             </LinearLayout>

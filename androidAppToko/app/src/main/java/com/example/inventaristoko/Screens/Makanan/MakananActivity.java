@@ -53,7 +53,7 @@ public class MakananActivity extends AppCompatActivity {
         btnTambahMakanan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent (v.getContext(), MakananEntryKategori.class);
+//                Intent intent = new Intent (v.getContext(), MakananEntryActivity.class);
 //                Bundle bundle = new Bundle();
 //                bundle.putString("screenState", MyConstants.TAMBAH_MAKANAN);
 //                intent.putExtras(bundle);
@@ -82,7 +82,7 @@ public class MakananActivity extends AppCompatActivity {
         CommonUtils.showLoading(MakananActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
         Map<String, String> params = new HashMap<>();
-        volleyAPI.getRequest("ambilDataMakanan", params, new VolleyCallback() {
+        volleyAPI.getRequest("getSemuaMakanan", params, new VolleyCallback() {
             @Override
             public void onSuccessResponse(String result) {
                 try {
@@ -93,11 +93,11 @@ public class MakananActivity extends AppCompatActivity {
                         JSONObject dataMakanan = (JSONObject) resultArray.get(i);
                         Makanan makanan = new Makanan();
                         makanan.setId(String.valueOf(i+1));
-                        makanan.setIdMakanan(dataMakanan.getString("id_makanan"));
-                        makanan.setNamaMakanan(dataMakanan.getString("nama_makanan"));
-                        makanan.setHargaMakanan(dataMakanan.getString("harga_makanan"));
-                        makanan.setTanggalTambahMakanan(dataMakanan.getString("tanggal_tambah"));
-                        makanan.setTanggalUbahMakanan(dataMakanan.getString("tanggal_ubah"));
+                        makanan.setIdMakanan(dataMakanan.getString("makanan_id"));
+                        makanan.setNamaMakanan(dataMakanan.getString("nama"));
+                        makanan.setHargaMakanan(dataMakanan.getString("harga_jual"));
+                        makanan.setTanggalTambahMakanan(dataMakanan.getString("created_at"));
+                        makanan.setTanggalUbahMakanan(dataMakanan.getString("updated_at"));
 
                         mMakanan.add(makanan);
                     }

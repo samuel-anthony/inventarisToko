@@ -6,7 +6,7 @@
     android:background="@color/colorIcons">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/cvDataBahanPokok"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -33,7 +33,7 @@
                     style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:text="@string/id"
+                    android:text="@string/label_id"
                     android:textSize="@dimen/text_large"
                     android:gravity="center"
                     android:textColor="@color/colorWhite"
@@ -47,23 +47,23 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvBahanPokokNama"
+                    android:id="@+id/tvNamaBahanPokok"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_8dp"
-                    android:text="@string/staple_name"
+                    android:text="@string/label_value_nama_bahan_pokok"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvBahanPokokJumlah"
+                    android:id="@+id/tvJumlahBahanPokok"
                     style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_8dp"
-                    android:text="@string/staple_amount"
+                    android:text="@string/label_value_jumlah_bahan_pokok"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

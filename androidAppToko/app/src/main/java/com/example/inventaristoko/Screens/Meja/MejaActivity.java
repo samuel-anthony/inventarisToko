@@ -33,16 +33,16 @@ import butterknife.ButterKnife;
 public class MejaActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MejaAdapter mMejaAdapter;
-    private Button btnAddMeja;
+    private Button btnTambahMeja;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meja);
 
-        getSupportActionBar().setTitle(R.string.menu_table);
+        getSupportActionBar().setTitle(R.string.menu_meja);
 
-        FloatingActionButton fab = findViewById(R.id.fabMeja);
+        FloatingActionButton fab = findViewById(R.id.fabDataMeja);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,19 +50,19 @@ public class MejaActivity extends AppCompatActivity {
             }
         });
 
-        btnAddMeja = findViewById(R.id.buttonAddMeja);
-        btnAddMeja.setOnClickListener(new View.OnClickListener() {
+        btnTambahMeja = findViewById(R.id.btnTambahMeja);
+        btnTambahMeja.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (v.getContext(), MejaEntryActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("screenState", MyConstants.ADD_MEJA);
+                bundle.putString("screenState", MyConstants.TAMBAH_MEJA);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }
-
         });
-        mRecyclerView = findViewById(R.id.rvMeja);
+
+        mRecyclerView = findViewById(R.id.rvDataMeja);
         ButterKnife.bind(this);
         setUp();
     }
@@ -91,11 +91,11 @@ public class MejaActivity extends AppCompatActivity {
                     for(int i = 0 ; i < resultArray.length() ; i ++ ) {
                         JSONObject dataMeja = (JSONObject) resultArray.get(i);
                         Meja meja = new Meja();
-                        meja.setId(dataMeja.getString("id"));
-                        meja.setUserId(dataMeja.getString("user_id"));
-                        meja.setUserRole(dataMeja.getString("user_role"));
-                        meja.setCreatedAt(dataMeja.getString("created_at"));
-                        meja.setUpdatedAt(dataMeja.getString("updated_at"));
+                        meja.setId(String.valueOf(i+1));
+                        meja.setIdMeja(dataMeja.getString("user_id"));
+                        meja.setNamaMeja("nama_meja");
+                        meja.setTanggalTambahMeja(dataMeja.getString("created_at"));
+                        meja.setTanggalUbahMeja(dataMeja.getString("updated_at"));
 
                         mMeja.add(meja);
                     }

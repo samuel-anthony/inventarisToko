@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@string/tombol_keluar"
+        android:orderInCategory="100"
+        android:title="@string/tombol_keluar"
+        android:icon="@drawable/ic_clear_white"
+        app:showAsAction="ifRoom" />
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@string/menu_kategori"
+            android:title="@string/menu_kategori" />
+        <item
+            android:id="@string/menu_makanan"
+            android:title="@string/menu_makanan" />
+        <item
+            android:id="@string/menu_pengguna"
+            android:title="@string/menu_pengguna" />
+        <item
+            android:id="@string/menu_bahan_pokok"
+            android:title="@string/menu_bahan_pokok" />
+        <item
+            android:id="@string/menu_meja"
+            android:title="@string/menu_meja" />
+        <item
+            android:id="@string/menu_password"
+            android:title="@string/menu_password" />
+    </group>
+</menu>

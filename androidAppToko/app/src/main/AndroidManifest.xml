@@ -19,19 +19,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Screens.Front.FrontActivity"
+            android:name=".Screens.Front.HomeActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Screens.Front.LoginActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Screens.Penjualan.PenjualanActivity"
-            android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Screens.Penjualan.PenjualanDetailActivity"
-            android:parentActivityName=".Screens.Penjualan.PenjualanActivity"
-            android:theme="@style/MyMaterialTheme" />
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
         <activity
             android:name=".Screens.Pengguna.PenggunaActivity"
             android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
@@ -64,13 +62,13 @@
             android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
         <activity
             android:name=".Screens.Kategori.KategoriDetailActivity"
-            android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
+            android:parentActivityName=".Screens.Kategori.KategoriActivity" />
         <activity
             android:name=".Screens.Makanan.MakananActivity"
             android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
         <activity
             android:name=".Screens.Makanan.MakananDetailActivity"
-            android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
+            android:parentActivityName=".Screens.Makanan.MakananActivity" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

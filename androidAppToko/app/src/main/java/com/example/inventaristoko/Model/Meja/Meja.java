@@ -2,10 +2,10 @@ package com.example.inventaristoko.Model.Meja;
 
 public class Meja {
     private String id;
-    private String userId;
-    private String userRole;
-    private String createdAt;
-    private String updatedAt;
+    private String idMeja;
+    private String namaMeja;
+    private String tanggalTambahMeja;
+    private String tanggalUbahMeja;
 
     public String getId() {
         return id;
@@ -15,35 +15,35 @@ public class Meja {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getIdMeja() {
+        return idMeja;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setIdMeja(String idMeja) {
+        this.idMeja = idMeja;
     }
 
-    public String getUserRole() {
-        return userRole;
+    public String getNamaMeja() {
+        return namaMeja;
     }
 
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
+    public void setNamaMeja(String namaMeja) {
+        this.namaMeja = namaMeja;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getTanggalTambahMeja() {
+        return tanggalTambahMeja;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setTanggalTambahMeja(String tanggalTambahMeja) {
+        this.tanggalTambahMeja = tanggalTambahMeja;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
+    public String getTanggalUbahMeja() {
+        return tanggalUbahMeja;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setTanggalUbahMeja(String tanggalUbahMeja) {
+        this.tanggalUbahMeja = tanggalUbahMeja;
     }
 }

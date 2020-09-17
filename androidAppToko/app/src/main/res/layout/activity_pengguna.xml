@@ -11,11 +11,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <Button
-            android:id="@+id/buttonAdd"
+            android:id="@+id/btnTambahPengguna"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:background="@drawable/button_primary"
-            android:text="@string/button_add"
+            android:text="@string/tombol_tambah"
             android:textColor="@drawable/button_primary_text"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
@@ -24,14 +24,14 @@
             android:layout_marginHorizontal="@dimen/_8dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPengguna"
+            android:id="@+id/rvDataPengguna"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabPengguna"
+        android:id="@+id/fabDataPengguna"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

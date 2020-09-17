@@ -29,11 +29,11 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvUserNo"
+                    android:id="@+id/tvId"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:text="@string/order_no"
+                    android:text="@string/label_id"
                     android:textSize="@dimen/text_large"
                     android:gravity="center"
                     android:textColor="@color/colorWhite"
@@ -47,23 +47,23 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvFullName"
+                    android:id="@+id/tvNamaPengguna"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_8dp"
-                    android:text="@string/full_name"
+                    android:text="@string/label_value_nama_pengguna"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvUserName"
+                    android:id="@+id/tvUsernamePengguna"
                     style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_8dp"
-                    android:text="@string/user_name"
+                    android:text="@string/label_value_username_pengguna"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

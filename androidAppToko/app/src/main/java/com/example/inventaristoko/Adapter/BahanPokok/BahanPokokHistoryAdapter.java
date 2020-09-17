@@ -81,17 +81,17 @@ public class BahanPokokHistoryAdapter extends RecyclerView.Adapter<BaseViewHolde
     }
 
     public class ViewHolder extends BaseViewHolder {
-        @BindView(R.id.tvBahanPokokDetailJumlah)
-        TextView tvBahanPokokDetailJumlah;
+        @BindView(R.id.tvJumlahDetailBahanPokok)
+        TextView tvJumlahDetailBahanPokok;
 
-        @BindView(R.id.tvBahanPokokDetailNamaToko)
-        TextView tvBahanPokokDetailNamaToko;
+        @BindView(R.id.tvNamaTokoDetailBahanPokok)
+        TextView tvNamaTokoDetailBahanPokok;
 
-        @BindView(R.id.tvBahanPokokDetailHarga)
-        TextView tvBahanPokokDetailHarga;
+        @BindView(R.id.tvHargaDetailBahanPokok)
+        TextView tvHargaDetailBahanPokok;
 
-        @BindView(R.id.tvBahanPokokDetailTanggal)
-        TextView tvBahanPokokDetailTanggal;
+        @BindView(R.id.tvTanggalDetailBahanPokok)
+        TextView tvTanggalDetailBahanPokok;
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -99,10 +99,10 @@ public class BahanPokokHistoryAdapter extends RecyclerView.Adapter<BaseViewHolde
         }
 
         protected void clear() {
-            tvBahanPokokDetailJumlah.setText("");
-            tvBahanPokokDetailNamaToko.setText("");
-            tvBahanPokokDetailHarga.setText("");
-            tvBahanPokokDetailTanggal.setText("");
+            tvJumlahDetailBahanPokok.setText("");
+            tvNamaTokoDetailBahanPokok.setText("");
+            tvHargaDetailBahanPokok.setText("");
+            tvTanggalDetailBahanPokok.setText("");
         }
 
         public void onBind(int position) {
@@ -110,17 +110,17 @@ public class BahanPokokHistoryAdapter extends RecyclerView.Adapter<BaseViewHolde
 
             final BahanPokokHistory mBahanPokokHistory = mBahanPokokHistoryList.get(position);
 
-            if((mBahanPokokHistory.getStapleDetailAction()).equalsIgnoreCase(MyConstants.INCREASE_CODE)) {
-                tvBahanPokokDetailJumlah.setText("+ " + mBahanPokokHistory.getStapleDetailAmount());
-                tvBahanPokokDetailJumlah.setBackgroundResource(R.drawable.ic_circle_success_background);
-            } else if (((mBahanPokokHistory.getStapleDetailAction()).equalsIgnoreCase(MyConstants.DECREASE_CODE))) {
-                tvBahanPokokDetailJumlah.setText("- " + mBahanPokokHistory.getStapleDetailAmount());
-                tvBahanPokokDetailJumlah.setBackgroundResource(R.drawable.ic_circle_failed_background);
+            if((mBahanPokokHistory.getAksiDetailBahanPokok()).equalsIgnoreCase(MyConstants.INCREASE_CODE)) {
+                tvJumlahDetailBahanPokok.setText("+ " + mBahanPokokHistory.getJumlahDetailBahanPokok());
+                tvJumlahDetailBahanPokok.setBackgroundResource(R.drawable.ic_circle_success_background);
+            } else if (((mBahanPokokHistory.getAksiDetailBahanPokok()).equalsIgnoreCase(MyConstants.DECREASE_CODE))) {
+                tvJumlahDetailBahanPokok.setText("- " + mBahanPokokHistory.getJumlahDetailBahanPokok());
+                tvJumlahDetailBahanPokok.setBackgroundResource(R.drawable.ic_circle_failed_background);
             }
 
-            tvBahanPokokDetailNamaToko.setText(mBahanPokokHistory.getStapleDetailStoreName());
-            tvBahanPokokDetailHarga.setText(CommonUtils.currencyFormat(mBahanPokokHistory.getStapleDetailPrice()));
-            tvBahanPokokDetailTanggal.setText(mBahanPokokHistory.getStapleDetailCreatedAt());
+            tvNamaTokoDetailBahanPokok.setText(mBahanPokokHistory.getNamaTokoDetailBahanPokok());
+            tvHargaDetailBahanPokok.setText(CommonUtils.currencyFormat(mBahanPokokHistory.getHargaDetailBahanPokok()));
+            tvTanggalDetailBahanPokok.setText(mBahanPokokHistory.getTanggalTambahDetailBahanPokok());
         }
     }
 

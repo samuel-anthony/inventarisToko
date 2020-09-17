@@ -81,17 +81,17 @@ public class PenjualanDetailAdapter extends RecyclerView.Adapter<BaseViewHolder>
     }
 
     public class ViewHolder extends BaseViewHolder {
-        @BindView(R.id.tvOrderName)
-        TextView tvOrderName;
+        @BindView(R.id.tvJumlahDetailPenjualan)
+        TextView tvJumlahDetailPenjualan;
 
-        @BindView(R.id.tvAmount)
-        TextView tvAmount;
+        @BindView(R.id.tvNamaDetailPenjualan)
+        TextView tvNamaDetailPenjualan;
 
-        @BindView(R.id.tvNote)
-        TextView tvNote;
+        @BindView(R.id.tvCatatanDetailPenjualan)
+        TextView tvCatatanDetailPenjualan;
 
-        @BindView(R.id.tvTotalPrice)
-        TextView tvTotalPrice;
+        @BindView(R.id.tvTotalHargaDetailPenjualan)
+        TextView tvTotalHargaDetailPenjualan;
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -99,10 +99,10 @@ public class PenjualanDetailAdapter extends RecyclerView.Adapter<BaseViewHolder>
         }
 
         protected void clear() {
-            tvOrderName.setText("");
-            tvAmount.setText("");
-            tvNote.setText("");
-            tvTotalPrice.setText("");
+            tvJumlahDetailPenjualan.setText("");
+            tvNamaDetailPenjualan.setText("");
+            tvCatatanDetailPenjualan.setText("");
+            tvTotalHargaDetailPenjualan.setText("");
         }
 
         public void onBind(int position) {
@@ -110,16 +110,16 @@ public class PenjualanDetailAdapter extends RecyclerView.Adapter<BaseViewHolder>
 
             final PenjualanDetail mPenjualanDetail = mPenjualanDetailList.get(position);
 
-            tvOrderName.setText(mPenjualanDetail.getOrderName());
-            tvAmount.setText(mPenjualanDetail.getAmount() + "x");
-            tvNote.setText(mPenjualanDetail.getNote());
+            tvNamaDetailPenjualan.setText(mPenjualanDetail.getNamaDetailPenjualan());
+            tvJumlahDetailPenjualan.setText(mPenjualanDetail.getJumlahDetailPenjualan() + "x");
+            tvCatatanDetailPenjualan.setText(mPenjualanDetail.getCatatanDetailPenjualan());
 
-            int amount = Integer.parseInt(mPenjualanDetail.getAmount());
-            int price = Integer.parseInt(mPenjualanDetail.getPrice());
+            int amount = Integer.parseInt(mPenjualanDetail.getJumlahDetailPenjualan());
+            int price = Integer.parseInt(mPenjualanDetail.getHargaDetailMakanan());
             int totalPrice = amount * price;
-            mPenjualanDetail.setTotalPrice(String.valueOf(totalPrice));
+            mPenjualanDetail.setTotalHargaDetailPenjualan(String.valueOf(totalPrice));
 
-            tvTotalPrice.setText(CommonUtils.currencyFormat(mPenjualanDetail.getTotalPrice()));
+            tvTotalHargaDetailPenjualan.setText(CommonUtils.currencyFormat(mPenjualanDetail.getTotalHargaDetailPenjualan()));
         }
     }
 

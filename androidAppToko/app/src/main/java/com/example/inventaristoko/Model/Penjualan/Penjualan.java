@@ -1,103 +1,58 @@
 package com.example.inventaristoko.Model.Penjualan;
 
 public class Penjualan {
-    private String orderNo;
-    private String orderMasterId;
-    private String refNo;
-    private String Status;
-    private String StatusCode;
-    private String totalPrice;
-    private String totalCharge;
-    private String amount;
-    private String userId;
-    private String createdAt;
-    private String updatedAt;
+    private String id;
+    private String idPenjualan;
+    private String totalHargaPenjualan;
+    private String kodeStatusPenjualan;
+    private String tanggalTambahPenjualan;
+    private String tanggalUbahPenjualan;
 
-    public String getOrderNo() {
-        return orderNo;
+    public String getId() {
+        return id;
     }
 
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getOrderMasterId() {
-        return orderMasterId;
+    public String getIdPenjualan() {
+        return idPenjualan;
     }
 
-    public void setOrderMasterId(String orderMasterId) {
-        this.orderMasterId = orderMasterId;
+    public void setIdPenjualan(String idPenjualan) {
+        this.idPenjualan = idPenjualan;
     }
 
-    public String getRefNo() {
-        return refNo;
+    public String getTotalHargaPenjualan() {
+        return totalHargaPenjualan;
     }
 
-    public void setRefNo(String refNo) {
-        this.refNo = refNo;
+    public void setTotalHargaPenjualan(String totalHargaPenjualan) {
+        this.totalHargaPenjualan = totalHargaPenjualan;
     }
 
-    public String getStatus() {
-        return Status;
+    public String getKodeStatusPenjualan() {
+        return kodeStatusPenjualan;
     }
 
-    public void setStatus(String status) {
-        Status = status;
+    public void setKodeStatusPenjualan(String kodeStatusPenjualan) {
+        this.kodeStatusPenjualan = kodeStatusPenjualan;
     }
 
-    public String getStatusCode() {
-        return StatusCode;
+    public String getTanggalTambahPenjualan() {
+        return tanggalTambahPenjualan;
     }
 
-    public void setStatusCode(String statusCode) {
-        StatusCode = statusCode;
+    public void setTanggalTambahPenjualan(String tanggalTambahPenjualan) {
+        this.tanggalTambahPenjualan = tanggalTambahPenjualan;
     }
 
-    public String getTotalPrice() {
-        return totalPrice;
+    public String getTanggalUbahPenjualan() {
+        return tanggalUbahPenjualan;
     }
 
-    public void setTotalPrice(String totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public String getTotalCharge() {
-        return totalCharge;
-    }
-
-    public void setTotalCharge(String totalCharge) {
-        this.totalCharge = totalCharge;
-    }
-
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setTanggalUbahPenjualan(String tanggalUbahPenjualan) {
+        this.tanggalUbahPenjualan = tanggalUbahPenjualan;
     }
 }

@@ -8,10 +8,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:layout_weight="1"
         android:background="@color/colorWhite">
 
         <LinearLayout
@@ -21,20 +20,20 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/noPesanan"
+                android:id="@+id/tvIdDetailPenjualan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:padding="@dimen/_4dp"
-                android:text="@string/order_master_id"/>
+                android:text="@string/label_value_id_penjualan"/>
 
             <TextView
-                android:id="@+id/tanggalPesanan"
+                android:id="@+id/tvTanggalDetailPenjualan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:padding="@dimen/_4dp"
-                android:text="@string/created_at"/>
+                android:text="@string/label_value_tanggal_penjualan"/>
         </LinearLayout>
 
         <LinearLayout
@@ -46,10 +45,10 @@
             android:layout_marginHorizontal="@dimen/_8dp">
 
             <TextView
-                android:id="@+id/status"
+                android:id="@+id/tvStatusDetailPenjualan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/status"
+                android:text="@string/label_value_status_penjualan"
                 android:textStyle="bold"
                 android:textAlignment="textEnd"
                 android:layout_margin="@dimen/_8dp"/>
@@ -60,7 +59,7 @@
                 android:orientation="horizontal">
 
                 <Spinner
-                    android:id="@+id/statusDroplist"
+                    android:id="@+id/spnDroplistStatus"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     style="@style/Widget.AppCompat.Spinner.DropDown"/>
@@ -70,66 +69,59 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPenjualanDetail"
+            android:id="@+id/rvDataPenjualanDetail"
             android:layout_width="match_parent"
-            android:layout_height="500dp" />
+            android:layout_height="350dp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/_8dp"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
         <TextView
-            android:id="@+id/total"
+            android:id="@+id/tvLabelTotalHargaPenjualan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             style="@style/TextAppearance.AppCompat.Title"
             android:padding="@dimen/_4dp"
-            android:text="@string/total" />
+            android:text="@string/label_total" />
         <TextView
-            android:id="@+id/totalHarga"
+            android:id="@+id/tvTotalHargaDetailPenjualan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             style="@style/TextAppearance.AppCompat.Title"
             android:padding="@dimen/_4dp"
-            android:text="@string/total_price"
+            android:text="@string/label_value_total_harga_penjualan"
             android:textAlignment="textEnd"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_gravity="bottom"
-        android:gravity="bottom">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/_8dp"
+        android:gravity="center">
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/doneButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/btnSelesaiPesanan"
+            android:paddingRight="50dp"
+            android:paddingLeft="50dp"
             android:background="@drawable/button_primary"
-            android:layout_margin="15dp"
-            app:fabSize="normal"
-            app:borderWidth="0dp"
-            app:elevation="6dp"
-            android:text="@string/button_done"
+            android:text="@string/tombol_selesai_pesanan"
             android:textColor="@drawable/button_primary_text"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:backgroundTint="@color/colorPrimary"/>
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/_12dp"/>
     </LinearLayout>
 </LinearLayout>

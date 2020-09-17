@@ -11,7 +11,7 @@
     android:focusableInTouchMode="true" >
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/cvDataPenggunaEntry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -33,16 +33,16 @@
                 android:layout_margin="@dimen/_4dp">
 
                 <TextView
-                    android:id="@+id/labelFullName"
+                    android:id="@+id/tvNamaPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
                     android:layout_marginVertical="@dimen/_4dp"
-                    android:text="@string/label_full_name"/>
+                    android:text="@string/label_nama_pengguna"/>
 
                 <EditText
-                    android:id="@+id/inputFullName"
+                    android:id="@+id/etNamaPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/input_primary"
@@ -62,16 +62,16 @@
                 android:layout_margin="@dimen/_4dp">
 
                 <TextView
-                    android:id="@+id/labelUserName"
+                    android:id="@+id/tvUsernamePengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
                     android:layout_marginVertical="@dimen/_4dp"
-                    android:text="@string/label_user_name"/>
+                    android:text="@string/label_username_pengguna"/>
 
                 <EditText
-                    android:id="@+id/inputUserName"
+                    android:id="@+id/etUsernamePengguna"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/input_primary"
@@ -91,16 +91,16 @@
                 android:layout_margin="@dimen/_4dp">
 
                 <TextView
-                    android:id="@+id/labelEmail"
+                    android:id="@+id/tvEmailPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
                     android:layout_marginVertical="@dimen/_4dp"
-                    android:text="@string/label_email"/>
+                    android:text="@string/label_email_pengguna"/>
 
                 <EditText
-                    android:id="@+id/inputEmail"
+                    android:id="@+id/etEmailPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/input_primary"
@@ -121,17 +121,17 @@
                 android:layout_margin="@dimen/_4dp">
 
                 <TextView
-                    android:id="@+id/labelPhone"
+                    android:id="@+id/tvNomorTeleponPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
                     android:layout_marginVertical="@dimen/_4dp"
-                    android:text="@string/label_phone"/>
+                    android:text="@string/label_nomor_telepon_pengguna"/>
 
                 <EditText
-                    android:id="@+id/inputPhoneNumber"
+                    android:id="@+id/etNomorTeleponPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/input_primary"
@@ -153,16 +153,16 @@
                 android:paddingBottom="@dimen/_12dp">
 
                 <TextView
-                    android:id="@+id/labelBirth"
+                    android:id="@+id/tvTanggalLahirPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
                     android:layout_marginVertical="@dimen/_4dp"
-                    android:text="@string/label_birth"/>
+                    android:text="@string/label_tanggal_lahir_pengguna"/>
 
                 <EditText
-                    android:id="@+id/inputBirthDate"
+                    android:id="@+id/etTanggalLahirPengguna"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/input_primary"
@@ -187,11 +187,11 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/buttonSubmit"
+            android:id="@+id/btnKirimPengguna"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:background="@drawable/button_success"
-            android:text="@string/button_submit"
+            android:text="@string/tombol_kirim"
             android:textColor="@drawable/button_success_text"
             android:layout_width="wrap_content"
             android:layout_height="50dp"

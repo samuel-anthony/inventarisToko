@@ -33,7 +33,7 @@
                     style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:text="@string/staple_detail_amount"
+                    android:text="@string/label_id"
                     android:textSize="@dimen/text_extra_large"
                     android:gravity="center"
                     android:textColor="@color/colorWhite"
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/staple_store_name"
+                    android:text="@string/label_value_nama_bahan_pokok"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/tvBahanPokokIdMakanan"
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/staple_detail_price"
+                    android:text="@string/label_value_nama_bahan_pokok"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/tvBahanPokokTanggalMakanan"
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/staple_detail_date"
+                    android:text="@string/label_value_nama_bahan_pokok"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

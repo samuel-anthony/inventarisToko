@@ -1,94 +1,94 @@
 package com.example.inventaristoko.Model.BahanPokok;
 
 public class BahanPokokHistory {
-    private String detailId;
-    private String stapleDetailId;
-    private String stapleDetailName;
-    private String stapleDetailStoreName;
-    private String stapleDetailAmount;
-    private String stapleDetailUnit;
-    private String stapleDetailPrice;
-    private String stapleDetailAction;
-    private String stapleDetailCreatedAt;
-    private String stapleDetailUpdatedAt;
+    private String idDetail;
+    private String idDetailBahanPokok;
+    private String namaDetailBahanPokok;
+    private String namaTokoDetailBahanPokok;
+    private String jumlahDetailBahanPokok;
+    private String satuanDetailBahanPokok;
+    private String hargaDetailBahanPokok;
+    private String aksiDetailBahanPokok;
+    private String tanggalTambahDetailBahanPokok;
+    private String tanggalUbahDetailBahanPokok;
 
-    public String getDetailId() {
-        return detailId;
+    public String getIdDetail() {
+        return idDetail;
     }
 
-    public void setDetailId(String detailId) {
-        this.detailId = detailId;
+    public void setIdDetail(String idDetail) {
+        this.idDetail = idDetail;
     }
 
-    public String getStapleDetailId() {
-        return stapleDetailId;
+    public String getIdDetailBahanPokok() {
+        return idDetailBahanPokok;
     }
 
-    public void setStapleDetailId(String stapleDetailId) {
-        this.stapleDetailId = stapleDetailId;
+    public void setIdDetailBahanPokok(String idDetailBahanPokok) {
+        this.idDetailBahanPokok = idDetailBahanPokok;
     }
 
-    public String getStapleDetailName() {
-        return stapleDetailName;
+    public String getNamaDetailBahanPokok() {
+        return namaDetailBahanPokok;
     }
 
-    public void setStapleDetailName(String stapleDetailName) {
-        this.stapleDetailName = stapleDetailName;
+    public void setNamaDetailBahanPokok(String namaDetailBahanPokok) {
+        this.namaDetailBahanPokok = namaDetailBahanPokok;
     }
 
-    public String getStapleDetailStoreName() {
-        return stapleDetailStoreName;
+    public String getNamaTokoDetailBahanPokok() {
+        return namaTokoDetailBahanPokok;
     }
 
-    public void setStapleDetailStoreName(String stapleDetailStoreName) {
-        this.stapleDetailStoreName = stapleDetailStoreName;
+    public void setNamaTokoDetailBahanPokok(String namaTokoDetailBahanPokok) {
+        this.namaTokoDetailBahanPokok = namaTokoDetailBahanPokok;
     }
 
-    public String getStapleDetailAmount() {
-        return stapleDetailAmount;
+    public String getJumlahDetailBahanPokok() {
+        return jumlahDetailBahanPokok;
     }
 
-    public void setStapleDetailAmount(String stapleDetailAmount) {
-        this.stapleDetailAmount = stapleDetailAmount;
+    public void setJumlahDetailBahanPokok(String jumlahDetailBahanPokok) {
+        this.jumlahDetailBahanPokok = jumlahDetailBahanPokok;
     }
 
-    public String getStapleDetailUnit() {
-        return stapleDetailUnit;
+    public String getSatuanDetailBahanPokok() {
+        return satuanDetailBahanPokok;
     }
 
-    public void setStapleDetailUnit(String stapleDetailUnit) {
-        this.stapleDetailUnit = stapleDetailUnit;
+    public void setSatuanDetailBahanPokok(String satuanDetailBahanPokok) {
+        this.satuanDetailBahanPokok = satuanDetailBahanPokok;
     }
 
-    public String getStapleDetailPrice() {
-        return stapleDetailPrice;
+    public String getHargaDetailBahanPokok() {
+        return hargaDetailBahanPokok;
     }
 
-    public void setStapleDetailPrice(String stapleDetailPrice) {
-        this.stapleDetailPrice = stapleDetailPrice;
+    public void setHargaDetailBahanPokok(String hargaDetailBahanPokok) {
+        this.hargaDetailBahanPokok = hargaDetailBahanPokok;
     }
 
-    public String getStapleDetailAction() {
-        return stapleDetailAction;
+    public String getAksiDetailBahanPokok() {
+        return aksiDetailBahanPokok;
     }
 
-    public void setStapleDetailAction(String stapleDetailAction) {
-        this.stapleDetailAction = stapleDetailAction;
+    public void setAksiDetailBahanPokok(String aksiDetailBahanPokok) {
+        this.aksiDetailBahanPokok = aksiDetailBahanPokok;
     }
 
-    public String getStapleDetailCreatedAt() {
-        return stapleDetailCreatedAt;
+    public String getTanggalTambahDetailBahanPokok() {
+        return tanggalTambahDetailBahanPokok;
     }
 
-    public void setStapleDetailCreatedAt(String stapleDetailCreatedAt) {
-        this.stapleDetailCreatedAt = stapleDetailCreatedAt;
+    public void setTanggalTambahDetailBahanPokok(String tanggalTambahDetailBahanPokok) {
+        this.tanggalTambahDetailBahanPokok = tanggalTambahDetailBahanPokok;
     }
 
-    public String getStapleDetailUpdatedAt() {
-        return stapleDetailUpdatedAt;
+    public String getTanggalUbahDetailBahanPokok() {
+        return tanggalUbahDetailBahanPokok;
     }
 
-    public void setStapleDetailUpdatedAt(String stapleDetailUpdatedAt) {
-        this.stapleDetailUpdatedAt = stapleDetailUpdatedAt;
+    public void setTanggalUbahDetailBahanPokok(String tanggalUbahDetailBahanPokok) {
+        this.tanggalUbahDetailBahanPokok = tanggalUbahDetailBahanPokok;
     }
 }

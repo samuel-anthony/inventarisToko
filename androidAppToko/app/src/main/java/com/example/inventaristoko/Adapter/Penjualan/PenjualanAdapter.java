@@ -88,17 +88,17 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class ViewHolder extends BaseViewHolder {
-        @BindView(R.id.tvOrderNo)
-        TextView tvOrderNo;
+        @BindView(R.id.tvId)
+        TextView tvId;
 
-        @BindView(R.id.tvRefNo)
-        TextView tvRefNo;
+        @BindView(R.id.tvIdPenjualan)
+        TextView tvIdPenjualan;
 
-        @BindView(R.id.tvStatus)
-        TextView tvStatus;
+        @BindView(R.id.tvStatusPenjualan)
+        TextView tvStatusPenjualan;
 
-        @BindView(R.id.tvTotalPrice)
-        TextView tvTotalPrice;
+        @BindView(R.id.tvTotalHargaPenjualan)
+        TextView tvTotalHargaPenjualan;
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -106,10 +106,10 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
         protected void clear() {
-            tvOrderNo.setText("");
-            tvRefNo.setText("");
-            tvStatus.setText("");
-            tvTotalPrice.setText("");
+            tvId.setText("");
+            tvIdPenjualan.setText("");
+            tvStatusPenjualan.setText("");
+            tvTotalHargaPenjualan.setText("");
         }
 
         public void onBind(int position) {
@@ -117,42 +117,36 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             final Penjualan mPenjualan = mPenjualanList.get(position);
 
-            tvOrderNo.setText(mPenjualan.getOrderNo());
-            tvRefNo.setText(mPenjualan.getRefNo());
-            tvTotalPrice.setText(CommonUtils.currencyFormat(mPenjualan.getTotalPrice()));
+            tvId.setText(mPenjualan.getId());
+            tvIdPenjualan.setText(mPenjualan.getIdPenjualan());
+            tvTotalHargaPenjualan.setText(CommonUtils.currencyFormat(mPenjualan.getTotalHargaPenjualan()));
 
-            if (mPenjualan.getStatusCode() != null) {
-                switch (mPenjualan.getStatusCode()) {
+            if (mPenjualan.getKodeStatusPenjualan() != null) {
+                switch (mPenjualan.getKodeStatusPenjualan()) {
                     case MyConstants.ORDER_CODE:
-                        tvStatus.setText(MyConstants.ORDER_NAME);
-                        tvStatus.setTextColor(MyConstants.ORDER_COLOR);
+                        tvStatusPenjualan.setText(MyConstants.ORDER_NAME);
+                        tvStatusPenjualan.setTextColor(MyConstants.ORDER_COLOR);
                         break;
                     case MyConstants.GOING_CODE:
-                        tvStatus.setText(MyConstants.GOING_NAME);
-                        tvStatus.setTextColor(MyConstants.GOING_COLOR);
+                        tvStatusPenjualan.setText(MyConstants.GOING_NAME);
+                        tvStatusPenjualan.setTextColor(MyConstants.GOING_COLOR);
                         break;
                     case MyConstants.FINISH_CODE:
-                        tvStatus.setText(MyConstants.FINISH_NAME);
-                        tvStatus.setTextColor(MyConstants.FINISH_COLOR);
+                        tvStatusPenjualan.setText(MyConstants.FINISH_NAME);
+                        tvStatusPenjualan.setTextColor(MyConstants.FINISH_COLOR);
                         break;
                 }
             }
 
             itemView.setOnClickListener(v -> {
-                if (mPenjualan.getRefNo() != null) {
+                if (mPenjualan.getIdPenjualan() != null) {
                     try {
-                        Map<String, String> params = new HashMap<>();
-                        params.put("refNo",  mPenjualan.getRefNo());
-                        params.put("createdAt", mPenjualan.getCreatedAt());
-                        params.put("statusCode", mPenjualan.getStatusCode());
-                        params.put("totalHarga", CommonUtils.currencyFormat(mPenjualan.getTotalPrice()));
-
                         Intent intent = new Intent (v.getContext(), PenjualanDetailActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("refNo", params.get("refNo"));
-                        bundle.putString("createdAt", params.get("createdAt"));
-                        bundle.putString("statusCode", params.get("statusCode"));
-                        bundle.putString("totalHarga", params.get("totalHarga"));
+                        bundle.putString("idPenjualan", mPenjualan.getIdPenjualan());
+                        bundle.putString("tanggalTambah", mPenjualan.getTanggalTambahPenjualan());
+                        bundle.putString("kodeStatus", mPenjualan.getKodeStatusPenjualan());
+                        bundle.putString("totalHarga", CommonUtils.currencyFormat(mPenjualan.getTotalHargaPenjualan()));
                         intent.putExtras(bundle);
                         v.getContext().startActivity(intent);
                     } catch (Exception e) {

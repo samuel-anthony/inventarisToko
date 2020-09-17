@@ -31,8 +31,8 @@ import java.util.Map;
 
 public class PenggunaEntryActivity extends AppCompatActivity {
     private DatePickerDialog datePicker;
-    private Button btnSubmit;
-    private EditText etFullName, etUSerName, etEmail, etPhone, etBirth;
+    private Button btnKirimPengguna;
+    private EditText etNamaPengguna, etUsernamePengguna, etEmailPengguna, etNomorTeleponPengguna, etTanggalLahirPengguna;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,26 +42,26 @@ public class PenggunaEntryActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String screenState = bundle.getString("screenState");
 
-        etFullName = findViewById(R.id.inputFullName);
-        etUSerName = findViewById(R.id.inputUserName);
-        etEmail = findViewById(R.id.inputEmail);
-        etPhone = findViewById(R.id.inputPhoneNumber);
-        etBirth = findViewById(R.id.inputBirthDate);
+        etNamaPengguna = findViewById(R.id.etNamaPengguna);
+        etUsernamePengguna = findViewById(R.id.etUsernamePengguna);
+        etEmailPengguna = findViewById(R.id.etEmailPengguna);
+        etNomorTeleponPengguna = findViewById(R.id.etNomorTeleponPengguna);
+        etTanggalLahirPengguna = findViewById(R.id.etTanggalLahirPengguna);
 
-        etBirth.setInputType(InputType.TYPE_NULL);
+        etTanggalLahirPengguna.setInputType(InputType.TYPE_NULL);
 
-        if(screenState.equals(MyConstants.EDIT_PENGGUNA)) {
-            getSupportActionBar().setTitle(R.string.label_edit_pengguna);
-            etFullName.setText(bundle.getString("fullName"));
-            etUSerName.setText(bundle.getString("userName"));
-            etEmail.setText(bundle.getString("email"));
-            etPhone.setText(bundle.getString("phoneNumber"));
-            etBirth.setText(bundle.getString("birthDate"));
+        if(screenState.equals(MyConstants.UBAH_PENGGUNA)) {
+            getSupportActionBar().setTitle(R.string.menu_ubah_pengguna);
+            etNamaPengguna.setText(bundle.getString("namaPengguna"));
+            etUsernamePengguna.setText(bundle.getString("usernamePengguna"));
+            etEmailPengguna.setText(bundle.getString("emailPengguna"));
+            etNomorTeleponPengguna.setText(bundle.getString("nomorTeleponPengguna"));
+            etTanggalLahirPengguna.setText(bundle.getString("tanggalLahirPengguna"));
         } else {
-            getSupportActionBar().setTitle(R.string.label_add_pengguna);
+            getSupportActionBar().setTitle(R.string.menu_tambah_pengguna);
         }
 
-        etBirth.setOnClickListener(new View.OnClickListener() {
+        etTanggalLahirPengguna.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
@@ -78,15 +78,15 @@ public class PenggunaEntryActivity extends AppCompatActivity {
                                 monthLabel = (monthOfYear + 1) < 10 ? "0" + (monthOfYear + 1) : String.valueOf(monthOfYear + 1);
                                 dayLabel  = dayOfMonth < 10 ? "0" + dayOfMonth : String.valueOf(dayOfMonth);
 
-                                etBirth.setText(year + "-" + monthLabel + "-" + dayLabel);
+                                etTanggalLahirPengguna.setText(year + "-" + monthLabel + "-" + dayLabel);
                             }
                         }, year, month, day);
                 datePicker.show();
             }
         });
 
-        btnSubmit = findViewById(R.id.buttonSubmit);
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        btnKirimPengguna = findViewById(R.id.btnKirimPengguna);
+        btnKirimPengguna.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(PenggunaEntryActivity.this);
@@ -98,18 +98,18 @@ public class PenggunaEntryActivity extends AppCompatActivity {
                         CommonUtils.showLoading(PenggunaEntryActivity.this);
                         VolleyAPI volleyAPI = new VolleyAPI(PenggunaEntryActivity.this);
                         Map<String, String> params = new HashMap<>();
-                        params.put("user_name", etUSerName.getText().toString());
+                        params.put("user_name", etUsernamePengguna.getText().toString());
 
-                        if (screenState.equals(MyConstants.EDIT_PENGGUNA)) {
-                            params.put("user_name_old", bundle.getString("userName"));
+                        if (screenState.equals(MyConstants.UBAH_PENGGUNA)) {
+                            params.put("user_name_old", bundle.getString("usernamePengguna"));
                         }
 
-                        params.put("full_name", etFullName.getText().toString());
-                        params.put("email", etEmail.getText().toString());
-                        params.put("phone_number", etPhone.getText().toString());
-                        params.put("birth_date", etBirth.getText().toString());
+                        params.put("full_name", etNamaPengguna.getText().toString());
+                        params.put("email", etEmailPengguna.getText().toString());
+                        params.put("phone_number", etNomorTeleponPengguna.getText().toString());
+                        params.put("birth_date", etTanggalLahirPengguna.getText().toString());
 
-                        if (screenState.equals(MyConstants.EDIT_PENGGUNA)) {
+                        if (screenState.equals(MyConstants.UBAH_PENGGUNA)) {
                             volleyAPI.putRequest("updateAdminUser", params, new VolleyCallback() {
                                 @Override
                                 public void onSuccessResponse(String result) {
@@ -123,7 +123,7 @@ public class PenggunaEntryActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                        } else if (screenState.equals(MyConstants.ADD_PENGGUNA)) {
+                        } else if (screenState.equals(MyConstants.TAMBAH_PENGGUNA)) {
                             volleyAPI.postRequest("registerAdmin", params, new VolleyCallback() {
                                 @Override
                                 public void onSuccessResponse(String result) {
@@ -149,7 +149,7 @@ public class PenggunaEntryActivity extends AppCompatActivity {
             }
         });
 
-        etFullName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etNamaPengguna.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -158,7 +158,7 @@ public class PenggunaEntryActivity extends AppCompatActivity {
             }
         });
 
-        etUSerName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etUsernamePengguna.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -167,7 +167,7 @@ public class PenggunaEntryActivity extends AppCompatActivity {
             }
         });
 
-        etEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etEmailPengguna.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -176,7 +176,7 @@ public class PenggunaEntryActivity extends AppCompatActivity {
             }
         });
 
-        etPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etNomorTeleponPengguna.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {

@@ -24,28 +24,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText etLoginId, etLoginPassword;
-    private Button btnLogin;
+    private EditText etUsernameLogin, etPasswordLogin;
+    private Button btnMasukLogin;
 
-    VolleyAPI volleyAPI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        VolleyAPI volleyAPI = new VolleyAPI(this);
-        etLoginId = findViewById(R.id.loginId);
-        etLoginPassword = findViewById(R.id.loginPass);
-        btnLogin = findViewById(R.id.buttonLogin);
+        etUsernameLogin = findViewById(R.id.etUsernameLogin);
+        etPasswordLogin = findViewById(R.id.etPasswordLogin);
+        btnMasukLogin = findViewById(R.id.btnMasukLogin);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        btnMasukLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CommonUtils.showLoading(LoginActivity.this);
+                VolleyAPI volleyAPI = new VolleyAPI(LoginActivity.this);
                 Map<String, String> params = new HashMap<>();
-                params.put("user_id",etLoginId.getText().toString());
-                params.put("password",etLoginPassword.getText().toString());
-                volleyAPI.getRequest("login",params, new VolleyCallback() {
+                params.put("user_id", etUsernameLogin.getText().toString());
+                params.put("password", etPasswordLogin.getText().toString());
+                volleyAPI.getRequest("login", params, new VolleyCallback() {
                     @Override
                     public void onSuccessResponse(String result) {
                         try {
@@ -64,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        etLoginId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etUsernameLogin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -73,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        etLoginPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etPasswordLogin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -86,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, FrontActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
     }

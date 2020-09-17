@@ -12,6 +12,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
             android:layout_weight="4"
             android:src="@drawable/background_front"
@@ -23,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"/>
     </LinearLayout>
-
 
     <LinearLayout
         android:gravity="center"
@@ -39,15 +39,14 @@
             android:text="Login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
         <EditText
-            android:id="@+id/loginId"
+            android:id="@+id/etUsernameLogin"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin_24dp"
             android:layout_marginBottom="30dp"
             android:background="@drawable/input_primary"
-            android:hint="Masukkan Username Anda"
+            android:hint="@string/label_username_login"
             android:paddingStart="20dp"
             android:singleLine="true"
             android:textColor="#000"
@@ -56,20 +55,20 @@
             android:maxLength="50" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etPasswordLayout"
+            android:id="@+id/etPasswordLoginLayout"
             app:passwordToggleEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hintEnabled="false">
 
             <EditText
-                android:id="@+id/loginPass"
+                android:id="@+id/etPasswordLogin"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin_24dp"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/input_primary"
-                android:hint="Masukkan Kata Sandi Anda"
+                android:hint="@string/label_password_login"
                 android:inputType="textPassword"
                 android:paddingStart="20dp"
                 android:singleLine="true"
@@ -80,17 +79,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/buttonLogin"
+            android:id="@+id/btnMasukLogin"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:layout_marginBottom="30dp"
             android:background="@drawable/button_secondary"
-            android:text="masuk"
+            android:text="@string/tombol_login"
             android:textColor="@drawable/button_secondary_text"
             android:layout_width="wrap_content"
             android:layout_height="50dp" />
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_marginBottom="30dp"
@@ -101,12 +99,12 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/logoName"
+            android:id="@+id/tvNamaToko"
             android:layout_margin="?actionBarSize"
             android:textSize="26sp"
             android:textStyle="bold"
             android:textColor="#F7B536"
-            android:text="@string/logo_name"
+            android:text="@string/nama_toko"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

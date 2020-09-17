@@ -86,11 +86,11 @@ public class BahanPokokAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.tvId)
         TextView tvId;
 
-        @BindView(R.id.tvBahanPokokNama)
-        TextView tvBahanPokokNama;
+        @BindView(R.id.tvNamaBahanPokok)
+        TextView tvNamaBahanPokok;
 
-        @BindView(R.id.tvBahanPokokJumlah)
-        TextView tvBahanPokokJumlah;
+        @BindView(R.id.tvJumlahBahanPokok)
+        TextView tvJumlahBahanPokok;
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -99,8 +99,8 @@ public class BahanPokokAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         protected void clear() {
             tvId.setText("");
-            tvBahanPokokNama.setText("");
-            tvBahanPokokJumlah.setText("");
+            tvNamaBahanPokok.setText("");
+            tvJumlahBahanPokok.setText("");
         }
 
         public void onBind(int position) {
@@ -109,18 +109,18 @@ public class BahanPokokAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             final BahanPokok mBahanPokok = mBahanPokokList.get(position);
 
             tvId.setText(mBahanPokok.getId());
-            tvBahanPokokNama.setText(mBahanPokok.getStapleName());
-            tvBahanPokokJumlah.setText(mBahanPokok.getStapleAmount() + " " + mBahanPokok.getStapleUnit());
+            tvNamaBahanPokok.setText(mBahanPokok.getNamaBahanPokok());
+            tvJumlahBahanPokok.setText(mBahanPokok.getJumlahBahanPokok() + " " + mBahanPokok.getSatuanBahanPokok());
 
             itemView.setOnClickListener(v -> {
-                if (mBahanPokok.getStapleId() != null) {
+                if (mBahanPokok.getIdBahanPokok() != null) {
                     try {
                         Intent intent = new Intent (v.getContext(), BahanPokokDetailActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("stapleId", mBahanPokok.getStapleId());
-                        bundle.putString("stapleName", mBahanPokok.getStapleName());
-                        bundle.putString("stapleAmount", mBahanPokok.getStapleAmount());
-                        bundle.putString("stapleUnit", mBahanPokok.getStapleUnit());
+                        bundle.putString("idBahanPokok", mBahanPokok.getIdBahanPokok());
+                        bundle.putString("namaBahanPokok", mBahanPokok.getNamaBahanPokok());
+                        bundle.putString("jumlahBahanPokok", mBahanPokok.getJumlahBahanPokok());
+                        bundle.putString("satuanBahanPokok", mBahanPokok.getSatuanBahanPokok());
                         intent.putExtras(bundle);
                         v.getContext().startActivity(intent);
                     } catch (Exception e) {

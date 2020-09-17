@@ -27,8 +27,8 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class MejaDetailActivity extends AppCompatActivity {
-    private Button btnDelete, btnEdit;
-    private TextView tvMejaId;
+    private Button btnHapusMeja, btnUbahMeja;
+    private TextView tvIdMeja, tvNamaMeja;
     private ImageView ivQrCode;
 
     @Override
@@ -36,19 +36,21 @@ public class MejaDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meja_detail);
 
-        getSupportActionBar().setTitle(R.string.label_detil_meja);
+        getSupportActionBar().setTitle(R.string.menu_detail_meja);
 
-        tvMejaId = findViewById(R.id.labelValueNamaMeja);
+        tvIdMeja = findViewById(R.id.tvValueIdMeja);
+        tvNamaMeja = findViewById(R.id.tvValueNamaMeja);
 
         ivQrCode = findViewById(R.id.ivQrCode);
 
-        btnDelete = findViewById(R.id.buttonDelete);
-        btnEdit = findViewById(R.id.buttonEdit);
+        btnHapusMeja = findViewById(R.id.btnHapusMeja);
+        btnUbahMeja = findViewById(R.id.btnUbahMeja);
 
         Bundle bundle = getIntent().getExtras();
-        tvMejaId.setText(bundle.getString("userId"));
+        tvIdMeja.setText(bundle.getString("idMeja"));
+        tvNamaMeja.setText(bundle.getString("namaMeja"));
 
-        String text = tvMejaId.getText().toString();
+        String text = tvIdMeja.getText().toString();
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,150,150);
@@ -59,7 +61,7 @@ public class MejaDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        btnDelete.setOnClickListener(new View.OnClickListener() {
+        btnHapusMeja.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MejaDetailActivity.this);
@@ -71,7 +73,7 @@ public class MejaDetailActivity extends AppCompatActivity {
                         CommonUtils.showLoading(MejaDetailActivity.this);
                         VolleyAPI volleyAPI = new VolleyAPI(MejaDetailActivity.this);
                         Map<String, String> params = new HashMap<>();
-                        params.put("user_name", tvMejaId.getText().toString());
+                        params.put("user_name", tvIdMeja.getText().toString());
 
                         volleyAPI.putRequest("deleteUser", params, new VolleyCallback() {
                             @Override
@@ -97,13 +99,14 @@ public class MejaDetailActivity extends AppCompatActivity {
             }
         });
 
-        btnEdit.setOnClickListener(new View.OnClickListener() {
+        btnUbahMeja.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (v.getContext(), MejaEntryActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("screenState", MyConstants.EDIT_MEJA);
-                bundle.putString("userId", tvMejaId.getText().toString());
+                bundle.putString("screenState", MyConstants.UBAH_MEJA);
+                bundle.putString("idMeja", tvIdMeja.getText().toString());
+                bundle.putString("namaMeja", tvNamaMeja.getText().toString());
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }

@@ -32,16 +32,16 @@ import butterknife.ButterKnife;
 public class BahanPokokActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private BahanPokokAdapter mBahanPokokAdapter;
-    private Button btnAdd;
+    private Button btnTambahBahanPokok;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bahan_pokok);
 
-        getSupportActionBar().setTitle(R.string.label_data_bahan_pokok);
+        getSupportActionBar().setTitle(R.string.menu_detail_bahan_pokok);
 
-        FloatingActionButton fab = findViewById(R.id.fabBahanPokok);
+        FloatingActionButton fab = findViewById(R.id.fabDataBahanPokok);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,19 +49,19 @@ public class BahanPokokActivity extends AppCompatActivity {
             }
         });
 
-        btnAdd = findViewById(R.id.buttonAdd);
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        btnTambahBahanPokok = findViewById(R.id.btnTambahBahanPokok);
+        btnTambahBahanPokok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (v.getContext(), BahanPokokEntryActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("screenState", MyConstants.ADD_BAHAN_POKOK);
+                bundle.putString("screenState", MyConstants.TAMBAH_BAHAN_POKOK);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }
         });
 
-        mRecyclerView = findViewById(R.id.rvBahanPokok);
+        mRecyclerView = findViewById(R.id.rvDataBahanPokok);
         ButterKnife.bind(this);
         setUp();
     }
@@ -91,12 +91,12 @@ public class BahanPokokActivity extends AppCompatActivity {
                         JSONObject dataBahanPokok = (JSONObject) resultArray.get(i);
                         BahanPokok bahanPokok = new BahanPokok();
                         bahanPokok.setId(String.valueOf(i+1));
-                        bahanPokok.setStapleId(dataBahanPokok.getString("bahan_pokok_id"));
-                        bahanPokok.setStapleName(dataBahanPokok.getString("nama"));
-                        bahanPokok.setStapleAmount(dataBahanPokok.getString("jumlah"));
-                        bahanPokok.setStapleUnit(dataBahanPokok.getString("satuan"));
-                        bahanPokok.setStapleCreatedAt(dataBahanPokok.getString("created_at"));
-                        bahanPokok.setStapleUpdatedAt(dataBahanPokok.getString("updated_at"));
+                        bahanPokok.setIdBahanPokok(dataBahanPokok.getString("bahan_pokok_id"));
+                        bahanPokok.setNamaBahanPokok(dataBahanPokok.getString("nama"));
+                        bahanPokok.setJumlahBahanPokok(dataBahanPokok.getString("jumlah"));
+                        bahanPokok.setSatuanBahanPokok(dataBahanPokok.getString("satuan"));
+                        bahanPokok.setTanggalTambahBahanPokok(dataBahanPokok.getString("created_at"));
+                        bahanPokok.setTanggalUbahBahanPokok(dataBahanPokok.getString("updated_at"));
 
                         mBahanPokok.add(bahanPokok);
                     }
