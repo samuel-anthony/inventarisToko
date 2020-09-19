@@ -54,10 +54,13 @@ class MakananController extends Controller
         $bahanMakanan = json_decode($request->bahanMakanan);
         foreach($bahanMakanan as $detail){
             $makananDetail =null;
-            if(!is_null($detail->makanan_detail_id))
-            $makananDetail = makananDetail::find($detail->makanan_detail_id);
+            if(!is_null($detail->makanan_detail_id)){
+                $makananDetail = makananDetail::find($detail->makanan_detail_id);
+                if(is_null($makananDetail))
+                    $makananDetail = new makananDetail;
+            }
             else
-            $makananDetail = new makananDetail;
+                $makananDetail = new makananDetail;
             $makananDetail->jumlah = $detail->jumlah;
             $makananDetail->bahan_pokok_id = $detail->bahan_pokok_id;
             $makananDetail->save();

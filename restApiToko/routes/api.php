@@ -28,7 +28,9 @@ Route::get('getSemuaDataMeja','UserController@getAllCustomerUser');
 Route::get('getSemuaAdminUser','UserController@getAllAdminUser');
 Route::get('getSemuaBahanPokok','BahanPokokController@index');
 Route::get('getSemuaMakanan','MakananController@index');
+Route::get('getSemuaJenisMenu','JenisMenuController@index');
 Route::get('getMakananDetail','MakananController@makananByDetail');
+Route::get('getSemuaJenisMenuDetail','JenisMenuController@jenisMenuDetailByid');
 Route::get('getBahanPokokDetailHistory','BahanPokokController@showBahanPokokDetail');
 
 Route::post('testApi','UserController@testApi');
@@ -37,6 +39,7 @@ Route::post('registerAdmin','UserController@registerAdmin');
 Route::post('addBahanPokokBaru','BahanPokokController@addBahanPokokBaru');
 Route::post('addRiwayatBahanPokok','BahanPokokController@addRiwayatBahanPokok');
 Route::post('addMakanan','MakananController@addNewMakanan');
+Route::post('addJenisMenu','JenisMenuController@addJenisMenu');
 
 Route::put('updateStatusPesanan','PesananController@updateStatusRefNo');
 Route::put('updateStatusPesananSelesai','PesananController@updateStatusFinishRefNo');
@@ -46,3 +49,5 @@ Route::put('updateUser','UserController@updateUser');
 Route::put('deleteUser','UserController@deleteUser');
 Route::put('updateMakanan','MakananController@editMakanan');
 Route::put('deleteMakanan','MakananController@deleteMakanan');
+Route::put('updateJenisMenu','JenisMenuController@updateJenisMenu');
+Route::put('deleteJenisMenu','JenisMenuController@deleteJenisMenu');
