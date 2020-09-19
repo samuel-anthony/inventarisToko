@@ -17,6 +17,8 @@ class CreateJenisMenuDetailsTable extends Migration
             $table->bigIncrements('jenis_menu_detail_id');
             $table->unsignedBigInteger('jenis_menu_id');
             $table->foreign('jenis_menu_id')->references('jenis_menu_id')->on('jenis_menus');
+            $table->unsignedBigInteger('makanan_id');
+            $table->foreign('makanan_id')->references('makanan_id')->on('makanans');
             $table->timestamps();
         });
     }

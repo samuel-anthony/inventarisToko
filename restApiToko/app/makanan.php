@@ -14,4 +14,8 @@ class makanan extends Model
     public function makananDetails(){
         return $this->hasMany('App\makananDetail','makanan_id','makanan_id');
     }
+
+    public function jenisMenuDetail(){
+        return $this->belongsTo('App\jenisMenuDetail','makanan_id','makanan_id');
+    }
 }
