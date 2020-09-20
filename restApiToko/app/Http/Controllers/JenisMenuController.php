@@ -50,20 +50,21 @@ class JenisMenuController extends Controller
         $jenisMenu->nama = $request->nama;
         $jenisMenu->save();
         $jenisMenuDetail = json_decode($request->makanans);
+        $usedJenisMakananDetail = array();
         foreach($jenisMenuDetail as $detail){
-            $jenisMenuDetail =null;
-            if(!is_null($detail->makanan_id)){
-                $jenisMenuDetail = jenisMenuDetail::whereMakananId($detail->makanan_id)->whereJenisMenu($request->jenis_menu_id)->first();
-                if(is_null($jenisMenuDetail))
-                    $jenisMenuDetail = new jenisMenuDetail;
-            }
-            else
+            $jenisMenuDetail = jenisMenuDetail::whereMakananId($detail->makanan_id)->whereJenisMenu($request->jenis_menu_id)->first();
+            if(is_null($jenisMenuDetail))
                 $jenisMenuDetail = new jenisMenuDetail;
             $jenisMenuDetail->jenis_menu_id = $jenisMenu->jenis_menu_id;
             $jenisMenuDetail->makanan_id = $jenisMenu->makanan_id;
-            $jenisMenuDetail->save();
+            $jenisMenuDetail->save();     
+            array_push($usedJenisMakananDetail,$jenisMenuDetail->jenis_menu_detail_id);
         }
         
+        $jenisMenuDetails = jenisMenuDetail::whereJenisMenuId($request->jenis_menu_id)->whereNotIn('jenis_menu_detail_id',$usedJenisMakananDetail)->get();
+        foreach($jenisMenuDetails as $detail){
+            $detail->delete();
+        }
         return json_encode([
             'is_error' => '0',
             'message' => 'berhasil'

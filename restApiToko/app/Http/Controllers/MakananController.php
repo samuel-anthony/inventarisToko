@@ -52,18 +52,19 @@ class MakananController extends Controller
         $makanan->gambar_makanan = $request->gambar_makanan;
         $makanan->save();
         $bahanMakanan = json_decode($request->bahanMakanan);
+        $usedmakananDetail = array();
         foreach($bahanMakanan as $detail){
-            $makananDetail =null;
-            if(!is_null($detail->makanan_detail_id)){
-                $makananDetail = makananDetail::find($detail->makanan_detail_id);
-                if(is_null($makananDetail))
-                    $makananDetail = new makananDetail;
-            }
-            else
+            $makananDetail = makananDetail::whereMakananId($request->makanan_id)->whereBahanPokokId($detail->bahan_pokok_id)->first();
+            if(is_null($makananDetail))
                 $makananDetail = new makananDetail;
             $makananDetail->jumlah = $detail->jumlah;
             $makananDetail->bahan_pokok_id = $detail->bahan_pokok_id;
             $makananDetail->save();
+            array_push($usedmakananDetail,$makananDetail->makanan_detail_id);
+        }
+        $makananDetails = makananDetail::whereMakananId($request->makanan_id)->whereNotIn('makanan_detail_id',$usedmakananDetail)->get();
+        foreach($makananDetails as $detail){
+            $detail->delete();
         }
         return json_encode([
             'is_error' => '0',
