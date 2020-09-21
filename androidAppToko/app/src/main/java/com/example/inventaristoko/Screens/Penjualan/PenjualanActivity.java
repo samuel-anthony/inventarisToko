@@ -13,6 +13,7 @@ import com.example.inventaristoko.Adapter.Penjualan.PenjualanAdapter;
 import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.BahanPokok.BahanPokokActivity;
+import com.example.inventaristoko.Screens.Front.ChangePasswordActivity;
 import com.example.inventaristoko.Screens.Front.HomeActivity;
 import com.example.inventaristoko.Screens.Kategori.KategoriActivity;
 import com.example.inventaristoko.Screens.Makanan.MakananActivity;
@@ -166,7 +167,8 @@ public class PenjualanActivity extends AppCompatActivity {
             Intent myIntent = new Intent(getApplicationContext(), MejaActivity.class);
             startActivityForResult(myIntent, 0);
         } else if (item.getItemId() == R.string.menu_password) {
-            Toast.makeText(getApplicationContext(), "Ganti Password", Toast.LENGTH_SHORT).show();
+            Intent myIntent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
+            startActivityForResult(myIntent, 0);
         }
         return super.onOptionsItemSelected(item);
     }

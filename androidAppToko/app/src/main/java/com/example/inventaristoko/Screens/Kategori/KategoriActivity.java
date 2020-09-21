@@ -82,7 +82,7 @@ public class KategoriActivity extends AppCompatActivity {
         CommonUtils.showLoading(KategoriActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
         Map<String, String> params = new HashMap<>();
-        volleyAPI.getRequest("ambilDataKategori", params, new VolleyCallback() {
+        volleyAPI.getRequest("getSemuaJenisMenu", params, new VolleyCallback() {
             @Override
             public void onSuccessResponse(String result) {
                 try {

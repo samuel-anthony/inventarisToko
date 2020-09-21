@@ -44,7 +44,7 @@ public class BahanPokokHistoryAdapter extends RecyclerView.Adapter<BaseViewHolde
             default:
                 return new BahanPokokHistoryAdapter.EmptyViewHolder(
                         LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.list_kosong, parent, false));
+                                .inflate(R.layout.list_kosong_detail, parent, false));
         }
     }
 
@@ -125,13 +125,8 @@ public class BahanPokokHistoryAdapter extends RecyclerView.Adapter<BaseViewHolde
     }
 
     public class EmptyViewHolder extends BaseViewHolder {
-        @BindView(R.id.btnCobaUlang)
-        TextView btnCobaUlang;
-
         EmptyViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-            btnCobaUlang.setOnClickListener(v -> mCallback.onEmptyViewRetryClick());
         }
 
         @Override

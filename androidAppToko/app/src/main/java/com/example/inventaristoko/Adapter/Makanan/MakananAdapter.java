@@ -122,6 +122,8 @@ public class MakananAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         bundle.putString("idMakanan", mMakanan.getIdMakanan());
                         bundle.putString("namaMakanan", mMakanan.getNamaMakanan());
                         bundle.putString("hargaMakanan", mMakanan.getHargaMakanan());
+                        bundle.putString("gambarMakanan", mMakanan.getGambarMakanan());
+//                        bundle.putString("bahanMakanan", mMakanan.getBahanMakanan());
                         intent.putExtras(bundle);
                         v.getContext().startActivity(intent);
                     } catch (Exception e) {

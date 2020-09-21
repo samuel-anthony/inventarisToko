@@ -25,6 +25,9 @@
             android:name=".Screens.Front.LoginActivity"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".Screens.Front.ChangePasswordActivity"
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity"/>
+        <activity
             android:name=".Screens.Penjualan.PenjualanActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

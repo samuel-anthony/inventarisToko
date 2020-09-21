@@ -5,6 +5,8 @@ public class Makanan {
     private String idMakanan;
     private String namaMakanan;
     private String hargaMakanan;
+    private String gambarMakanan;
+    private String bahanMakanan;
     private String tanggalTambahMakanan;
     private String tanggalUbahMakanan;
 
@@ -38,6 +40,22 @@ public class Makanan {
 
     public void setHargaMakanan(String hargaMakanan) {
         this.hargaMakanan = hargaMakanan;
+    }
+
+    public String getGambarMakanan() {
+        return gambarMakanan;
+    }
+
+    public void setGambarMakanan(String gambarMakanan) {
+        this.gambarMakanan = gambarMakanan;
+    }
+
+    public String getBahanMakanan() {
+        return bahanMakanan;
+    }
+
+    public void setBahanMakanan(String bahanMakanan) {
+        this.bahanMakanan = bahanMakanan;
     }
 
     public String getTanggalTambahMakanan() {

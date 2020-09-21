@@ -112,7 +112,7 @@
             android:layout_marginStart="@dimen/_12dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvDataBahanPokokDetail"
+            android:id="@+id/rvDataBahanPokokRiwayat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin" />

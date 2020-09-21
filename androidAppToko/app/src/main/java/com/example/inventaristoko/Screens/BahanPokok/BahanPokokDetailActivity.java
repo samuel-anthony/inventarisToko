@@ -32,7 +32,7 @@ import java.util.Map;
 public class BahanPokokDetailActivity extends AppCompatActivity {
     private RecyclerView mRecyclerViewDetail, mRecyclerViewFood;
     private BahanPokokHistoryAdapter mBahanPokokHistoryAdapter;
-//    private BahanPokokFoodAdapter mBahanPokokFoodAdapter;
+    private BahanPokokFoodAdapter mBahanPokokFoodAdapter;
     private Button btnTambahDetailBahanPokok;
     private TextView tvNamaBahanPokok, tvJumlahBahanPokok;
 
@@ -55,7 +55,7 @@ public class BahanPokokDetailActivity extends AppCompatActivity {
         btnTambahDetailBahanPokok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent (v.getContext(), BahanPokokDetailEntryActivity.class);
+//                Intent intent = new Intent (v.getContext(), BahanPokokEntryActivity.class);
 //                Bundle bundle = new Bundle();
 //                bundle.putString("screenState", MyConstants.TAMBAH_DETAIL_BAHAN_POKOK);
 //                bundle.putString("namaBahanPokok", tvNamaBahanPokok.getText().toString());
@@ -68,7 +68,7 @@ public class BahanPokokDetailActivity extends AppCompatActivity {
             }
         });
 
-        mRecyclerViewDetail = findViewById(R.id.rvDataBahanPokokDetail);
+        mRecyclerViewDetail = findViewById(R.id.rvDataBahanPokokRiwayat);
         ButterKnife.bind(this);
         setUpRiwayatMakanan();
 
@@ -92,7 +92,7 @@ public class BahanPokokDetailActivity extends AppCompatActivity {
 //        VolleyAPI volleyAPI = new VolleyAPI(this);
 //        Bundle bundle = getIntent().getExtras();
 //        Map<String, String> params = new HashMap<>();
-//        params.put("bahan_pokok_id", bundle.getString("stapleId"));
+//        params.put("bahan_pokok_id", bundle.getString("idBahanPokok"));
 //
 //        volleyAPI.getRequest("getBahanPokokDetailHistory", params, new VolleyCallback() {
 //            @Override
@@ -101,19 +101,19 @@ public class BahanPokokDetailActivity extends AppCompatActivity {
 //                    ArrayList<BahanPokokFood> mBahanPokokFood = new ArrayList<>();
 //                    JSONObject resultJSON = new JSONObject(result);
 //                    JSONObject resultArray = resultJSON.getJSONObject("result");
-//                    JSONArray historyArray = resultArray.getJSONArray("makanan_details");
+//                    JSONArray historyArray = resultArray.getJSONArray("makanan");
 //
 //                    for(int i = 0 ; i < historyArray.length() ; i ++ ) {
-//                        JSONObject dataBahanPokokDetail = (JSONObject) historyArray.get(i);
-//                        JSONObject dataBahanPokokMakanan = dataBahanPokokDetail.getJSONObject("makanan_master");
-//
+//                        JSONObject dataBahanPokokMakanan = (JSONObject) historyArray.get(i);
 //                        BahanPokokFood bahanPokokFood = new BahanPokokFood();
 //                        bahanPokokFood.setId(String.valueOf(i+1));
 //                        bahanPokokFood.setStapleFoodName(dataBahanPokokMakanan.getString("nama"));
 //                        bahanPokokFood.setStapleFoodPrice(dataBahanPokokMakanan.getString("harga_jual"));
 //                        bahanPokokFood.setStapleFoodCreatedAt(dataBahanPokokMakanan.getString("created_at"));
+//                        bahanPokokFood.setStapleFoodUpdatedAt(dataBahanPokokMakanan.getString("updated_at"));
 //                        mBahanPokokFood.add(bahanPokokFood);
 //                    }
+//
 //                    mBahanPokokFoodAdapter.addItems(mBahanPokokFood);
 //                    mRecyclerViewFood.setAdapter(mBahanPokokFoodAdapter);
 //                    CommonUtils.hideLoading();

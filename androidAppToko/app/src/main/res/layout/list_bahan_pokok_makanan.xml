@@ -37,7 +37,7 @@
                     android:textSize="@dimen/text_extra_large"
                     android:gravity="center"
                     android:textColor="@color/colorWhite"
-                    android:background="@drawable/ic_circle_success_background"/>
+                    android:background="@drawable/button_primary"/>
             </LinearLayout>
 
             <LinearLayout
@@ -56,13 +56,13 @@
                     android:text="@string/label_value_nama_bahan_pokok"
                     android:textStyle="bold" />
                 <TextView
-                    android:id="@+id/tvBahanPokokIdMakanan"
+                    android:id="@+id/tvBahanPokokHargaMakanan"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_value_nama_bahan_pokok"
+                    android:text="@string/label_value_harga_detail_bahan_pokok"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/tvBahanPokokTanggalMakanan"
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:padding="@dimen/_4dp"
-                    android:text="@string/label_value_nama_bahan_pokok"
+                    android:text="@string/label_value_tanggal_detail_bahan_pokok"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

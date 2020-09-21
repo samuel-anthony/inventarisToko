@@ -5,6 +5,14 @@ public interface MyConstants {
     String GOING_CODE = "002";
     String FINISH_CODE = "003";
 
+    String MILI_GRAM = "Miligram";
+    String DESI_GRAM = "Desigram";
+    String CENTI_GRAM = "Centigram";
+    String GRAM = "Gram";
+    String HEKTO_GRAM = "Hektogram";
+    String DEKA_GRAM = "Dekagram";
+    String KILO_GRAM = "Kilogram";
+
     String INCREASE_CODE = "1";
     String DECREASE_CODE = "0";
 
@@ -27,4 +35,7 @@ public interface MyConstants {
 
     String TAMBAH_MEJA = "Tambah Meja";
     String UBAH_MEJA = "Ubah Meja";
+
+    String TAMBAH_MAKANAN = "Tambah Makanan";
+    String UBAH_MAKANAN = "Ubah Makanan";
 }

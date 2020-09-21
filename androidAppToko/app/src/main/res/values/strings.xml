@@ -5,11 +5,17 @@
     <string name="nama_toko">Warung Bakso Mba Welo</string>
     <string name="label_id">1</string>
     <string name="label_total">Total</string>
+    <string name="label_old_password">Password Lama</string>
+    <string name="label_new_password">Password Baru</string>
+    <string name="label_confirm_password">Konfirmasi Password</string>
     <string name="label_username_login">Masukkan Username Anda</string>
     <string name="label_password_login">Masukkan Password Anda</string>
     <string name="label_list_kosong">Tidak ada data disini, coba lagi.</string>
+    <string name="label_list_kosong_detail">Tidak ada data detail</string>
     <string name="label_scan_barcode">Scan Barcode Meja Anda</string>
     <string name="label_data_tidak_ditemukan">Data Tidak Ditemukan</string>
+    <string name="label_data_password_baru_salah">Password Baru anda tidak sama</string>
+    <string name="label_data_tidak_boleh_kosong">Password tidak boleh kosong</string>
 
     <!--Title Menu Bar-->
     <string name="menu_admin">Admin</string>
@@ -22,6 +28,10 @@
     <string name="menu_tambah_pengguna">Tambah Pengguna</string>
     <string name="menu_detail_bahan_pokok">Detail Bahan Pokok</string>
     <string name="menu_tambah_bahan_pokok">Tambah Bahan Pokok</string>
+    <string name="menu_tambah_detail_bahan_pokok">Tambah Bahan Pokok Detail</string>
+    <string name="menu_detail_makanan">Detail Makanan</string>
+    <string name="menu_tambah_makanan">Tambah Makanan</string>
+    <string name="menu_ubah_makanan">Ubah Makanan</string>
     <string name="menu_detail_meja">Detail Meja</string>
     <string name="menu_tambah_meja">Tambah Meja</string>
     <string name="menu_ubah_meja">Ubah Meja</string>
@@ -66,6 +76,8 @@
     <!--Data Makanan-->
     <string name="label_nama_makanan">Nama Makanan</string>
     <string name="label_harga_makanan">Harga Makanan</string>
+    <string name="label_value_nama_makanan">Nama</string>
+    <string name="label_value_harga_makanan">1</string>
 
     <!--Data Pengguna-->
     <string name="label_nama_pengguna">Nama</string>
@@ -85,6 +97,7 @@
     <!-- Data Bahan Pokok-->
     <string name="label_nama_bahan_pokok">Nama</string>
     <string name="label_jumlah_bahan_pokok_satuan">Jumlah</string>
+    <string name="label_satuan_bahan_pokok">Satuan</string>
     <string name="label_value_nama_bahan_pokok">Nama Bahan Pokok</string>
     <string name="label_value_jumlah_bahan_pokok">1</string>
     <string name="label_value_nama_tokok_detail_bahan_pokok">Toko Bahan Pokok</string>

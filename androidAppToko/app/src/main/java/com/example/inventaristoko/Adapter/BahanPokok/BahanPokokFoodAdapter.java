@@ -45,7 +45,7 @@ public class BahanPokokFoodAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             default:
                 return new BahanPokokFoodAdapter.EmptyViewHolder(
                         LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.list_kosong, parent, false));
+                                .inflate(R.layout.list_kosong_detail, parent, false));
         }
     }
 
@@ -88,8 +88,8 @@ public class BahanPokokFoodAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         @BindView(R.id.tvBahanPokokNamaMakanan)
         TextView tvBahanPokokNamaMakanan;
 
-        @BindView(R.id.tvBahanPokokIdMakanan)
-        TextView tvBahanPokokIdMakanan;
+        @BindView(R.id.tvBahanPokokHargaMakanan)
+        TextView tvBahanPokokHargaMakanan;
 
         @BindView(R.id.tvBahanPokokTanggalMakanan)
         TextView tvBahanPokokTanggalMakanan;
@@ -102,7 +102,7 @@ public class BahanPokokFoodAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         protected void clear() {
             tvBahanPokokId.setText("");
             tvBahanPokokNamaMakanan.setText("");
-            tvBahanPokokIdMakanan.setText("");
+            tvBahanPokokHargaMakanan.setText("");
             tvBahanPokokTanggalMakanan.setText("");
         }
 
@@ -113,25 +113,20 @@ public class BahanPokokFoodAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
             tvBahanPokokId.setText(mBahanPokokFood.getId());
             tvBahanPokokNamaMakanan.setText(mBahanPokokFood.getStapleFoodName());
-            tvBahanPokokIdMakanan.setText(CommonUtils.currencyFormat(mBahanPokokFood.getStapleFoodId()));
+            tvBahanPokokHargaMakanan.setText(CommonUtils.currencyFormat(mBahanPokokFood.getStapleFoodPrice()));
             tvBahanPokokTanggalMakanan.setText(mBahanPokokFood.getStapleFoodCreatedAt());
 
-            itemView.setOnClickListener(v -> {
-                if (mBahanPokokFood.getStapleFoodId() != null) {
-                    Toast.makeText(v.getContext(), mBahanPokokFood.getStapleFoodName(), Toast.LENGTH_SHORT).show();
-                }
-            });
+//            itemView.setOnClickListener(v -> {
+//                if (mBahanPokokFood.getStapleFoodId() != null) {
+//                    Toast.makeText(v.getContext(), mBahanPokokFood.getStapleFoodName(), Toast.LENGTH_SHORT).show();
+//                }
+//            });
         }
     }
 
     public class EmptyViewHolder extends BaseViewHolder {
-        @BindView(R.id.btnCobaUlang)
-        TextView btnCobaUlang;
-
         EmptyViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-            btnCobaUlang.setOnClickListener(v -> mCallback.onEmptyViewRetryClick());
         }
 
         @Override
