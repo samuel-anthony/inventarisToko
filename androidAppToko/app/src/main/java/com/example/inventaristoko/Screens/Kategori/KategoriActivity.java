@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import com.example.inventaristoko.Adapter.Kategori.KategoriAdapter;
 import com.example.inventaristoko.Model.Kategori.Kategori;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
+import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.example.inventaristoko.Utils.VolleyCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -53,13 +55,11 @@ public class KategoriActivity extends AppCompatActivity {
         btnTambahKategori.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent (v.getContext(), KategoriEntryActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("screenState", MyConstants.ADD_MEJA);
-//                intent.putExtras(bundle);
-//                v.getContext().startActivity(intent);
-
-                Toast.makeText(getApplicationContext(), "Tambah Kategori", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), KategoriEntryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("screenState", MyConstants.TAMBAH_KATEGORI);
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
             }
         });
 

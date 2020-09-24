@@ -168,6 +168,13 @@ public class PenjualanActivity extends AppCompatActivity {
             startActivityForResult(myIntent, 0);
         } else if (item.getItemId() == R.string.menu_password) {
             Intent myIntent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
+
+            Bundle bundle = getIntent().getExtras();
+            String id = bundle.getString("idPengguna");
+
+            Bundle myBundle = new Bundle();
+            myBundle.putString("idPengguna", id);
+            myIntent.putExtras(myBundle);
             startActivityForResult(myIntent, 0);
         }
         return super.onOptionsItemSelected(item);

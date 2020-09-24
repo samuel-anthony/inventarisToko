@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChangePasswordActivity extends AppCompatActivity {
-    private EditText etOldPassword, etNewPassword, etConfirmPassword;
+    private EditText etNewPassword, etConfirmPassword;
     private Button btnKirimPassword;
 
     @Override
@@ -36,7 +36,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.menu_password);
 
-        etOldPassword = findViewById(R.id.etOldPassword);
         etNewPassword = findViewById(R.id.etNewPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
 
@@ -44,11 +43,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
         btnKirimPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(String.valueOf(etOldPassword.getText()).equals("")) {
-                    Toast.makeText(getApplicationContext(), R.string.label_data_tidak_boleh_kosong, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
                 if(String.valueOf(etNewPassword.getText()).equals("")) {
                     Toast.makeText(getApplicationContext(), R.string.label_data_tidak_boleh_kosong, Toast.LENGTH_SHORT).show();
                     return;
@@ -72,11 +66,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         CommonUtils.showLoading(ChangePasswordActivity.this);
                         VolleyAPI volleyAPI = new VolleyAPI(ChangePasswordActivity.this);
+                        Bundle bundle = getIntent().getExtras();
                         Map<String, String> params = new HashMap<>();
-                        params.put("password", etOldPassword.getText().toString());
-                        params.put("new_password", etNewPassword.getText().toString());
+                        params.put("user_name", bundle.getString("idPengguna"));
+                        params.put("newPassword", etNewPassword.getText().toString());
 
-                        volleyAPI.postRequest("gantiPasswordBaru", params, new VolleyCallback() {
+                        volleyAPI.postRequest("updateUserPassword", params, new VolleyCallback() {
                             @Override
                             public void onSuccessResponse(String result) {
                                 try {
@@ -97,15 +92,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     }
                 });
                 builder.show();
-            }
-        });
-
-        etOldPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
             }
         });
 

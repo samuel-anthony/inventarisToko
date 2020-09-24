@@ -16,6 +16,8 @@
     <string name="label_data_tidak_ditemukan">Data Tidak Ditemukan</string>
     <string name="label_data_password_baru_salah">Password Baru anda tidak sama</string>
     <string name="label_data_tidak_boleh_kosong">Password tidak boleh kosong</string>
+    <string name="label_data_tidak_boleh_sama">Password tidak boleh sama dengan sebelumnya</string>
+    <string name="label_makanan_kategori_error">Masukkan Nama Makanan</string>
 
     <!--Title Menu Bar-->
     <string name="menu_admin">Admin</string>
@@ -70,8 +72,10 @@
     <!--Data Kategori-->
     <string name="label_id_kategori">Id Kategori</string>
     <string name="label_nama_kategori">Nama Kategori</string>
+    <string name="label_nama_makanan_kategori">Nama Makanan</string>
     <string name="label_value_id_kategori">1</string>
     <string name="label_value_nama_kategori">Nama Kategori</string>
+    <string name="label_value_nama_makanan_kategori">Nama Makanan</string>
 
     <!--Data Makanan-->
     <string name="label_nama_makanan">Nama Makanan</string>

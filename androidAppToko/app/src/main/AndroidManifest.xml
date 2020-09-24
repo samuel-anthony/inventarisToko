@@ -26,7 +26,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Screens.Front.ChangePasswordActivity"
-            android:parentActivityName=".Screens.Penjualan.PenjualanActivity"/>
+            android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
         <activity
             android:name=".Screens.Penjualan.PenjualanActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -65,6 +65,9 @@
             android:parentActivityName=".Screens.Penjualan.PenjualanActivity" />
         <activity
             android:name=".Screens.Kategori.KategoriDetailActivity"
+            android:parentActivityName=".Screens.Kategori.KategoriActivity" />
+        <activity
+            android:name=".Screens.Kategori.KategoriEntryActivity"
             android:parentActivityName=".Screens.Kategori.KategoriActivity" />
         <activity
             android:name=".Screens.Makanan.MakananActivity"

@@ -52,6 +52,9 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),resultJSON.getString("message"),Toast.LENGTH_SHORT).show();
                             if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
                                 Intent myIntent = new Intent(v.getContext(), PenjualanActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("idPengguna", params.get("user_id"));
+                                myIntent.putExtras(bundle);
                                 startActivityForResult(myIntent, 0);
                             }
                         } catch (JSONException e) {
