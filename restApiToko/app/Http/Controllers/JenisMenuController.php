@@ -23,7 +23,7 @@ class JenisMenuController extends Controller
             array_push($temp2, $detail->makanan->makanan_id);
         }
         $jenisMenu->makanan = $temp;
-        return json_encode(["result"=>$jenisMenu,"listMakanan"=>makanan::whereNotIn('makanan_id',$temp2)]);
+        return json_encode(["result"=>$jenisMenu,"listMakanan"=>makanan::whereNotIn('makanan_id',$temp2)->get()]);
     }
 
     public function addJenisMenu(request $request){
