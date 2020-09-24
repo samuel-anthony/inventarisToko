@@ -1,8 +1,8 @@
-INSERT INTO users (id, user_id, user_role, email_verified_at, password, remember_token, created_at, updated_at) VALUES
-(1, 'rootAdmin', 0, NULL, '$2y$10$CyNNXCnGk/ELsAWBcRNekOAHAjCJTElr5LoRrDJcCvWRPOL6HsXXa', '', NULL, NULL),
-(2, 'admin', 0, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL),
-(3, 'budi123', 0, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL),
-(4, 'sulaideh', 0, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL),
+INSERT INTO users (id, user_id, full_name, user_role, email_verified_at, password, remember_token, created_at, updated_at) VALUES
+(1, 'rootAdmin', 'Tedy Kurnia', 0, NULL, '$2y$10$CyNNXCnGk/ELsAWBcRNekOAHAjCJTElr5LoRrDJcCvWRPOL6HsXXa', '', NULL, NULL),
+(2, 'admin', 'Aldo Wijaya', 0, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL),
+(3, 'budi123', 'Samuel Anthony', 0, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL),
+(4, 'sulaideh', 'Kevin Sulistio', 0, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL),
 (5, 'table_1', 1, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL);
 
 INSERT INTO `suppliers` (`supplier_id`, `nama`, `alamat`, `nomor_telepon`, `created_at`, `updated_at`) VALUES
@@ -43,8 +43,8 @@ INSERT INTO `pesanan_details` (`pesanan_detail_id`, `makanan_id`, `pesanan_maste
 (5, 2, 2, 15000, 5, '', NULL, NULL),
 (6, 3, 2, 4000, 5, 'Gula Dikit', NULL, NULL);
 
-INSERT INTO `user_admins` (`user_admin_id`, `full_name`, `email`, `phone_number`, `birth_date`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 'Tedy Kurnia', 'tedy@email.com', '081234567890', '1997-01-11', 1, NULL, NULL),
-(2, 'Aldo Wijaya', 'aldo@email.com', '081234567890', '1997-02-12', 2, NULL, NULL),
-(3, 'Samuel Anthony', 'samuel@email.com', '081234567890', '1997-03-13', 3, NULL, NULL),
-(4, 'Kevin Sulistio', 'kevin@email.com', '081234567890', '1997-04-14', 4, NULL, NULL);
+INSERT INTO `user_admins` (`user_admin_id`, `email`, `phone_number`, `birth_date`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'tedy@email.com', '081234567890', '1997-01-11', 1, NULL, NULL),
+(2, 'aldo@email.com', '081234567890', '1997-02-12', 2, NULL, NULL),
+(3, 'samuel@email.com', '081234567890', '1997-03-13', 3, NULL, NULL),
+(4, 'kevin@email.com', '081234567890', '1997-04-14', 4, NULL, NULL);
