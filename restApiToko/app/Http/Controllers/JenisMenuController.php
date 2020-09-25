@@ -34,7 +34,7 @@ class JenisMenuController extends Controller
         foreach($jenisMenuDetail as $detail){
             $jenisMenuDetail = new jenisMenuDetail;
             $jenisMenuDetail->jenis_menu_id = $jenisMenu->jenis_menu_id;
-            $jenisMenuDetail->makanan_id = $jenisMenu->makanan_id;
+            $jenisMenuDetail->makanan_id = $detail->makanan_id;
             $jenisMenuDetail->save();
         }
         
@@ -56,7 +56,7 @@ class JenisMenuController extends Controller
             if(is_null($jenisMenuDetail))
                 $jenisMenuDetail = new jenisMenuDetail;
             $jenisMenuDetail->jenis_menu_id = $jenisMenu->jenis_menu_id;
-            $jenisMenuDetail->makanan_id = $jenisMenu->makanan_id;
+            $jenisMenuDetail->makanan_id = $detail->makanan_id;
             $jenisMenuDetail->save();     
             array_push($usedJenisMakananDetail,$jenisMenuDetail->jenis_menu_detail_id);
         }
