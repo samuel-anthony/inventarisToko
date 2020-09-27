@@ -9,10 +9,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Kategori.KategoriAdapter;
 import com.example.inventaristoko.Model.Kategori.Kategori;
+import com.example.inventaristoko.Model.Makanan.Makanan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
@@ -55,11 +55,33 @@ public class KategoriActivity extends AppCompatActivity {
         btnTambahKategori.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), KategoriEntryActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("screenState", MyConstants.TAMBAH_KATEGORI);
-                intent.putExtras(bundle);
-                v.getContext().startActivity(intent);
+                ArrayList<Makanan> mMakanan = new ArrayList<>();
+                VolleyAPI volleyAPI = new VolleyAPI(KategoriActivity.this);
+                Map<String, String> params = new HashMap<>();
+                volleyAPI.getRequest("getSemuaMakanan", params, new VolleyCallback() {
+                    @Override
+                    public void onSuccessResponse(String result) {
+                        try {
+                            JSONObject resultJSON = new JSONObject(result);
+                            JSONArray resultArray = resultJSON.getJSONArray("result");
+                            for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                                JSONObject dataMakanan = (JSONObject) resultArray.get(i);
+                                Makanan makanan = new Makanan();
+                                makanan.setIdMakanan(dataMakanan.getString("makanan_id"));
+                                makanan.setNamaMakanan(dataMakanan.getString("nama"));
+                                mMakanan.add(makanan);
+                            }
+                            Intent intent = new Intent(v.getContext(), KategoriEntryActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("screenState", MyConstants.TAMBAH_KATEGORI);
+                            bundle.putString("daftarMakanan", mMakanan.toString());
+                            intent.putExtras(bundle);
+                            v.getContext().startActivity(intent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
 

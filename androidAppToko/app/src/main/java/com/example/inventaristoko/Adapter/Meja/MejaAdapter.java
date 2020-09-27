@@ -148,13 +148,8 @@ public class MejaAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class EmptyViewHolder extends BaseViewHolder {
-        @BindView(R.id.btnCobaUlang)
-        TextView btnCobaUlang;
-
         EmptyViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-            btnCobaUlang.setOnClickListener(v -> mCallback.onEmptyViewRetryClick());
         }
 
         @Override

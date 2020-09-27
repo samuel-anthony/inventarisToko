@@ -22,17 +22,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnCobaUlang"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="50dp"
-        android:layout_margin="@dimen/_12dp"
-        android:background="@drawable/button_secondary"
-        android:text="@string/tombol_coba_ulang"
-        android:textColor="@drawable/button_secondary_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPesanListKosong" />
 </androidx.constraintlayout.widget.ConstraintLayout>

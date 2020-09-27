@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Kategori.KategoriMakananAdapter;
@@ -22,6 +25,7 @@ import com.example.inventaristoko.Utils.VolleyAPI;
 import com.example.inventaristoko.Utils.VolleyCallback;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,9 +38,10 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
     private RecyclerView mRecyclerView;
     private KategoriMakananAdapter kategoriMakananAdapter;
     private Button btnTambahMakananKategori, btnKirimKategori;
-    private EditText etNamaMakananKategori;
+    private EditText etNamaKategori, etNamaMakananKategori;
     private int position;
     private String screenState;
+    private TextView tvTestAmountList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +54,16 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
         if(screenState.equals(MyConstants.UBAH_KATEGORI)) {
             getSupportActionBar().setTitle(R.string.menu_ubah_kategori);
         } else {
+            tvTestAmountList.setText(bundle.getString("daftarMakanan"));
             getSupportActionBar().setTitle(R.string.menu_tambah_kategori);
         }
 
         mRecyclerView = findViewById(R.id.rvDataMakananKategori);
-        btnTambahMakananKategori = findViewById(R.id.btnTambahMakananKategori);
+        etNamaKategori = findViewById((R.id.etNamaKategori));
         etNamaMakananKategori = findViewById(R.id.etNamaMakananKategori);
+        btnTambahMakananKategori = findViewById(R.id.btnTambahMakananKategori);
         btnKirimKategori = findViewById(R.id.btnKirimKategori);
+        tvTestAmountList = findViewById(R.id.tvTestAmountList);
 
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
@@ -71,91 +79,127 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
         mRecyclerView.setAdapter(kategoriMakananAdapter);
         btnTambahMakananKategori.setOnClickListener(this);
         btnKirimKategori.setOnClickListener(this);
+
+        etNamaKategori.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
+        etNamaMakananKategori.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnTambahMakananKategori: {
-                if(String.valueOf(etNamaMakananKategori.getText()).equals("")) {
-                    Toast.makeText(getApplicationContext(), R.string.label_makanan_kategori_error, Toast.LENGTH_SHORT).show();
+                if(makananKategories.size() > 10-1) {
+                    Toast.makeText(getApplicationContext(),"MELAMPAUI BATAS JANCUK", Toast.LENGTH_SHORT).show();
                     return;
+                } else {
+                    if (String.valueOf(etNamaMakananKategori.getText()).equals("")) {
+                        Toast.makeText(getApplicationContext(), R.string.label_makanan_kategori_error, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    insertMethod("1", String.valueOf(etNamaMakananKategori.getText()));
                 }
-                insertMethod(String.valueOf(etNamaMakananKategori.getText()));
             }
             break;
             case R.id.btnKirimKategori: {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(KategoriEntryActivity.this);
-//                builder.setMessage("Anda Yakin Ingin Kirim Data ini?");
-//                builder.setCancelable(false);
-//                builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        CommonUtils.showLoading(KategoriEntryActivity.this);
-//                        VolleyAPI volleyAPI = new VolleyAPI(KategoriEntryActivity.this);
-//                        Map<String, String> params = new HashMap<>();
-//                        params.put("nama", etNamaMakananKategori.getText().toString());
-//
-//                        if (screenState.equals(MyConstants.UBAH_KATEGORI)) {
-//                            params.put("jenis_menu_id", "");
-//                        }
-//
-//                        params.put("makanans", "");
-//
-//                        if (screenState.equals(MyConstants.UBAH_KATEGORI)) {
-//                            volleyAPI.putRequest("updateJenisMenu", params, new VolleyCallback() {
-//                                @Override
-//                                public void onSuccessResponse(String result) {
-//                                    try {
-//                                        JSONObject resultJSON = new JSONObject(result);
-//                                        Intent myIntent = new Intent(getApplicationContext(), KategoriActivity.class);
-//                                        startActivityForResult(myIntent, 0);
-//                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            });
-//                        } else if (screenState.equals(MyConstants.TAMBAH_KATEGORI)) {
-//                            volleyAPI.postRequest("addJenisMenu", params, new VolleyCallback() {
-//                                @Override
-//                                public void onSuccessResponse(String result) {
-//                                    try {
-//                                        JSONObject resultJSON = new JSONObject(result);
-//                                        Intent myIntent = new Intent(getApplicationContext(), KategoriActivity.class);
-//                                        startActivityForResult(myIntent, 0);
-//                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            });
-//                        }
-//                    }
-//                });
-//                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                    }
-//                });
-//                builder.show();
+                if(makananKategories.size() < 1) {
+                    Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(KategoriEntryActivity.this);
+                    builder.setMessage("Anda Yakin Ingin Kirim Data ini?");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            CommonUtils.showLoading(KategoriEntryActivity.this);
+                            VolleyAPI volleyAPI = new VolleyAPI(KategoriEntryActivity.this);
+                            JSONArray jsonArray = new JSONArray(makananKategories);
+                            Map<String, String> params = new HashMap<>();
+                            params.put("nama", etNamaKategori.getText().toString());
+                            params.put("makanans", jsonArray.toString());
 
-                Toast.makeText(getApplicationContext(), "Kirim Kategori", Toast.LENGTH_SHORT).show();
+                            if (screenState.equals(MyConstants.UBAH_KATEGORI)) {
+                                params.put("jenis_menu_id", "");
+                            }
+
+                            params.put("makanans", "");
+
+                            if (screenState.equals(MyConstants.UBAH_KATEGORI)) {
+                                volleyAPI.putRequest("updateJenisMenu", params, new VolleyCallback() {
+                                    @Override
+                                    public void onSuccessResponse(String result) {
+                                        try {
+                                            JSONObject resultJSON = new JSONObject(result);
+                                            Intent myIntent = new Intent(getApplicationContext(), KategoriActivity.class);
+                                            startActivityForResult(myIntent, 0);
+                                            Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            } else if (screenState.equals(MyConstants.TAMBAH_KATEGORI)) {
+                                volleyAPI.postRequest("addJenisMenu", params, new VolleyCallback() {
+                                    @Override
+                                    public void onSuccessResponse(String result) {
+                                        try {
+                                            JSONObject resultJSON = new JSONObject(result);
+                                            Intent myIntent = new Intent(getApplicationContext(), KategoriActivity.class);
+                                            startActivityForResult(myIntent, 0);
+                                            Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                    builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    builder.show();
+                }
             }
             break;
         }
     }
 
-    private void insertMethod(String name) {
+    private void insertMethod(String id, String name) {
         Gson gson = new Gson();
         try {
             JSONObject jsonObject = new JSONObject();
+            jsonObject.put("makanan_id", id);
             jsonObject.put("name", name);
             MakananKategori makananKategori = gson.fromJson(String.valueOf(jsonObject), MakananKategori.class);
             makananKategories.add(makananKategori);
+//            tvTestAmountList.setText("Makanan Kategories= " + makananKategories.size());
             kategoriMakananAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
