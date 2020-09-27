@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -71,10 +72,11 @@ public class KategoriActivity extends AppCompatActivity {
                                 makanan.setNamaMakanan(dataMakanan.getString("nama"));
                                 mMakanan.add(makanan);
                             }
+
                             Intent intent = new Intent(v.getContext(), KategoriEntryActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("screenState", MyConstants.TAMBAH_KATEGORI);
-                            bundle.putString("daftarMakanan", mMakanan.toString());
+                            bundle.putSerializable("daftarMakanan", mMakanan);
                             intent.putExtras(bundle);
                             v.getContext().startActivity(intent);
                         } catch (JSONException e) {
@@ -115,10 +117,10 @@ public class KategoriActivity extends AppCompatActivity {
                         JSONObject dataKategori = (JSONObject) resultArray.get(i);
                         Kategori kategori = new Kategori();
                         kategori.setId(String.valueOf(i+1));
-                        kategori.setIdKategori(dataKategori.getString("id_kategori"));
-                        kategori.setNamaKategori(dataKategori.getString("nama_kategori"));
-                        kategori.setTanggalTambahKategori(dataKategori.getString("tanggal_tambah"));
-                        kategori.setTanggalUbahKategori(dataKategori.getString("tanggal_ubah"));
+                        kategori.setIdKategori(dataKategori.getString("jenis_menu_id"));
+                        kategori.setNamaKategori(dataKategori.getString("nama"));
+                        kategori.setTanggalTambahKategori(dataKategori.getString("created_at"));
+                        kategori.setTanggalUbahKategori(dataKategori.getString("updated_at"));
                         mKategori.add(kategori);
                     }
                     mKategoriAdapter.addItems(mKategori);

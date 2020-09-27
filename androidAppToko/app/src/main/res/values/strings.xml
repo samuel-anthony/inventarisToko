@@ -19,6 +19,7 @@
     <string name="label_data_tidak_boleh_sama">Password tidak boleh sama dengan sebelumnya</string>
     <string name="label_makanan_kategori_error">Masukkan Nama Makanan</string>
     <string name="label_data_kosong">Data tidak boleh kosong</string>
+    <string name="label_ubah_password">Berhasil Ubah Password</string>
 
     <!--Title Menu Bar-->
     <string name="menu_admin">Admin</string>
@@ -61,6 +62,7 @@
     <string name="tombol_kirim">Kirim</string>
     <string name="tombol_generate">Generate QR Code</string>
     <string name="tombol_tambah_detail">Tambah Detil</string>
+    <string name="tombol_tambah_makanan">Tambah Gambar</string>
 
     <!--Data Penjualan-->
     <string name="label_value_id_penjualan">1</string>
@@ -81,6 +83,7 @@
     <!--Data Makanan-->
     <string name="label_nama_makanan">Nama Makanan</string>
     <string name="label_harga_makanan">Harga Makanan</string>
+    <string name="label_gambar_makanan">Gambar Makanan</string>
     <string name="label_value_nama_makanan">Nama</string>
     <string name="label_value_harga_makanan">1</string>
 

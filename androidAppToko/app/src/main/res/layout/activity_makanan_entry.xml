@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorWhite"
-    tools:context=".Screens.Meja.MejaEntryActivity"
+    tools:context=".Screens.Makanan.MakananEntryActivity"
     android:clickable="true"
     android:focusableInTouchMode="true" >
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvDataMejaEntry"
+        android:id="@+id/cvDataMakananEntry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -33,16 +33,16 @@
                 android:layout_margin="@dimen/_4dp">
 
                 <TextView
-                    android:id="@+id/tvIdMeja"
+                    android:id="@+id/tvNamaMakanan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
                     android:layout_marginVertical="@dimen/_4dp"
-                    android:text="@string/label_id_meja"/>
+                    android:text="@string/label_nama_makanan"/>
 
                 <EditText
-                    android:id="@+id/etIdMeja"
+                    android:id="@+id/etNamaMakanan"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/input_primary"
@@ -62,16 +62,16 @@
                 android:layout_margin="@dimen/_4dp">
 
                 <TextView
-                    android:id="@+id/tvNamaMeja"
+                    android:id="@+id/tvHargaMakanan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.AppCompat.Title"
                     android:padding="@dimen/_4dp"
                     android:layout_marginVertical="@dimen/_4dp"
-                    android:text="@string/label_nama_meja"/>
+                    android:text="@string/label_harga_makanan"/>
 
                 <EditText
-                    android:id="@+id/etNamaMeja"
+                    android:id="@+id/etHargaMakanan"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/input_primary"
@@ -92,19 +92,28 @@
                 android:layout_marginVertical="@dimen/_12dp"
                 android:layout_marginHorizontal="@dimen/_8dp">
 
+                <TextView
+                    android:id="@+id/tvGambarMakanan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:padding="@dimen/_4dp"
+                    android:layout_marginVertical="@dimen/_4dp"
+                    android:text="@string/label_gambar_makanan"/>
+
                 <Button
-                    android:id="@+id/btnGenerate"
+                    android:id="@+id/btnTambahGambar"
                     android:paddingRight="50dp"
                     android:paddingLeft="50dp"
                     android:background="@drawable/button_secondary"
-                    android:text="@string/tombol_generate"
+                    android:text="@string/tombol_tambah_makanan"
                     android:textColor="@drawable/button_secondary_text"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_margin="@dimen/_12dp"/>
 
                 <ImageView
-                    android:id="@+id/ivQrCode"
+                    android:id="@+id/ivGambarMakanan"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center"
@@ -123,7 +132,7 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/btnKirim"
+            android:id="@+id/btnKirimMakanan"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:background="@drawable/button_success"

@@ -80,19 +80,12 @@
                         android:orientation="horizontal"
                         android:layout_margin="@dimen/_4dp">
 
-                        <EditText
-                            android:id="@+id/etNamaMakananKategori"
+                        <Spinner
+                            android:id="@+id/spnDaftarMakanan"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
                             android:layout_weight="1"
-                            android:background="@drawable/input_primary"
-                            android:paddingStart="20dp"
-                            android:maxLines="1"
-                            android:lines="1"
-                            android:singleLine="true"
-                            android:maxLength="50"
-                            android:textColor="#000"
-                            android:textSize="17sp"/>
+                            style="@style/Widget.AppCompat.Spinner.DropDown"/>
 
                         <Button
                             android:id="@+id/btnTambahMakananKategori"
@@ -132,16 +125,5 @@
                 android:layout_height="50dp"
                 android:layout_margin="@dimen/_12dp"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvTestAmountList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:textSize="24dp"
-            android:padding="@dimen/_4dp"
-            android:gravity="center"
-            android:layout_marginVertical="@dimen/_4dp"
-            android:text="1"/>
     </LinearLayout>
 </ScrollView>

@@ -11,13 +11,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Kategori.KategoriMakananAdapter;
 import com.example.inventaristoko.Model.Kategori.MakananKategori;
+import com.example.inventaristoko.Model.Makanan.Makanan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
@@ -35,35 +39,56 @@ import java.util.Map;
 
 public class KategoriEntryActivity extends AppCompatActivity implements View.OnClickListener  {
     private ArrayList<MakananKategori> makananKategories = new ArrayList<>();
+    private ArrayList<Makanan> mMakanan = new ArrayList<>();
+    private String[] makanans = new String[6];
     private RecyclerView mRecyclerView;
     private KategoriMakananAdapter kategoriMakananAdapter;
     private Button btnTambahMakananKategori, btnKirimKategori;
-    private EditText etNamaKategori, etNamaMakananKategori;
+    private EditText etNamaKategori;
     private int position;
     private String screenState;
-    private TextView tvTestAmountList;
+    private Spinner spnDaftarMakanan;
+    private String makananSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kategori_entry);
 
+        mRecyclerView = findViewById(R.id.rvDataMakananKategori);
+        etNamaKategori = findViewById((R.id.etNamaKategori));
+        btnTambahMakananKategori = findViewById(R.id.btnTambahMakananKategori);
+        btnKirimKategori = findViewById(R.id.btnKirimKategori);
+
         Bundle bundle = getIntent().getExtras();
         screenState = bundle.getString("screenState");
+        mMakanan = (ArrayList<Makanan>) bundle.getSerializable("daftarMakanan");
+
+        for(int i = 0 ; i < mMakanan.size() ; i ++ ) {
+            makanans[i] = mMakanan.get(i).getNamaMakanan();
+        }
+
+        spnDaftarMakanan = findViewById(R.id.spnDaftarMakanan);
+        spnDaftarMakanan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                makananSelected = makanans[position];
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, makanans);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnDaftarMakanan.setAdapter(adapter);
 
         if(screenState.equals(MyConstants.UBAH_KATEGORI)) {
             getSupportActionBar().setTitle(R.string.menu_ubah_kategori);
         } else {
-            tvTestAmountList.setText(bundle.getString("daftarMakanan"));
+            spnDaftarMakanan.setSelection(0);
             getSupportActionBar().setTitle(R.string.menu_tambah_kategori);
         }
-
-        mRecyclerView = findViewById(R.id.rvDataMakananKategori);
-        etNamaKategori = findViewById((R.id.etNamaKategori));
-        etNamaMakananKategori = findViewById(R.id.etNamaMakananKategori);
-        btnTambahMakananKategori = findViewById(R.id.btnTambahMakananKategori);
-        btnKirimKategori = findViewById(R.id.btnKirimKategori);
-        tvTestAmountList = findViewById(R.id.tvTestAmountList);
 
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
@@ -73,7 +98,6 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onEvent(MakananKategori makananKategori, int pos) {
                         position = pos;
-                        etNamaMakananKategori.setText(makananKategori.getName());
                     }
                 });
         mRecyclerView.setAdapter(kategoriMakananAdapter);
@@ -88,31 +112,17 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
                 }
             }
         });
-
-        etNamaMakananKategori.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
-            }
-        });
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnTambahMakananKategori: {
-                if(makananKategories.size() > 10-1) {
+                if(makananKategories.size() > mMakanan.size()-1) {
                     Toast.makeText(getApplicationContext(),"MELAMPAUI BATAS JANCUK", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    if (String.valueOf(etNamaMakananKategori.getText()).equals("")) {
-                        Toast.makeText(getApplicationContext(), R.string.label_makanan_kategori_error, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    insertMethod("1", String.valueOf(etNamaMakananKategori.getText()));
+                    insertMethod(mMakanan.get(0).getIdMakanan(), makananSelected);
                 }
             }
             break;
@@ -191,7 +201,6 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
             jsonObject.put("name", name);
             MakananKategori makananKategori = gson.fromJson(String.valueOf(jsonObject), MakananKategori.class);
             makananKategories.add(makananKategori);
-//            tvTestAmountList.setText("Makanan Kategories= " + makananKategories.size());
             kategoriMakananAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();

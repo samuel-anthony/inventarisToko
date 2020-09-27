@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
+import com.example.inventaristoko.Utils.Preferences;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.example.inventaristoko.Utils.VolleyCallback;
 
@@ -68,20 +69,15 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         VolleyAPI volleyAPI = new VolleyAPI(ChangePasswordActivity.this);
                         Bundle bundle = getIntent().getExtras();
                         Map<String, String> params = new HashMap<>();
-                        params.put("user_name", bundle.getString("idPengguna"));
+                        params.put("user_name", Preferences.getLoggedInUser(getBaseContext()));
                         params.put("newPassword", etNewPassword.getText().toString());
 
-                        volleyAPI.postRequest("updateUserPassword", params, new VolleyCallback() {
+                        volleyAPI.putRequest("updateUserPassword", params, new VolleyCallback() {
                             @Override
                             public void onSuccessResponse(String result) {
-                                try {
-                                    JSONObject resultJSON = new JSONObject(result);
-                                    Intent myIntent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
-                                    startActivityForResult(myIntent, 0);
-                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                                Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivityForResult(myIntent, 0);
+                                Toast.makeText(getApplicationContext(), R.string.label_ubah_password, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

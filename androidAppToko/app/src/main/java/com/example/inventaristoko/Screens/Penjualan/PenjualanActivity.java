@@ -7,19 +7,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Penjualan.PenjualanAdapter;
 import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.BahanPokok.BahanPokokActivity;
 import com.example.inventaristoko.Screens.Front.ChangePasswordActivity;
-import com.example.inventaristoko.Screens.Front.HomeActivity;
+import com.example.inventaristoko.Screens.Front.LoginActivity;
 import com.example.inventaristoko.Screens.Kategori.KategoriActivity;
 import com.example.inventaristoko.Screens.Makanan.MakananActivity;
 import com.example.inventaristoko.Screens.Meja.MejaActivity;
 import com.example.inventaristoko.Screens.Pengguna.PenggunaActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
+import com.example.inventaristoko.Utils.Preferences;
 import com.example.inventaristoko.Utils.VolleyCallback;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,10 +42,11 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 
+
 public class PenjualanActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private PenjualanAdapter mPenjualanAdapter;
-    private TextView tvTanggalPenjualan;
+    private TextView tvTanggalPenjualan, tvTestDoang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,24 +125,9 @@ public class PenjualanActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     CommonUtils.showLoading(PenjualanActivity.this);
-                    VolleyAPI volleyAPI = new VolleyAPI(PenjualanActivity.this);
-                    Map<String, String> params = new HashMap<>();
-                    volleyAPI.getRequest("logout", params, new VolleyCallback() {
-                        @Override
-                        public void onSuccessResponse(String result) {
-                            try {
-                                JSONObject resultJSON = new JSONObject(result);
-                                Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                                if (resultJSON.getString("is_error").equalsIgnoreCase("0")) {
-                                    Intent myIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                                    startActivityForResult(myIntent, 0);
-                                    Toast.makeText(getApplicationContext(), "Berhasil Keluar", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
+                    Preferences.clearLoggedInUser(getBaseContext());
+                    startActivity(new Intent(getBaseContext(), LoginActivity.class));
+                    finish();
                     CommonUtils.hideLoading();
                 }
             });
@@ -168,13 +154,6 @@ public class PenjualanActivity extends AppCompatActivity {
             startActivityForResult(myIntent, 0);
         } else if (item.getItemId() == R.string.menu_password) {
             Intent myIntent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
-
-            Bundle bundle = getIntent().getExtras();
-            String id = bundle.getString("idPengguna");
-
-            Bundle myBundle = new Bundle();
-            myBundle.putString("idPengguna", id);
-            myIntent.putExtras(myBundle);
             startActivityForResult(myIntent, 0);
         }
         return super.onOptionsItemSelected(item);

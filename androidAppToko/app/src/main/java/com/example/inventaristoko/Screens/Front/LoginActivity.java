@@ -3,6 +3,7 @@ package com.example.inventaristoko.Screens.Front;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.Penjualan.PenjualanActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
+import com.example.inventaristoko.Utils.Preferences;
 import com.example.inventaristoko.Utils.VolleyCallback;
 import com.example.inventaristoko.Utils.VolleyAPI;
 
@@ -39,30 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         btnMasukLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.showLoading(LoginActivity.this);
-                VolleyAPI volleyAPI = new VolleyAPI(LoginActivity.this);
-                Map<String, String> params = new HashMap<>();
-                params.put("user_id", etUsernameLogin.getText().toString());
-                params.put("password", etPasswordLogin.getText().toString());
-                volleyAPI.getRequest("login", params, new VolleyCallback() {
-                    @Override
-                    public void onSuccessResponse(String result) {
-                        try {
-                            JSONObject resultJSON = new JSONObject(result);
-                            Toast.makeText(getApplicationContext(),resultJSON.getString("message"),Toast.LENGTH_SHORT).show();
-                            if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
-                                Intent myIntent = new Intent(v.getContext(), PenjualanActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("idPengguna", params.get("user_id"));
-                                myIntent.putExtras(bundle);
-                                startActivityForResult(myIntent, 0);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                CommonUtils.hideLoading();
+                callLogin(v.getContext());
             }
         });
 
@@ -83,6 +62,41 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (Preferences.getLoggedInStatus(getBaseContext())){
+            startActivity(new Intent(getBaseContext(), PenjualanActivity.class));
+            finish();
+        }
+    }
+
+    public void callLogin(Context context){
+        CommonUtils.showLoading(context);
+        VolleyAPI volleyAPI = new VolleyAPI(context);
+        Map<String, String> params = new HashMap<>();
+        params.put("user_id", etUsernameLogin.getText().toString());
+        params.put("password", etPasswordLogin.getText().toString());
+        volleyAPI.getRequest("login", params, new VolleyCallback() {
+            @Override
+            public void onSuccessResponse(String result) {
+                try {
+                    JSONObject resultJSON = new JSONObject(result);
+                    Toast.makeText(getApplicationContext(),resultJSON.getString("message"),Toast.LENGTH_SHORT).show();
+                    if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
+                        Preferences.setLoggedInUser(getBaseContext(), etUsernameLogin.getText().toString());
+                        Preferences.setLoggedInStatus(getBaseContext(),true);
+                        Intent myIntent = new Intent(context, PenjualanActivity.class);
+                        startActivityForResult(myIntent, 0);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        CommonUtils.hideLoading();
     }
 
     @Override
