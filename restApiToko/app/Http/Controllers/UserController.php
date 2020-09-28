@@ -205,6 +205,7 @@ class UserController extends Controller
         foreach($users as $user){
             $admin = $user->admin;
             $admin->user_name = $user->user_id;
+            $admin->full_name = $user->full_name;
             array_push($listAdmin,$admin);
             // $user->admin = json_decode(json_encode($user->admin));
         }
