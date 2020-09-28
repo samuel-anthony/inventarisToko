@@ -29,6 +29,8 @@ import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.example.inventaristoko.Utils.VolleyCallback;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,7 +145,16 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
                         public void onClick(DialogInterface dialog, int which) {
                             CommonUtils.showLoading(KategoriEntryActivity.this);
                             VolleyAPI volleyAPI = new VolleyAPI(KategoriEntryActivity.this);
-                            JSONArray jsonArray = new JSONArray(makananKategories);
+                            JSONArray jsonArray = new JSONArray();
+                            for(int i = 0; i < makananKategories.size() ; i++){
+                                try {
+                                    JSONObject jsonObject = new JSONObject();
+                                    jsonObject.put("makanan_id",makananKategories.get(i).makanan_id);
+                                    jsonArray.put(jsonObject);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                             Map<String, String> params = new HashMap<>();
                             params.put("nama", etNamaKategori.getText().toString());
                             params.put("makanans", jsonArray.toString());
@@ -151,8 +162,6 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
                             if (screenState.equals(MyConstants.UBAH_KATEGORI)) {
                                 params.put("jenis_menu_id", "");
                             }
-
-                            params.put("makanans", "");
 
                             if (screenState.equals(MyConstants.UBAH_KATEGORI)) {
                                 volleyAPI.putRequest("updateJenisMenu", params, new VolleyCallback() {
