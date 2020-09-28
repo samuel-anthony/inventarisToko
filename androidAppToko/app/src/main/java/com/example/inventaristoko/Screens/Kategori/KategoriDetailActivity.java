@@ -36,6 +36,7 @@ public class KategoriDetailActivity extends AppCompatActivity {
     private MakananAdapter mMakananAdapter;
     private Button btnHapusKategori, btnUbahKategori;
     private TextView tvNamaKategori, tvIdKategori;
+    private String idKategori;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +46,14 @@ public class KategoriDetailActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.menu_detail_kategori);
 
         tvNamaKategori = findViewById(R.id.tvValueNamaKategori);
-        tvIdKategori = findViewById(R.id.tvValueNamaKategori);
+        tvIdKategori = findViewById(R.id.tvValueIdKategori);
         btnHapusKategori = findViewById(R.id.btnHapusKategori);
         btnUbahKategori = findViewById(R.id.btnUbahKategori);
 
         Bundle bundle = getIntent().getExtras();
         tvNamaKategori.setText(bundle.getString("namaKategori"));
         tvIdKategori.setText(bundle.getString("idKategori"));
+        idKategori = bundle.getString("idKategori");
 
         btnHapusKategori.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,9 +67,9 @@ public class KategoriDetailActivity extends AppCompatActivity {
                         CommonUtils.showLoading(KategoriDetailActivity.this);
                         VolleyAPI volleyAPI = new VolleyAPI(KategoriDetailActivity.this);
                         Map<String, String> params = new HashMap<>();
-                        params.put("id_kategori", tvIdKategori.getText().toString());
+                        params.put("jenis_menu_id", idKategori);
 
-                        volleyAPI.putRequest("hapusDataKategori", params, new VolleyCallback() {
+                        volleyAPI.putRequest("deleteJenisMenu", params, new VolleyCallback() {
                             @Override
                             public void onSuccessResponse(String result) {
                                 try {
@@ -124,22 +126,24 @@ public class KategoriDetailActivity extends AppCompatActivity {
         CommonUtils.showLoading(KategoriDetailActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
         Map<String, String> params = new HashMap<>();
-        volleyAPI.getRequest("ambilDataMakanan", params, new VolleyCallback() {
+        params.put("jenis_menu_id", idKategori);
+        volleyAPI.getRequest("getSemuaJenisMenuDetail", params, new VolleyCallback() {
             @Override
             public void onSuccessResponse(String result) {
                 try {
                     ArrayList<Makanan> mMakanan = new ArrayList<>();
                     JSONObject resultJSON = new JSONObject(result);
-                    JSONArray resultArray = resultJSON.getJSONArray("result");
+                    JSONArray resultArray = resultJSON.getJSONArray("listMakanan");
                     for(int i = 0 ; i < resultArray.length() ; i ++ ) {
                         JSONObject dataMakanan = (JSONObject) resultArray.get(i);
                         Makanan makanan = new Makanan();
                         makanan.setId(String.valueOf(i+1));
-                        makanan.setIdMakanan(dataMakanan.getString("id_makanan"));
-                        makanan.setNamaMakanan(dataMakanan.getString("nama_makanan"));
-                        makanan.setHargaMakanan(dataMakanan.getString("harga_makanan"));
-                        makanan.setTanggalTambahMakanan(dataMakanan.getString("tanggal_tambah"));
-                        makanan.setTanggalUbahMakanan(dataMakanan.getString("tanggal_ubah"));
+                        makanan.setIdMakanan(dataMakanan.getString("makanan_id"));
+                        makanan.setNamaMakanan(dataMakanan.getString("nama"));
+                        makanan.setHargaMakanan(dataMakanan.getString("harga_jual"));
+                        makanan.setGambarMakanan(dataMakanan.getString("gambar_makanan"));
+                        makanan.setTanggalTambahMakanan(dataMakanan.getString("created_at"));
+                        makanan.setTanggalUbahMakanan(dataMakanan.getString("updated_at"));
 
                         mMakanan.add(makanan);
                     }

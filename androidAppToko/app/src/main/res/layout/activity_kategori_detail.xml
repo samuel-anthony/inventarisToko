@@ -90,7 +90,7 @@
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:background="@drawable/button_danger"
-            android:text="@string/tombol_tambah"
+            android:text="@string/tombol_hapus"
             android:textColor="@drawable/button_danger_text"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
