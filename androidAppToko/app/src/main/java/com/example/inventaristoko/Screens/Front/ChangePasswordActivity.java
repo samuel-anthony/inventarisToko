@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChangePasswordActivity extends AppCompatActivity {
-    private EditText etNewPassword, etConfirmPassword;
+    private EditText etOldPassword, etNewPassword, etConfirmPassword;
     private Button btnKirimPassword;
 
     @Override
@@ -37,6 +37,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.menu_password);
 
+        etOldPassword = findViewById(R.id.etOldPassword);
         etNewPassword = findViewById(R.id.etNewPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
 
@@ -44,6 +45,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
         btnKirimPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(String.valueOf(etOldPassword.getText()).equals("")) {
+                    Toast.makeText(getApplicationContext(), R.string.label_data_tidak_boleh_kosong, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if(String.valueOf(etNewPassword.getText()).equals("")) {
                     Toast.makeText(getApplicationContext(), R.string.label_data_tidak_boleh_kosong, Toast.LENGTH_SHORT).show();
                     return;
@@ -70,6 +76,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         Bundle bundle = getIntent().getExtras();
                         Map<String, String> params = new HashMap<>();
                         params.put("user_name", Preferences.getLoggedInUser(getBaseContext()));
+                        params.put("oldPassword", etOldPassword.getText().toString());
                         params.put("newPassword", etNewPassword.getText().toString());
 
                         volleyAPI.putRequest("updateUserPassword", params, new VolleyCallback() {
@@ -88,6 +95,15 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     }
                 });
                 builder.show();
+            }
+        });
+
+        etOldPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
             }
         });
 
