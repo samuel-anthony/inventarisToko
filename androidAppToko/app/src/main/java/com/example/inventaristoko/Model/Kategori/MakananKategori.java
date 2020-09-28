@@ -1,15 +1,15 @@
 package com.example.inventaristoko.Model.Kategori;
 
 public class MakananKategori {
-    public int id;
+    public int makanan_id;
     public String name;
 
-    public int getId() {
-        return id;
+    public int getMakanan_id() {
+        return makanan_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMakanan_id(int makanan_id) {
+        this.makanan_id = makanan_id;
     }
 
     public String getName() {

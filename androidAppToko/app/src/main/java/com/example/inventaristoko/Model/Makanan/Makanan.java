@@ -12,6 +12,14 @@ public class Makanan implements Serializable {
     private String tanggalTambahMakanan;
     private String tanggalUbahMakanan;
 
+    public Makanan() {
+    }
+
+    public Makanan(String idMakanan, String namaMakanan) {
+        this.idMakanan = idMakanan;
+        this.namaMakanan = namaMakanan;
+    }
+
     public String getId() {
         return id;
     }
@@ -74,5 +82,10 @@ public class Makanan implements Serializable {
 
     public void setTanggalUbahMakanan(String tanggalUbahMakanan) {
         this.tanggalUbahMakanan = tanggalUbahMakanan;
+    }
+
+    @Override
+    public String toString() {
+        return namaMakanan;
     }
 }

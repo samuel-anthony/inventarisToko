@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.inventaristoko.R;
+import com.example.inventaristoko.Screens.Penjualan.PenjualanActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.Preferences;
@@ -82,11 +83,20 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         volleyAPI.putRequest("updateUserPassword", params, new VolleyCallback() {
                             @Override
                             public void onSuccessResponse(String result) {
-                                Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                                startActivityForResult(myIntent, 0);
-                                Toast.makeText(getApplicationContext(), R.string.label_ubah_password, Toast.LENGTH_SHORT).show();
+                                try {
+                                    JSONObject resultJSON = new JSONObject(result);
+                                    Toast.makeText(getApplicationContext(),resultJSON.getString("message"),Toast.LENGTH_SHORT).show();
+                                    if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
+                                        Preferences.clearLoggedInUser(getBaseContext());
+                                        Intent myIntent = new Intent(getBaseContext(), LoginActivity.class);
+                                        startActivityForResult(myIntent, 0);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
+                        CommonUtils.hideLoading();
                     }
                 });
                 builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
