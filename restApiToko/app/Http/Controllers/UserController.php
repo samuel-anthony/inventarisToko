@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\userAdmin;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;//INI UNTUK KEPENTINGAN LOGIN
 
 class UserController extends Controller
