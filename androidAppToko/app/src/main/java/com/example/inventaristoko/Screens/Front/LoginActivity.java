@@ -16,7 +16,6 @@ import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.Penjualan.PenjualanActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.Preferences;
-import com.example.inventaristoko.Utils.VolleyCallback;
 import com.example.inventaristoko.Utils.VolleyAPI;
 
 import org.json.JSONException;
@@ -38,62 +37,49 @@ public class LoginActivity extends AppCompatActivity {
         etPasswordLogin = findViewById(R.id.etPasswordLogin);
         btnMasukLogin = findViewById(R.id.btnMasukLogin);
 
-        btnMasukLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callLogin(v.getContext());
+        btnMasukLogin.setOnClickListener(v -> {
+            if(String.valueOf(etUsernameLogin.getText()).equals("") || String.valueOf(etPasswordLogin.getText()).equals("")) {
+                Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            callLogin(v.getContext());
+        });
+
+        etUsernameLogin.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
             }
         });
 
-        etUsernameLogin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
+        etPasswordLogin.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
             }
         });
-
-        etPasswordLogin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (Preferences.getLoggedInStatus(getBaseContext())){
-            startActivity(new Intent(getBaseContext(), PenjualanActivity.class));
-            finish();
-        }
     }
 
     public void callLogin(Context context){
         CommonUtils.showLoading(context);
+
         VolleyAPI volleyAPI = new VolleyAPI(context);
+
         Map<String, String> params = new HashMap<>();
         params.put("user_id", etUsernameLogin.getText().toString());
         params.put("password", etPasswordLogin.getText().toString());
-        volleyAPI.getRequest("login", params, new VolleyCallback() {
-            @Override
-            public void onSuccessResponse(String result) {
-                try {
-                    JSONObject resultJSON = new JSONObject(result);
-                    Toast.makeText(getApplicationContext(),resultJSON.getString("message"),Toast.LENGTH_SHORT).show();
-                    if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
-                        Preferences.setLoggedInUser(getBaseContext(), etUsernameLogin.getText().toString());
-                        Preferences.setLoggedInStatus(getBaseContext(),true);
-                        Intent myIntent = new Intent(context, PenjualanActivity.class);
-                        startActivityForResult(myIntent, 0);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+        volleyAPI.getRequest("login", params, result -> {
+            try {
+                JSONObject resultJSON = new JSONObject(result);
+                Toast.makeText(getApplicationContext(),resultJSON.getString("message"),Toast.LENGTH_SHORT).show();
+                if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
+                    Preferences.setLoggedInUser(getBaseContext(), etUsernameLogin.getText().toString());
+                    Preferences.setLoggedInStatus(getBaseContext(),true);
+                    startActivity(new Intent(context, PenjualanActivity.class));
+                    finish();
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         });
         CommonUtils.hideLoading();
@@ -102,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(getBaseContext(), HomeActivity.class);
         startActivity(intent);
         finish();
     }

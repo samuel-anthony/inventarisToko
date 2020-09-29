@@ -7,9 +7,11 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -18,21 +20,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.Meja.MejaActivity;
-import com.example.inventaristoko.Screens.Meja.MejaEntryActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.example.inventaristoko.Utils.VolleyCallback;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +38,7 @@ public class MakananEntryActivity extends AppCompatActivity {
     private EditText etNamaMakanan, etHargaMakanan;
     private ImageView ivGambarMakanan;
     private Button btnTambahGambar, btnKirimMakanan;
-    private Uri imageUri;
+    private String encodedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,17 +56,6 @@ public class MakananEntryActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(R.string.menu_ubah_makanan);
             etNamaMakanan.setText(bundle.getString("namaMakanan"));
             etHargaMakanan.setText(bundle.getString("hargaMakanan"));
-
-//            try {
-//                String text = etIdMeja.getText().toString();
-//                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-//                BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,150,150);
-//                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-//                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-//                ivQrCode.setImageBitmap(bitmap);
-//            } catch (WriterException e) {
-//                e.printStackTrace();
-//            }
         } else {
             getSupportActionBar().setTitle(R.string.menu_tambah_makanan);
         }
@@ -97,12 +83,13 @@ public class MakananEntryActivity extends AppCompatActivity {
                         Map<String, String> params = new HashMap<>();
                         params.put("nama_makanan", etNamaMakanan.getText().toString());
                         params.put("harga_jual", etHargaMakanan.getText().toString());
+                        params.put("gambar_makanan", encodedImage);
 
                         if (screenState.equals(MyConstants.UBAH_MEJA)) {
                             params.put("makanan_id", bundle.getString("idMakanan"));
                         }
 
-                        if (screenState.equals(MyConstants.UBAH_MEJA)) {
+                        if (screenState.equals(MyConstants.UBAH_MAKANAN)) {
                             volleyAPI.putRequest("editMakanan", params, new VolleyCallback() {
                                 @Override
                                 public void onSuccessResponse(String result) {
@@ -116,7 +103,7 @@ public class MakananEntryActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                        } else if (screenState.equals(MyConstants.TAMBAH_MEJA)) {
+                        } else if (screenState.equals(MyConstants.TAMBAH_MAKANAN)) {
                             volleyAPI.postRequest("addNewMakanan", params, new VolleyCallback() {
                                 @Override
                                 public void onSuccessResponse(String result) {
@@ -175,8 +162,25 @@ public class MakananEntryActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE){
-            imageUri = data.getData();
+            final Uri imageUri = data.getData();
+            InputStream imageStream = null;
+            try {
+                imageStream = getContentResolver().openInputStream(imageUri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+            encodedImage = encodeImage(selectedImage);
             ivGambarMakanan.setImageURI(imageUri);
         }
+    }
+
+    private String encodeImage(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return encImage;
     }
 }

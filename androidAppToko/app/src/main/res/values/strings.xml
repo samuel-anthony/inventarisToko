@@ -4,6 +4,8 @@
     <!--Label-->
     <string name="nama_toko">Warung Bakso Mba Welo</string>
     <string name="label_id">1</string>
+    <string name="label_yes">Iya</string>
+    <string name="label_no">Tidak</string>
     <string name="label_total">Total</string>
     <string name="label_old_password">Password Lama</string>
     <string name="label_new_password">Password Baru</string>
@@ -16,10 +18,11 @@
     <string name="label_data_tidak_ditemukan">Data Tidak Ditemukan</string>
     <string name="label_data_password_baru_salah">Password Baru anda tidak sama</string>
     <string name="label_data_tidak_boleh_kosong">Password tidak boleh kosong</string>
-    <string name="label_data_tidak_boleh_sama">Password tidak boleh sama dengan sebelumnya</string>
-    <string name="label_makanan_kategori_error">Masukkan Nama Makanan</string>
     <string name="label_data_kosong">Data tidak boleh kosong</string>
-    <string name="label_ubah_password">Berhasil Ubah Password</string>
+    <string name="press_once_again">Tekan Sekali Lagi Untuk Keluar</string>
+
+    <!--Dialog-->
+    <string name="confirmation_dialog_password">Anda Yakin Ingin Mengganti Password?</string>
 
     <!--Title Menu Bar-->
     <string name="menu_admin">Admin</string>
@@ -51,7 +54,6 @@
 
     <!--Tombol-->
     <string name="tombol_tambah">Tambah</string>
-    <string name="tombol_coba_ulang">Coba Ulang</string>
     <string name="tombol_hapus">Hapus</string>
     <string name="tombol_ubah">Ubah</string>
     <string name="tombol_pengunjung">Masuk Sebagai Pengunjung</string>
