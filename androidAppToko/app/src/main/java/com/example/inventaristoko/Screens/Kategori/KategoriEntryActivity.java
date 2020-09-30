@@ -16,21 +16,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Kategori.KategoriMakananAdapter;
 import com.example.inventaristoko.Model.Kategori.MakananKategori;
 import com.example.inventaristoko.Model.Makanan.Makanan;
-import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.example.inventaristoko.Utils.VolleyCallback;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +39,6 @@ import java.util.Map;
 public class KategoriEntryActivity extends AppCompatActivity implements View.OnClickListener  {
     private ArrayList<MakananKategori> makananKategories = new ArrayList<>();
     private ArrayList<Makanan> mMakanan = new ArrayList<>();
-//    private String[] makanans = new String[6];
     private RecyclerView mRecyclerView;
     private KategoriMakananAdapter kategoriMakananAdapter;
     private Button btnTambahMakananKategori, btnKirimKategori;

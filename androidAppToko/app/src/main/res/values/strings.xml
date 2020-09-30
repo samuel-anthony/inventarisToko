@@ -88,6 +88,7 @@
     <string name="label_gambar_makanan">Gambar Makanan</string>
     <string name="label_value_nama_makanan">Nama</string>
     <string name="label_value_harga_makanan">1</string>
+    <string name="label_value_nama_makanan_bahan_pokok">Nama Bahan Pokok</string>
 
     <!--Data Pengguna-->
     <string name="label_nama_pengguna">Nama</string>

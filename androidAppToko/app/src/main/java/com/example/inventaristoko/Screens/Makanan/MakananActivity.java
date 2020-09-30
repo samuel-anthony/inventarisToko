@@ -12,8 +12,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Makanan.MakananAdapter;
+import com.example.inventaristoko.Model.BahanPokok.BahanPokok;
 import com.example.inventaristoko.Model.Makanan.Makanan;
 import com.example.inventaristoko.R;
+import com.example.inventaristoko.Screens.Kategori.KategoriActivity;
+import com.example.inventaristoko.Screens.Kategori.KategoriEntryActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
@@ -55,11 +58,34 @@ public class MakananActivity extends AppCompatActivity {
         btnTambahMakanan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MakananEntryActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("screenState", MyConstants.TAMBAH_MAKANAN);
-                intent.putExtras(bundle);
-                v.getContext().startActivity(intent);
+                ArrayList<BahanPokok> mBahanPokok = new ArrayList<>();
+                VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
+                Map<String, String> params = new HashMap<>();
+                volleyAPI.getRequest("getSemuaBahanPokok", params, new VolleyCallback() {
+                    @Override
+                    public void onSuccessResponse(String result) {
+                        try {
+                            JSONObject resultJSON = new JSONObject(result);
+                            JSONArray resultArray = resultJSON.getJSONArray("result");
+                            for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                                JSONObject dataBahanPokok = (JSONObject) resultArray.get(i);
+                                BahanPokok bahanPokok = new BahanPokok();
+                                bahanPokok.setIdBahanPokok(dataBahanPokok.getString("bahan_pokok_id"));
+                                bahanPokok.setNamaBahanPokok(dataBahanPokok.getString("nama"));
+                                mBahanPokok.add(bahanPokok);
+                            }
+
+                            Intent intent = new Intent(v.getContext(), MakananEntryActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("screenState", MyConstants.TAMBAH_MAKANAN);
+                            bundle.putSerializable("daftarBahanPokok", mBahanPokok);
+                            intent.putExtras(bundle);
+                            v.getContext().startActivity(intent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
 

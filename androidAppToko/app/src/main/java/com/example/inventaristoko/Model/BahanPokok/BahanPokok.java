@@ -1,6 +1,8 @@
 package com.example.inventaristoko.Model.BahanPokok;
 
-public class BahanPokok {
+import java.io.Serializable;
+
+public class BahanPokok implements Serializable  {
     private String id;
     private String idBahanPokok;
     private String namaBahanPokok;
@@ -8,6 +10,14 @@ public class BahanPokok {
     private String satuanBahanPokok;
     private String tanggalTambahBahanPokok;
     private String tanggalUbahBahanPokok;
+
+    public BahanPokok() {
+    }
+
+    public BahanPokok(String idBahanPokok, String namaBahanPokok) {
+        this.idBahanPokok = idBahanPokok;
+        this.namaBahanPokok = namaBahanPokok;
+    }
 
     public String getId() {
         return id;
@@ -63,5 +73,10 @@ public class BahanPokok {
 
     public void setTanggalUbahBahanPokok(String tanggalUbahBahanPokok) {
         this.tanggalUbahBahanPokok = tanggalUbahBahanPokok;
+    }
+
+    @Override
+    public String toString() {
+        return namaBahanPokok;
     }
 }
