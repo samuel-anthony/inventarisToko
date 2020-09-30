@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\makanan;
 use App\makananDetail;
+use App\bahanPokok;
 class MakananController extends Controller
 {
     //
@@ -16,13 +17,15 @@ class MakananController extends Controller
     public function makananByDetail(request $request){
         $makanan = makanan::find($request->makanan_id);
         $temp = array();
+        $temp2 = array();
         foreach($makanan->makananDetails as $detail){
             $bahanPokok = $detail->bahanPokok;
             $bahanPokok->jumlah = $detail->jumlah;
             array_push($temp,$bahanPokok);
+            array_push($temp2, $bahanPokok->bahan_pokok_id);
         }
         $makanan->bahanPokoks = $temp;
-        return json_encode(['result'=>$makanan]);
+        return json_encode(['result'=>$makanan,"bahanPokokYangBelumMasuk"=>bahanPokok::whereNotIn('bahan_pokok_id',$temp2)->get()]);
     }
     
     public function addNewMakanan(request $request){
