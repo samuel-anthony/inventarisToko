@@ -4,7 +4,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,12 +13,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.Penjualan.PenjualanActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
-import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.Preferences;
 import com.example.inventaristoko.Utils.VolleyAPI;
-import com.example.inventaristoko.Utils.VolleyCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,95 +39,64 @@ public class ChangePasswordActivity extends AppCompatActivity {
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
 
         btnKirimPassword = findViewById(R.id.btnKirimPassword);
-        btnKirimPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(String.valueOf(etOldPassword.getText()).equals("")) {
-                    Toast.makeText(getApplicationContext(), R.string.label_data_tidak_boleh_kosong, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        btnKirimPassword.setOnClickListener(v -> {
+            if(String.valueOf(etOldPassword.getText()).equals("") || String.valueOf(etNewPassword.getText()).equals("") || String.valueOf(etConfirmPassword.getText()).equals("")) {
+                Toast.makeText(getApplicationContext(), R.string.label_data_tidak_boleh_kosong, Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                if(String.valueOf(etNewPassword.getText()).equals("")) {
-                    Toast.makeText(getApplicationContext(), R.string.label_data_tidak_boleh_kosong, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            if(!(String.valueOf(etNewPassword.getText()).equals(String.valueOf(etConfirmPassword.getText())))) {
+                Toast.makeText(getApplicationContext(), R.string.label_data_password_baru_salah, Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                if(String.valueOf(etConfirmPassword.getText()).equals("")) {
-                    Toast.makeText(getApplicationContext(), R.string.label_data_tidak_boleh_kosong, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setMessage(R.string.confirmation_dialog_password);
+            builder.setCancelable(false);
+            builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
+                CommonUtils.showLoading(v.getContext());
+                VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
 
-                if(!(String.valueOf(etNewPassword.getText()).equals(String.valueOf(etConfirmPassword.getText())))) {
-                    Toast.makeText(getApplicationContext(), R.string.label_data_password_baru_salah, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                Map<String, String> params = new HashMap<>();
+                params.put("user_name", Preferences.getLoggedInUser(getBaseContext()));
+                params.put("oldPassword", etOldPassword.getText().toString());
+                params.put("newPassword", etNewPassword.getText().toString());
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ChangePasswordActivity.this);
-                builder.setMessage("Anda Yakin Ingin Mengganti Password?");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        CommonUtils.showLoading(ChangePasswordActivity.this);
-                        VolleyAPI volleyAPI = new VolleyAPI(ChangePasswordActivity.this);
-                        Bundle bundle = getIntent().getExtras();
-                        Map<String, String> params = new HashMap<>();
-                        params.put("user_name", Preferences.getLoggedInUser(getBaseContext()));
-                        params.put("oldPassword", etOldPassword.getText().toString());
-                        params.put("newPassword", etNewPassword.getText().toString());
-
-                        volleyAPI.putRequest("updateUserPassword", params, new VolleyCallback() {
-                            @Override
-                            public void onSuccessResponse(String result) {
-                                try {
-                                    JSONObject resultJSON = new JSONObject(result);
-                                    Toast.makeText(getApplicationContext(),resultJSON.getString("message"),Toast.LENGTH_SHORT).show();
-                                    if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
-                                        Preferences.clearLoggedInUser(getBaseContext());
-                                        Intent myIntent = new Intent(getBaseContext(), LoginActivity.class);
-                                        startActivityForResult(myIntent, 0);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                        CommonUtils.hideLoading();
+                volleyAPI.putRequest("updateUserPassword", params, result -> {
+                    try {
+                        JSONObject resultJSON = new JSONObject(result);
+                        Toast.makeText(getApplicationContext(),resultJSON.getString("message"),Toast.LENGTH_SHORT).show();
+                        if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
+                            Preferences.clearLoggedInUser(getBaseContext());
+                            startActivity(new Intent(v.getContext(), LoginActivity.class));
+                            finish();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 });
-                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.show();
+                CommonUtils.hideLoading();
+            });
+            builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+            });
+            builder.show();
+        });
+
+        etOldPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
             }
         });
 
-        etOldPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
+        etNewPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
             }
         });
 
-        etNewPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
-            }
-        });
-
-        etConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
+        etConfirmPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
             }
         });
     }

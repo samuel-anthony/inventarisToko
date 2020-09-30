@@ -30,12 +30,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         btnPengunjung.setOnClickListener(this);
 
-        btnAdmin.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), LoginActivity.class);
-                startActivityForResult(myIntent, 0);
-                finish();
-            }
+        btnAdmin.setOnClickListener(view -> {
+            startActivity(new Intent(view.getContext(), LoginActivity.class));
+            finish();
         });
     }
 
@@ -44,21 +41,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
-                Toast.makeText(this, getResources().getString(R.string.label_data_tidak_ditemukan), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), getResources().getString(R.string.label_data_tidak_ditemukan), Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     JSONObject object = new JSONObject(result.getContents());
-//                    Intent intent = new Intent (v.getContext(), PengunjungActivity.class);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("namaMeja", object.getString("nama_meja"));
-//                    intent.putExtras(bundle);
-//                    v.getContext().startActivity(intent);
-//                    startActivityForResult(intent, 0);
-
-                    Toast.makeText(this, object.getString("nama"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), object.getString("nama"), Toast.LENGTH_SHORT).show();
                 } catch(JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(this, result.getContents(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), result.getContents(), Toast.LENGTH_SHORT).show();
                 }
             }
         } else {
