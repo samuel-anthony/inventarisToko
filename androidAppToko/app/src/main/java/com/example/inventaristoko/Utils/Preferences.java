@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.example.inventaristoko.Screens.Front.LoginActivity;
-
 public class Preferences {
 
     /** Pendeklarasian key-data berupa String, untuk sebagai wadah penyimpanan data.

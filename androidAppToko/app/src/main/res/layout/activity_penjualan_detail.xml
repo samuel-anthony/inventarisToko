@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/colorWhite">
 
@@ -20,13 +19,19 @@
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/tvIdDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:padding="@dimen/_4dp"
+                android:text="@string/label_nomor_penjualan"/>
+            <TextView
                 android:id="@+id/tvIdDetailPenjualan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:padding="@dimen/_4dp"
                 android:text="@string/label_value_id_penjualan"/>
-
             <TextView
                 android:id="@+id/tvTanggalDetailPenjualan"
                 android:layout_width="wrap_content"
@@ -76,7 +81,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvDataPenjualanDetail"
             android:layout_width="match_parent"
-            android:layout_height="350dp" />
+            android:layout_height="400dp" />
     </LinearLayout>
 
     <LinearLayout

@@ -47,7 +47,6 @@ public class PenggunaEntryActivity extends AppCompatActivity {
         etEmailPengguna = findViewById(R.id.etEmailPengguna);
         etNomorTeleponPengguna = findViewById(R.id.etNomorTeleponPengguna);
         etTanggalLahirPengguna = findViewById(R.id.etTanggalLahirPengguna);
-
         etTanggalLahirPengguna.setInputType(InputType.TYPE_NULL);
 
         if(screenState.equals(MyConstants.UBAH_PENGGUNA)) {
@@ -61,127 +60,103 @@ public class PenggunaEntryActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(R.string.menu_tambah_pengguna);
         }
 
-        etTanggalLahirPengguna.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
-                int month = cldr.get(Calendar.MONTH);
-                int year = cldr.get(Calendar.YEAR);
-                // date picker dialog
+        etTanggalLahirPengguna.setOnClickListener(v -> {
+            final Calendar cldr = Calendar.getInstance();
+            int day = cldr.get(Calendar.DAY_OF_MONTH);
+            int month = cldr.get(Calendar.MONTH);
+            int year = cldr.get(Calendar.YEAR);
 
-                datePicker = new DatePickerDialog(PenggunaEntryActivity.this, new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                String monthLabel, dayLabel;
+            datePicker = new DatePickerDialog(PenggunaEntryActivity.this, (view, year1, monthOfYear, dayOfMonth) -> {
+                String monthLabel, dayLabel;
 
-                                monthLabel = (monthOfYear + 1) < 10 ? "0" + (monthOfYear + 1) : String.valueOf(monthOfYear + 1);
-                                dayLabel  = dayOfMonth < 10 ? "0" + dayOfMonth : String.valueOf(dayOfMonth);
+                monthLabel = (monthOfYear + 1) < 10 ? "0" + (monthOfYear + 1) : String.valueOf(monthOfYear + 1);
+                dayLabel  = dayOfMonth < 10 ? "0" + dayOfMonth : String.valueOf(dayOfMonth);
 
-                                etTanggalLahirPengguna.setText(year + "-" + monthLabel + "-" + dayLabel);
-                            }
-                        }, year, month, day);
-                datePicker.show();
-            }
+                etTanggalLahirPengguna.setText(year1 + "-" + monthLabel + "-" + dayLabel);
+            }, year, month, day);
+            datePicker.show();
         });
 
         btnKirimPengguna = findViewById(R.id.btnKirimPengguna);
-        btnKirimPengguna.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(PenggunaEntryActivity.this);
-                builder.setMessage("Anda Yakin Ingin Kirim Data ini?");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        CommonUtils.showLoading(PenggunaEntryActivity.this);
-                        VolleyAPI volleyAPI = new VolleyAPI(PenggunaEntryActivity.this);
-                        Map<String, String> params = new HashMap<>();
-                        params.put("user_name", etUsernamePengguna.getText().toString());
+        btnKirimPengguna.setOnClickListener(v -> {
+            if(String.valueOf(etUsernamePengguna.getText()).equals("") ||
+                    String.valueOf(etNamaPengguna.getText()).equals("") ||
+                    String.valueOf(etEmailPengguna.getText()).equals("") ||
+                    String.valueOf(etNomorTeleponPengguna.getText()).equals("") ||
+                    String.valueOf(etTanggalLahirPengguna.getText()).equals("")) {
+                Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                        if (screenState.equals(MyConstants.UBAH_PENGGUNA)) {
-                            params.put("user_name_old", bundle.getString("usernamePengguna"));
+            AlertDialog.Builder builder = new AlertDialog.Builder(PenggunaEntryActivity.this);
+            builder.setMessage(R.string.confirmation_dialog_submit);
+            builder.setCancelable(false);
+            builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
+                CommonUtils.showLoading(PenggunaEntryActivity.this);
+                VolleyAPI volleyAPI = new VolleyAPI(PenggunaEntryActivity.this);
+
+                Map<String, String> params = new HashMap<>();
+                params.put("user_name", etUsernamePengguna.getText().toString());
+
+                if (screenState.equals(MyConstants.UBAH_PENGGUNA)) {
+                    params.put("user_name_old", bundle.getString("usernamePengguna"));
+                }
+
+                params.put("full_name", etNamaPengguna.getText().toString());
+                params.put("email", etEmailPengguna.getText().toString());
+                params.put("phone_number", etNomorTeleponPengguna.getText().toString());
+                params.put("birth_date", etTanggalLahirPengguna.getText().toString());
+
+                if (screenState.equals(MyConstants.UBAH_PENGGUNA)) {
+                    volleyAPI.putRequest("updateAdminUser", params, result -> {
+                        try {
+                            JSONObject resultJSON = new JSONObject(result);
+                            Intent myIntent = new Intent(getApplicationContext(), PenggunaActivity.class);
+                            startActivityForResult(myIntent, 0);
+                            Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-
-                        params.put("full_name", etNamaPengguna.getText().toString());
-                        params.put("email", etEmailPengguna.getText().toString());
-                        params.put("phone_number", etNomorTeleponPengguna.getText().toString());
-                        params.put("birth_date", etTanggalLahirPengguna.getText().toString());
-
-                        if (screenState.equals(MyConstants.UBAH_PENGGUNA)) {
-                            volleyAPI.putRequest("updateAdminUser", params, new VolleyCallback() {
-                                @Override
-                                public void onSuccessResponse(String result) {
-                                    try {
-                                        JSONObject resultJSON = new JSONObject(result);
-                                        Intent myIntent = new Intent(getApplicationContext(), PenggunaActivity.class);
-                                        startActivityForResult(myIntent, 0);
-                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        } else if (screenState.equals(MyConstants.TAMBAH_PENGGUNA)) {
-                            volleyAPI.postRequest("registerAdmin", params, new VolleyCallback() {
-                                @Override
-                                public void onSuccessResponse(String result) {
-                                    try {
-                                        JSONObject resultJSON = new JSONObject(result);
-                                        Intent myIntent = new Intent(getApplicationContext(), PenggunaActivity.class);
-                                        startActivityForResult(myIntent, 0);
-                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
+                    });
+                } else if (screenState.equals(MyConstants.TAMBAH_PENGGUNA)) {
+                    volleyAPI.postRequest("registerAdmin", params, result -> {
+                        try {
+                            JSONObject resultJSON = new JSONObject(result);
+                            Intent myIntent = new Intent(getApplicationContext(), PenggunaActivity.class);
+                            startActivityForResult(myIntent, 0);
+                            Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    }
-                });
-                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.show();
+                    });
+                }
+            });
+            builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+            });
+            builder.show();
+        });
+
+        etNamaPengguna.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
             }
         });
 
-        etNamaPengguna.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
+        etUsernamePengguna.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
             }
         });
 
-        etUsernamePengguna.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
+        etEmailPengguna.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
             }
         });
 
-        etEmailPengguna.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
-            }
-        });
-
-        etNomorTeleponPengguna.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
+        etNomorTeleponPengguna.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
             }
         });
     }

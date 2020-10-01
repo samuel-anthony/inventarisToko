@@ -80,12 +80,15 @@ public class PenjualanActivity extends AppCompatActivity {
     private void prepareDataPenjualan() {
         CommonUtils.showLoading(PenjualanActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
+
         Map<String, String> params = new HashMap<>();
+
         volleyAPI.getRequest("getPesananBelumSelesai", params, result -> {
             try {
                 ArrayList<Penjualan> mPenjualan = new ArrayList<>();
                 JSONObject resultJSON = new JSONObject(result);
                 JSONArray resultArray = resultJSON.getJSONArray("result");
+
                 for(int i = 0 ; i < resultArray.length() ; i ++ ) {
                     JSONObject dataPenjualan = (JSONObject) resultArray.get(i);
                     Penjualan penjualan = new Penjualan();
@@ -97,6 +100,7 @@ public class PenjualanActivity extends AppCompatActivity {
                     penjualan.setTanggalUbahPenjualan(dataPenjualan.getString("updated_at"));
                     mPenjualan.add(penjualan);
                 }
+
                 mPenjualanAdapter.addItems(mPenjualan);
                 mRecyclerView.setAdapter(mPenjualanAdapter);
                 CommonUtils.hideLoading();

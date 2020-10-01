@@ -7,6 +7,7 @@
     <string name="label_yes">Iya</string>
     <string name="label_no">Tidak</string>
     <string name="label_total">Total</string>
+    <string name="label_total_harga">Total Harga</string>
     <string name="label_old_password">Password Lama</string>
     <string name="label_new_password">Password Baru</string>
     <string name="label_confirm_password">Konfirmasi Password</string>
@@ -23,6 +24,9 @@
 
     <!--Dialog-->
     <string name="confirmation_dialog_password">Anda Yakin Ingin Mengganti Password?</string>
+    <string name="confirmation_dialog_finish_order">Anda Yakin Ingin Menyelesaikan Pesanan?</string>
+    <string name="confirmation_dialog_submit">Anda Yakin Ingin Kirim Data ini?</string>
+    <string name="confirmation_dialog_delete">Anda Yakin Ingin Menghapus Data ini?</string>
 
     <!--Title Menu Bar-->
     <string name="menu_admin">Admin</string>
@@ -67,6 +71,7 @@
     <string name="tombol_tambah_makanan">Tambah Gambar</string>
 
     <!--Data Penjualan-->
+    <string name="label_nomor_penjualan">Nomor Penjualan</string>
     <string name="label_value_id_penjualan">1</string>
     <string name="label_value_nama_penjualan">Catatan</string>
     <string name="label_value_status_penjualan">Status Penjualan</string>

@@ -73,6 +73,16 @@
                 android:gravity="bottom">
 
                 <TextView
+                    android:id="@+id/tvTotalHarga"
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:padding="@dimen/_8dp"
+                    android:text="@string/label_total_harga"
+                    android:gravity="end"
+                    android:textStyle="bold"/>
+                <TextView
                     android:id="@+id/tvTotalHargaPenjualan"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:layout_width="match_parent"

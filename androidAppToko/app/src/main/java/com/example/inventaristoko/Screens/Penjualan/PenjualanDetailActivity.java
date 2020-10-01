@@ -1,6 +1,5 @@
 package com.example.inventaristoko.Screens.Penjualan;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,7 +22,6 @@ import com.example.inventaristoko.Model.Penjualan.PenjualanDetail;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
-import com.example.inventaristoko.Utils.VolleyCallback;
 import com.example.inventaristoko.Utils.VolleyAPI;
 
 import org.json.JSONArray;
@@ -42,6 +40,9 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
     private TextView tvIdPenjualan, tvTanggalPenjualan, tvStatusPenjualan, tvTotalHargaPenjualan;
     private String[] statues = { "Dipesan", "Sedang Dibuat"};
     private Button btnSelesaiPesanan;
+    private Spinner spnDaftarStatus;
+    private String kodeStatus;
+    private int positionStatus;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,13 +55,15 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
         tvTanggalPenjualan = findViewById(R.id.tvTanggalDetailPenjualan);
         tvStatusPenjualan = findViewById(R.id.tvStatusDetailPenjualan);
         tvTotalHargaPenjualan = findViewById(R.id.tvTotalHargaDetailPenjualan);
+        spnDaftarStatus = findViewById(R.id.spnDroplistStatus);
+        btnSelesaiPesanan = findViewById(R.id.btnSelesaiPesanan);
 
         Bundle bundle = getIntent().getExtras();
         tvIdPenjualan.setText(bundle.getString("idPenjualan"));
         tvTanggalPenjualan.setText(bundle.getString("tanggalTambah"));
         tvTotalHargaPenjualan.setText(bundle.getString("totalHarga"));
+        kodeStatus = bundle.getString("kodeStatus");
 
-        String kodeStatus = bundle.getString("kodeStatus");
         if(kodeStatus.equals(MyConstants.ORDER_CODE)) {
             tvStatusPenjualan.setTextColor(getResources().getColor(R.color.colorBlack));
             tvStatusPenjualan.setText(MyConstants.ORDER_NAME);
@@ -69,54 +72,41 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
             tvStatusPenjualan.setText(MyConstants.GOING_NAME);
         }
 
-        btnSelesaiPesanan = findViewById(R.id.btnSelesaiPesanan);
-        btnSelesaiPesanan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(PenjualanDetailActivity.this);
-                builder.setMessage("Anda Yakin Ingin Menyelesaikan Pesanan?");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Map<String, String> params = new HashMap<>();
-                        params.put("ref_no", tvIdPenjualan.getText().toString());
+        btnSelesaiPesanan.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setMessage(R.string.confirmation_dialog_finish_order);
+            builder.setCancelable(false);
+            builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
+                CommonUtils.showLoading(PenjualanDetailActivity.this);
 
-                        CommonUtils.showLoading(PenjualanDetailActivity.this);
-                        VolleyAPI volleyAPI = new VolleyAPI(PenjualanDetailActivity.this);
-                        volleyAPI.putRequest("updateStatusPesananSelesai", params, new VolleyCallback() {
-                            @Override
-                            public void onSuccessResponse(String result) {
-                                try {
-                                    JSONObject resultJSON = new JSONObject(result);
-                                    Intent myIntent = new Intent(getApplicationContext(), PenjualanActivity.class);
-                                    startActivityForResult(myIntent, 0);
-                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                        CommonUtils.hideLoading();
+                Map<String, String> params = new HashMap<>();
+                params.put("ref_no", tvIdPenjualan.getText().toString());
+
+                VolleyAPI volleyAPI = new VolleyAPI(PenjualanDetailActivity.this);
+                volleyAPI.putRequest("updateStatusPesananSelesai", params, result -> {
+                    try {
+                        JSONObject resultJSON = new JSONObject(result);
+                        Intent myIntent = new Intent(v.getContext(), PenjualanActivity.class);
+                        startActivityForResult(myIntent, 0);
+                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 });
-                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.show();
-            }
+                CommonUtils.hideLoading();
+            });
+            builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+            });
+            builder.show();
         });
-
-        Spinner spin = findViewById(R.id.spnDroplistStatus);
-        spin.setOnItemSelectedListener(this);
 
         ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, statues);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin.setAdapter(adapter);
-        int spinnerPosition = adapter.getPosition((String) tvStatusPenjualan.getText());
-        spin.setSelection(spinnerPosition);
+        spnDaftarStatus.setAdapter(adapter);
+        positionStatus = adapter.getPosition((String) tvStatusPenjualan.getText());
+        spnDaftarStatus.setSelection(positionStatus);
+
+        spnDaftarStatus.setOnItemSelectedListener(this);
 
         mRecyclerView = findViewById(R.id.rvDataPenjualanDetail);
         ButterKnife.bind(this);
@@ -134,85 +124,83 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
     }
 
     private void prepareDataPenjualanDetail() {
+        CommonUtils.showLoading(PenjualanDetailActivity.this);
+        VolleyAPI volleyAPI = new VolleyAPI(PenjualanDetailActivity.this);
+
         Map<String, String> params = new HashMap<>();
         params.put("ref_no", tvIdPenjualan.getText().toString());
 
-        VolleyAPI volleyAPI = new VolleyAPI(this);
-        volleyAPI.getRequest("getPesananDetailRefNo", params, new VolleyCallback() {
-            @Override
-            public void onSuccessResponse(String result) {
-                try {
-                    ArrayList<PenjualanDetail> mPenjualanDetail = new ArrayList<>();
-                    JSONObject resultJSON = new JSONObject(result);
-                    JSONArray resultArray = resultJSON.getJSONArray("result");
-                    for(int i = 0 ; i < resultArray.length() ; i ++ ) {
-                        JSONObject dataPenjualanDetail = (JSONObject) resultArray.get(i);
-                        PenjualanDetail penjualanDetail = new PenjualanDetail();
-                        penjualanDetail.setIdDetail(String.valueOf(i+1));
-                        penjualanDetail.setIdDetailPenjualan(dataPenjualanDetail.getString("pesanan_detail_id"));
-                        penjualanDetail.setNamaDetailPenjualan(dataPenjualanDetail.getString("nama"));
-                        penjualanDetail.setJumlahDetailPenjualan(dataPenjualanDetail.getString("jumlah"));
-                        penjualanDetail.setHargaDetailMakanan(dataPenjualanDetail.getString("harga_makanan"));
-                        penjualanDetail.setCatatanDetailPenjualan(dataPenjualanDetail.getString("notes"));
-                        penjualanDetail.setTanggalTambahDetailPenjualan(dataPenjualanDetail.getString("created_at"));
-                        penjualanDetail.setTanggalUbahDetailPenjualan(dataPenjualanDetail.getString("updated_at"));
-                        mPenjualanDetail.add(penjualanDetail);
-                    }
-                    mPenjualanDetailAdapter.addItems(mPenjualanDetail);
-                    mRecyclerView.setAdapter(mPenjualanDetailAdapter);
-                    CommonUtils.hideLoading();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        volleyAPI.getRequest("getPesananDetailRefNo", params, result -> {
+            try {
+                ArrayList<PenjualanDetail> mPenjualanDetail = new ArrayList<>();
+                JSONObject resultJSON = new JSONObject(result);
+                JSONArray resultArray = resultJSON.getJSONArray("result");
+
+                for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                    JSONObject dataPenjualanDetail = (JSONObject) resultArray.get(i);
+                    PenjualanDetail penjualanDetail = new PenjualanDetail();
+                    penjualanDetail.setIdDetail(String.valueOf(i+1));
+                    penjualanDetail.setIdDetailPenjualan(dataPenjualanDetail.getString("pesanan_detail_id"));
+                    penjualanDetail.setNamaDetailPenjualan(dataPenjualanDetail.getString("nama"));
+                    penjualanDetail.setJumlahDetailPenjualan(dataPenjualanDetail.getString("jumlah"));
+                    penjualanDetail.setHargaDetailMakanan(dataPenjualanDetail.getString("harga_makanan"));
+                    penjualanDetail.setCatatanDetailPenjualan(dataPenjualanDetail.getString("notes"));
+                    penjualanDetail.setTanggalTambahDetailPenjualan(dataPenjualanDetail.getString("created_at"));
+                    penjualanDetail.setTanggalUbahDetailPenjualan(dataPenjualanDetail.getString("updated_at"));
+                    mPenjualanDetail.add(penjualanDetail);
                 }
+
+                mPenjualanDetailAdapter.addItems(mPenjualanDetail);
+                mRecyclerView.setAdapter(mPenjualanDetailAdapter);
+                CommonUtils.hideLoading();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         });
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> arg0, View arg1, int position,long id) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(PenjualanDetailActivity.this);
-        builder.setMessage("Anda Yakin Ingin Mengubah Status Pesanan Menjadi " + tvStatusPenjualan.getText().toString() + "?");
+    public void onItemSelected(AdapterView<?> arg0, View v, int position, long id) {
+        if(positionStatus == position) {
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setMessage("Anda Yakin Ingin Mengubah Status Pesanan Menjadi " + spnDaftarStatus.getSelectedItem().toString() + "?");
         builder.setCancelable(false);
-        builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                tvStatusPenjualan.setText(statues[position]);
+        builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
+            CommonUtils.showLoading(v.getContext());
+            VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
+            tvStatusPenjualan.setText(statues[position]);
 
-                String statusCode = "";
-                if(tvStatusPenjualan.getText() == MyConstants.ORDER_NAME) {
-                    statusCode = "001";
-                    tvStatusPenjualan.setTextColor(getResources().getColor(R.color.colorBlack));
-                } else if(tvStatusPenjualan.getText() == MyConstants.GOING_NAME) {
-                    statusCode = "002";
-                    tvStatusPenjualan.setTextColor(getResources().getColor(R.color.colorProcess));
+            String statusCode = "";
+            if(tvStatusPenjualan.getText() == MyConstants.ORDER_NAME) {
+                statusCode = "001";
+                tvStatusPenjualan.setTextColor(getResources().getColor(R.color.colorBlack));
+            } else if(tvStatusPenjualan.getText() == MyConstants.GOING_NAME) {
+                statusCode = "002";
+                tvStatusPenjualan.setTextColor(getResources().getColor(R.color.colorProcess));
+            }
+
+            Map<String, String> params = new HashMap<>();
+            params.put("ref_no", tvIdPenjualan.getText().toString());
+            params.put("status_code", statusCode);
+
+            volleyAPI.putRequest("updateStatusPesanan", params, result -> {
+                try {
+                    JSONObject resultJSON = new JSONObject(result);
+                    Intent myIntent = new Intent(getApplicationContext(), PenjualanActivity.class);
+                    startActivityForResult(myIntent, 0);
+                    spnDaftarStatus.setSelection(position);
+                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-                Map<String, String> params = new HashMap<>();
-                params.put("ref_no", tvIdPenjualan.getText().toString());
-                params.put("status_code", statusCode);
-
-                CommonUtils.showLoading(PenjualanDetailActivity.this);
-                VolleyAPI volleyAPI = new VolleyAPI(PenjualanDetailActivity.this);
-                volleyAPI.putRequest("updateStatusPesanan", params, new VolleyCallback() {
-                    @Override
-                    public void onSuccessResponse(String result) {
-                        try {
-                            JSONObject resultJSON = new JSONObject(result);
-                            Intent myIntent = new Intent(getApplicationContext(), PenjualanActivity.class);
-                            startActivityForResult(myIntent, 0);
-                            Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                CommonUtils.hideLoading();
-            }
+            });
+            CommonUtils.hideLoading();
         });
-        builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
+        builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+            spnDaftarStatus.setSelection(positionStatus);
         });
         builder.show();
     }

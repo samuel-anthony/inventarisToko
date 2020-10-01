@@ -2,10 +2,8 @@ package com.example.inventaristoko.Screens.Meja;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,7 +11,6 @@ import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
-import com.example.inventaristoko.Utils.VolleyCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -30,6 +27,7 @@ public class MejaDetailActivity extends AppCompatActivity {
     private Button btnHapusMeja, btnUbahMeja;
     private TextView tvIdMeja, tvNamaMeja;
     private ImageView ivQrCode;
+    private String idMeja;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +38,7 @@ public class MejaDetailActivity extends AppCompatActivity {
 
         tvIdMeja = findViewById(R.id.tvValueIdMeja);
         tvNamaMeja = findViewById(R.id.tvValueNamaMeja);
-
         ivQrCode = findViewById(R.id.ivQrCode);
-
         btnHapusMeja = findViewById(R.id.btnHapusMeja);
         btnUbahMeja = findViewById(R.id.btnUbahMeja);
 
@@ -50,10 +46,11 @@ public class MejaDetailActivity extends AppCompatActivity {
         tvIdMeja.setText(bundle.getString("idMeja"));
         tvNamaMeja.setText(bundle.getString("namaMeja"));
 
-        String text = tvIdMeja.getText().toString();
+        idMeja = tvIdMeja.getText().toString();
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+
         try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,150,150);
+            BitMatrix bitMatrix = multiFormatWriter.encode(idMeja, BarcodeFormat.QR_CODE,150,150);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             ivQrCode.setImageBitmap(bitmap);
@@ -61,55 +58,40 @@ public class MejaDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        btnHapusMeja.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MejaDetailActivity.this);
-                builder.setMessage("Anda Yakin Ingin Menghapus Data ini?");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        CommonUtils.showLoading(MejaDetailActivity.this);
-                        VolleyAPI volleyAPI = new VolleyAPI(MejaDetailActivity.this);
-                        Map<String, String> params = new HashMap<>();
-                        params.put("user_name", tvIdMeja.getText().toString());
+        btnHapusMeja.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setMessage(R.string.confirmation_dialog_delete);
+            builder.setCancelable(false);
+            builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
+                CommonUtils.showLoading(v.getContext());
+                VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
+                Map<String, String> params = new HashMap<>();
+                params.put("user_name", tvIdMeja.getText().toString());
 
-                        volleyAPI.putRequest("deleteUser", params, new VolleyCallback() {
-                            @Override
-                            public void onSuccessResponse(String result) {
-                                try {
-                                    JSONObject resultJSON = new JSONObject(result);
-                                    Intent myIntent = new Intent(getApplicationContext(), MejaActivity.class);
-                                    startActivityForResult(myIntent, 0);
-                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
+                volleyAPI.putRequest("deleteUser", params, result -> {
+                    try {
+                        JSONObject resultJSON = new JSONObject(result);
+                        Intent myIntent = new Intent(getApplicationContext(), MejaActivity.class);
+                        startActivityForResult(myIntent, 0);
+                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 });
-                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.show();
-            }
+            });
+            builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+            });
+            builder.show();
         });
 
-        btnUbahMeja.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), MejaEntryActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("screenState", MyConstants.UBAH_MEJA);
-                bundle.putString("idMeja", tvIdMeja.getText().toString());
-                bundle.putString("namaMeja", tvNamaMeja.getText().toString());
-                intent.putExtras(bundle);
-                v.getContext().startActivity(intent);
-            }
+        btnUbahMeja.setOnClickListener(v -> {
+            Intent intent = new Intent (v.getContext(), MejaEntryActivity.class);
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("screenState", MyConstants.UBAH_MEJA);
+            bundle1.putString("idMeja", tvIdMeja.getText().toString());
+            bundle1.putString("namaMeja", tvNamaMeja.getText().toString());
+            intent.putExtras(bundle1);
+            v.getContext().startActivity(intent);
         });
     }
 }

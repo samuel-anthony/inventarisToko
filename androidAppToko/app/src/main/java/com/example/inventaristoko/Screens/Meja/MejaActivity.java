@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import com.example.inventaristoko.Adapter.Meja.MejaAdapter;
@@ -16,7 +15,6 @@ import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
-import com.example.inventaristoko.Utils.VolleyCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -43,23 +41,15 @@ public class MejaActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.menu_meja);
 
         FloatingActionButton fab = findViewById(R.id.fabDataMeja);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
+        fab.setOnClickListener(view -> Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show());
 
         btnTambahMeja = findViewById(R.id.btnTambahMeja);
-        btnTambahMeja.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), MejaEntryActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("screenState", MyConstants.TAMBAH_MEJA);
-                intent.putExtras(bundle);
-                v.getContext().startActivity(intent);
-            }
+        btnTambahMeja.setOnClickListener(v -> {
+            Intent intent = new Intent (v.getContext(), MejaEntryActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("screenState", MyConstants.TAMBAH_MEJA);
+            intent.putExtras(bundle);
+            v.getContext().startActivity(intent);
         });
 
         mRecyclerView = findViewById(R.id.rvDataMeja);
@@ -80,31 +70,32 @@ public class MejaActivity extends AppCompatActivity {
     private void prepareDataMeja() {
         CommonUtils.showLoading(MejaActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
-        Map<String, String> params = new HashMap<>();
-        volleyAPI.getRequest("getSemuaDataMeja", params, new VolleyCallback() {
-            @Override
-            public void onSuccessResponse(String result) {
-                try {
-                    ArrayList<Meja> mMeja = new ArrayList<>();
-                    JSONObject resultJSON = new JSONObject(result);
-                    JSONArray resultArray = resultJSON.getJSONArray("result");
-                    for(int i = 0 ; i < resultArray.length() ; i ++ ) {
-                        JSONObject dataMeja = (JSONObject) resultArray.get(i);
-                        Meja meja = new Meja();
-                        meja.setId(String.valueOf(i+1));
-                        meja.setIdMeja(dataMeja.getString("user_id"));
-                        meja.setNamaMeja("nama_meja");
-                        meja.setTanggalTambahMeja(dataMeja.getString("created_at"));
-                        meja.setTanggalUbahMeja(dataMeja.getString("updated_at"));
 
-                        mMeja.add(meja);
-                    }
-                    mMejaAdapter.addItems(mMeja);
-                    mRecyclerView.setAdapter(mMejaAdapter);
-                    CommonUtils.hideLoading();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        Map<String, String> params = new HashMap<>();
+
+        volleyAPI.getRequest("getSemuaDataMeja", params, result -> {
+            try {
+                ArrayList<Meja> mMeja = new ArrayList<>();
+                JSONObject resultJSON = new JSONObject(result);
+                JSONArray resultArray = resultJSON.getJSONArray("result");
+
+                for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                    JSONObject dataMeja = (JSONObject) resultArray.get(i);
+                    Meja meja = new Meja();
+                    meja.setId(String.valueOf(i+1));
+                    meja.setIdMeja(dataMeja.getString("user_id"));
+                    meja.setNamaMeja(dataMeja.getString("full_name"));
+                    meja.setTanggalTambahMeja(dataMeja.getString("created_at"));
+                    meja.setTanggalUbahMeja(dataMeja.getString("updated_at"));
+
+                    mMeja.add(meja);
                 }
+
+                mMejaAdapter.addItems(mMeja);
+                mRecyclerView.setAdapter(mMejaAdapter);
+                CommonUtils.hideLoading();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         });
     }
