@@ -1,67 +1,94 @@
 package com.example.inventaristoko.Model.BahanPokok;
 
 public class BahanPokokFood {
-    private String id;
-    private String stapleFoodId;
-    private String stapleFoodName;
-    private String stapleFoodPrice;
-    private String stapleFoodAmount;
-    private String stapleFoodCreatedAt;
-    private String stapleFoodUpdatedAt;
+    private String idDetailMakanan;
+    private String idDetailMakananBahanPokok;
+    private String namaDetailMakananBahanPokok;
+    private String namaTokoDetailMakananBahanPokok;
+    private String jumlahDetailMakananBahanPokok;
+    private String satuanDetailMakananBahanPokok;
+    private String hargaDetailMakananBahanPokok;
+    private String aksiDetailMakananBahanPokok;
+    private String tanggalTambahDetailMakananBahanPokok;
+    private String tanggalUbahDetailMakananBahanPokok;
 
-    public String getId() {
-        return id;
+    public String getIdDetailMakanan() {
+        return idDetailMakanan;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdDetailMakanan(String idDetailMakanan) {
+        this.idDetailMakanan = idDetailMakanan;
     }
 
-    public String getStapleFoodId() {
-        return stapleFoodId;
+    public String getIdDetailMakananBahanPokok() {
+        return idDetailMakananBahanPokok;
     }
 
-    public void setStapleFoodId(String stapleFoodId) {
-        this.stapleFoodId = stapleFoodId;
+    public void setIdDetailMakananBahanPokok(String idDetailMakananBahanPokok) {
+        this.idDetailMakananBahanPokok = idDetailMakananBahanPokok;
     }
 
-    public String getStapleFoodName() {
-        return stapleFoodName;
+    public String getNamaDetailMakananBahanPokok() {
+        return namaDetailMakananBahanPokok;
     }
 
-    public void setStapleFoodName(String stapleFoodName) {
-        this.stapleFoodName = stapleFoodName;
+    public void setNamaDetailMakananBahanPokok(String namaDetailMakananBahanPokok) {
+        this.namaDetailMakananBahanPokok = namaDetailMakananBahanPokok;
     }
 
-    public String getStapleFoodPrice() {
-        return stapleFoodPrice;
+    public String getNamaTokoDetailMakananBahanPokok() {
+        return namaTokoDetailMakananBahanPokok;
     }
 
-    public void setStapleFoodPrice(String stapleFoodPrice) {
-        this.stapleFoodPrice = stapleFoodPrice;
+    public void setNamaTokoDetailMakananBahanPokok(String namaTokoDetailMakananBahanPokok) {
+        this.namaTokoDetailMakananBahanPokok = namaTokoDetailMakananBahanPokok;
     }
 
-    public String getStapleFoodAmount() {
-        return stapleFoodAmount;
+    public String getJumlahDetailMakananBahanPokok() {
+        return jumlahDetailMakananBahanPokok;
     }
 
-    public void setStapleFoodAmount(String stapleFoodAmount) {
-        this.stapleFoodAmount = stapleFoodAmount;
+    public void setJumlahDetailMakananBahanPokok(String jumlahDetailMakananBahanPokok) {
+        this.jumlahDetailMakananBahanPokok = jumlahDetailMakananBahanPokok;
     }
 
-    public String getStapleFoodCreatedAt() {
-        return stapleFoodCreatedAt;
+    public String getSatuanDetailMakananBahanPokok() {
+        return satuanDetailMakananBahanPokok;
     }
 
-    public void setStapleFoodCreatedAt(String stapleFoodCreatedAt) {
-        this.stapleFoodCreatedAt = stapleFoodCreatedAt;
+    public void setSatuanDetailMakananBahanPokok(String satuanDetailMakananBahanPokok) {
+        this.satuanDetailMakananBahanPokok = satuanDetailMakananBahanPokok;
     }
 
-    public String getStapleFoodUpdatedAt() {
-        return stapleFoodUpdatedAt;
+    public String getHargaDetailMakananBahanPokok() {
+        return hargaDetailMakananBahanPokok;
     }
 
-    public void setStapleFoodUpdatedAt(String stapleFoodUpdatedAt) {
-        this.stapleFoodUpdatedAt = stapleFoodUpdatedAt;
+    public void setHargaDetailMakananBahanPokok(String hargaDetailMakananBahanPokok) {
+        this.hargaDetailMakananBahanPokok = hargaDetailMakananBahanPokok;
+    }
+
+    public String getAksiDetailMakananBahanPokok() {
+        return aksiDetailMakananBahanPokok;
+    }
+
+    public void setAksiDetailMakananBahanPokok(String aksiDetailMakananBahanPokok) {
+        this.aksiDetailMakananBahanPokok = aksiDetailMakananBahanPokok;
+    }
+
+    public String getTanggalTambahDetailMakananBahanPokok() {
+        return tanggalTambahDetailMakananBahanPokok;
+    }
+
+    public void setTanggalTambahDetailMakananBahanPokok(String tanggalTambahDetailMakananBahanPokok) {
+        this.tanggalTambahDetailMakananBahanPokok = tanggalTambahDetailMakananBahanPokok;
+    }
+
+    public String getTanggalUbahDetailMakananBahanPokok() {
+        return tanggalUbahDetailMakananBahanPokok;
+    }
+
+    public void setTanggalUbahDetailMakananBahanPokok(String tanggalUbahDetailMakananBahanPokok) {
+        this.tanggalUbahDetailMakananBahanPokok = tanggalUbahDetailMakananBahanPokok;
     }
 }

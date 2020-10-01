@@ -1,6 +1,6 @@
 package com.example.inventaristoko.Model.Kategori;
 
-public class MakananKategori {
+public class KategoriMakanan {
     public int makanan_id;
     public String name;
 

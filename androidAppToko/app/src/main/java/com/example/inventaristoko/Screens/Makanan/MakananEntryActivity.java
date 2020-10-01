@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,14 +23,13 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.inventaristoko.Adapter.Makanan.BahanPokokMakananAdapter;
+import com.example.inventaristoko.Adapter.Makanan.MakananBahanPokokAdapter;
 import com.example.inventaristoko.Model.BahanPokok.BahanPokok;
 import com.example.inventaristoko.Model.Makanan.MakananBahanPokok;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
-import com.example.inventaristoko.Utils.VolleyCallback;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -49,8 +47,9 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
     private static final int PICK_IMAGE = 100;
     private ArrayList<MakananBahanPokok> makananBahanPokoks = new ArrayList<>();
     private ArrayList<BahanPokok> mBahanPokok = new ArrayList<>();
+    private ArrayList<BahanPokok> bahanPokoks = new ArrayList<>();
     private EditText etNamaMakanan, etHargaMakanan;
-    private BahanPokokMakananAdapter bahanPokokMakananAdapter;
+    private MakananBahanPokokAdapter makananBahanPokokAdapter;
     private ImageView ivGambarMakanan;
     private int position;
     private RecyclerView mRecyclerView;
@@ -66,7 +65,7 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
         mRecyclerView = findViewById(R.id.rvDataMakananBahanPokok);
         etNamaMakanan = findViewById(R.id.etNamaMakanan);
         etHargaMakanan = findViewById(R.id.etHargaMakanan);
-        btnTambahGambar = (Button) findViewById(R.id.btnTambahGambar);
+        btnTambahGambar = findViewById(R.id.btnTambahGambar);
         btnTambahMakananBahanPokok = findViewById(R.id.btnTambahMakananBahanPokok);
         btnKirimMakanan = findViewById(R.id.btnKirimMakanan);
         ivGambarMakanan = findViewById(R.id.ivGambarMakanan);
@@ -76,9 +75,10 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
         screenState = bundle.getString("screenState");
         mBahanPokok = (ArrayList<BahanPokok>) bundle.getSerializable("daftarBahanPokok");
 
-        ArrayList<BahanPokok> bahanPokoks = new ArrayList<>();
-        for (int i = 0 ; i < mBahanPokok.size() ; i++) {
-            bahanPokoks.add(new BahanPokok(mBahanPokok.get(i).getIdBahanPokok(), mBahanPokok.get(i).getNamaBahanPokok()));
+        if(screenState.equals(MyConstants.TAMBAH_MAKANAN)) {
+            for (int i = 0; i < mBahanPokok.size(); i++) {
+                bahanPokoks.add(new BahanPokok(mBahanPokok.get(i).getIdBahanPokok(), mBahanPokok.get(i).getNamaBahanPokok()));
+            }
         }
 
         ArrayAdapter<BahanPokok> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, bahanPokoks);
@@ -87,15 +87,17 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
         spnDaftarBahanPokok.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bahanPokokSelected = bahanPokoks.get(position).getNamaBahanPokok();
-                idBahanPokokSelected = bahanPokoks.get(position).getIdBahanPokok();
+                if(screenState.equals(MyConstants.TAMBAH_MAKANAN)) {
+                    bahanPokokSelected = bahanPokoks.get(position).getNamaBahanPokok();
+                    idBahanPokokSelected = bahanPokoks.get(position).getIdBahanPokok();
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
-        if(screenState.equals(MyConstants.UBAH_MEJA)) {
+        if(screenState.equals(MyConstants.UBAH_MAKANAN)) {
             getSupportActionBar().setTitle(R.string.menu_ubah_makanan);
             etNamaMakanan.setText(bundle.getString("namaMakanan"));
             etHargaMakanan.setText(bundle.getString("hargaMakanan"));
@@ -106,8 +108,8 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        bahanPokokMakananAdapter = new BahanPokokMakananAdapter(getApplicationContext(), makananBahanPokoks, (makananBahanPokok, pos) -> position = pos);
-        mRecyclerView.setAdapter(bahanPokokMakananAdapter);
+        makananBahanPokokAdapter = new MakananBahanPokokAdapter(getApplicationContext(), makananBahanPokoks, (makananBahanPokok, pos) -> position = pos);
+        mRecyclerView.setAdapter(makananBahanPokokAdapter);
         btnTambahMakananBahanPokok.setOnClickListener(this);
         btnTambahGambar.setOnClickListener(this);
         btnKirimMakanan.setOnClickListener(this);
@@ -132,24 +134,26 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
                 openGallery();
             }
             break;
+
             case R.id.btnTambahMakananBahanPokok: {
                 if(makananBahanPokoks.size() > mBahanPokok.size()-1) {
-                    Toast.makeText(getApplicationContext(),"MELAMPAUI BATAS JANCUK", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),R.string.label_data_melampaui, Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     insertMethod(idBahanPokokSelected, bahanPokokSelected);
                 }
             }
             break;
+
             case R.id.btnKirimMakanan: {
-                if(makananBahanPokoks.size() < 1) {
+                if(String.valueOf(etNamaMakanan.getText()).equals("") || String.valueOf(etHargaMakanan.getText()).equals("") || makananBahanPokoks.size() < 1) {
                     Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                    builder.setMessage("Anda Yakin Ingin Kirim Data ini?");
+                    builder.setMessage(R.string.confirmation_dialog_submit);
                     builder.setCancelable(false);
-                    builder.setPositiveButton("Iya", (dialog, which) -> {
+                    builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
                         CommonUtils.showLoading(view.getContext());
                         VolleyAPI volleyAPI = new VolleyAPI(view.getContext());
                         JSONArray jsonArray = new JSONArray();
@@ -173,39 +177,31 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
                         }
 
                         if (screenState.equals(MyConstants.UBAH_MAKANAN)) {
-                            volleyAPI.putRequest("editMakanan", params, new VolleyCallback() {
-                                @Override
-                                public void onSuccessResponse(String result) {
-                                    try {
-                                        JSONObject resultJSON = new JSONObject(result);
-                                        Intent myIntent = new Intent(getApplicationContext(), MakananActivity.class);
-                                        startActivityForResult(myIntent, 0);
-                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+                            volleyAPI.putRequest("editMakanan", params, result -> {
+                                try {
+                                    JSONObject resultJSON = new JSONObject(result);
+                                    Intent myIntent = new Intent(getApplicationContext(), MakananActivity.class);
+                                    startActivityForResult(myIntent, 0);
+                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
                             });
                         } else if (screenState.equals(MyConstants.TAMBAH_MAKANAN)) {
-                            volleyAPI.postRequest("addMakanan", params, new VolleyCallback() {
-                                @Override
-                                public void onSuccessResponse(String result) {
-                                    try {
-                                        JSONObject resultJSON = new JSONObject(result);
-                                        Intent myIntent = new Intent(getApplicationContext(), MakananActivity.class);
-                                        startActivityForResult(myIntent, 0);
-                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+                            volleyAPI.postRequest("addMakanan", params, result -> {
+                                try {
+                                    JSONObject resultJSON = new JSONObject(result);
+                                    Intent myIntent = new Intent(getApplicationContext(), MakananActivity.class);
+                                    startActivityForResult(myIntent, 0);
+                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
                             });
                         }
+                        CommonUtils.hideLoading();
                     });
-                    builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
+                    builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
                     });
                     builder.show();
                 }
@@ -258,7 +254,7 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
             jsonObject.put("name", name);
             MakananBahanPokok makananBahanPokok = gson.fromJson(String.valueOf(jsonObject), MakananBahanPokok.class);
             makananBahanPokoks.add(makananBahanPokok);
-            bahanPokokMakananAdapter.notifyDataSetChanged();
+            makananBahanPokokAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }

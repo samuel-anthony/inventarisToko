@@ -21,6 +21,7 @@
     <string name="label_data_tidak_boleh_kosong">Password tidak boleh kosong</string>
     <string name="label_data_kosong">Data tidak boleh kosong</string>
     <string name="press_once_again">Tekan Sekali Lagi Untuk Keluar</string>
+    <string name="label_data_melampaui">Data yang anda masukkan melampaui dari yang ditentukan</string>
 
     <!--Dialog-->
     <string name="confirmation_dialog_password">Anda Yakin Ingin Mengganti Password?</string>

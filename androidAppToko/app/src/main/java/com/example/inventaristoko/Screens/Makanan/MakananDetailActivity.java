@@ -3,13 +3,11 @@ package com.example.inventaristoko.Screens.Makanan;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +17,6 @@ import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
-import com.example.inventaristoko.Utils.VolleyCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,59 +54,46 @@ public class MakananDetailActivity extends AppCompatActivity {
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         ivGambarMakanan.setImageBitmap(decodedByte);
 
-        btnHapusMakanan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MakananDetailActivity.this);
-                builder.setMessage("Anda Yakin Ingin Menghapus Data ini?");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        CommonUtils.showLoading(MakananDetailActivity.this);
-                        VolleyAPI volleyAPI = new VolleyAPI(MakananDetailActivity.this);
-                        Map<String, String> params = new HashMap<>();
-                        params.put("makanan_id", idMakanan);
+        btnHapusMakanan.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setMessage(R.string.confirmation_dialog_delete);
+            builder.setCancelable(false);
+            builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
+                CommonUtils.showLoading(v.getContext());
+                VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
 
-                        volleyAPI.putRequest("deleteMakanan", params, new VolleyCallback() {
-                            @Override
-                            public void onSuccessResponse(String result) {
-                                try {
-                                    JSONObject resultJSON = new JSONObject(result);
-                                    Intent myIntent = new Intent(getApplicationContext(), MakananActivity.class);
-                                    startActivityForResult(myIntent, 0);
-                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
+                Map<String, String> params = new HashMap<>();
+                params.put("makanan_id", idMakanan);
+
+                volleyAPI.putRequest("deleteMakanan", params, result -> {
+                    try {
+                        JSONObject resultJSON = new JSONObject(result);
+                        Intent myIntent = new Intent(getApplicationContext(), MakananActivity.class);
+                        startActivityForResult(myIntent, 0);
+                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 });
-                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.show();
-            }
+                CommonUtils.hideLoading();
+            });
+            builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+            });
+            builder.show();
         });
 
-        btnUbahMakanan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), MakananEntryActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("screenState", MyConstants.UBAH_MAKANAN);
-                bundle.putString("idMakanan", idMakanan);
-                bundle.putString("namaMakanan", tvNamaMakanan.getText().toString());
-                bundle.putString("hargaMakanan", hargaMakanan);
-                bundle.putString("gambarMakanan", decodeImage);
-                intent.putExtras(bundle);
-                v.getContext().startActivity(intent);
+        btnUbahMakanan.setOnClickListener(v -> {
+            Intent intent = new Intent (v.getContext(), MakananEntryActivity.class);
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("screenState", MyConstants.UBAH_MAKANAN);
+            bundle1.putString("idMakanan", idMakanan);
+            bundle1.putString("namaMakanan", tvNamaMakanan.getText().toString());
+            bundle1.putString("hargaMakanan", hargaMakanan);
+            bundle1.putString("gambarMakanan", decodeImage);
+            intent.putExtras(bundle1);
+            v.getContext().startActivity(intent);
 
-                Toast.makeText(getApplicationContext(), "Ubah Makanan", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(getApplicationContext(), "Ubah Makanan", Toast.LENGTH_SHORT).show();
         });
     }
 }

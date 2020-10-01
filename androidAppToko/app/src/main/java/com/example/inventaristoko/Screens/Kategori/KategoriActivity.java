@@ -45,46 +45,38 @@ public class KategoriActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.menu_kategori);
 
         FloatingActionButton fab = findViewById(R.id.fabKategori);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
+        fab.setOnClickListener(view -> Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show());
 
         btnTambahKategori = findViewById(R.id.btnTambahKategori);
-        btnTambahKategori.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrayList<Makanan> mMakanan = new ArrayList<>();
-                VolleyAPI volleyAPI = new VolleyAPI(KategoriActivity.this);
-                Map<String, String> params = new HashMap<>();
-                volleyAPI.getRequest("getSemuaMakanan", params, new VolleyCallback() {
-                    @Override
-                    public void onSuccessResponse(String result) {
-                        try {
-                            JSONObject resultJSON = new JSONObject(result);
-                            JSONArray resultArray = resultJSON.getJSONArray("result");
-                            for(int i = 0 ; i < resultArray.length() ; i ++ ) {
-                                JSONObject dataMakanan = (JSONObject) resultArray.get(i);
-                                Makanan makanan = new Makanan();
-                                makanan.setIdMakanan(dataMakanan.getString("makanan_id"));
-                                makanan.setNamaMakanan(dataMakanan.getString("nama"));
-                                mMakanan.add(makanan);
-                            }
+        btnTambahKategori.setOnClickListener(v -> {
+            ArrayList<Makanan> mMakanan = new ArrayList<>();
+            VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
 
-                            Intent intent = new Intent(v.getContext(), KategoriEntryActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("screenState", MyConstants.TAMBAH_KATEGORI);
-                            bundle.putSerializable("daftarMakanan", mMakanan);
-                            intent.putExtras(bundle);
-                            v.getContext().startActivity(intent);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+            Map<String, String> params = new HashMap<>();
+
+            volleyAPI.getRequest("getSemuaMakanan", params, result -> {
+                try {
+                    JSONObject resultJSON = new JSONObject(result);
+                    JSONArray resultArray = resultJSON.getJSONArray("result");
+
+                    for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                        JSONObject dataMakanan = (JSONObject) resultArray.get(i);
+                        Makanan makanan = new Makanan();
+                        makanan.setIdMakanan(dataMakanan.getString("makanan_id"));
+                        makanan.setNamaMakanan(dataMakanan.getString("nama"));
+                        mMakanan.add(makanan);
                     }
-                });
-            }
+
+                    Intent intent = new Intent(v.getContext(), KategoriEntryActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("screenState", MyConstants.TAMBAH_KATEGORI);
+                    bundle.putSerializable("daftarMakanan", mMakanan);
+                    intent.putExtras(bundle);
+                    v.getContext().startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            });
         });
 
         mRecyclerView = findViewById(R.id.rvKategori);
@@ -106,29 +98,28 @@ public class KategoriActivity extends AppCompatActivity {
         CommonUtils.showLoading(KategoriActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
         Map<String, String> params = new HashMap<>();
-        volleyAPI.getRequest("getSemuaJenisMenu", params, new VolleyCallback() {
-            @Override
-            public void onSuccessResponse(String result) {
-                try {
-                    ArrayList<Kategori> mKategori = new ArrayList<>();
-                    JSONObject resultJSON = new JSONObject(result);
-                    JSONArray resultArray = resultJSON.getJSONArray("result");
-                    for(int i = 0 ; i < resultArray.length() ; i ++ ) {
-                        JSONObject dataKategori = (JSONObject) resultArray.get(i);
-                        Kategori kategori = new Kategori();
-                        kategori.setId(String.valueOf(i+1));
-                        kategori.setIdKategori(dataKategori.getString("jenis_menu_id"));
-                        kategori.setNamaKategori(dataKategori.getString("nama"));
-                        kategori.setTanggalTambahKategori(dataKategori.getString("created_at"));
-                        kategori.setTanggalUbahKategori(dataKategori.getString("updated_at"));
-                        mKategori.add(kategori);
-                    }
-                    mKategoriAdapter.addItems(mKategori);
-                    mRecyclerView.setAdapter(mKategoriAdapter);
-                    CommonUtils.hideLoading();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        volleyAPI.getRequest("getSemuaJenisMenu", params, result -> {
+            try {
+                ArrayList<Kategori> mKategori = new ArrayList<>();
+                JSONObject resultJSON = new JSONObject(result);
+                JSONArray resultArray = resultJSON.getJSONArray("result");
+
+                for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                    JSONObject dataKategori = (JSONObject) resultArray.get(i);
+                    Kategori kategori = new Kategori();
+                    kategori.setId(String.valueOf(i+1));
+                    kategori.setIdKategori(dataKategori.getString("jenis_menu_id"));
+                    kategori.setNamaKategori(dataKategori.getString("nama"));
+                    kategori.setTanggalTambahKategori(dataKategori.getString("created_at"));
+                    kategori.setTanggalUbahKategori(dataKategori.getString("updated_at"));
+                    mKategori.add(kategori);
                 }
+
+                mKategoriAdapter.addItems(mKategori);
+                mRecyclerView.setAdapter(mKategoriAdapter);
+                CommonUtils.hideLoading();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         });
     }

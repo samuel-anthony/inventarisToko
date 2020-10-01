@@ -1,94 +1,94 @@
 package com.example.inventaristoko.Model.BahanPokok;
 
 public class BahanPokokHistory {
-    private String idDetail;
-    private String idDetailBahanPokok;
-    private String namaDetailBahanPokok;
-    private String namaTokoDetailBahanPokok;
-    private String jumlahDetailBahanPokok;
-    private String satuanDetailBahanPokok;
-    private String hargaDetailBahanPokok;
-    private String aksiDetailBahanPokok;
-    private String tanggalTambahDetailBahanPokok;
-    private String tanggalUbahDetailBahanPokok;
+    private String idDetailRiwayat;
+    private String idDetailRiwayatBahanPokok;
+    private String namaDetailRiwayatBahanPokok;
+    private String namaTokoDetailRiwayatBahanPokok;
+    private String jumlahDetailRiwayatBahanPokok;
+    private String satuanDetailRiwayatBahanPokok;
+    private String hargaDetailRiwayatBahanPokok;
+    private String aksiDetailRiwayatBahanPokok;
+    private String tanggalTambahDetailRiwayatBahanPokok;
+    private String tanggalUbahDetailRiwayatBahanPokok;
 
-    public String getIdDetail() {
-        return idDetail;
+    public String getIdDetailRiwayat() {
+        return idDetailRiwayat;
     }
 
-    public void setIdDetail(String idDetail) {
-        this.idDetail = idDetail;
+    public void setIdDetailRiwayat(String idDetailRiwayat) {
+        this.idDetailRiwayat = idDetailRiwayat;
     }
 
-    public String getIdDetailBahanPokok() {
-        return idDetailBahanPokok;
+    public String getIdDetailRiwayatBahanPokok() {
+        return idDetailRiwayatBahanPokok;
     }
 
-    public void setIdDetailBahanPokok(String idDetailBahanPokok) {
-        this.idDetailBahanPokok = idDetailBahanPokok;
+    public void setIdDetailRiwayatBahanPokok(String idDetailRiwayatBahanPokok) {
+        this.idDetailRiwayatBahanPokok = idDetailRiwayatBahanPokok;
     }
 
-    public String getNamaDetailBahanPokok() {
-        return namaDetailBahanPokok;
+    public String getNamaDetailRiwayatBahanPokok() {
+        return namaDetailRiwayatBahanPokok;
     }
 
-    public void setNamaDetailBahanPokok(String namaDetailBahanPokok) {
-        this.namaDetailBahanPokok = namaDetailBahanPokok;
+    public void setNamaDetailRiwayatBahanPokok(String namaDetailRiwayatBahanPokok) {
+        this.namaDetailRiwayatBahanPokok = namaDetailRiwayatBahanPokok;
     }
 
-    public String getNamaTokoDetailBahanPokok() {
-        return namaTokoDetailBahanPokok;
+    public String getNamaTokoDetailRiwayatBahanPokok() {
+        return namaTokoDetailRiwayatBahanPokok;
     }
 
-    public void setNamaTokoDetailBahanPokok(String namaTokoDetailBahanPokok) {
-        this.namaTokoDetailBahanPokok = namaTokoDetailBahanPokok;
+    public void setNamaTokoDetailRiwayatBahanPokok(String namaTokoDetailRiwayatBahanPokok) {
+        this.namaTokoDetailRiwayatBahanPokok = namaTokoDetailRiwayatBahanPokok;
     }
 
-    public String getJumlahDetailBahanPokok() {
-        return jumlahDetailBahanPokok;
+    public String getJumlahDetailRiwayatBahanPokok() {
+        return jumlahDetailRiwayatBahanPokok;
     }
 
-    public void setJumlahDetailBahanPokok(String jumlahDetailBahanPokok) {
-        this.jumlahDetailBahanPokok = jumlahDetailBahanPokok;
+    public void setJumlahDetailRiwayatBahanPokok(String jumlahDetailRiwayatBahanPokok) {
+        this.jumlahDetailRiwayatBahanPokok = jumlahDetailRiwayatBahanPokok;
     }
 
-    public String getSatuanDetailBahanPokok() {
-        return satuanDetailBahanPokok;
+    public String getSatuanDetailRiwayatBahanPokok() {
+        return satuanDetailRiwayatBahanPokok;
     }
 
-    public void setSatuanDetailBahanPokok(String satuanDetailBahanPokok) {
-        this.satuanDetailBahanPokok = satuanDetailBahanPokok;
+    public void setSatuanDetailRiwayatBahanPokok(String satuanDetailRiwayatBahanPokok) {
+        this.satuanDetailRiwayatBahanPokok = satuanDetailRiwayatBahanPokok;
     }
 
-    public String getHargaDetailBahanPokok() {
-        return hargaDetailBahanPokok;
+    public String getHargaDetailRiwayatBahanPokok() {
+        return hargaDetailRiwayatBahanPokok;
     }
 
-    public void setHargaDetailBahanPokok(String hargaDetailBahanPokok) {
-        this.hargaDetailBahanPokok = hargaDetailBahanPokok;
+    public void setHargaDetailRiwayatBahanPokok(String hargaDetailRiwayatBahanPokok) {
+        this.hargaDetailRiwayatBahanPokok = hargaDetailRiwayatBahanPokok;
     }
 
-    public String getAksiDetailBahanPokok() {
-        return aksiDetailBahanPokok;
+    public String getAksiDetailRiwayatBahanPokok() {
+        return aksiDetailRiwayatBahanPokok;
     }
 
-    public void setAksiDetailBahanPokok(String aksiDetailBahanPokok) {
-        this.aksiDetailBahanPokok = aksiDetailBahanPokok;
+    public void setAksiDetailRiwayatBahanPokok(String aksiDetailRiwayatBahanPokok) {
+        this.aksiDetailRiwayatBahanPokok = aksiDetailRiwayatBahanPokok;
     }
 
-    public String getTanggalTambahDetailBahanPokok() {
-        return tanggalTambahDetailBahanPokok;
+    public String getTanggalTambahDetailRiwayatBahanPokok() {
+        return tanggalTambahDetailRiwayatBahanPokok;
     }
 
-    public void setTanggalTambahDetailBahanPokok(String tanggalTambahDetailBahanPokok) {
-        this.tanggalTambahDetailBahanPokok = tanggalTambahDetailBahanPokok;
+    public void setTanggalTambahDetailRiwayatBahanPokok(String tanggalTambahDetailRiwayatBahanPokok) {
+        this.tanggalTambahDetailRiwayatBahanPokok = tanggalTambahDetailRiwayatBahanPokok;
     }
 
-    public String getTanggalUbahDetailBahanPokok() {
-        return tanggalUbahDetailBahanPokok;
+    public String getTanggalUbahDetailRiwayatBahanPokok() {
+        return tanggalUbahDetailRiwayatBahanPokok;
     }
 
-    public void setTanggalUbahDetailBahanPokok(String tanggalUbahDetailBahanPokok) {
-        this.tanggalUbahDetailBahanPokok = tanggalUbahDetailBahanPokok;
+    public void setTanggalUbahDetailRiwayatBahanPokok(String tanggalUbahDetailRiwayatBahanPokok) {
+        this.tanggalUbahDetailRiwayatBahanPokok = tanggalUbahDetailRiwayatBahanPokok;
     }
 }

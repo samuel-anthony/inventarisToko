@@ -10,24 +10,24 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.inventaristoko.Model.Kategori.MakananKategori;
+import com.example.inventaristoko.Model.Kategori.KategoriMakanan;
 import com.example.inventaristoko.R;
 
 import java.util.ArrayList;
 
 public class KategoriMakananAdapter extends RecyclerView.Adapter<KategoriMakananAdapter.RvViewHolder> {
     Context context;
-    ArrayList<MakananKategori> makananKategories;
+    ArrayList<KategoriMakanan> kategoryMakanans;
     Onclick onclick;
     View view;
 
     public interface Onclick {
-        void onEvent(MakananKategori makananKategori, int pos);
+        void onEvent(KategoriMakanan kategoriMakanan, int pos);
     }
 
-    public KategoriMakananAdapter(Context context, ArrayList<MakananKategori> makananKategories, Onclick onclick) {
+    public KategoriMakananAdapter(Context context, ArrayList<KategoriMakanan> kategoryMakanans, Onclick onclick) {
         this.context = context;
-        this.makananKategories = makananKategories;
+        this.kategoryMakanans = kategoryMakanans;
         this.onclick = onclick;
     }
 
@@ -41,16 +41,16 @@ public class KategoriMakananAdapter extends RecyclerView.Adapter<KategoriMakanan
 
     @Override
     public void onBindViewHolder(KategoriMakananAdapter.RvViewHolder holder, final int position) {
-        final MakananKategori makananKategori = makananKategories.get(position);
+        final KategoriMakanan kategoriMakanan = kategoryMakanans.get(position);
 
-        if (makananKategori.getName() != null) {
-            holder.tvNama.setText(makananKategori.getName());
+        if (kategoriMakanan.getName() != null) {
+            holder.tvNama.setText(kategoriMakanan.getName());
         }
 
         holder.btnHapus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                makananKategories.remove(position);
+                kategoryMakanans.remove(position);
                 notifyDataSetChanged();
             }
         });
@@ -58,14 +58,14 @@ public class KategoriMakananAdapter extends RecyclerView.Adapter<KategoriMakanan
         holder.llItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onclick.onEvent(makananKategori, position);
+                onclick.onEvent(kategoriMakanan, position);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return makananKategories.size();
+        return kategoryMakanans.size();
     }
 
     public class RvViewHolder extends RecyclerView.ViewHolder {

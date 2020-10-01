@@ -4,7 +4,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +19,6 @@ import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
-import com.example.inventaristoko.Utils.VolleyCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +30,7 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
     private EditText etNamaBahanPokok, etJumlahBahanPokok;
     private Button btnKirimBahanPokok;
     private Spinner spnSatuanBahanPokok;
-    private String[] spnSatuan = {"Miligram", "Desigram", "Centigram", "Gram", "Hektogram", "Dekagram", "Kilogram"};
+    private String[] spnSatuan = {"Mg", "Dg", "Cg", "G", "Hg", "Dg", "Kg"};
     private String satuanSelected;
 
     @Override
@@ -87,69 +85,72 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
             spnSatuanBahanPokok.setSelection(spinnerPosition);
         } else {
             getSupportActionBar().setTitle(R.string.menu_tambah_bahan_pokok);
-            spnSatuanBahanPokok.setSelection(0);
+            spnSatuanBahanPokok.setSelection(6);
         }
 
         btnKirimBahanPokok = findViewById(R.id.btnKirimBahanPokok);
-        btnKirimBahanPokok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(BahanPokokEntryActivity.this);
-                builder.setMessage("Anda Yakin Ingin Kirim Data ini?");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        CommonUtils.showLoading(BahanPokokEntryActivity.this);
-                        VolleyAPI volleyAPI = new VolleyAPI(BahanPokokEntryActivity.this);
-                        Map<String, String> params = new HashMap<>();
-                        params.put("nama", etNamaBahanPokok.getText().toString());
-                        params.put("jumlah", etJumlahBahanPokok.getText().toString());
-                        params.put("satuan", satuanSelected);
+        btnKirimBahanPokok.setOnClickListener(v -> {
+            if(String.valueOf(etNamaBahanPokok.getText()).equals("") || String.valueOf(etJumlahBahanPokok.getText()).equals("")) {
+                Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                        if (screenState.equals(MyConstants.TAMBAH_BAHAN_POKOK)) {
-                            volleyAPI.postRequest("addBahanPokokBaru", params, new VolleyCallback() {
-                                @Override
-                                public void onSuccessResponse(String result) {
-                                    try {
-                                        JSONObject resultJSON = new JSONObject(result);
-                                        Intent myIntent = new Intent(getApplicationContext(), BahanPokokActivity.class);
-                                        startActivityForResult(myIntent, 0);
-                                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        } else if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
-                            Toast.makeText(getApplicationContext(), MyConstants.TAMBAH_DETAIL_BAHAN_POKOK, Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setMessage(R.string.confirmation_dialog_submit);
+            builder.setCancelable(false);
+            builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
+                CommonUtils.showLoading(v.getContext());
+                VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
+
+                Map<String, String> params = new HashMap<>();
+                params.put("nama", etNamaBahanPokok.getText().toString());
+                params.put("jumlah", etJumlahBahanPokok.getText().toString());
+                params.put("satuan", satuanSelected);
+
+                if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
+//                    params.put("bahan_pokok_id", bundle.getString("idMeja"));
+                }
+
+                if (screenState.equals(MyConstants.TAMBAH_BAHAN_POKOK)) {
+                    volleyAPI.postRequest("addBahanPokokBaru", params, result -> {
+                        try {
+                            JSONObject resultJSON = new JSONObject(result);
+                            Intent myIntent = new Intent(getApplicationContext(), BahanPokokActivity.class);
+                            startActivityForResult(myIntent, 0);
+                            Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    }
-                });
-                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.show();
+                    });
+                } else if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
+//                    volleyAPI.postRequest("addRiwayatBahanPokok", params, result -> {
+//                        try {
+//                            JSONObject resultJSON = new JSONObject(result);
+//                            Intent myIntent = new Intent(getApplicationContext(), BahanPokokActivity.class);
+//                            startActivityForResult(myIntent, 0);
+//                            Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    });
+                    Toast.makeText(getApplicationContext(), "Tambah Detail Bahan Pokok", Toast.LENGTH_SHORT).show();
+                }
+                CommonUtils.hideLoading();
+            });
+            builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+            });
+            builder.show();
+        });
+
+        etNamaBahanPokok.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
             }
         });
 
-        etNamaBahanPokok.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
-            }
-        });
-
-        etJumlahBahanPokok.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
+        etJumlahBahanPokok.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
             }
         });
     }

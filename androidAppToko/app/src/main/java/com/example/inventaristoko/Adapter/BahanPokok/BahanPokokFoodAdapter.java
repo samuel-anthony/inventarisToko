@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -111,10 +110,10 @@ public class BahanPokokFoodAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
             final BahanPokokFood mBahanPokokFood = mBahanPokokFoodList.get(position);
 
-            tvBahanPokokId.setText(mBahanPokokFood.getId());
-            tvBahanPokokNamaMakanan.setText(mBahanPokokFood.getStapleFoodName());
-            tvBahanPokokHargaMakanan.setText(CommonUtils.currencyFormat(mBahanPokokFood.getStapleFoodPrice()));
-            tvBahanPokokTanggalMakanan.setText(mBahanPokokFood.getStapleFoodCreatedAt());
+            tvBahanPokokId.setText(mBahanPokokFood.getIdDetailMakanan());
+            tvBahanPokokNamaMakanan.setText(mBahanPokokFood.getNamaDetailMakananBahanPokok());
+            tvBahanPokokHargaMakanan.setText(CommonUtils.currencyFormat(mBahanPokokFood.getHargaDetailMakananBahanPokok()));
+            tvBahanPokokTanggalMakanan.setText(mBahanPokokFood.getTanggalTambahDetailMakananBahanPokok());
 
 //            itemView.setOnClickListener(v -> {
 //                if (mBahanPokokFood.getStapleFoodId() != null) {

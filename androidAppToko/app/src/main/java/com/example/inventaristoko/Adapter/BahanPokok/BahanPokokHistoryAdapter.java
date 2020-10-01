@@ -110,17 +110,17 @@ public class BahanPokokHistoryAdapter extends RecyclerView.Adapter<BaseViewHolde
 
             final BahanPokokHistory mBahanPokokHistory = mBahanPokokHistoryList.get(position);
 
-            if((mBahanPokokHistory.getAksiDetailBahanPokok()).equalsIgnoreCase(MyConstants.INCREASE_CODE)) {
-                tvJumlahDetailBahanPokok.setText("+ " + mBahanPokokHistory.getJumlahDetailBahanPokok());
+            if((mBahanPokokHistory.getAksiDetailRiwayatBahanPokok()).equalsIgnoreCase(MyConstants.INCREASE_CODE)) {
+                tvJumlahDetailBahanPokok.setText("+ " + mBahanPokokHistory.getJumlahDetailRiwayatBahanPokok());
                 tvJumlahDetailBahanPokok.setBackgroundResource(R.drawable.ic_circle_success_background);
-            } else if (((mBahanPokokHistory.getAksiDetailBahanPokok()).equalsIgnoreCase(MyConstants.DECREASE_CODE))) {
-                tvJumlahDetailBahanPokok.setText("- " + mBahanPokokHistory.getJumlahDetailBahanPokok());
+            } else if (((mBahanPokokHistory.getAksiDetailRiwayatBahanPokok()).equalsIgnoreCase(MyConstants.DECREASE_CODE))) {
+                tvJumlahDetailBahanPokok.setText("- " + mBahanPokokHistory.getJumlahDetailRiwayatBahanPokok());
                 tvJumlahDetailBahanPokok.setBackgroundResource(R.drawable.ic_circle_failed_background);
             }
 
-            tvNamaTokoDetailBahanPokok.setText(mBahanPokokHistory.getNamaTokoDetailBahanPokok());
-            tvHargaDetailBahanPokok.setText(CommonUtils.currencyFormat(mBahanPokokHistory.getHargaDetailBahanPokok()));
-            tvTanggalDetailBahanPokok.setText(mBahanPokokHistory.getTanggalTambahDetailBahanPokok());
+            tvNamaTokoDetailBahanPokok.setText(mBahanPokokHistory.getNamaTokoDetailRiwayatBahanPokok());
+            tvHargaDetailBahanPokok.setText(CommonUtils.currencyFormat(mBahanPokokHistory.getHargaDetailRiwayatBahanPokok()));
+            tvTanggalDetailBahanPokok.setText(mBahanPokokHistory.getTanggalTambahDetailRiwayatBahanPokok());
         }
     }
 

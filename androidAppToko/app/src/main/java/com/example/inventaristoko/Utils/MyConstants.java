@@ -5,13 +5,13 @@ public interface MyConstants {
     String GOING_CODE = "002";
     String FINISH_CODE = "003";
 
-    String MILI_GRAM = "Miligram";
-    String DESI_GRAM = "Desigram";
-    String CENTI_GRAM = "Centigram";
-    String GRAM = "Gram";
-    String HEKTO_GRAM = "Hektogram";
-    String DEKA_GRAM = "Dekagram";
-    String KILO_GRAM = "Kilogram";
+    String MILI_GRAM = "Mg";
+    String DESI_GRAM = "Dg";
+    String CENTI_GRAM = "Cg";
+    String GRAM = "G";
+    String HEKTO_GRAM = "Hg";
+    String DEKA_GRAM = "Dg";
+    String KILO_GRAM = "Kg";
 
     String INCREASE_CODE = "1";
     String DECREASE_CODE = "0";

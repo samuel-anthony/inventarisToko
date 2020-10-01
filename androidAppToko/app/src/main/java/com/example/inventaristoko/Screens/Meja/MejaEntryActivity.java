@@ -128,6 +128,7 @@ public class MejaEntryActivity extends AppCompatActivity {
                         }
                     });
                 }
+                CommonUtils.hideLoading();
             });
             builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
             });

@@ -15,7 +15,7 @@ import com.example.inventaristoko.R;
 
 import java.util.ArrayList;
 
-public class BahanPokokMakananAdapter extends RecyclerView.Adapter<BahanPokokMakananAdapter.RvViewHolder> {
+public class MakananBahanPokokAdapter extends RecyclerView.Adapter<MakananBahanPokokAdapter.RvViewHolder> {
     Context context;
     ArrayList<MakananBahanPokok> makananBahanPokoks;
     Onclick onclick;
@@ -25,22 +25,22 @@ public class BahanPokokMakananAdapter extends RecyclerView.Adapter<BahanPokokMak
         void onEvent(MakananBahanPokok makananBahanPokok, int pos);
     }
 
-    public BahanPokokMakananAdapter(Context context, ArrayList<MakananBahanPokok> makananBahanPokoks, Onclick onclick) {
+    public MakananBahanPokokAdapter(Context context, ArrayList<MakananBahanPokok> makananBahanPokoks, Onclick onclick) {
         this.context = context;
         this.makananBahanPokoks = makananBahanPokoks;
         this.onclick = onclick;
     }
 
     @Override
-    public BahanPokokMakananAdapter.RvViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MakananBahanPokokAdapter.RvViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         view = inflater.from(parent.getContext()).inflate(R.layout.list_makanan_bahan_pokok, parent, false);
-        RvViewHolder rvViewHolder = new BahanPokokMakananAdapter.RvViewHolder(view);
+        RvViewHolder rvViewHolder = new MakananBahanPokokAdapter.RvViewHolder(view);
         return rvViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(BahanPokokMakananAdapter.RvViewHolder holder, final int position) {
+    public void onBindViewHolder(MakananBahanPokokAdapter.RvViewHolder holder, final int position) {
         final MakananBahanPokok makananBahanPokok = makananBahanPokoks.get(position);
 
         if (makananBahanPokok.getName() != null) {

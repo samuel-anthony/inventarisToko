@@ -7,20 +7,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Makanan.MakananAdapter;
 import com.example.inventaristoko.Model.BahanPokok.BahanPokok;
 import com.example.inventaristoko.Model.Makanan.Makanan;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.Kategori.KategoriActivity;
-import com.example.inventaristoko.Screens.Kategori.KategoriEntryActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
-import com.example.inventaristoko.Utils.VolleyCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -47,46 +42,36 @@ public class MakananActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.menu_makanan);
 
         FloatingActionButton fab = findViewById(R.id.fabMakanan);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
+        fab.setOnClickListener(view -> Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show());
 
         btnTambahMakanan = findViewById(R.id.btnTambahMakanan);
-        btnTambahMakanan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrayList<BahanPokok> mBahanPokok = new ArrayList<>();
-                VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
-                Map<String, String> params = new HashMap<>();
-                volleyAPI.getRequest("getSemuaBahanPokok", params, new VolleyCallback() {
-                    @Override
-                    public void onSuccessResponse(String result) {
-                        try {
-                            JSONObject resultJSON = new JSONObject(result);
-                            JSONArray resultArray = resultJSON.getJSONArray("result");
-                            for(int i = 0 ; i < resultArray.length() ; i ++ ) {
-                                JSONObject dataBahanPokok = (JSONObject) resultArray.get(i);
-                                BahanPokok bahanPokok = new BahanPokok();
-                                bahanPokok.setIdBahanPokok(dataBahanPokok.getString("bahan_pokok_id"));
-                                bahanPokok.setNamaBahanPokok(dataBahanPokok.getString("nama"));
-                                mBahanPokok.add(bahanPokok);
-                            }
+        btnTambahMakanan.setOnClickListener(v -> {
+            ArrayList<BahanPokok> mBahanPokok = new ArrayList<>();
+            VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
+            Map<String, String> params = new HashMap<>();
+            volleyAPI.getRequest("getSemuaBahanPokok", params, result -> {
+                try {
+                    JSONObject resultJSON = new JSONObject(result);
+                    JSONArray resultArray = resultJSON.getJSONArray("result");
 
-                            Intent intent = new Intent(v.getContext(), MakananEntryActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("screenState", MyConstants.TAMBAH_MAKANAN);
-                            bundle.putSerializable("daftarBahanPokok", mBahanPokok);
-                            intent.putExtras(bundle);
-                            v.getContext().startActivity(intent);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                        JSONObject dataBahanPokok = (JSONObject) resultArray.get(i);
+                        BahanPokok bahanPokok = new BahanPokok();
+                        bahanPokok.setIdBahanPokok(dataBahanPokok.getString("bahan_pokok_id"));
+                        bahanPokok.setNamaBahanPokok(dataBahanPokok.getString("nama"));
+                        mBahanPokok.add(bahanPokok);
                     }
-                });
-            }
+
+                    Intent intent = new Intent(v.getContext(), MakananEntryActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("screenState", MyConstants.TAMBAH_MAKANAN);
+                    bundle.putSerializable("daftarBahanPokok", mBahanPokok);
+                    intent.putExtras(bundle);
+                    v.getContext().startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            });
         });
 
         mRecyclerView = findViewById(R.id.rvMakanan);
@@ -107,35 +92,36 @@ public class MakananActivity extends AppCompatActivity {
     private void prepareDataMakanan() {
         CommonUtils.showLoading(MakananActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
-        Map<String, String> params = new HashMap<>();
-        volleyAPI.getRequest("getSemuaMakanan", params, new VolleyCallback() {
-            @Override
-            public void onSuccessResponse(String result) {
-                try {
-                    ArrayList<Makanan> mMakanan = new ArrayList<>();
-                    JSONObject resultJSON = new JSONObject(result);
-                    JSONArray resultArray = resultJSON.getJSONArray("result");
-                    for(int i = 0 ; i < resultArray.length() ; i ++ ) {
-                        JSONObject dataMakanan = (JSONObject) resultArray.get(i);
-                        Makanan makanan = new Makanan();
-                        makanan.setId(String.valueOf(i+1));
-                        makanan.setIdMakanan(dataMakanan.getString("makanan_id"));
-                        makanan.setNamaMakanan(dataMakanan.getString("nama"));
-                        makanan.setHargaMakanan(dataMakanan.getString("harga_jual"));
-                        makanan.setGambarMakanan(dataMakanan.getString("gambar_makanan"));
-//                        makanan.setHargaMakanan(dataMakanan.getString("bahanMakanan"));
-                        makanan.setTanggalTambahMakanan(dataMakanan.getString("created_at"));
-                        makanan.setTanggalUbahMakanan(dataMakanan.getString("updated_at"));
 
-                        mMakanan.add(makanan);
-                    }
-                    mMakananAdapter.addItems(mMakanan);
-                    mRecyclerView.setAdapter(mMakananAdapter);
-                    CommonUtils.hideLoading();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        Map<String, String> params = new HashMap<>();
+
+        volleyAPI.getRequest("getSemuaMakanan", params, result -> {
+            try {
+                ArrayList<Makanan> mMakanan = new ArrayList<>();
+                JSONObject resultJSON = new JSONObject(result);
+                JSONArray resultArray = resultJSON.getJSONArray("result");
+
+                for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                    JSONObject dataMakanan = (JSONObject) resultArray.get(i);
+                    Makanan makanan = new Makanan();
+                    makanan.setId(String.valueOf(i+1));
+                    makanan.setIdMakanan(dataMakanan.getString("makanan_id"));
+                    makanan.setNamaMakanan(dataMakanan.getString("nama"));
+                    makanan.setHargaMakanan(dataMakanan.getString("harga_jual"));
+                    makanan.setGambarMakanan(dataMakanan.getString("gambar_makanan"));
+//                        makanan.setHargaMakanan(dataMakanan.getString("bahanMakanan"));
+                    makanan.setTanggalTambahMakanan(dataMakanan.getString("created_at"));
+                    makanan.setTanggalUbahMakanan(dataMakanan.getString("updated_at"));
+
+                    mMakanan.add(makanan);
                 }
+
+                mMakananAdapter.addItems(mMakanan);
+                mRecyclerView.setAdapter(mMakananAdapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            CommonUtils.hideLoading();
         });
     }
 }
