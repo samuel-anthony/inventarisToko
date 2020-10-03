@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\makanan;
 use App\makananDetail;
 use App\bahanPokok;
+use App\gambarMakanan;
 class MakananController extends Controller
 {
     //
@@ -38,7 +39,7 @@ class MakananController extends Controller
         $makanan->nama = $request->nama_makanan;
         $makanan->harga_jual = $request->harga_jual;
         $makanan->save();
-        if(!is_null($request->gambarMakanan)){
+        if(!is_null($request->gambar_makanan)){
             $gambarMakanan = new gambarMakanan;
             $gambarMakanan->makanan_id = $makanan->makanan_id;
             $gambarMakanan->gambar_makanan = $request->gambar_makanan;
