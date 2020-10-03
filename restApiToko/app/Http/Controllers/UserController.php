@@ -72,6 +72,7 @@ class UserController extends Controller
     public function updateUser(request $request){
         $user = User::whereUserId($request->nama_meja_old)->first();
         $user->user_id = $request->nama_meja;
+        $user->full_name = $request->full_name;
         $user->save();
         return json_encode([
             'is_error' => '0',
