@@ -91,7 +91,7 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
 
         btnKirimBahanPokok = findViewById(R.id.btnKirimBahanPokok);
         btnKirimBahanPokok.setOnClickListener(v -> {
-            if(String.valueOf(etNamaBahanPokok.getText()).equals("") || String.valueOf(etJumlahBahanPokok.getText()).equals("")) {
+            if(String.valueOf(etNamaBahanPokok.getText()).equals("") || String.valueOf(etHargaBahanPokok.getText()).equals("") || String.valueOf(etJumlahBahanPokok.getText()).equals("")) {
                 Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
                 return;
             }

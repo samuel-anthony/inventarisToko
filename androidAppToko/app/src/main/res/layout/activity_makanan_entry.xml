@@ -152,13 +152,15 @@
                                 android:textColor="#000"
                                 android:textSize="17sp"/>
 
-                            <Spinner
-                                android:id="@+id/spnSatuanMakanan"
+                            <TextView
+                                android:id="@+id/tvSatuanBahanPokok"
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="2"
+                                style="@style/TextAppearance.AppCompat.Title"
+                                android:padding="@dimen/_4dp"
                                 android:layout_marginLeft="@dimen/_12dp"
-                                style="@style/Widget.AppCompat.Spinner.DropDown"/>
+                                android:text="@string/label_value_satuan"/>
                         </LinearLayout>
                     </LinearLayout>
 

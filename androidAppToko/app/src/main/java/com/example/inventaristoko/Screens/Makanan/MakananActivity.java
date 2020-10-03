@@ -59,6 +59,7 @@ public class MakananActivity extends AppCompatActivity {
                         BahanPokok bahanPokok = new BahanPokok();
                         bahanPokok.setIdBahanPokok(dataBahanPokok.getString("bahan_pokok_id"));
                         bahanPokok.setNamaBahanPokok(dataBahanPokok.getString("nama"));
+                        bahanPokok.setSatuanBahanPokok(dataBahanPokok.getString("satuan"));
                         mBahanPokok.add(bahanPokok);
                     }
 
@@ -108,8 +109,6 @@ public class MakananActivity extends AppCompatActivity {
                     makanan.setIdMakanan(dataMakanan.getString("makanan_id"));
                     makanan.setNamaMakanan(dataMakanan.getString("nama"));
                     makanan.setHargaMakanan(dataMakanan.getString("harga_jual"));
-                    makanan.setGambarMakanan(dataMakanan.getString("gambar_makanan"));
-//                        makanan.setHargaMakanan(dataMakanan.getString("bahanMakanan"));
                     makanan.setTanggalTambahMakanan(dataMakanan.getString("created_at"));
                     makanan.setTanggalUbahMakanan(dataMakanan.getString("updated_at"));
 

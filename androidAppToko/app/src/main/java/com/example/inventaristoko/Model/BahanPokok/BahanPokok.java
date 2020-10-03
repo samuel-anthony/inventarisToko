@@ -14,9 +14,10 @@ public class BahanPokok implements Serializable  {
     public BahanPokok() {
     }
 
-    public BahanPokok(String idBahanPokok, String namaBahanPokok) {
+    public BahanPokok(String idBahanPokok, String namaBahanPokok, String satuanBahanPokok) {
         this.idBahanPokok = idBahanPokok;
         this.namaBahanPokok = namaBahanPokok;
+        this.satuanBahanPokok= satuanBahanPokok;
     }
 
     public String getId() {

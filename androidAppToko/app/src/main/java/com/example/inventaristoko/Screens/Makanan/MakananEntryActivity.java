@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Makanan.MakananBahanPokokAdapter;
@@ -49,14 +50,14 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
     private ArrayList<BahanPokok> mBahanPokok = new ArrayList<>();
     private ArrayList<BahanPokok> bahanPokoks = new ArrayList<>();
     private EditText etNamaMakanan, etHargaMakanan, etJumlahBahanPokok;
+    private TextView tvSatuanBahanPokok;
     private MakananBahanPokokAdapter makananBahanPokokAdapter;
     private ImageView ivGambarMakanan;
     private int position;
     private RecyclerView mRecyclerView;
     private Button btnTambahGambar, btnKirimMakanan, btnTambahMakananBahanPokok;
-    private Spinner spnDaftarBahanPokok, spnSatuanMakanan;
-    private String encodedImage, screenState, idBahanPokokSelected, bahanPokokSelected, jumlahBahanPokok, satuanSelected;
-    private String[] spnSatuan = {"Mg", "Dg", "Cg", "G", "Hg", "Dg", "Kg"};
+    private Spinner spnDaftarBahanPokok;
+    private String encodedImage, screenState, idBahanPokokSelected, bahanPokokSelected, jumlahBahanPokok, satuanBahanPokokSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,26 +68,13 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
         etNamaMakanan = findViewById(R.id.etNamaMakanan);
         etHargaMakanan = findViewById(R.id.etHargaMakanan);
         etJumlahBahanPokok = findViewById(R.id.etJumlahBahanPokok);
+        tvSatuanBahanPokok = findViewById(R.id.tvSatuanBahanPokok);
         btnTambahGambar = findViewById(R.id.btnTambahGambar);
         btnTambahMakananBahanPokok = findViewById(R.id.btnTambahMakananBahanPokok);
         btnKirimMakanan = findViewById(R.id.btnKirimMakanan);
         ivGambarMakanan = findViewById(R.id.ivGambarMakanan);
         spnDaftarBahanPokok = findViewById(R.id.spnDaftarBahanPokok);
 
-        spnSatuanMakanan = findViewById(R.id.spnSatuanMakanan);
-        spnSatuanMakanan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                satuanSelected = spnSatuan[position];
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-        ArrayAdapter<String> adapterSatuan = new ArrayAdapter(this, android.R.layout.simple_spinner_item, spnSatuan);
-        adapterSatuan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnSatuanMakanan.setAdapter(adapterSatuan);
 
         Bundle bundle = getIntent().getExtras();
         screenState = bundle.getString("screenState");
@@ -94,7 +82,7 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
 
         if(screenState.equals(MyConstants.TAMBAH_MAKANAN)) {
             for (int i = 0; i < mBahanPokok.size(); i++) {
-                bahanPokoks.add(new BahanPokok(mBahanPokok.get(i).getIdBahanPokok(), mBahanPokok.get(i).getNamaBahanPokok()));
+                bahanPokoks.add(new BahanPokok(mBahanPokok.get(i).getIdBahanPokok(), mBahanPokok.get(i).getNamaBahanPokok(), mBahanPokok.get(i).getSatuanBahanPokok()));
             }
         }
 
@@ -107,6 +95,8 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
                 if(screenState.equals(MyConstants.TAMBAH_MAKANAN)) {
                     bahanPokokSelected = bahanPokoks.get(position).getNamaBahanPokok();
                     idBahanPokokSelected = bahanPokoks.get(position).getIdBahanPokok();
+                    satuanBahanPokokSelected = bahanPokoks.get(position).getSatuanBahanPokok();
+                    tvSatuanBahanPokok.setText(satuanBahanPokokSelected);
                 }
             }
             @Override
@@ -120,7 +110,6 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
             etHargaMakanan.setText(bundle.getString("hargaMakanan"));
         } else {
             getSupportActionBar().setTitle(R.string.menu_tambah_makanan);
-            spnSatuanMakanan.setSelection(6);
         }
 
         mRecyclerView.setHasFixedSize(true);
@@ -172,7 +161,7 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
 
                 jumlahBahanPokok = etJumlahBahanPokok.getText().toString();
 
-                insertMethod(idBahanPokokSelected, bahanPokokSelected, jumlahBahanPokok, satuanSelected);
+                insertMethod(idBahanPokokSelected, bahanPokokSelected, jumlahBahanPokok, satuanBahanPokokSelected);
             }
             break;
 
