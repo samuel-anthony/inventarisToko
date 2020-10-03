@@ -18,4 +18,9 @@ class makanan extends Model
     public function jenisMenuDetail(){
         return $this->belongsTo('App\jenisMenuDetail','makanan_id','makanan_id');
     }
+
+    
+    public function gambarMakanan(){
+        return $this->belongsTo('App\gambarMakanan','makanan_id','makanan_id');
+    }
 }

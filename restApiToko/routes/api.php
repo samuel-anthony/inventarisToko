@@ -30,6 +30,7 @@ Route::get('getSemuaBahanPokok','BahanPokokController@index');
 Route::get('getSemuaMakanan','MakananController@index');
 Route::get('getSemuaJenisMenu','JenisMenuController@index');
 Route::get('getSemuaSupplier','SupplierController@index');
+Route::get('getGambarMakananDetail','MakananController@getGambarMakananByDetail');
 Route::get('getMakananDetail','MakananController@makananByDetail');
 Route::get('getSemuaJenisMenuDetail','JenisMenuController@jenisMenuDetailByid');
 Route::get('getBahanPokokDetailHistory','BahanPokokController@showBahanPokokDetail');

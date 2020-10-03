@@ -28,12 +28,21 @@ class MakananController extends Controller
         return json_encode(['result'=>$makanan,"bahanPokokYangBelumMasuk"=>bahanPokok::whereNotIn('bahan_pokok_id',$temp2)->get()]);
     }
     
+    public function getGambarMakananByDetail(request $request){
+        return json_encode(['result'=>gambarMakanan::whereMakananId($request->makanan_id)->first()]);
+    }
+
+
     public function addNewMakanan(request $request){
         $makanan = new makanan;
         $makanan->nama = $request->nama_makanan;
         $makanan->harga_jual = $request->harga_jual;
-        $makanan->gambar_makanan = $request->gambar_makanan;
         $makanan->save();
+        if(!is_null($request->gambarMakanan)){
+            $gambarMakanan = new gambarMakanan;
+            $gambarMakanan->gambar_makanan = $request->gambar_makanan;
+            $gambarMakanan->save();
+        }
         $bahanMakanan = json_decode($request->bahanMakanan);
         foreach($bahanMakanan as $detail){
             $makananDetail = new makananDetail;
@@ -52,7 +61,11 @@ class MakananController extends Controller
         $makanan =  makanan::find($request->makanan_id);
         $makanan->nama = $request->nama_makanan;
         $makanan->harga_jual = $request->harga_jual;
-        $makanan->gambar_makanan = $request->gambar_makanan;
+        $gambarMakanan = is_null($request->gambar_makanan) ? new gambarMakanan : gambarMakanan::whereMakananId($request->makanan_id)->first();
+        if(!is_null($gambarMakanan)){
+            $gambarMakanan->gambar_makanan = $request->gambar_makanan;
+            $gambarMakanan->save();
+        }
         $makanan->save();
         $bahanMakanan = json_decode($request->bahanMakanan);
         $usedmakananDetail = array();
