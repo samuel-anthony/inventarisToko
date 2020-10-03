@@ -45,6 +45,8 @@ public class MakananBahanPokokAdapter extends RecyclerView.Adapter<MakananBahanP
 
         if (makananBahanPokok.getName() != null) {
             holder.tvNama.setText(makananBahanPokok.getName());
+            holder.tvJumlah.setText(makananBahanPokok.getJumlah());
+            holder.tvSatuan.setText(makananBahanPokok.getSatuan());
         }
 
         holder.btnHapus.setOnClickListener(new View.OnClickListener() {
@@ -71,11 +73,15 @@ public class MakananBahanPokokAdapter extends RecyclerView.Adapter<MakananBahanP
     public class RvViewHolder extends RecyclerView.ViewHolder {
         LinearLayout llItem;
         TextView tvNama;
+        TextView tvJumlah;
+        TextView tvSatuan;
         Button btnHapus;
 
         public RvViewHolder(View itemView) {
             super(itemView);
             tvNama = itemView.findViewById(R.id.tvValueNamaMakananBahanPokok);
+            tvJumlah = itemView.findViewById(R.id.tvValueJumlahMakananBahanPokok);
+            tvSatuan = itemView.findViewById(R.id.tvValueSatuanMakananBahanPokok);
             btnHapus = itemView.findViewById(R.id.btnTambahMakananBahanPokok);
             llItem = itemView.findViewById(R.id.ll_item);
         }

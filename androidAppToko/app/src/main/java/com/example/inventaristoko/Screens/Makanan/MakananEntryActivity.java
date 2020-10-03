@@ -48,14 +48,15 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
     private ArrayList<MakananBahanPokok> makananBahanPokoks = new ArrayList<>();
     private ArrayList<BahanPokok> mBahanPokok = new ArrayList<>();
     private ArrayList<BahanPokok> bahanPokoks = new ArrayList<>();
-    private EditText etNamaMakanan, etHargaMakanan;
+    private EditText etNamaMakanan, etHargaMakanan, etJumlahBahanPokok;
     private MakananBahanPokokAdapter makananBahanPokokAdapter;
     private ImageView ivGambarMakanan;
     private int position;
     private RecyclerView mRecyclerView;
     private Button btnTambahGambar, btnKirimMakanan, btnTambahMakananBahanPokok;
-    private Spinner spnDaftarBahanPokok;
-    private String encodedImage, screenState, idBahanPokokSelected, bahanPokokSelected;
+    private Spinner spnDaftarBahanPokok, spnSatuanMakanan;
+    private String encodedImage, screenState, idBahanPokokSelected, bahanPokokSelected, jumlahBahanPokok, satuanSelected;
+    private String[] spnSatuan = {"Mg", "Dg", "Cg", "G", "Hg", "Dg", "Kg"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +66,27 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
         mRecyclerView = findViewById(R.id.rvDataMakananBahanPokok);
         etNamaMakanan = findViewById(R.id.etNamaMakanan);
         etHargaMakanan = findViewById(R.id.etHargaMakanan);
+        etJumlahBahanPokok = findViewById(R.id.etJumlahBahanPokok);
         btnTambahGambar = findViewById(R.id.btnTambahGambar);
         btnTambahMakananBahanPokok = findViewById(R.id.btnTambahMakananBahanPokok);
         btnKirimMakanan = findViewById(R.id.btnKirimMakanan);
         ivGambarMakanan = findViewById(R.id.ivGambarMakanan);
         spnDaftarBahanPokok = findViewById(R.id.spnDaftarBahanPokok);
+
+        spnSatuanMakanan = findViewById(R.id.spnSatuanMakanan);
+        spnSatuanMakanan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                satuanSelected = spnSatuan[position];
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        ArrayAdapter<String> adapterSatuan = new ArrayAdapter(this, android.R.layout.simple_spinner_item, spnSatuan);
+        adapterSatuan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnSatuanMakanan.setAdapter(adapterSatuan);
 
         Bundle bundle = getIntent().getExtras();
         screenState = bundle.getString("screenState");
@@ -81,9 +98,9 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
             }
         }
 
-        ArrayAdapter<BahanPokok> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, bahanPokoks);
-        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-        spnDaftarBahanPokok.setAdapter(adapter);
+        ArrayAdapter<BahanPokok> adapterBahanPokok = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, bahanPokoks);
+        adapterBahanPokok.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+        spnDaftarBahanPokok.setAdapter(adapterBahanPokok);
         spnDaftarBahanPokok.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -103,6 +120,7 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
             etHargaMakanan.setText(bundle.getString("hargaMakanan"));
         } else {
             getSupportActionBar().setTitle(R.string.menu_tambah_makanan);
+            spnSatuanMakanan.setSelection(6);
         }
 
         mRecyclerView.setHasFixedSize(true);
@@ -125,6 +143,12 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
                 hideKeyboard(v);
             }
         });
+
+        etJumlahBahanPokok.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
+            }
+        });
     }
 
     @Override
@@ -139,9 +163,16 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
                 if(makananBahanPokoks.size() > mBahanPokok.size()-1) {
                     Toast.makeText(getApplicationContext(),R.string.label_data_melampaui, Toast.LENGTH_SHORT).show();
                     return;
-                } else {
-                    insertMethod(idBahanPokokSelected, bahanPokokSelected);
                 }
+
+                if(String.valueOf(etJumlahBahanPokok.getText()).equals("")) {
+                    Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                jumlahBahanPokok = etJumlahBahanPokok.getText().toString();
+
+                insertMethod(idBahanPokokSelected, bahanPokokSelected, jumlahBahanPokok, satuanSelected);
             }
             break;
 
@@ -160,8 +191,8 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
                         for(int i = 0; i < makananBahanPokoks.size() ; i++){
                             try {
                                 JSONObject jsonObject = new JSONObject();
-                                jsonObject.put("bahan_pokok_id",makananBahanPokoks.get(i).bahan_pokok_id);
-                                jsonObject.put("jumlah",100);
+                                jsonObject.put("bahan_pokok_id",makananBahanPokoks.get(i).getBahan_pokok_id());
+                                jsonObject.put("jumlah",makananBahanPokoks.get(i).getJumlah());
                                 jsonArray.put(jsonObject);
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -247,12 +278,14 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
         return encImage;
     }
 
-    private void insertMethod(String id, String name) {
+    private void insertMethod(String id, String name, String amount, String unit) {
         Gson gson = new Gson();
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("bahan_pokok_id", id);
             jsonObject.put("name", name);
+            jsonObject.put("jumlah", amount);
+            jsonObject.put("satuan", unit);
             MakananBahanPokok makananBahanPokok = gson.fromJson(String.valueOf(jsonObject), MakananBahanPokok.class);
             makananBahanPokoks.add(makananBahanPokok);
             makananBahanPokokAdapter.notifyDataSetChanged();

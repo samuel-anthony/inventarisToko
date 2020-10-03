@@ -113,19 +113,72 @@
                             android:id="@+id/spnDaftarBahanPokok"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
-                            android:layout_weight="1"
                             style="@style/Widget.AppCompat.Spinner.DropDown"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_margin="@dimen/_4dp">
+
+                        <TextView
+                            android:id="@+id/tvJumlahBahanPokok"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.AppCompat.Title"
+                            android:padding="@dimen/_4dp"
+                            android:layout_marginVertical="@dimen/_4dp"
+                            android:text="@string/label_value_jumlah_makanan"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_margin="@dimen/_4dp">
+
+                            <EditText
+                                android:id="@+id/etJumlahBahanPokok"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/input_primary"
+                                android:paddingStart="20dp"
+                                android:maxLines="1"
+                                android:lines="1"
+                                android:singleLine="true"
+                                android:inputType="number"
+                                android:maxLength="50"
+                                android:textColor="#000"
+                                android:textSize="17sp"/>
+
+                            <Spinner
+                                android:id="@+id/spnSatuanMakanan"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_weight="2"
+                                android:layout_marginLeft="@dimen/_12dp"
+                                style="@style/Widget.AppCompat.Spinner.DropDown"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_margin="@dimen/_4dp">
 
                         <Button
                             android:id="@+id/btnTambahMakananBahanPokok"
                             android:paddingRight="20dp"
                             android:paddingLeft="20dp"
                             android:background="@drawable/button_primary"
-                            android:text="@string/tombol_tambah"
+                            android:text="@string/tombol_tambah_bahan_pokok"
                             android:textColor="@drawable/button_primary_text"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:layout_marginLeft="@dimen/_8dp"/>
+                            android:layout_marginLeft="@dimen/_8dp"
+                            android:layout_gravity="center"/>
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView

@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BahanPokokEntryActivity extends AppCompatActivity{
-    private EditText etNamaBahanPokok, etJumlahBahanPokok;
+    private EditText etNamaBahanPokok, etJumlahBahanPokok, etHargaBahanPokok;
     private Button btnKirimBahanPokok;
     private Spinner spnSatuanBahanPokok;
     private String[] spnSatuan = {"Mg", "Dg", "Cg", "G", "Hg", "Dg", "Kg"};
@@ -43,6 +43,7 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
         String satuan = bundle.getString("satuanBahanPokok");
 
         etNamaBahanPokok = findViewById(R.id.etNamaBahanPokok);
+        etHargaBahanPokok = findViewById(R.id.etHargaBahanPokok);
         etJumlahBahanPokok = findViewById(R.id.etJumlahBahanPokok);
 
         spnSatuanBahanPokok = findViewById(R.id.spnSatuanBahanPokok);
@@ -103,12 +104,16 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
                 VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
 
                 Map<String, String> params = new HashMap<>();
-                params.put("nama", etNamaBahanPokok.getText().toString());
+                params.put("nama", etNamaBahanPokok.getText().toString()); //disable
                 params.put("jumlah", etJumlahBahanPokok.getText().toString());
-                params.put("satuan", satuanSelected);
+                params.put("harga", etHargaBahanPokok.getText().toString());
 
                 if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
-//                    params.put("bahan_pokok_id", bundle.getString("idMeja"));
+                    params.put("bahan_pokok_id", bundle.getString("idMeja"));
+                    //params.put("supplier_id", bundle.getString("idMeja"));
+                    params.put("aksi", "1");
+                } else {
+                    params.put("satuan", satuanSelected);
                 }
 
                 if (screenState.equals(MyConstants.TAMBAH_BAHAN_POKOK)) {
@@ -143,6 +148,12 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
         });
 
         etNamaBahanPokok.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
+            }
+        });
+
+        etHargaBahanPokok.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 hideKeyboard(v);
             }

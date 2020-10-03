@@ -116,10 +116,11 @@ public class KategoriDetailActivity extends AppCompatActivity {
             try {
                 ArrayList<Makanan> mMakanan = new ArrayList<>();
                 JSONObject resultJSON = new JSONObject(result);
-                JSONArray resultArray = resultJSON.getJSONArray("listMakanan");
+                JSONObject resultArray = resultJSON.getJSONObject("result");
+                JSONArray makananSelected = resultArray.getJSONArray("makanan");
 
-                for(int i = 0 ; i < resultArray.length() ; i ++ ) {
-                    JSONObject dataMakanan = (JSONObject) resultArray.get(i);
+                for(int i = 0 ; i < makananSelected.length() ; i ++ ) {
+                    JSONObject dataMakanan = (JSONObject) makananSelected.get(i);
                     Makanan makanan = new Makanan();
                     makanan.setId(String.valueOf(i+1));
                     makanan.setIdMakanan(dataMakanan.getString("makanan_id"));

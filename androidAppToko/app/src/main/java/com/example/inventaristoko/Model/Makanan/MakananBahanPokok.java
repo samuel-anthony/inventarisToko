@@ -1,8 +1,10 @@
 package com.example.inventaristoko.Model.Makanan;
 
 public class MakananBahanPokok {
-    public int bahan_pokok_id;
-    public String name;
+    private int bahan_pokok_id;
+    private String name;
+    private String jumlah;
+    private String satuan;
 
     public int getBahan_pokok_id() {
         return bahan_pokok_id;
@@ -18,5 +20,21 @@ public class MakananBahanPokok {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getJumlah() {
+        return jumlah;
+    }
+
+    public void setJumlah(String jumlah) {
+        this.jumlah = jumlah;
+    }
+
+    public String getSatuan() {
+        return satuan;
+    }
+
+    public void setSatuan(String satuan) {
+        this.satuan = satuan;
     }
 }

@@ -70,6 +70,7 @@
     <string name="tombol_generate">Generate QR Code</string>
     <string name="tombol_tambah_detail">Tambah Detil</string>
     <string name="tombol_tambah_makanan">Tambah Gambar</string>
+    <string name="tombol_tambah_bahan_pokok">Tambah Bahan Pokok</string>
 
     <!--Data Penjualan-->
     <string name="label_nomor_penjualan">Nomor Penjualan</string>
@@ -92,9 +93,13 @@
     <string name="label_nama_makanan">Nama Makanan</string>
     <string name="label_harga_makanan">Harga Makanan</string>
     <string name="label_gambar_makanan">Gambar Makanan</string>
+    <string name="label_value_jumlah_makanan">Jumlah Bahan Pokok</string>
     <string name="label_value_nama_makanan">Nama</string>
     <string name="label_value_harga_makanan">1</string>
     <string name="label_value_nama_makanan_bahan_pokok">Nama Bahan Pokok</string>
+    <string name="label_value_nama">Nama</string>
+    <string name="label_value_jumlah">Jumlah</string>
+    <string name="label_value_satuan">Satuan</string>
 
     <!--Data Pengguna-->
     <string name="label_nama_pengguna">Nama</string>
@@ -114,6 +119,7 @@
     <!-- Data Bahan Pokok-->
     <string name="label_nama_bahan_pokok">Nama</string>
     <string name="label_jumlah_bahan_pokok_satuan">Jumlah</string>
+    <string name="label_harga_bahan_pokok">Harga</string>
     <string name="label_satuan_bahan_pokok">Satuan</string>
     <string name="label_value_nama_bahan_pokok">Nama Bahan Pokok</string>
     <string name="label_value_jumlah_bahan_pokok">1</string>
