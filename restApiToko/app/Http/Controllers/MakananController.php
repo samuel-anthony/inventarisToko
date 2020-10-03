@@ -40,6 +40,7 @@ class MakananController extends Controller
         $makanan->save();
         if(!is_null($request->gambarMakanan)){
             $gambarMakanan = new gambarMakanan;
+            $gambarMakanan->makanan_id = $makanan->makanan_id;
             $gambarMakanan->gambar_makanan = $request->gambar_makanan;
             $gambarMakanan->save();
         }
