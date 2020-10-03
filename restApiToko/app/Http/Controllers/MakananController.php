@@ -39,7 +39,7 @@ class MakananController extends Controller
             $makananDetail = new makananDetail;
             $makananDetail->jumlah = $detail->jumlah;
             $makananDetail->bahan_pokok_id = $detail->bahan_pokok_id;
-            $makananDetail->makanan_id = $makanan->id;
+            $makananDetail->makanan_id = $makanan->makanan_id;
             $makananDetail->save();
         }
         return json_encode([

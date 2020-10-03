@@ -161,6 +161,7 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
                             try {
                                 JSONObject jsonObject = new JSONObject();
                                 jsonObject.put("bahan_pokok_id",makananBahanPokoks.get(i).bahan_pokok_id);
+                                jsonObject.put("jumlah",100);
                                 jsonArray.put(jsonObject);
                             } catch (JSONException e) {
                                 e.printStackTrace();
