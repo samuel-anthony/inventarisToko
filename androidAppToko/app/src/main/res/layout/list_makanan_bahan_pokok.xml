@@ -45,7 +45,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnTambahMakananBahanPokok"
+            android:id="@+id/btnHapusMakananBahanPokok"
             android:background="@drawable/button_danger"
             android:text="@string/tombol_hapus"
             android:textColor="@drawable/button_danger_text"

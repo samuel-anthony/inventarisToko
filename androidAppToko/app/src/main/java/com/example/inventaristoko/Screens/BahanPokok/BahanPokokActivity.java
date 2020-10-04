@@ -6,7 +6,9 @@ import android.widget.Button;
 
 import com.example.inventaristoko.Adapter.BahanPokok.BahanPokokAdapter;
 import com.example.inventaristoko.Model.BahanPokok.BahanPokok;
+import com.example.inventaristoko.Model.BahanPokok.Pemasok;
 import com.example.inventaristoko.R;
+import com.example.inventaristoko.Screens.Makanan.MakananEntryActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
@@ -44,11 +46,38 @@ public class BahanPokokActivity extends AppCompatActivity {
 
         btnTambahBahanPokok = findViewById(R.id.btnTambahBahanPokok);
         btnTambahBahanPokok.setOnClickListener(v -> {
-            Intent intent = new Intent (v.getContext(), BahanPokokEntryActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("screenState", MyConstants.TAMBAH_BAHAN_POKOK);
-            intent.putExtras(bundle);
-            v.getContext().startActivity(intent);
+            ArrayList<Pemasok> mPemasok = new ArrayList<>();
+            VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
+
+            Map<String, String> params = new HashMap<>();
+
+            volleyAPI.getRequest("getSemuaSupplier", params, result -> {
+                try {
+                    JSONObject resultJSON = new JSONObject(result);
+                    JSONArray resultArray = resultJSON.getJSONArray("result");
+
+                    for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                        JSONObject dataPemasok = (JSONObject) resultArray.get(i);
+                        Pemasok pemasok = new Pemasok();
+                        pemasok.setIdPemasok(dataPemasok.getString("supplier_id"));
+                        pemasok.setNamaPemasok(dataPemasok.getString("nama"));
+                        pemasok.setAlamatPemasok(dataPemasok.getString("alamat"));
+                        pemasok.setNomorTeleponPemasok(dataPemasok.getString("nomor_telepon"));
+                        pemasok.setTanggalTambahPemasok(dataPemasok.getString("created_at"));
+                        pemasok.setTanggalUbahPemasok(dataPemasok.getString("updated_at"));
+                        mPemasok.add(pemasok);
+                    }
+
+                    Intent intent = new Intent(v.getContext(), BahanPokokEntryActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("screenState", MyConstants.TAMBAH_BAHAN_POKOK);
+                    bundle.putSerializable("daftarPemasok", mPemasok);
+                    intent.putExtras(bundle);
+                    v.getContext().startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            });
         });
 
         mRecyclerView = findViewById(R.id.rvDataBahanPokok);

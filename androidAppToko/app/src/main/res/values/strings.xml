@@ -22,6 +22,8 @@
     <string name="label_data_kosong">Data tidak boleh kosong</string>
     <string name="press_once_again">Tekan Sekali Lagi Untuk Keluar</string>
     <string name="label_data_melampaui">Data yang anda masukkan melampaui dari yang ditentukan</string>
+    <string name="label_data_sama">Data yang anda masukkan tidak boleh sama dengan sebelumnya</string>
+    <string name="label_data_generate">Generate QR Code Terlebih Dahulu</string>
 
     <!--Dialog-->
     <string name="confirmation_dialog_password">Anda Yakin Ingin Mengganti Password?</string>
@@ -121,9 +123,11 @@
     <string name="label_jumlah_bahan_pokok_satuan">Jumlah</string>
     <string name="label_harga_bahan_pokok">Harga</string>
     <string name="label_satuan_bahan_pokok">Satuan</string>
+    <string name="label_pemasok_bahan_pokok">Pemasok Bahan Pokok</string>
     <string name="label_value_nama_bahan_pokok">Nama Bahan Pokok</string>
     <string name="label_value_jumlah_bahan_pokok">1</string>
     <string name="label_value_nama_tokok_detail_bahan_pokok">Toko Bahan Pokok</string>
     <string name="label_value_harga_detail_bahan_pokok">1</string>
     <string name="label_value_tanggal_detail_bahan_pokok">01 - 01 - 2001</string>
+    <string name="label_value_nama_pemasok_bahan_pokok">Nama Pemasok</string>
 </resources>

@@ -2,6 +2,8 @@ package com.example.inventaristoko.Screens.BahanPokok;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,23 +17,36 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.inventaristoko.Adapter.BahanPokok.BahanPokokPemasokAdapter;
+import com.example.inventaristoko.Adapter.Makanan.MakananBahanPokokAdapter;
+import com.example.inventaristoko.Model.BahanPokok.BahanPokokPemasok;
+import com.example.inventaristoko.Model.BahanPokok.Pemasok;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class BahanPokokEntryActivity extends AppCompatActivity{
+    private RecyclerView mRecyclerView;
     private EditText etNamaBahanPokok, etJumlahBahanPokok, etHargaBahanPokok;
-    private Button btnKirimBahanPokok;
-    private Spinner spnSatuanBahanPokok;
+    private Button btnKirimBahanPokok, btnTambahPemasokBahanPokok;
+    private Spinner spnSatuanBahanPokok, spnDaftarPemasok;
     private String[] spnSatuan = {"Mg", "Dg", "Cg", "G", "Hg", "Dg", "Kg"};
     private String satuanSelected;
+    private int position;
+    private BahanPokokPemasokAdapter bahanPokokPemasokAdapter;
+    private ArrayList<BahanPokokPemasok> bahanPokokPemasoks = new ArrayList<>();
+    private ArrayList<Pemasok> mPemasok = new ArrayList<>();
+    private ArrayList<Pemasok> pemasoks = new ArrayList<>();
+    private String idPemasokSelected, namaPemasokSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +56,41 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
         Bundle bundle = getIntent().getExtras();
         String screenState = bundle.getString("screenState");
         String satuan = bundle.getString("satuanBahanPokok");
+        mPemasok = (ArrayList<Pemasok>) bundle.getSerializable("daftarPemasok");
 
+        if(screenState.equals(MyConstants.TAMBAH_BAHAN_POKOK)) {
+            for (int i = 0; i < mPemasok.size(); i++) {
+                pemasoks.add(new Pemasok(mPemasok.get(i).getIdPemasok(), mPemasok.get(i).getNamaPemasok()));
+            }
+        }
+
+        mRecyclerView = findViewById(R.id.rvDataPemasokBahanPokok);
         etNamaBahanPokok = findViewById(R.id.etNamaBahanPokok);
         etHargaBahanPokok = findViewById(R.id.etHargaBahanPokok);
         etJumlahBahanPokok = findViewById(R.id.etJumlahBahanPokok);
+        spnDaftarPemasok = findViewById(R.id.spnDaftarPemasok);
+
+        ArrayAdapter<Pemasok> adapterPemasok = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, pemasoks);
+        adapterPemasok.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+        spnDaftarPemasok.setAdapter(adapterPemasok);
+        spnDaftarPemasok.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(screenState.equals(MyConstants.TAMBAH_BAHAN_POKOK)) {
+                    idPemasokSelected = pemasoks.get(position).getIdPemasok();
+                    namaPemasokSelected = pemasoks.get(position).getNamaPemasok();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        bahanPokokPemasokAdapter = new BahanPokokPemasokAdapter(getApplicationContext(), bahanPokokPemasoks, (bahanPokokPemasok, pos) -> position = pos);
+        mRecyclerView.setAdapter(bahanPokokPemasokAdapter);
 
         spnSatuanBahanPokok = findViewById(R.id.spnSatuanBahanPokok);
         spnSatuanBahanPokok.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -88,6 +134,16 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
             getSupportActionBar().setTitle(R.string.menu_tambah_bahan_pokok);
             spnSatuanBahanPokok.setSelection(6);
         }
+
+        btnTambahPemasokBahanPokok = findViewById(R.id.btnTambahPemasokBahanPokok);
+        btnTambahPemasokBahanPokok.setOnClickListener(v -> {
+            if(bahanPokokPemasoks.size() > mPemasok.size()-1) {
+                Toast.makeText(getApplicationContext(),R.string.label_data_melampaui, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            insertMethod(idPemasokSelected, namaPemasokSelected);
+        });
 
         btnKirimBahanPokok = findViewById(R.id.btnKirimBahanPokok);
         btnKirimBahanPokok.setOnClickListener(v -> {
@@ -164,6 +220,20 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
                 hideKeyboard(v);
             }
         });
+    }
+
+    private void insertMethod(String id, String name) {
+        Gson gson = new Gson();
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("supplier_id", id);
+            jsonObject.put("name", name);
+            BahanPokokPemasok pemasokBahanPokok = gson.fromJson(String.valueOf(jsonObject), BahanPokokPemasok.class);
+            bahanPokokPemasoks.add(pemasokBahanPokok);
+            bahanPokokPemasokAdapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void hideKeyboard(View view) {

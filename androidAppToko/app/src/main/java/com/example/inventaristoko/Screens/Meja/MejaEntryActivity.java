@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -36,6 +38,7 @@ public class MejaEntryActivity extends AppCompatActivity {
     private ImageView ivQrCode;
     private Button btnGenerate, btnSubmit;
     private String screenState, idMeja;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,7 @@ public class MejaEntryActivity extends AppCompatActivity {
                 MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
                 BitMatrix bitMatrix = multiFormatWriter.encode(idMeja, BarcodeFormat.QR_CODE,150,150);
                 BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                bitmap = barcodeEncoder.createBitmap(bitMatrix);
                 ivQrCode.setImageBitmap(bitmap);
             } catch (WriterException e) {
                 e.printStackTrace();
@@ -75,7 +78,7 @@ public class MejaEntryActivity extends AppCompatActivity {
                 MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
                 BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,150,150);
                 BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                bitmap = barcodeEncoder.createBitmap(bitMatrix);
                 ivQrCode.setImageBitmap(bitmap);
                 hideKeyboard(v);
             } catch (WriterException e) {
@@ -87,6 +90,11 @@ public class MejaEntryActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(v -> {
             if(String.valueOf(etIdMeja.getText()).equals("") || String.valueOf(etNamaMeja.getText()).equals("")) {
                 Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if(bitmap == null) {
+                Toast.makeText(getApplicationContext(), R.string.label_data_generate, Toast.LENGTH_SHORT).show();
                 return;
             }
 

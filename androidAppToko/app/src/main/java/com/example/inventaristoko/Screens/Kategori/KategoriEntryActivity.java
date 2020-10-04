@@ -23,6 +23,7 @@ import com.example.inventaristoko.Model.Makanan.Makanan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
+import com.example.inventaristoko.Utils.Preferences;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.google.gson.Gson;
 
@@ -114,11 +115,18 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
         switch (v.getId()) {
             case R.id.btnTambahMakananKategori: {
                 if(kategoryMakanans.size() > mMakanan.size()-1) {
-                    Toast.makeText(getApplicationContext(),R.string.label_data_melampaui, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.label_data_melampaui, Toast.LENGTH_SHORT).show();
                     return;
-                } else {
-                    insertMethod(idMakananSelected, makananSelected);
                 }
+
+                for(int i = 0 ; i < kategoryMakanans.size() ; i++) {
+                    if(String.valueOf(kategoryMakanans.get(i).getMakanan_id()).equals(idMakananSelected)) {
+                        Toast.makeText(getApplicationContext(), R.string.label_data_melampaui, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
+                insertMethod(idMakananSelected, makananSelected);
             }
             break;
 

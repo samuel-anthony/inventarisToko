@@ -82,7 +82,7 @@ public class MakananBahanPokokAdapter extends RecyclerView.Adapter<MakananBahanP
             tvNama = itemView.findViewById(R.id.tvValueNamaMakananBahanPokok);
             tvJumlah = itemView.findViewById(R.id.tvValueJumlahMakananBahanPokok);
             tvSatuan = itemView.findViewById(R.id.tvValueSatuanMakananBahanPokok);
-            btnHapus = itemView.findViewById(R.id.btnTambahMakananBahanPokok);
+            btnHapus = itemView.findViewById(R.id.btnHapusMakananBahanPokok);
             llItem = itemView.findViewById(R.id.ll_item);
         }
     }
