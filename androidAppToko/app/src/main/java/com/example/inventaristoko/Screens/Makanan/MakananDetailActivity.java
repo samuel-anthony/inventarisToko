@@ -7,17 +7,23 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.inventaristoko.Model.BahanPokok.BahanPokok;
 import com.example.inventaristoko.R;
+import com.example.inventaristoko.Screens.Front.HomeActivity;
+import com.example.inventaristoko.Screens.Penjualan.PenjualanActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
+import com.example.inventaristoko.Utils.Preferences;
 import com.example.inventaristoko.Utils.VolleyAPI;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,12 +53,9 @@ public class MakananDetailActivity extends AppCompatActivity {
         idMakanan = bundle.getString("idMakanan");
         tvNamaMakanan.setText(bundle.getString("namaMakanan"));
         hargaMakanan = bundle.getString("hargaMakanan");
-        decodeImage = bundle.getString("gambarMakanan");
         tvHargaMakanan.setText( CommonUtils.currencyFormat(hargaMakanan));
 
-        byte[] decodedString = Base64.decode(decodeImage, Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        ivGambarMakanan.setImageBitmap(decodedByte);
+        getGambarMakananDetail();
 
         btnHapusMakanan.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -94,6 +97,28 @@ public class MakananDetailActivity extends AppCompatActivity {
             v.getContext().startActivity(intent);
 
             Toast.makeText(getApplicationContext(), "Ubah Makanan", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void getGambarMakananDetail() {
+        VolleyAPI volleyAPI = new VolleyAPI(MakananDetailActivity.this);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("makanan_id", idMakanan);
+
+        volleyAPI.getRequest("getGambarMakananDetail", params, result -> {
+            try {
+                JSONObject resultJSON = new JSONObject(result);
+                decodeImage = resultJSON.getJSONObject("result").getString("gambar_makanan");
+
+                if(decodeImage != null) {
+                    byte[] decodedString = Base64.decode(decodeImage, Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    ivGambarMakanan.setImageBitmap(decodedByte);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         });
     }
 }
