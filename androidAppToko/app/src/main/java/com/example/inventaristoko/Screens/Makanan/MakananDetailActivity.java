@@ -112,6 +112,7 @@ public class MakananDetailActivity extends AppCompatActivity {
                 decodeImage = resultJSON.getJSONObject("result").getString("gambar_makanan");
 
                 if(decodeImage != null) {
+                    decodeImage.replace("\n", "");
                     byte[] decodedString = Base64.decode(decodeImage, Base64.DEFAULT);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     ivGambarMakanan.setImageBitmap(decodedByte);
