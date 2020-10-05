@@ -55,7 +55,7 @@ class UserController extends Controller
 
     public function updateAdminUser(request $request){
         $user = User::whereUserId($request->user_name_old)->first();
-        $userAdmin = userAdmin::find($user->id);
+        $userAdmin = userAdmin::whereUserId($user->id)->first();
         $userAdmin->email = $request->email;
         $userAdmin->phone_number = $request->phone_number;
         $userAdmin->birth_date = $request->birth_date;

@@ -212,8 +212,9 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
                             volleyAPI.postRequest("addMakanan", params, result -> {
                                 try {
                                     JSONObject resultJSON = new JSONObject(result);
-                                    Intent myIntent = new Intent(getApplicationContext(), MakananActivity.class);
-                                    startActivityForResult(myIntent, 0);
+//                                    Intent myIntent = new Intent(getApplicationContext(), MakananActivity.class);
+//                                    startActivityForResult(myIntent, 0);
+                                    finish();
                                     Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
