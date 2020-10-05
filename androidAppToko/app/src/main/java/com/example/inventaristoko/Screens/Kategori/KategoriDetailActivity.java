@@ -30,6 +30,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 
 public class KategoriDetailActivity extends AppCompatActivity {
+    ArrayList<Makanan> mMakanan = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private MakananAdapter mMakananAdapter;
     private Button btnHapusKategori, btnUbahKategori;
@@ -86,6 +87,11 @@ public class KategoriDetailActivity extends AppCompatActivity {
             mBundle.putString("screenState", MyConstants.UBAH_KATEGORI);
             mBundle.putString("idKategori", tvIdKategori.getText().toString());
             mBundle.putString("namaKategori", tvNamaKategori.getText().toString());
+
+            if(mMakanan != null) {
+                mBundle.putSerializable("daftarMakananSelected", mMakanan);
+            }
+
             intent.putExtras(mBundle);
             v.getContext().startActivity(intent);
         });
@@ -114,7 +120,6 @@ public class KategoriDetailActivity extends AppCompatActivity {
 
         volleyAPI.getRequest("getSemuaJenisMenuDetail", params, result -> {
             try {
-                ArrayList<Makanan> mMakanan = new ArrayList<>();
                 JSONObject resultJSON = new JSONObject(result);
                 JSONObject resultArray = resultJSON.getJSONObject("result");
                 JSONArray makananSelected = resultArray.getJSONArray("makanan");
@@ -126,7 +131,6 @@ public class KategoriDetailActivity extends AppCompatActivity {
                     makanan.setIdMakanan(dataMakanan.getString("makanan_id"));
                     makanan.setNamaMakanan(dataMakanan.getString("nama"));
                     makanan.setHargaMakanan(dataMakanan.getString("harga_jual"));
-                    makanan.setGambarMakanan(dataMakanan.getString("gambar_makanan"));
                     makanan.setTanggalTambahMakanan(dataMakanan.getString("created_at"));
                     makanan.setTanggalUbahMakanan(dataMakanan.getString("updated_at"));
 

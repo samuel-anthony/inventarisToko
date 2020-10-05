@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.BahanPokok.BahanPokokPemasokAdapter;
@@ -37,6 +38,7 @@ import java.util.Map;
 public class BahanPokokEntryActivity extends AppCompatActivity{
     private RecyclerView mRecyclerView;
     private EditText etNamaBahanPokok, etJumlahBahanPokok, etHargaBahanPokok;
+    private TextView tvDaftarPemasokBahanPokok, tvHargaBahanPokok;
     private Button btnKirimBahanPokok, btnTambahPemasokBahanPokok;
     private Spinner spnSatuanBahanPokok, spnDaftarPemasok;
     private String[] spnSatuan = {"Mg", "Dg", "Cg", "G", "Hg", "Dg", "Kg"};
@@ -68,7 +70,10 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
         etNamaBahanPokok = findViewById(R.id.etNamaBahanPokok);
         etHargaBahanPokok = findViewById(R.id.etHargaBahanPokok);
         etJumlahBahanPokok = findViewById(R.id.etJumlahBahanPokok);
+        tvHargaBahanPokok = findViewById(R.id.tvHargaBahanPokok);
+        tvDaftarPemasokBahanPokok = findViewById(R.id.tvDaftarPemasokBahanPokok);
         spnDaftarPemasok = findViewById(R.id.spnDaftarPemasok);
+        btnTambahPemasokBahanPokok = findViewById(R.id.btnTambahPemasokBahanPokok);
 
         ArrayAdapter<Pemasok> adapterPemasok = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, pemasoks);
         adapterPemasok.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
@@ -133,9 +138,13 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
         } else {
             getSupportActionBar().setTitle(R.string.menu_tambah_bahan_pokok);
             spnSatuanBahanPokok.setSelection(6);
+            spnDaftarPemasok.setVisibility(View.GONE);
+            btnTambahPemasokBahanPokok.setVisibility(View.GONE);
+            tvDaftarPemasokBahanPokok.setVisibility(View.GONE);
+            tvHargaBahanPokok.setVisibility(View.GONE);
+            etHargaBahanPokok.setVisibility(View.GONE);
         }
 
-        btnTambahPemasokBahanPokok = findViewById(R.id.btnTambahPemasokBahanPokok);
         btnTambahPemasokBahanPokok.setOnClickListener(v -> {
             if(bahanPokokPemasoks.size() > mPemasok.size()-1) {
                 Toast.makeText(getApplicationContext(),R.string.label_data_melampaui, Toast.LENGTH_SHORT).show();
@@ -147,7 +156,7 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
 
         btnKirimBahanPokok = findViewById(R.id.btnKirimBahanPokok);
         btnKirimBahanPokok.setOnClickListener(v -> {
-            if(String.valueOf(etNamaBahanPokok.getText()).equals("") || String.valueOf(etHargaBahanPokok.getText()).equals("") || String.valueOf(etJumlahBahanPokok.getText()).equals("")) {
+            if(String.valueOf(etNamaBahanPokok.getText()).equals("") || String.valueOf(etJumlahBahanPokok.getText()).equals("")) {
                 Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -162,10 +171,10 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
                 Map<String, String> params = new HashMap<>();
                 params.put("nama", etNamaBahanPokok.getText().toString()); //disable
                 params.put("jumlah", etJumlahBahanPokok.getText().toString());
-                params.put("harga", etHargaBahanPokok.getText().toString());
 
                 if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
                     params.put("bahan_pokok_id", bundle.getString("idMeja"));
+                    params.put("harga", etHargaBahanPokok.getText().toString());
                     //params.put("supplier_id", bundle.getString("idMeja"));
                     params.put("aksi", "1");
                 } else {
