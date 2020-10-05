@@ -30,7 +30,8 @@ class MakananController extends Controller
     }
     
     public function getGambarMakananByDetail(request $request){
-        return json_encode(['result'=>gambarMakanan::whereMakananId($request->makanan_id)->first()]);
+        $gambar = gambarMakanan::whereMakananId($request->makanan_id)->first();
+        return  is_null($gambar) ? null : $gambar->gambar_makanan;
     }
 
 

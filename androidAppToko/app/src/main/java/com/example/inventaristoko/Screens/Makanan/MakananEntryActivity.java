@@ -262,7 +262,7 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
         byte[] b = baos.toByteArray();
-        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+        String encImage = Base64.encodeToString(b, Base64.NO_WRAP);
 
         return encImage;
     }

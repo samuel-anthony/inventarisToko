@@ -100,6 +100,13 @@ public class MakananDetailActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        // or call onBackPressed()
+        return true;
+    }
+
     private void getGambarMakananDetail() {
         VolleyAPI volleyAPI = new VolleyAPI(MakananDetailActivity.this);
 
@@ -107,19 +114,18 @@ public class MakananDetailActivity extends AppCompatActivity {
         params.put("makanan_id", idMakanan);
 
         volleyAPI.getRequest("getGambarMakananDetail", params, result -> {
-            try {
-                JSONObject resultJSON = new JSONObject(result);
-                decodeImage = resultJSON.getJSONObject("result").getString("gambar_makanan");
+//            try {
+//                JSONObject resultJSON = new JSONObject(result).getJSONObject("result");
+                decodeImage =  result;
 
                 if(decodeImage != null) {
-                    decodeImage.replace("\n", "");
                     byte[] decodedString = Base64.decode(decodeImage, Base64.DEFAULT);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     ivGambarMakanan.setImageBitmap(decodedByte);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
         });
     }
 }
