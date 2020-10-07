@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.MenuItem;
@@ -33,6 +34,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonArray;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -93,6 +95,7 @@ public class PenjualanActivity extends AppCompatActivity {
         prepareDataPenjualan();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void prepareDataPenjualan() {
         CommonUtils.showLoading(PenjualanActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
