@@ -52,7 +52,7 @@ class JenisMenuController extends Controller
         $jenisMenuDetail = json_decode($request->makanans);
         $usedJenisMakananDetail = array();
         foreach($jenisMenuDetail as $detail){
-            $jenisMenuDetail = jenisMenuDetail::whereMakananId($detail->makanan_id)->whereJenisMenu($request->jenis_menu_id)->first();
+            $jenisMenuDetail = jenisMenuDetail::whereMakananId($detail->makanan_id)->whereJenisMenuId($request->jenis_menu_id)->first();
             if(is_null($jenisMenuDetail))
                 $jenisMenuDetail = new jenisMenuDetail;
             $jenisMenuDetail->jenis_menu_id = $jenisMenu->jenis_menu_id;
