@@ -39,6 +39,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -247,14 +248,16 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE){
             final Uri imageUri = data.getData();
-            InputStream imageStream = null;
+            Bitmap selectedImage = null;
             try {
-                imageStream = getContentResolver().openInputStream(imageUri);
-            } catch (FileNotFoundException e) {
+                selectedImage = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-            encodedImage = encodeImage(selectedImage);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            selectedImage.compress(Bitmap.CompressFormat.JPEG,100,baos);
+            byte[] b = baos.toByteArray();
+            encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
             ivGambarMakanan.setImageURI(imageUri);
         }
     }
@@ -263,7 +266,7 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
         byte[] b = baos.toByteArray();
-        String encImage = Base64.encodeToString(b, Base64.NO_WRAP);
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
 
         return encImage;
     }
