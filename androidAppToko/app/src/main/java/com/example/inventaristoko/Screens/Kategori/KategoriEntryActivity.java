@@ -18,11 +18,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Kategori.KategoriMakananAdapter;
-import com.example.inventaristoko.Model.BahanPokok.BahanPokok;
 import com.example.inventaristoko.Model.Kategori.KategoriMakanan;
 import com.example.inventaristoko.Model.Makanan.Makanan;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.Makanan.MakananEntryActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
@@ -39,6 +37,7 @@ import java.util.Map;
 public class KategoriEntryActivity extends AppCompatActivity implements View.OnClickListener  {
     private ArrayList<KategoriMakanan> kategoryMakanans = new ArrayList<>();
     private ArrayList<Makanan> mMakanan = new ArrayList<>();
+    private ArrayList<Makanan> mMakananNew = new ArrayList<>();
     private ArrayList<Makanan> makanans = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private KategoriMakananAdapter kategoriMakananAdapter;
@@ -67,56 +66,11 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
 
         getSemuaMakanan();
 
-        if(screenState.equals(MyConstants.TAMBAH_KATEGORI)) {
-            mMakanan = (ArrayList<Makanan>) bundle.getSerializable("daftarMakanan");
-            for (int i = 0; i < mMakanan.size(); i++) {
-                makanans.add(new Makanan(mMakanan.get(i).getIdMakanan(), mMakanan.get(i).getNamaMakanan()));
-            }
-        } else {
-            for (int i = 0; i < mMakanan.size(); i++) {
-                makanans.add(new Makanan(mMakanan.get(i).getIdMakanan(), mMakanan.get(i).getNamaMakanan()));
-            }
-        }
-
-//        if(mMakanan != null) {
-//            for (int i = 0; i < mMakanan.size(); i++) {
-//                makanans.add(new Makanan(mMakanan.get(i).getIdMakanan(), mMakanan.get(i).getNamaMakanan()));
-//            }
-//        }
-
-        ArrayAdapter<Makanan> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, makanans);
-        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-        spnDaftarMakanan.setAdapter(adapter);
-        spnDaftarMakanan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                makananSelected = makanans.get(position).getNamaMakanan();
-                idMakananSelected = makanans.get(position).getIdMakanan();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
         if(screenState.equals(MyConstants.UBAH_KATEGORI)) {
             getSupportActionBar().setTitle(R.string.menu_ubah_kategori);
             etNamaKategori.setText(bundle.getString("namaKategori"));
         } else {
             getSupportActionBar().setTitle(R.string.menu_tambah_kategori);
-        }
-
-        mRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        kategoriMakananAdapter = new KategoriMakananAdapter(getApplicationContext(), kategoryMakanans, (kategoriMakanan, pos) -> position = pos);
-        mRecyclerView.setAdapter(kategoriMakananAdapter);
-        btnTambahMakananKategori.setOnClickListener(this);
-        btnKirimKategori.setOnClickListener(this);
-
-        if(screenState.equals(MyConstants.UBAH_KATEGORI)) {
-            for (int i = 0; i < mMakanan.size(); i++) {
-                insertMethod(mMakanan.get(i).getIdMakanan(), mMakanan.get(i).getNamaMakanan());
-            }
         }
 
         etNamaKategori.setOnFocusChangeListener((v, hasFocus) -> {
@@ -144,6 +98,43 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
                     makanan.setNamaMakanan(dataMakanan.getString("nama"));
                     mMakanans.add(makanan);
                 }
+                mMakanan = mMakanans;
+
+                if(mMakanan != null) {
+                    for (int i = 0; i < mMakanan.size(); i++) {
+                        makanans.add(new Makanan(mMakanan.get(i).getIdMakanan(), mMakanan.get(i).getNamaMakanan()));
+                    }
+                }
+
+                ArrayAdapter<Makanan> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, makanans);
+                adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+                spnDaftarMakanan.setAdapter(adapter);
+                spnDaftarMakanan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        makananSelected = makanans.get(position).getNamaMakanan();
+                        idMakananSelected = makanans.get(position).getIdMakanan();
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+
+                mRecyclerView.setHasFixedSize(true);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                mRecyclerView.setLayoutManager(layoutManager);
+                kategoriMakananAdapter = new KategoriMakananAdapter(getApplicationContext(), kategoryMakanans, (kategoriMakanan, pos) -> position = pos);
+                mRecyclerView.setAdapter(kategoriMakananAdapter);
+                btnTambahMakananKategori.setOnClickListener(this);
+                btnKirimKategori.setOnClickListener(this);
+
+                if(screenState.equals(MyConstants.UBAH_KATEGORI)) {
+                    Bundle bundle = getIntent().getExtras();
+                    mMakananNew = (ArrayList<Makanan>) bundle.getSerializable("daftarMakananSelected");
+                    for (int i = 0; i < mMakananNew.size(); i++) {
+                        insertMethod(mMakananNew.get(i).getIdMakanan(), mMakananNew.get(i).getNamaMakanan());
+                    }
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -154,7 +145,7 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnTambahMakananKategori: {
-                if(kategoryMakanans.size() > mMakanan.size()-1) {
+                if (kategoryMakanans.size() > mMakanan.size() - 1) {
                     Toast.makeText(getApplicationContext(), R.string.label_data_melampaui, Toast.LENGTH_SHORT).show();
                     return;
                 }
