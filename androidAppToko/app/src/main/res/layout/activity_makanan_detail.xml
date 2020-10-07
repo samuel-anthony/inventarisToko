@@ -126,4 +126,25 @@
             android:layout_height="50dp"
             android:layout_margin="@dimen/_12dp"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvDataDetailBahanPokok"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/menu_bahan_pokok"
+            android:layout_marginVertical="@dimen/_12dp"
+            android:layout_marginStart="@dimen/_12dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDataMakananBahanPokokDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin" />
+    </LinearLayout>
 </LinearLayout>

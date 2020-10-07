@@ -48,6 +48,7 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
     private static final int PICK_IMAGE = 100;
     private ArrayList<MakananBahanPokok> makananBahanPokoks = new ArrayList<>();
     private ArrayList<BahanPokok> mBahanPokok = new ArrayList<>();
+    private ArrayList<BahanPokok> mBahanPokokNew = new ArrayList<>();
     private ArrayList<BahanPokok> bahanPokoks = new ArrayList<>();
     private EditText etNamaMakanan, etHargaMakanan, etJumlahBahanPokok;
     private TextView tvSatuanBahanPokok;
@@ -57,7 +58,7 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
     private RecyclerView mRecyclerView;
     private Button btnTambahGambar, btnKirimMakanan, btnTambahMakananBahanPokok;
     private Spinner spnDaftarBahanPokok;
-    private String encodedImage, screenState, idBahanPokokSelected, bahanPokokSelected, jumlahBahanPokok, satuanBahanPokokSelected;
+    private String encodedImage, screenState, idBahanPokokSelected, idMakanan, bahanPokokSelected, jumlahBahanPokok, satuanBahanPokokSelected, decodeImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,34 +76,12 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
         ivGambarMakanan = findViewById(R.id.ivGambarMakanan);
         spnDaftarBahanPokok = findViewById(R.id.spnDaftarBahanPokok);
 
-
         Bundle bundle = getIntent().getExtras();
         screenState = bundle.getString("screenState");
-        mBahanPokok = (ArrayList<BahanPokok>) bundle.getSerializable("daftarBahanPokok");
+        idMakanan = bundle.getString("idMakanan");
 
-        if(screenState.equals(MyConstants.TAMBAH_MAKANAN)) {
-            for (int i = 0; i < mBahanPokok.size(); i++) {
-                bahanPokoks.add(new BahanPokok(mBahanPokok.get(i).getIdBahanPokok(), mBahanPokok.get(i).getNamaBahanPokok(), mBahanPokok.get(i).getSatuanBahanPokok()));
-            }
-        }
-
-        ArrayAdapter<BahanPokok> adapterBahanPokok = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, bahanPokoks);
-        adapterBahanPokok.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-        spnDaftarBahanPokok.setAdapter(adapterBahanPokok);
-        spnDaftarBahanPokok.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(screenState.equals(MyConstants.TAMBAH_MAKANAN)) {
-                    bahanPokokSelected = bahanPokoks.get(position).getNamaBahanPokok();
-                    idBahanPokokSelected = bahanPokoks.get(position).getIdBahanPokok();
-                    satuanBahanPokokSelected = bahanPokoks.get(position).getSatuanBahanPokok();
-                    tvSatuanBahanPokok.setText(satuanBahanPokokSelected);
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        getSemuaBahanPokok();
+        getGambarMakananDetail();
 
         if(screenState.equals(MyConstants.UBAH_MAKANAN)) {
             getSupportActionBar().setTitle(R.string.menu_ubah_makanan);
@@ -112,11 +91,6 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
             getSupportActionBar().setTitle(R.string.menu_tambah_makanan);
         }
 
-        mRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        makananBahanPokokAdapter = new MakananBahanPokokAdapter(getApplicationContext(), makananBahanPokoks, (makananBahanPokok, pos) -> position = pos);
-        mRecyclerView.setAdapter(makananBahanPokokAdapter);
         btnTambahMakananBahanPokok.setOnClickListener(this);
         btnTambahGambar.setOnClickListener(this);
         btnKirimMakanan.setOnClickListener(this);
@@ -154,9 +128,11 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
                     return;
                 }
 
-                if(String.valueOf(etJumlahBahanPokok.getText()).equals("")) {
-                    Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
-                    return;
+                for(int i = 0 ; i < makananBahanPokoks.size() ; i++) {
+                    if(String.valueOf(makananBahanPokoks.get(i).getBahan_pokok_id()).equals(idBahanPokokSelected)) {
+                        Toast.makeText(getApplicationContext(), R.string.label_data_sama, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
 
                 jumlahBahanPokok = etJumlahBahanPokok.getText().toString();
@@ -194,11 +170,11 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
                         params.put("bahanMakanan", jsonArray.toString());
 
                         if (screenState.equals(MyConstants.UBAH_MAKANAN)) {
-                            params.put("jenis_menu_id", "");
+                            params.put("makanan_id", idMakanan);
                         }
 
                         if (screenState.equals(MyConstants.UBAH_MAKANAN)) {
-                            volleyAPI.putRequest("editMakanan", params, result -> {
+                            volleyAPI.putRequest("updateMakanan", params, result -> {
                                 try {
                                     JSONObject resultJSON = new JSONObject(result);
                                     Intent myIntent = new Intent(getApplicationContext(), MakananActivity.class);
@@ -212,9 +188,9 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
                             volleyAPI.postRequest("addMakanan", params, result -> {
                                 try {
                                     JSONObject resultJSON = new JSONObject(result);
-//                                    Intent myIntent = new Intent(getApplicationContext(), MakananActivity.class);
-//                                    startActivityForResult(myIntent, 0);
-                                    finish();
+                                    Intent myIntent = new Intent(getApplicationContext(), MakananActivity.class);
+                                    startActivityForResult(myIntent, 0);
+//                                    finish();
                                     Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -230,6 +206,69 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
             }
             break;
         }
+    }
+
+    private void getSemuaBahanPokok() {
+        ArrayList<BahanPokok> mBahanPokoks = new ArrayList<>();
+        VolleyAPI volleyAPI = new VolleyAPI(MakananEntryActivity.this);
+
+        Map<String, String> params = new HashMap<>();
+
+        volleyAPI.getRequest("getSemuaBahanPokok", params, result -> {
+            try {
+                JSONObject resultJSON = new JSONObject(result);
+                JSONArray resultArray = resultJSON.getJSONArray("result");
+
+                for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                    JSONObject dataBahanPokok = (JSONObject) resultArray.get(i);
+                    BahanPokok bahanPokok = new BahanPokok();
+                    bahanPokok.setIdBahanPokok(dataBahanPokok.getString("bahan_pokok_id"));
+                    bahanPokok.setNamaBahanPokok(dataBahanPokok.getString("nama"));
+                    bahanPokok.setSatuanBahanPokok(dataBahanPokok.getString("satuan"));
+                    mBahanPokoks.add(bahanPokok);
+                }
+
+                mBahanPokok = mBahanPokoks;
+
+                if(mBahanPokok != null) {
+                    for (int i = 0; i < mBahanPokok.size(); i++) {
+                        bahanPokoks.add(new BahanPokok(mBahanPokok.get(i).getIdBahanPokok(), mBahanPokok.get(i).getNamaBahanPokok(), mBahanPokok.get(i).getSatuanBahanPokok()));
+                    }
+                }
+
+                ArrayAdapter<BahanPokok> adapterBahanPokok = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, bahanPokoks);
+                adapterBahanPokok.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+                spnDaftarBahanPokok.setAdapter(adapterBahanPokok);
+                spnDaftarBahanPokok.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        bahanPokokSelected = bahanPokoks.get(position).getNamaBahanPokok();
+                        idBahanPokokSelected = bahanPokoks.get(position).getIdBahanPokok();
+                        satuanBahanPokokSelected = bahanPokoks.get(position).getSatuanBahanPokok();
+                        tvSatuanBahanPokok.setText(satuanBahanPokokSelected);
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+
+                mRecyclerView.setHasFixedSize(true);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                mRecyclerView.setLayoutManager(layoutManager);
+                makananBahanPokokAdapter = new MakananBahanPokokAdapter(getApplicationContext(), makananBahanPokoks, (makananBahanPokok, pos) -> position = pos);
+                mRecyclerView.setAdapter(makananBahanPokokAdapter);
+
+                if(screenState.equals(MyConstants.UBAH_MAKANAN)) {
+                    Bundle bundle = getIntent().getExtras();
+                    mBahanPokokNew = (ArrayList<BahanPokok>) bundle.getSerializable("daftarBahanPokokSelected");
+                    for (int i = 0; i < mBahanPokokNew.size(); i++) {
+                        insertMethod(mBahanPokokNew.get(i).getIdBahanPokok(), mBahanPokokNew.get(i).getNamaBahanPokok(), mBahanPokokNew.get(i).getJumlahBahanPokok(), mBahanPokokNew.get(i).getSatuanBahanPokok());
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void openGallery() {
@@ -266,6 +305,24 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
         String encImage = Base64.encodeToString(b, Base64.NO_WRAP);
 
         return encImage;
+    }
+
+    private void getGambarMakananDetail() {
+        VolleyAPI volleyAPI = new VolleyAPI(MakananEntryActivity.this);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("makanan_id", idMakanan);
+
+        volleyAPI.getRequest("getGambarMakananDetail", params, result -> {
+            decodeImage =  result;
+
+            if(decodeImage != null) {
+                byte[] decodedString = Base64.decode(decodeImage, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                ivGambarMakanan.setImageBitmap(decodedByte);
+                encodedImage = decodeImage;
+            }
+        });
     }
 
     private void insertMethod(String id, String name, String amount, String unit) {

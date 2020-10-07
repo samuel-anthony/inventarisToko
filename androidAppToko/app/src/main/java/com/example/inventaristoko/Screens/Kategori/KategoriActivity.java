@@ -7,17 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import com.example.inventaristoko.Adapter.Kategori.KategoriAdapter;
 import com.example.inventaristoko.Model.Kategori.Kategori;
-import com.example.inventaristoko.Model.Makanan.Makanan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
-import com.example.inventaristoko.Utils.VolleyCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -27,7 +24,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -49,34 +45,11 @@ public class KategoriActivity extends AppCompatActivity {
 
         btnTambahKategori = findViewById(R.id.btnTambahKategori);
         btnTambahKategori.setOnClickListener(v -> {
-            ArrayList<Makanan> mMakanan = new ArrayList<>();
-            VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
-
-            Map<String, String> params = new HashMap<>();
-
-            volleyAPI.getRequest("getSemuaMakanan", params, result -> {
-                try {
-                    JSONObject resultJSON = new JSONObject(result);
-                    JSONArray resultArray = resultJSON.getJSONArray("result");
-
-                    for(int i = 0 ; i < resultArray.length() ; i ++ ) {
-                        JSONObject dataMakanan = (JSONObject) resultArray.get(i);
-                        Makanan makanan = new Makanan();
-                        makanan.setIdMakanan(dataMakanan.getString("makanan_id"));
-                        makanan.setNamaMakanan(dataMakanan.getString("nama"));
-                        mMakanan.add(makanan);
-                    }
-
-                    Intent intent = new Intent(v.getContext(), KategoriEntryActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("screenState", MyConstants.TAMBAH_KATEGORI);
-                    bundle.putSerializable("daftarMakanan", mMakanan);
-                    intent.putExtras(bundle);
-                    v.getContext().startActivity(intent);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            });
+            Intent intent = new Intent(v.getContext(), KategoriEntryActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("screenState", MyConstants.TAMBAH_KATEGORI);
+            intent.putExtras(bundle);
+            v.getContext().startActivity(intent);
         });
 
         mRecyclerView = findViewById(R.id.rvKategori);

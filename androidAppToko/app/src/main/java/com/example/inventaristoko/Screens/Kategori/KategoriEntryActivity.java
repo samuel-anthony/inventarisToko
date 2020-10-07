@@ -73,6 +73,9 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
             getSupportActionBar().setTitle(R.string.menu_tambah_kategori);
         }
 
+        btnTambahMakananKategori.setOnClickListener(this);
+        btnKirimKategori.setOnClickListener(this);
+        
         etNamaKategori.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 hideKeyboard(v);
@@ -80,7 +83,7 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
         });
     }
 
-    public void getSemuaMakanan() {
+    private void getSemuaMakanan() {
         ArrayList<Makanan> mMakanans = new ArrayList<>();
         VolleyAPI volleyAPI = new VolleyAPI(KategoriEntryActivity.this);
 
@@ -125,8 +128,6 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
                 mRecyclerView.setLayoutManager(layoutManager);
                 kategoriMakananAdapter = new KategoriMakananAdapter(getApplicationContext(), kategoryMakanans, (kategoriMakanan, pos) -> position = pos);
                 mRecyclerView.setAdapter(kategoriMakananAdapter);
-                btnTambahMakananKategori.setOnClickListener(this);
-                btnKirimKategori.setOnClickListener(this);
 
                 if(screenState.equals(MyConstants.UBAH_KATEGORI)) {
                     Bundle bundle = getIntent().getExtras();

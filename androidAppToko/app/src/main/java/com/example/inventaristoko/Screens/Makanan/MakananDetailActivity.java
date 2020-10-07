@@ -2,35 +2,41 @@ package com.example.inventaristoko.Screens.Makanan;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.inventaristoko.Adapter.BahanPokok.BahanPokokAdapter;
 import com.example.inventaristoko.Model.BahanPokok.BahanPokok;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.Front.HomeActivity;
-import com.example.inventaristoko.Screens.Penjualan.PenjualanActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
-import com.example.inventaristoko.Utils.Preferences;
 import com.example.inventaristoko.Utils.VolleyAPI;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.ButterKnife;
+
 public class MakananDetailActivity extends AppCompatActivity {
+    ArrayList<BahanPokok> mBahanPokok = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private BahanPokokAdapter mBahanPokokAdapter;
     private Button btnHapusMakanan, btnUbahMakanan;
     private TextView tvNamaMakanan, tvHargaMakanan;
     private ImageView ivGambarMakanan;
@@ -93,11 +99,18 @@ public class MakananDetailActivity extends AppCompatActivity {
             bundle1.putString("namaMakanan", tvNamaMakanan.getText().toString());
             bundle1.putString("hargaMakanan", hargaMakanan);
             bundle1.putString("gambarMakanan", decodeImage);
+
+            if(mBahanPokok != null) {
+                bundle1.putSerializable("daftarBahanPokokSelected", mBahanPokok);
+            }
+
             intent.putExtras(bundle1);
             v.getContext().startActivity(intent);
-
-            Toast.makeText(getApplicationContext(), "Ubah Makanan", Toast.LENGTH_SHORT).show();
         });
+
+        mRecyclerView = findViewById(R.id.rvDataMakananBahanPokokDetail);
+        ButterKnife.bind(this);
+        setUp();
     }
 
     @Override
@@ -114,18 +127,58 @@ public class MakananDetailActivity extends AppCompatActivity {
         params.put("makanan_id", idMakanan);
 
         volleyAPI.getRequest("getGambarMakananDetail", params, result -> {
-//            try {
-//                JSONObject resultJSON = new JSONObject(result).getJSONObject("result");
-                decodeImage =  result;
+            decodeImage =  result;
 
-                if(decodeImage != null) {
-                    byte[] decodedString = Base64.decode(decodeImage, Base64.DEFAULT);
-                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                    ivGambarMakanan.setImageBitmap(decodedByte);
+            if(decodeImage != null) {
+                byte[] decodedString = Base64.decode(decodeImage, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                ivGambarMakanan.setImageBitmap(decodedByte);
+            }
+        });
+    }
+
+    private void setUp() {
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mBahanPokokAdapter = new BahanPokokAdapter(new ArrayList<>());
+
+        prepareDataDetailBahanPokokById();
+    }
+
+    private void prepareDataDetailBahanPokokById() {
+        CommonUtils.showLoading(MakananDetailActivity.this);
+        VolleyAPI volleyAPI = new VolleyAPI(this);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("makanan_id", idMakanan);
+
+        volleyAPI.getRequest("getMakananDetail", params, result -> {
+            try {
+
+                JSONObject resultJSON = new JSONObject(result);
+                JSONObject resultArray = resultJSON.getJSONObject("result");
+                JSONArray detailBahanPokok = resultArray.getJSONArray("bahanPokoks");
+
+                for(int i = 0 ; i < detailBahanPokok.length() ; i ++ ) {
+                    JSONObject dataBahanPokok = (JSONObject) detailBahanPokok.get(i);
+                    BahanPokok bahanPokok = new BahanPokok();
+                    bahanPokok.setId(String.valueOf(i+1));
+                    bahanPokok.setIdBahanPokok(dataBahanPokok.getString("bahan_pokok_id"));
+                    bahanPokok.setNamaBahanPokok(dataBahanPokok.getString("nama"));
+                    bahanPokok.setJumlahBahanPokok(dataBahanPokok.getString("jumlah"));
+                    bahanPokok.setSatuanBahanPokok(dataBahanPokok.getString("satuan"));
+
+                    mBahanPokok.add(bahanPokok);
                 }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+
+                mBahanPokokAdapter.addItems(mBahanPokok);
+                mRecyclerView.setAdapter(mBahanPokokAdapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            CommonUtils.hideLoading();
         });
     }
 }
