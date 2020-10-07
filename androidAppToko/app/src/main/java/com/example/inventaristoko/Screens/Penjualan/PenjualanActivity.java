@@ -48,6 +48,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -116,7 +117,7 @@ public class PenjualanActivity extends AppCompatActivity {
                     penjualan.setIdPenjualan(dataPenjualan.getString("ref_no"));
                     penjualan.setKodeStatusPenjualan(dataPenjualan.getString("status_code"));
                     penjualan.setTotalHargaPenjualan(dataPenjualan.getString("total_harga"));
-                    penjualan.setTanggalTambahPenjualan(dataPenjualan.getString("created_at"));
+                    penjualan.setTanggalTambahPenjualan(CommonUtils.dateFormat(dataPenjualan.getString("created_at")));
                     penjualan.setTanggalUbahPenjualan(dataPenjualan.getString("updated_at"));
                     mPenjualan.add(penjualan);
                 }

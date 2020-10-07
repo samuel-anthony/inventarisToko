@@ -4,12 +4,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.inventaristoko.R;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -56,6 +61,16 @@ public final class CommonUtils {
 
     public static String dateFormat() {
         Date d = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+        String hasil = df.format(d);
+
+        return hasil;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String dateFormat(String input) {
+        Instant instant = Instant.parse( input );  // `Instant` is always in UTC.
+        Date d = Date.from(instant);
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
         String hasil = df.format(d);
 
