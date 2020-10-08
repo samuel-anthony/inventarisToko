@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             txtPasswordLogin = etPasswordLogin.getText().toString();
 
             if (txtUsernameLogin.isEmpty() || txtPasswordLogin.isEmpty()) {
-                CommonUtils.showToast(appContext, appContext.getString(R.string.label_input_password_kosong));
+                CommonUtils.showToast(appContext, appContext.getString(R.string.label_input_kosong));
                 return;
             }
 

@@ -94,7 +94,7 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
         rvDataPenjualanDetail.setItemAnimator(new DefaultItemAnimator());
         penjualanDetailAdapter = new PenjualanDetailAdapter(new ArrayList<>());
 
-        prepareDataPenjualanDetail();
+        callDataPenjualanDetailRequest();
 
         ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, statues);
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -103,7 +103,7 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
         spnDaftarStatus.setSelection(positionStatus);
     }
 
-    private void prepareDataPenjualanDetail() {
+    private void callDataPenjualanDetailRequest() {
         CommonUtils.showLoading(PenjualanDetailActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(PenjualanDetailActivity.this);
 

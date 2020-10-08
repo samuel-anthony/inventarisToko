@@ -2,6 +2,7 @@ package com.example.inventaristoko.Screens.Pengguna;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import com.example.inventaristoko.Adapter.Pengguna.PenggunaAdapter;
@@ -20,59 +21,58 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.ButterKnife;
 
-public class PenggunaActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
-    private PenggunaAdapter mPenggunaAdapter;
+
+public class PenggunaActivity extends AppCompatActivity implements View.OnClickListener {
+    private RecyclerView rvDataPengguna;
+    private FloatingActionButton fabDataPengguna;
+    private PenggunaAdapter penggunaAdapter;
     private Button btnTambahPengguna;
+
+    private void init() {
+        rvDataPengguna = findViewById(R.id.rvDataPengguna);
+        fabDataPengguna = findViewById(R.id.fabDataPengguna);
+        btnTambahPengguna = findViewById(R.id.btnTambahPengguna);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pengguna);
 
-        getSupportActionBar().setTitle(R.string.menu_pengguna);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_pengguna);
 
-        FloatingActionButton fab = findViewById(R.id.fabDataPengguna);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show());
+        init();
 
-        btnTambahPengguna = findViewById(R.id.btnTambahPengguna);
-        btnTambahPengguna.setOnClickListener(v -> {
-            Intent intent = new Intent (v.getContext(), PenggunaEntryActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("screenState", MyConstants.TAMBAH_PENGGUNA);
-            intent.putExtras(bundle);
-            v.getContext().startActivity(intent);
-        });
+        fabDataPengguna.setOnClickListener(this);
+        btnTambahPengguna.setOnClickListener(this);
 
-        mRecyclerView = findViewById(R.id.rvDataPengguna);
-        ButterKnife.bind(this);
         setUp();
     }
 
     private void setUp() {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mPenggunaAdapter = new PenggunaAdapter(new ArrayList<>());
+        rvDataPengguna.setLayoutManager(mLayoutManager);
+        rvDataPengguna.setItemAnimator(new DefaultItemAnimator());
+        penggunaAdapter = new PenggunaAdapter(new ArrayList<>());
 
-        prepareDataPengguna();
+        callDataPenggunaRequest();
     }
 
-    private void prepareDataPengguna() {
+    private void callDataPenggunaRequest() {
         CommonUtils.showLoading(PenggunaActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
 
         Map<String, String> params = new HashMap<>();
 
-        volleyAPI.getRequest("getSemuaAdminUser", params, result -> {
+        volleyAPI.getRequest(MyConstants.PENGGUNA_GET_ACTION, params, result -> {
             try {
                 ArrayList<Pengguna> mPengguna = new ArrayList<>();
                 JSONObject resultJSON = new JSONObject(result);
@@ -93,12 +93,29 @@ public class PenggunaActivity extends AppCompatActivity {
                     mPengguna.add(pengguna);
                 }
 
-                mPenggunaAdapter.addItems(mPengguna);
-                mRecyclerView.setAdapter(mPenggunaAdapter);
-                CommonUtils.hideLoading();
+                penggunaAdapter.addItems(mPengguna);
+                rvDataPengguna.setAdapter(penggunaAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         });
+
+        CommonUtils.hideLoading();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fabDataPengguna :
+                Snackbar.make(v, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                break;
+            case R.id.btnTambahPengguna :
+                Intent intent = new Intent (v.getContext(), PenggunaEntryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("screenState", MyConstants.TAMBAH_PENGGUNA);
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
+                break;
+        }
     }
 }

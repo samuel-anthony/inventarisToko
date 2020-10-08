@@ -53,4 +53,9 @@ public interface MyConstants {
     String PENJUALAN_GET_DETAIL_ACTION = "getPesananDetailRefNo";
     String PENJUALAN_EDIT_STATUS_ACTION = "updateStatusPesanan";
     String PENJUALAN_SUBMIT_PENJUALAN_ACTION = "updateStatusPesananSelesai";
+
+    String PENGGUNA_GET_ACTION = "getSemuaAdminUser";
+    String PENGGUNA_DELETE_ACTION = "deleteAdmin";
+    String PENGGUNA_EDIT_ACTION = "updateAdminUser";
+    String PENGGUNA_ADD_ACTION = "registerAdmin";
 }

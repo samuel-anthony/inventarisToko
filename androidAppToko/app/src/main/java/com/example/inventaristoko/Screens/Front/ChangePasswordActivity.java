@@ -74,7 +74,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
             String txtConfirmPassword = etConfirmPassword.getText().toString();
 
             if (txtOldPassword.isEmpty() || txtNewPassword.isEmpty() || txtConfirmPassword.isEmpty()) {
-                CommonUtils.showToast(appContext, appContext.getString(R.string.label_input_password_kosong));
+                CommonUtils.showToast(appContext, appContext.getString(R.string.label_input_kosong));
                 return;
             }
 

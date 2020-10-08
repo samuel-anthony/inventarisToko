@@ -78,7 +78,7 @@ public class MejaEntryActivity extends AppCompatActivity implements View.OnClick
             txtNamaMeja = etNamaMeja.getText().toString();
 
             if(txtIdMeja.isEmpty() || txtNamaMeja.isEmpty()) {
-                CommonUtils.showToast(appContext, appContext.getString(R.string.label_input_password_kosong));
+                CommonUtils.showToast(appContext, appContext.getString(R.string.label_input_kosong));
                 return;
             }
 
