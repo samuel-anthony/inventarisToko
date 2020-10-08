@@ -84,7 +84,7 @@ public class KategoriDetailActivity extends AppCompatActivity implements View.On
         Map<String, String> params = new HashMap<>();
         params.put("jenis_menu_id", idKategori);
 
-        volleyAPI.getRequest(MyConstants.KATEGORI_GET_DETAILS_ACTION, params, result -> {
+        volleyAPI.getRequest(MyConstants.KATEGORI_GET_DETAIL_ACTION, params, result -> {
             try {
                 JSONObject resultJSON = new JSONObject(result);
                 JSONObject resultArray = resultJSON.getJSONObject("result");

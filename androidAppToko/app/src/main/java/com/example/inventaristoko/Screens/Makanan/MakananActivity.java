@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import com.example.inventaristoko.Adapter.Makanan.MakananAdapter;
@@ -25,55 +26,53 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-import butterknife.ButterKnife;
 
-public class MakananActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
-    private MakananAdapter mMakananAdapter;
+public class MakananActivity extends AppCompatActivity implements View.OnClickListener {
+    private FloatingActionButton fabDataMakanan;
+    private RecyclerView rvDataMakanan;
+    private MakananAdapter makananAdapter;
     private Button btnTambahMakanan;
+
+    private void init() {
+        fabDataMakanan = findViewById(R.id.fabDataMakanan);
+        rvDataMakanan = findViewById(R.id.rvDataMakanan);
+        btnTambahMakanan = findViewById(R.id.btnTambahMakanan);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_makanan);
 
-        getSupportActionBar().setTitle(R.string.menu_makanan);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_makanan);
 
-        FloatingActionButton fab = findViewById(R.id.fabMakanan);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show());
+        init();
 
-        btnTambahMakanan = findViewById(R.id.btnTambahMakanan);
-        btnTambahMakanan.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), MakananEntryActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("screenState", MyConstants.TAMBAH_MAKANAN);
-            intent.putExtras(bundle);
-            v.getContext().startActivity(intent);
-        });
+        fabDataMakanan.setOnClickListener(this);
+        btnTambahMakanan.setOnClickListener(this);
 
-        mRecyclerView = findViewById(R.id.rvMakanan);
-        ButterKnife.bind(this);
         setUp();
     }
 
     private void setUp() {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mMakananAdapter = new MakananAdapter(new ArrayList<>());
+        rvDataMakanan.setLayoutManager(mLayoutManager);
+        rvDataMakanan.setItemAnimator(new DefaultItemAnimator());
+        makananAdapter = new MakananAdapter(new ArrayList<>());
 
-        prepareDataMakanan();
+        callDataMakananRequest();
     }
 
-    private void prepareDataMakanan() {
+    private void callDataMakananRequest() {
         CommonUtils.showLoading(MakananActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
 
         Map<String, String> params = new HashMap<>();
 
-        volleyAPI.getRequest("getSemuaMakanan", params, result -> {
+        volleyAPI.getRequest(MyConstants.MAKANAN_GET_ACTION, params, result -> {
             try {
                 ArrayList<Makanan> mMakanan = new ArrayList<>();
                 JSONObject resultJSON = new JSONObject(result);
@@ -92,12 +91,29 @@ public class MakananActivity extends AppCompatActivity {
                     mMakanan.add(makanan);
                 }
 
-                mMakananAdapter.addItems(mMakanan);
-                mRecyclerView.setAdapter(mMakananAdapter);
+                makananAdapter.addItems(mMakanan);
+                rvDataMakanan.setAdapter(makananAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             CommonUtils.hideLoading();
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fabDataMakanan :
+                Snackbar.make(v, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                break;
+            case R.id.btnTambahMakanan :
+                Intent intent = new Intent(v.getContext(), MakananEntryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("screenState", MyConstants.TAMBAH_MAKANAN);
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
+                break;
+        }
     }
 }

@@ -60,10 +60,17 @@ public interface MyConstants {
     String PENGGUNA_ADD_ACTION = "registerAdmin";
 
     String KATEGORI_GET_ACTION = "getSemuaJenisMenu";
-    String KATEGORI_GET_DETAILS_ACTION = "getSemuaJenisMenuDetail";
+    String KATEGORI_GET_DETAIL_ACTION = "getSemuaJenisMenuDetail";
     String KATEGORI_DELETE_ACTION = "deleteJenisMenu";
     String KATEGORI_EDIT_ACTION = "updateJenisMenu";
     String KATEGORI_ADD_ACTION = "addJenisMenu";
 
     String MAKANAN_GET_ACTION = "getSemuaMakanan";
+    String MAKANAN_GET_DETAIL_ACTION = "getMakananDetail";
+    String MAKANAN_GET_IMAGE_DETAIL_ACTION = "getGambarMakananDetail";
+    String MAKANAN_DELETE_ACTION = "deleteMakanan";
+    String MAKANAN_EDIT_ACTION = "updateMakanan";
+    String MAKANAN_ADD_ACTION = "addMakanan";
+
+    String BAHAN_POKOK_GET_ACTION = "getSemuaBahanPokok";
 }

@@ -38,7 +38,7 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
     private Context appContext;
     private RecyclerView rvKategoriMakanan;
     private KategoriMakananAdapter kategoriMakananAdapter;
-    private ArrayList<KategoriMakanan> kategoryMakanan = new ArrayList<>();
+    private ArrayList<KategoriMakanan> mkategoryMakanan = new ArrayList<>();
     private ArrayList<Makanan> mMakanan = new ArrayList<>();
     private ArrayList<Makanan> mMakananResponse = new ArrayList<>();
     private ArrayList<Makanan> mMakananSelected = new ArrayList<>();
@@ -112,7 +112,7 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
                     mSpnMakanan.add(new Makanan(mMakanan.get(i).getIdMakanan(), mMakanan.get(i).getNamaMakanan()));
                 }
 
-                ArrayAdapter<Makanan> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, mSpnMakanan);
+                ArrayAdapter<Makanan> adapter = new ArrayAdapter<>(appContext, android.R.layout.simple_spinner_dropdown_item, mSpnMakanan);
                 adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
                 spnDaftarMakanan.setAdapter(adapter);
                 spnDaftarMakanan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -127,9 +127,9 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
                 });
 
                 rvKategoriMakanan.setHasFixedSize(true);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(appContext, LinearLayoutManager.VERTICAL, false);
                 rvKategoriMakanan.setLayoutManager(layoutManager);
-                kategoriMakananAdapter = new KategoriMakananAdapter(getApplicationContext(), kategoryMakanan, (kategoriMakanan, pos) -> {
+                kategoriMakananAdapter = new KategoriMakananAdapter(appContext, mkategoryMakanan, (kategoriMakanan, pos) -> {
                 });
                 rvKategoriMakanan.setAdapter(kategoriMakananAdapter);
 
@@ -153,13 +153,13 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnTambahMakananKategori: {
-                if (kategoryMakanan.size() > mMakanan.size() - 1) {
+                if (mkategoryMakanan.size() > mMakanan.size() - 1) {
                     CommonUtils.showToast(appContext, appContext.getString(R.string.label_data_melampaui));
                     return;
                 }
 
-                for(int i = 0 ; i < kategoryMakanan.size() ; i++) {
-                    if(String.valueOf(kategoryMakanan.get(i).getMakanan_id()).equals(idMakananSelected)) {
+                for(int i = 0 ; i < mkategoryMakanan.size() ; i++) {
+                    if(String.valueOf(mkategoryMakanan.get(i).getMakanan_id()).equals(idMakananSelected)) {
                         CommonUtils.showToast(appContext, appContext.getString(R.string.label_data_sama));
                         return;
                     }
@@ -172,7 +172,7 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
             case R.id.btnKirimKategori: {
                 txtNamaKategori = etNamaKategori.getText().toString();
 
-                if(txtNamaKategori.isEmpty() || kategoryMakanan.size() < 1) {
+                if(txtNamaKategori.isEmpty() || mkategoryMakanan.size() < 1) {
                     CommonUtils.showToast(appContext, appContext.getString(R.string.label_data_kosong));
                     return;
                 } else {
@@ -194,10 +194,10 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
         VolleyAPI volleyAPI = new VolleyAPI(context);
         JSONArray jsonArray = new JSONArray();
 
-        for(int i = 0; i < kategoryMakanan.size() ; i++){
+        for(int i = 0; i < mkategoryMakanan.size() ; i++){
             try {
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("makanan_id", kategoryMakanan.get(i).makanan_id);
+                jsonObject.put("makanan_id", mkategoryMakanan.get(i).makanan_id);
                 jsonArray.put(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -249,7 +249,7 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
             jsonObject.put("name", name);
 
             KategoriMakanan kategoriMakanan = gson.fromJson(String.valueOf(jsonObject), KategoriMakanan.class);
-            kategoryMakanan.add(kategoriMakanan);
+            mkategoryMakanan.add(kategoriMakanan);
             kategoriMakananAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
