@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import com.example.inventaristoko.Adapter.Meja.MejaAdapter;
@@ -25,55 +26,53 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-import butterknife.ButterKnife;
 
-public class MejaActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
-    private MejaAdapter mMejaAdapter;
+public class MejaActivity extends AppCompatActivity implements View.OnClickListener {
+    private FloatingActionButton fabDataMeja;
+    private RecyclerView rvDataMeja;
+    private MejaAdapter mejaAdapter;
     private Button btnTambahMeja;
+
+    private void init() {
+        rvDataMeja = findViewById(R.id.rvDataMeja);
+        fabDataMeja = findViewById(R.id.fabDataMeja);
+        btnTambahMeja = findViewById(R.id.btnTambahMeja);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meja);
 
-        getSupportActionBar().setTitle(R.string.menu_meja);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_meja);
 
-        FloatingActionButton fab = findViewById(R.id.fabDataMeja);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show());
+        init();
 
-        btnTambahMeja = findViewById(R.id.btnTambahMeja);
-        btnTambahMeja.setOnClickListener(v -> {
-            Intent intent = new Intent (v.getContext(), MejaEntryActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("screenState", MyConstants.TAMBAH_MEJA);
-            intent.putExtras(bundle);
-            v.getContext().startActivity(intent);
-        });
+        fabDataMeja.setOnClickListener(this);
+        btnTambahMeja.setOnClickListener(this);
 
-        mRecyclerView = findViewById(R.id.rvDataMeja);
-        ButterKnife.bind(this);
         setUp();
     }
 
     private void setUp() {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mMejaAdapter = new MejaAdapter(new ArrayList<>());
+        rvDataMeja.setLayoutManager(mLayoutManager);
+        rvDataMeja.setItemAnimator(new DefaultItemAnimator());
+        mejaAdapter = new MejaAdapter(new ArrayList<>());
 
-        prepareDataMeja();
+        callDataMejaRequest();
     }
 
-    private void prepareDataMeja() {
+    private void callDataMejaRequest() {
         CommonUtils.showLoading(MejaActivity.this);
-        VolleyAPI volleyAPI = new VolleyAPI(this);
+        VolleyAPI volleyAPI = new VolleyAPI(MejaActivity.this);
 
         Map<String, String> params = new HashMap<>();
 
-        volleyAPI.getRequest("getSemuaDataMeja", params, result -> {
+        volleyAPI.getRequest(MyConstants.MEJA_GET_ACTION, params, result -> {
             try {
                 ArrayList<Meja> mMeja = new ArrayList<>();
                 JSONObject resultJSON = new JSONObject(result);
@@ -91,12 +90,29 @@ public class MejaActivity extends AppCompatActivity {
                     mMeja.add(meja);
                 }
 
-                mMejaAdapter.addItems(mMeja);
-                mRecyclerView.setAdapter(mMejaAdapter);
-                CommonUtils.hideLoading();
+                mejaAdapter.addItems(mMeja);
+                rvDataMeja.setAdapter(mejaAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         });
+
+        CommonUtils.hideLoading();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fabDataMeja :
+                Snackbar.make(v, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                break;
+            case R.id.btnTambahMeja :
+                Intent intent = new Intent (v.getContext(), MejaEntryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("screenState", MyConstants.TAMBAH_MEJA);
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
+                break;
+        }
     }
 }

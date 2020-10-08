@@ -38,4 +38,14 @@ public interface MyConstants {
 
     String TAMBAH_MAKANAN = "Tambah Makanan";
     String UBAH_MAKANAN = "Ubah Makanan";
+
+
+    // Service
+    String LOGIN_ACTION = "login";
+    String CHANGE_PASSWORD_ACTION = "updateUserPassword";
+
+    String MEJA_GET_ACTION = "getSemuaDataMeja";
+    String MEJA_DELETE_ACTION = "deleteUser";
+    String MEJA_EDIT_ACTION = "updateUser";
+    String MEJA_ADD_ACTION = "register";
 }

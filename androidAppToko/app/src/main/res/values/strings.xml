@@ -17,13 +17,16 @@
     <string name="label_list_kosong_detail">Tidak ada data detail</string>
     <string name="label_scan_barcode">Scan Barcode Meja Anda</string>
     <string name="label_data_tidak_ditemukan">Data Tidak Ditemukan</string>
-    <string name="label_data_password_baru_salah">Password Baru anda tidak sama</string>
+
     <string name="label_data_tidak_boleh_kosong">Password tidak boleh kosong</string>
     <string name="label_data_kosong">Data tidak boleh kosong</string>
     <string name="press_once_again">Tekan Sekali Lagi Untuk Keluar</string>
     <string name="label_data_melampaui">Data yang anda masukkan melampaui dari yang ditentukan</string>
     <string name="label_data_sama">Data yang anda masukkan tidak boleh sama dengan sebelumnya</string>
     <string name="label_data_generate">Generate QR Code Terlebih Dahulu</string>
+
+    <string name="label_input_password_baru_salah">Password Baru anda tidak sama</string>
+    <string name="label_input_password_kosong">Input tidak boleh kosong</string>
 
     <!--Dialog-->
     <string name="confirmation_dialog_password">Anda Yakin Ingin Mengganti Password?</string>

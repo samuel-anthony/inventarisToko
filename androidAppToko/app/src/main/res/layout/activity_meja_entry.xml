@@ -59,7 +59,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_margin="@dimen/_4dp">
+                android:layout_marginHorizontal="@dimen/_4dp"
+                android:layout_marginVertical="@dimen/_12dp">
 
                 <TextView
                     android:id="@+id/tvNamaMeja"
@@ -83,35 +84,6 @@
                     android:textColor="#000"
                     android:textSize="17sp"/>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_marginVertical="@dimen/_12dp"
-                android:layout_marginHorizontal="@dimen/_8dp">
-
-                <Button
-                    android:id="@+id/btnGenerate"
-                    android:paddingRight="50dp"
-                    android:paddingLeft="50dp"
-                    android:background="@drawable/button_secondary"
-                    android:text="@string/tombol_generate"
-                    android:textColor="@drawable/button_secondary_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_margin="@dimen/_12dp"/>
-
-                <ImageView
-                    android:id="@+id/ivQrCode"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_logo"
-                    android:background="@color/colorPrimary"
-                    android:layout_margin="@dimen/_8dp"/>
-            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -123,7 +95,7 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/btnKirim"
+            android:id="@+id/btnKirimMeja"
             android:paddingRight="50dp"
             android:paddingLeft="50dp"
             android:background="@drawable/button_success"
