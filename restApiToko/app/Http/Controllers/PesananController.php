@@ -10,6 +10,19 @@ use App\makanan;
 class PesananController extends Controller
 {
     //
+    public function getAllTodayFinishedOrder(){
+        $pesanans = pesananMaster::where('status_code','=','003')->get();
+        foreach($pesanans as $pesanan){    
+            $total_harga = 0;
+            foreach($pesanan->details as $pesanan_detail){
+                $total_harga += $pesanan_detail->jumlah*$pesanan_detail->harga_makanan;
+            }
+            $pesanan->total_harga = $total_harga;
+        }   
+        return json_encode(["result"=>$pesanans]);
+    }
+
+
     public function getAllTodayUnfinishedOrder(){
         $pesanans = pesananMaster::where('status_code','<>','003')->get();
         foreach($pesanans as $pesanan){    

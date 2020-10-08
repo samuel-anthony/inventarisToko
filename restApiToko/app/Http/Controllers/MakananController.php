@@ -64,9 +64,10 @@ class MakananController extends Controller
         $makanan =  makanan::find($request->makanan_id);
         $makanan->nama = $request->nama_makanan;
         $makanan->harga_jual = $request->harga_jual;
-        $gambarMakanan = is_null($request->gambar_makanan) ? new gambarMakanan : gambarMakanan::whereMakananId($request->makanan_id)->first();
-        if(!is_null($gambarMakanan)){
+        $gambarMakanan = is_null($makanan->gambarMakanan) ? new gambarMakanan : $makanan->gambarMakanan;
+        if(strcmp($request->gambar_makanan,"")){
             $gambarMakanan->gambar_makanan = $request->gambar_makanan;
+            $gambarMakanan->makanan_id = $makanan->makanan_id;
             $gambarMakanan->save();
         }
         $makanan->save();

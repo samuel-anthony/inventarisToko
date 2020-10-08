@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //get request
 Route::get('getPesananBelumSelesai','PesananController@getAllTodayUnfinishedOrder');
+Route::get('getPesananSudahSelesai','PesananController@getAllTodayFinishedOrder');
 Route::get('getPesananDetailRefNo','PesananController@getOrderByRefNo');
 Route::get('bahanPokok','BahanPokokController@index');
 Route::get('login','UserController@loginAdmin');

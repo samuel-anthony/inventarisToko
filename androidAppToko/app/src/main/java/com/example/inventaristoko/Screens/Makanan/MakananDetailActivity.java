@@ -159,7 +159,7 @@ public class MakananDetailActivity extends AppCompatActivity implements View.OnC
                 bundle1.putString("idMakanan", idMakanan);
                 bundle1.putString("namaMakanan", tvNamaMakanan.getText().toString());
                 bundle1.putString("hargaMakanan", hargaMakanan);
-                bundle1.putString("gambarMakanan", decodeImage);
+//                bundle1.putString("gambarMakanan", decodeImage);
 
                 if(mBahanPokok != null) {
                     bundle1.putSerializable("daftarBahanPokokSelected", mBahanPokok);
