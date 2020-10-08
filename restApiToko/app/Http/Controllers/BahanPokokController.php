@@ -80,6 +80,7 @@ class BahanPokokController extends Controller
             else{
                 $detail->nama_toko = "pengambilan tanggal ".date_format($date, 'Y-m-d');
             }
+            $detail->satuan = $bahanPokok->satuan;
             array_push($arr,$detail);
             $counter++;
             if($counter>2)break;
