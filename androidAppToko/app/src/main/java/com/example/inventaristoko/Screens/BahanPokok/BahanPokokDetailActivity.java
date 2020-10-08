@@ -78,7 +78,7 @@ public class BahanPokokDetailActivity extends AppCompatActivity implements View.
         rvBahanPokokFoodDetail.setItemAnimator(new DefaultItemAnimator());
         bahanPokokFoodAdapter = new BahanPokokFoodAdapter(new ArrayList<>());
 
-        callDataBahanPokokDetail();
+        callDataBahanPokokFoodDetail();
     }
 
     private void setUpRiwayatMakanan() {
@@ -88,10 +88,10 @@ public class BahanPokokDetailActivity extends AppCompatActivity implements View.
         rvBahanPokokHistoryDetail.setItemAnimator(new DefaultItemAnimator());
         bahanPokokHistoryAdapter = new BahanPokokHistoryAdapter(new ArrayList<>());
 
-        callDataBahanPokokDetail();
+        callDataBahanPokokHistoryDetail();
     }
 
-    private void callDataBahanPokokDetail() {
+    private void callDataBahanPokokFoodDetail() {
         CommonUtils.showLoading(BahanPokokDetailActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
 
@@ -101,13 +101,9 @@ public class BahanPokokDetailActivity extends AppCompatActivity implements View.
         volleyAPI.getRequest(MyConstants.BAHAN_POKOK_GET_DETAIL_ACTION, params, result -> {
             try {
                 ArrayList<BahanPokokFood> mBahanPokokFood = new ArrayList<>();
-                ArrayList<BahanPokokHistory> mBahanPokokHistory = new ArrayList<>();
-
                 JSONObject resultJSON = new JSONObject(result);
                 JSONObject resultArray = resultJSON.getJSONObject("result");
-
                 JSONArray foodArray = resultArray.getJSONArray("makanan");
-                JSONArray historyArray = resultArray.getJSONArray("riwayats");
 
                 for(int i = 0 ; i < foodArray.length() ; i ++ ) {
                     JSONObject dataBahanPokokMakanan = (JSONObject) foodArray.get(i);
@@ -122,11 +118,33 @@ public class BahanPokokDetailActivity extends AppCompatActivity implements View.
 
                 bahanPokokFoodAdapter.addItems(mBahanPokokFood);
                 rvBahanPokokFoodDetail.setAdapter(bahanPokokFoodAdapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+
+        CommonUtils.hideLoading();
+    }
+
+    private void callDataBahanPokokHistoryDetail() {
+        CommonUtils.showLoading(BahanPokokDetailActivity.this);
+        VolleyAPI volleyAPI = new VolleyAPI(this);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("bahan_pokok_id", idBahanPokok);
+
+        volleyAPI.getRequest(MyConstants.BAHAN_POKOK_GET_DETAIL_ACTION, params, result -> {
+            try {
+                ArrayList<BahanPokokHistory> mBahanPokokHistory = new ArrayList<>();
+                JSONObject resultJSON = new JSONObject(result);
+                JSONObject resultArray = resultJSON.getJSONObject("result");
+                JSONArray historyArray = resultArray.getJSONArray("riwayats");
 
                 for(int i = 0 ; i < historyArray.length() ; i ++ ) {
                     JSONObject dataBahanPokokRiwayatDetail = (JSONObject) historyArray.get(i);
                     BahanPokokHistory bahanPokokHistory = new BahanPokokHistory();
                     bahanPokokHistory.setJumlahDetailRiwayatBahanPokok(dataBahanPokokRiwayatDetail.getString("jumlah"));
+                    bahanPokokHistory.setSatuanDetailRiwayatBahanPokok(dataBahanPokokRiwayatDetail.getString("satuan"));
                     bahanPokokHistory.setAksiDetailRiwayatBahanPokok(dataBahanPokokRiwayatDetail.getString("aksi"));
                     bahanPokokHistory.setNamaTokoDetailRiwayatBahanPokok(dataBahanPokokRiwayatDetail.getString("nama_toko"));
                     bahanPokokHistory.setHargaDetailRiwayatBahanPokok(dataBahanPokokRiwayatDetail.getString("harga"));
@@ -151,6 +169,7 @@ public class BahanPokokDetailActivity extends AppCompatActivity implements View.
             Intent intent = new Intent(v.getContext(), BahanPokokEntryActivity.class);
             Bundle mBundle = new Bundle();
             mBundle.putString("screenState", MyConstants.TAMBAH_DETAIL_BAHAN_POKOK);
+            mBundle.putString("idBahanPokok", idBahanPokok);
             mBundle.putString("namaBahanPokok", tvNamaBahanPokok.getText().toString());
             mBundle.putString("jumlahBahanPokok", jumlahBahanPokok);
             mBundle.putString("satuanBahanPokok", satuanBahanPokok);

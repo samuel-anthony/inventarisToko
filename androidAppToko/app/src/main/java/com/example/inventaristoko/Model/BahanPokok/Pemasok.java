@@ -13,9 +13,11 @@ public class Pemasok implements Serializable {
     public Pemasok() {
     }
 
-    public Pemasok(String idPemasok, String namaPemasok) {
+    public Pemasok(String idPemasok, String namaPemasok, String alamatPemasok, String nomorTeleponPemasok) {
         this.idPemasok = idPemasok;
         this.namaPemasok = namaPemasok;
+        this.alamatPemasok = alamatPemasok;
+        this.nomorTeleponPemasok = nomorTeleponPemasok;
     }
 
     public String getIdPemasok() {

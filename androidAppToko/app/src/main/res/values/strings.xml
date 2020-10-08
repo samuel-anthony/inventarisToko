@@ -23,6 +23,7 @@
     <string name="label_data_kosong">Data tidak boleh kosong</string>
     <string name="press_once_again">Tekan Sekali Lagi Untuk Keluar</string>
     <string name="label_data_melampaui">Data yang anda masukkan melampaui dari yang ditentukan</string>
+    <string name="label_data_hanya_satu">Hanya 1 Pemasok yang bisa anda tambahkan</string>
     <string name="label_data_sama">Data yang anda masukkan tidak boleh sama dengan sebelumnya</string>
     <string name="label_data_generate">Generate QR Code Terlebih Dahulu</string>
 

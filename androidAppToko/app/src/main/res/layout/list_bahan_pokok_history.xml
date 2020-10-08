@@ -31,10 +31,10 @@
                 <TextView
                     android:id="@+id/tvJumlahDetailBahanPokok"
                     style="@style/TextAppearance.AppCompat.Title"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:text="@string/label_id"
-                    android:textSize="@dimen/text_extra_large"
+                    android:textSize="@dimen/text_large"
                     android:gravity="center"
                     android:textColor="@color/colorWhite"
                     android:background="@drawable/ic_circle_success_background"/>

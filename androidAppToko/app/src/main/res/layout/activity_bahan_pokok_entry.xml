@@ -104,19 +104,36 @@
                         android:layout_marginVertical="@dimen/_4dp"
                         android:text="@string/label_jumlah_bahan_pokok_satuan"/>
 
-                    <EditText
-                        android:id="@+id/etJumlahBahanPokok"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@drawable/input_primary"
-                        android:paddingStart="20dp"
-                        android:maxLines="1"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:inputType="number"
-                        android:maxLength="50"
-                        android:textColor="#000"
-                        android:textSize="17sp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_margin="@dimen/_4dp">
+
+                        <EditText
+                            android:id="@+id/etJumlahBahanPokok"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/input_primary"
+                            android:paddingStart="20dp"
+                            android:maxLines="1"
+                            android:lines="1"
+                            android:singleLine="true"
+                            android:inputType="number"
+                            android:maxLength="50"
+                            android:textColor="#000"
+                            android:textSize="17sp"/>
+                        <TextView
+                            android:id="@+id/tvSatuanBahanPokokLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            style="@style/TextAppearance.AppCompat.Title"
+                            android:padding="@dimen/_4dp"
+                            android:layout_marginLeft="@dimen/_12dp"
+                            android:text="@string/label_value_satuan"/>
+                        </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout

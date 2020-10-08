@@ -20,6 +20,7 @@ import com.example.inventaristoko.Screens.Kategori.KategoriActivity;
 import com.example.inventaristoko.Screens.Makanan.MakananActivity;
 import com.example.inventaristoko.Screens.Meja.MejaActivity;
 import com.example.inventaristoko.Screens.Pengguna.PenggunaActivity;
+import com.example.inventaristoko.Screens.Resi.ResiActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.PDFDownload;
@@ -192,7 +193,8 @@ public class PenjualanActivity extends AppCompatActivity implements View.OnClick
                 startActivityForResult(intent, 0);
                 break;
             case R.string.menu_receipt :
-                CommonUtils.showToast(appContext, "Belum Yah");
+                intent = new Intent(getApplicationContext(), ResiActivity.class);
+                startActivityForResult(intent, 0);
                 break;
             case R.string.tombol_keluar :
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
