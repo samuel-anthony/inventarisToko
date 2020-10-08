@@ -48,4 +48,9 @@ public interface MyConstants {
     String MEJA_DELETE_ACTION = "deleteUser";
     String MEJA_EDIT_ACTION = "updateUser";
     String MEJA_ADD_ACTION = "register";
+
+    String PENJUALAN_GET_ACTION = "getPesananBelumSelesai";
+    String PENJUALAN_GET_DETAIL_ACTION = "getPesananDetailRefNo";
+    String PENJUALAN_EDIT_STATUS_ACTION = "updateStatusPesanan";
+    String PENJUALAN_SUBMIT_PENJUALAN_ACTION = "updateStatusPesananSelesai";
 }

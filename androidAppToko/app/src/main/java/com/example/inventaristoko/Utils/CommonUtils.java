@@ -82,7 +82,6 @@ public final class CommonUtils {
         return hasil;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static String dateFormat(String input) {
         Instant instant = Instant.parse( input );  // `Instant` is always in UTC.
         Date d = Date.from(instant);

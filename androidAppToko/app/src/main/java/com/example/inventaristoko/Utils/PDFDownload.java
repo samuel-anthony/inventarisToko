@@ -1,10 +1,12 @@
 package com.example.inventaristoko.Utils;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
 import android.os.Environment;
 
+import com.example.inventaristoko.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -22,7 +24,7 @@ public class PDFDownload {
 
     String header_title = "Warung Bakso Mbah Welo";
 
-    public void download(List<String> columnName,List<String> jsonKey, JSONArray data) throws JSONException {
+    public void download(List<String> columnName, List<String> jsonKey, JSONArray data, Context appContext) throws JSONException {
 
          PdfDocument pdfDocument = new PdfDocument();
          Paint myPaint = new Paint();
@@ -69,6 +71,7 @@ public class PDFDownload {
          File file = new File(Environment.getExternalStorageDirectory(),"/testAja.pdf");
          try {
              pdfDocument.writeTo(new FileOutputStream(file));
+             CommonUtils.showToast(appContext, appContext.getString(R.string.label_berhasil_download) + " " + file);
          }catch (IOException e){
              e.printStackTrace();
          }
