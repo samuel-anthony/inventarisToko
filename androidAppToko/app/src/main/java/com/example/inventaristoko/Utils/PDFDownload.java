@@ -44,6 +44,7 @@ public class PDFDownload {
 
 
          myPaint.setTextSize(10f);
+         int differ = 0;
          myPaint.setTextAlign(Paint.Align.LEFT);
          myPaintStroke.setStrokeWidth(1);
          myPaintStroke.setStyle(Paint.Style.STROKE);
@@ -60,17 +61,24 @@ public class PDFDownload {
              try{
                  JSONObject obj = data.getJSONObject(i);
                  for(int j = 0; j < jsonKey.size();j++) {
-                     canvas.drawText(obj.getString(jsonKey.get(j)),20+startPositionX+(myPageInfo.getPageWidth()/columnName.size()*j),startPositionY,myPaint);
+                     String[] a = obj.getString(jsonKey.get(j)).split("\n");
+                     for(int k = 0; k < a.length; k++){
+                        canvas.drawText(a[k],20+startPositionX+(myPageInfo.getPageWidth()/columnName.size()*j),k*25+startPositionY,myPaint);
+                     }
                  }
-                 startPositionY+=25;
+                 int enters = obj.has("enter") ? obj.getInt("enter") :1;
+                 startPositionY+=enters*25;
                  canvas.drawLine(startPositionX,startPositionY,endPositionX,startPositionY,myPaintStroke);
                  startPositionY+=25;
+                 differ+=enters-1;
              }
              catch (Exception e){
-
+                e.printStackTrace();
              }
          }
-
+         for(int i = 0; i < columnName.size(); i++){
+             canvas.drawLine(startPositionX+(myPageInfo.getPageWidth()/columnName.size()*(i+1)),startPositionY-50,startPositionX+(myPageInfo.getPageWidth()/columnName.size()*(i+1)),startPositionY+(25*(differ)-50),myPaintStroke);
+         }
          pdfDocument.finishPage(myPage);
          File file = new File(Environment.getExternalStorageDirectory(),"/"+file_name+".pdf");
          int i = 1;

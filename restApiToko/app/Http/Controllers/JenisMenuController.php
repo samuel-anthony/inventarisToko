@@ -11,7 +11,20 @@ use App\makanan;
 class JenisMenuController extends Controller
 {
     public function index(){
-        return json_encode(["result"=>jenisMenu::all()]);
+        $jenisMenu =jenisMenu::all();
+        $temp1 = array();
+        foreach($jenisMenu as $details){
+            $temp2 = array();
+            foreach($details->jenisMenuDetails as $detail){
+                array_push($temp2, $detail->makanan->nama);
+            }
+            $details->makanan = json_decode(json_encode($temp2));
+            $collection = collect($details);
+            $collection->forget("jenis_menu_details");
+            
+            array_push($temp1, $collection);
+        }
+        return json_encode(["result"=>$temp1]);
     }
 
     public function jenisMenuDetailByid(request $request){

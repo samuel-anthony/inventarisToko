@@ -1,5 +1,6 @@
 package com.example.inventaristoko.Screens.Kategori;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import com.example.inventaristoko.Model.Kategori.Kategori;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
+import com.example.inventaristoko.Utils.PDFDownload;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,6 +27,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -34,6 +37,7 @@ public class KategoriActivity extends AppCompatActivity implements View.OnClickL
     private RecyclerView rvDataKategori;
     private KategoriAdapter kategoriAdapter;
     private Button btnTambahKategori;
+    private JSONArray elementDownload = new JSONArray();
 
     private void init() {
         rvDataKategori = findViewById(R.id.rvDataKategori);
@@ -87,6 +91,18 @@ public class KategoriActivity extends AppCompatActivity implements View.OnClickL
                     kategori.setTanggalTambahKategori(dataKategori.getString("created_at"));
                     kategori.setTanggalUbahKategori(dataKategori.getString("updated_at"));
                     mKategori.add(kategori);
+
+                    JSONObject elementToDownload = new JSONObject();
+                    elementToDownload.put("number",i+1);
+                    elementToDownload.put("nama",dataKategori.getString("nama"));
+                    String valueMakanan = "";
+                    JSONArray makanans = dataKategori.getJSONArray("makanan");
+                    for(int j = 0 ; j < makanans.length() ; j ++){
+                        valueMakanan = valueMakanan + makanans.get(j) + (j == makanans.length()-1 ? "" : "\n");
+                    }
+                    elementToDownload.put("makanan",valueMakanan);
+                    elementToDownload.put("enter",makanans.length());
+                    elementDownload.put(elementToDownload);
                 }
 
                 kategoriAdapter.addItems(mKategori);
@@ -103,7 +119,31 @@ public class KategoriActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fabDataKategori :
-                Snackbar.make(v, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setMessage(R.string.confirmation_dialog_download);
+                builder.setCancelable(false);
+                builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
+                    PDFDownload pdf = new PDFDownload("Kategori");
+
+                    List<String> columnName = new ArrayList<>();
+                    columnName.add("number");
+                    columnName.add("nama kategori");
+                    columnName.add("makanan");
+
+                    List<String> key = new ArrayList<>();
+                    key.add("number");
+                    key.add("nama");
+                    key.add("makanan");
+
+                    try {
+                        pdf.download(columnName, key, elementDownload, this);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
+                builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+                });
+                builder.show();
                 break;
             case R.id.btnTambahKategori :
                 Intent intent = new Intent(v.getContext(), KategoriEntryActivity.class);
