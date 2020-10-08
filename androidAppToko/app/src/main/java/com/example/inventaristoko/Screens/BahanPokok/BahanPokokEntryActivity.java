@@ -48,10 +48,10 @@ public class BahanPokokEntryActivity extends AppCompatActivity implements Adapte
     private Button btnKirimBahanPokok, btnTambahPemasokBahanPokok;
     private EditText etNamaBahanPokok, etJumlahBahanPokok, etHargaBahanPokok;
     private Spinner spnSatuanBahanPokok, spnDaftarPemasok;
-    private TextView tvDaftarPemasokBahanPokok, tvHargaBahanPokok;
+    private TextView tvDaftarPemasokBahanPokok, tvHargaBahanPokok, tvSatuanBahanPokok, tvSatuanBahanPokokLabel;
     private String[] spnSatuan = {"Mg", "Dg", "Cg", "G", "Hg", "Dg", "Kg"};
-    private String satuanSelected;
-    private String idPemasokSelected, idBahanPokok, namaPemasokSelected, screenState, txtNamaBahanPokok, txtJumlahBahanPokok, txtHargaBahanPokok;
+    private String satuan, satuanSelected;
+    private String idPemasokSelected, idBahanPokok, namaPemasokSelected, alamatPemasokSelected, nomorTeleponPemasokSelected, screenState, txtNamaBahanPokok, txtJumlahBahanPokok, txtHargaBahanPokok;
 
     private void init() {
         appContext = getApplicationContext();
@@ -59,6 +59,8 @@ public class BahanPokokEntryActivity extends AppCompatActivity implements Adapte
         etNamaBahanPokok = findViewById(R.id.etNamaBahanPokok);
         etHargaBahanPokok = findViewById(R.id.etHargaBahanPokok);
         etJumlahBahanPokok = findViewById(R.id.etJumlahBahanPokok);
+        tvSatuanBahanPokok = findViewById(R.id.tvSatuanBahanPokok);
+        tvSatuanBahanPokokLabel = findViewById(R.id.tvSatuanBahanPokokLabel);
         tvHargaBahanPokok = findViewById(R.id.tvHargaBahanPokok);
         tvDaftarPemasokBahanPokok = findViewById(R.id.tvDaftarPemasokBahanPokok);
         spnDaftarPemasok = findViewById(R.id.spnDaftarPemasok);
@@ -80,7 +82,7 @@ public class BahanPokokEntryActivity extends AppCompatActivity implements Adapte
         assert bundle != null;
         screenState = bundle.getString("screenState");
         idBahanPokok = bundle.getString("idBahanPokok");
-        String satuan = bundle.getString("satuanBahanPokok");
+        satuan = bundle.getString("satuanBahanPokok");
 
         spnSatuanBahanPokok.setOnItemSelectedListener(this);
 
@@ -91,29 +93,14 @@ public class BahanPokokEntryActivity extends AppCompatActivity implements Adapte
         if(screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
             Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_tambah_detail_bahan_pokok);
             etNamaBahanPokok.setText(bundle.getString("namaBahanPokok"));
-            etJumlahBahanPokok.setText(bundle.getString("jumlahBahanPokok"));
-
-            if((satuan.toUpperCase()).equals((MyConstants.MILI_GRAM).toUpperCase())) {
-                satuanSelected = MyConstants.MILI_GRAM;
-            } else if ((satuan.toUpperCase()).equals((MyConstants.DESI_GRAM).toUpperCase())) {
-                satuanSelected = MyConstants.DESI_GRAM;
-            } else if ((satuan.toUpperCase()).equals((MyConstants.CENTI_GRAM).toUpperCase())) {
-                satuanSelected = MyConstants.CENTI_GRAM;
-            } else if ((satuan.toUpperCase()).equals((MyConstants.GRAM).toUpperCase())) {
-                satuanSelected = MyConstants.GRAM;
-            } else if ((satuan.toUpperCase()).equals((MyConstants.HEKTO_GRAM).toUpperCase())) {
-                satuanSelected = MyConstants.HEKTO_GRAM;
-            } else if ((satuan.toUpperCase()).equals((MyConstants.DEKA_GRAM).toUpperCase())) {
-                satuanSelected = MyConstants.DEKA_GRAM;
-            } else if ((satuan.toUpperCase()).equals((MyConstants.KILO_GRAM).toUpperCase())) {
-                satuanSelected = MyConstants.KILO_GRAM;
-            }
-
-            int spinnerPosition = satuanAdapter.getPosition(satuanSelected);
-            spnSatuanBahanPokok.setSelection(spinnerPosition);
+            tvSatuanBahanPokokLabel.setText(satuan);
+            etNamaBahanPokok.setEnabled(false);
+            tvSatuanBahanPokok.setVisibility(View.GONE);
+            spnSatuanBahanPokok.setVisibility(View.GONE);
         } else {
             Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_tambah_bahan_pokok);
             spnSatuanBahanPokok.setSelection(6);
+            tvSatuanBahanPokokLabel.setVisibility(View.GONE);
             spnDaftarPemasok.setVisibility(View.GONE);
             btnTambahPemasokBahanPokok.setVisibility(View.GONE);
             tvDaftarPemasokBahanPokok.setVisibility(View.GONE);
@@ -169,7 +156,7 @@ public class BahanPokokEntryActivity extends AppCompatActivity implements Adapte
                 mPemasok = mPemasokResponse;
 
                 for (int i = 0; i < mPemasok.size(); i++) {
-                    mSpnPemasok.add(new Pemasok(mPemasok.get(i).getIdPemasok(), mPemasok.get(i).getNamaPemasok()));
+                    mSpnPemasok.add(new Pemasok(mPemasok.get(i).getIdPemasok(), mPemasok.get(i).getNamaPemasok(), mPemasok.get(i).getAlamatPemasok(), mPemasok.get(i).getNomorTeleponPemasok()));
                 }
 
                 ArrayAdapter<Pemasok> adapter = new ArrayAdapter<>(appContext, android.R.layout.simple_spinner_dropdown_item, mSpnPemasok);
@@ -180,6 +167,8 @@ public class BahanPokokEntryActivity extends AppCompatActivity implements Adapte
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         idPemasokSelected = mSpnPemasok.get(position).getIdPemasok();
                         namaPemasokSelected = mSpnPemasok.get(position).getNamaPemasok();
+                        alamatPemasokSelected = mSpnPemasok.get(position).getAlamatPemasok();
+                        nomorTeleponPemasokSelected = mSpnPemasok.get(position).getNomorTeleponPemasok();
                     }
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
@@ -192,15 +181,6 @@ public class BahanPokokEntryActivity extends AppCompatActivity implements Adapte
                 bahanPokokPemasokAdapter = new BahanPokokPemasokAdapter(appContext, mBahanPokokPemasok, (bahanPokokPemasok, pos) -> {
                 });
                 rvBahanPokokPemasok.setAdapter(bahanPokokPemasokAdapter);
-
-//                if(screenState.equals(MyConstants.UBAH_KATEGORI)) {
-//                    Bundle bundle = getIntent().getExtras();
-//                    mPemasokSelected = (ArrayList<Pemasok>) bundle.getSerializable("daftarPemasokSelected");
-//
-//                    for (int i = 0; i < mPemasokSelected.size(); i++) {
-//                        insertMethod(mPemasokSelected.get(i).getIdMakanan(), mPemasokSelected.get(i).getNamaMakanan());
-//                    }
-//                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -221,17 +201,10 @@ public class BahanPokokEntryActivity extends AppCompatActivity implements Adapte
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnTambahDetailBahanPokok: {
-                if (mBahanPokokPemasok.size() > mPemasok.size() - 1) {
-                    CommonUtils.showToast(appContext, appContext.getString(R.string.label_data_melampaui));
+            case R.id.btnTambahPemasokBahanPokok: {
+                if (mBahanPokokPemasok.size() == 1) {
+                    CommonUtils.showToast(appContext, appContext.getString(R.string.label_data_hanya_satu));
                     return;
-                }
-
-                for(int i = 0 ; i < mBahanPokokPemasok.size() ; i++) {
-                    if(String.valueOf(mBahanPokokPemasok.get(i).getSupplier_id()).equals(idPemasokSelected)) {
-                        CommonUtils.showToast(appContext, appContext.getString(R.string.label_data_sama));
-                        return;
-                    }
                 }
 
                 insertMethod(idPemasokSelected, namaPemasokSelected);
@@ -246,6 +219,13 @@ public class BahanPokokEntryActivity extends AppCompatActivity implements Adapte
                 if(txtNamaBahanPokok.isEmpty() || txtJumlahBahanPokok.isEmpty()) {
                     Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
                     return;
+                }
+
+                if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
+                    if (txtHargaBahanPokok.isEmpty() || mBahanPokokPemasok.size() < 1) {
+                        Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -271,7 +251,10 @@ public class BahanPokokEntryActivity extends AppCompatActivity implements Adapte
         if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
             params.put("bahan_pokok_id", idBahanPokok);
             params.put("harga", txtHargaBahanPokok);
-            //params.put("supplier_id", bundle.getString("idBahanPokok"));
+            params.put("supplier_id", idPemasokSelected);
+            params.put("nama_supplier", namaPemasokSelected);
+            params.put("alamat_supplier", alamatPemasokSelected);
+            params.put("nomor_telepon_supplier", nomorTeleponPemasokSelected);
             params.put("aksi", "1");
         } else {
             params.put("satuan", satuanSelected);
@@ -290,17 +273,16 @@ public class BahanPokokEntryActivity extends AppCompatActivity implements Adapte
                 }
             });
         } else if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
-//                    volleyAPI.postRequest(MyConstants.BAHAN_POKOK_ADD_HISTORY_ACTION, params, result -> {
-//                        try {
-//                            JSONObject resultJSON = new JSONObject(result);
-//                            Intent myIntent = new Intent(getApplicationContext(), BahanPokokActivity.class);
-//                            startActivityForResult(myIntent, 0);
-//                            Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    });
-            CommonUtils.showToast(context, "Tambah Riwayat Detail");
+            volleyAPI.postRequest(MyConstants.BAHAN_POKOK_ADD_HISTORY_ACTION, params, result -> {
+                try {
+                    JSONObject resultJSON = new JSONObject(result);
+                    Intent myIntent = new Intent(getApplicationContext(), BahanPokokActivity.class);
+                    startActivityForResult(myIntent, 0);
+                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            });
         }
 
         CommonUtils.hideLoading();

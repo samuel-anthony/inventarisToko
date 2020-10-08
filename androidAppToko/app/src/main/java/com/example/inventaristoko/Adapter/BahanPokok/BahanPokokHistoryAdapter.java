@@ -111,10 +111,10 @@ public class BahanPokokHistoryAdapter extends RecyclerView.Adapter<BaseViewHolde
             final BahanPokokHistory mBahanPokokHistory = mBahanPokokHistoryList.get(position);
 
             if((mBahanPokokHistory.getAksiDetailRiwayatBahanPokok()).equalsIgnoreCase(MyConstants.INCREASE_CODE)) {
-                tvJumlahDetailBahanPokok.setText("+ " + mBahanPokokHistory.getJumlahDetailRiwayatBahanPokok());
+                tvJumlahDetailBahanPokok.setText("+ " + mBahanPokokHistory.getJumlahDetailRiwayatBahanPokok() + " " + mBahanPokokHistory.getSatuanDetailRiwayatBahanPokok());
                 tvJumlahDetailBahanPokok.setBackgroundResource(R.drawable.ic_circle_success_background);
             } else if (((mBahanPokokHistory.getAksiDetailRiwayatBahanPokok()).equalsIgnoreCase(MyConstants.DECREASE_CODE))) {
-                tvJumlahDetailBahanPokok.setText("- " + mBahanPokokHistory.getJumlahDetailRiwayatBahanPokok());
+                tvJumlahDetailBahanPokok.setText("- " + mBahanPokokHistory.getJumlahDetailRiwayatBahanPokok() + " " + mBahanPokokHistory.getSatuanDetailRiwayatBahanPokok());
                 tvJumlahDetailBahanPokok.setBackgroundResource(R.drawable.ic_circle_failed_background);
             }
 
