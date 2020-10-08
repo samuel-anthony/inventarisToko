@@ -12,18 +12,24 @@ class UserController extends Controller
 {
     //password untuk user akan di pantek dengan udin123
     public function register(request $request){
-        
-        $user = new User;
-        $user->user_id = $request->nama_meja;
-        $user->full_name = is_null($request->full_name) ? $request->nama_meja : $request->full_name;
-        $user->password = $request->user_role == '1'? 'udin123' : $request->password;
-        $user->password = bcrypt($user->password);
-        $user->user_role = 1;
-        $user->save();
-        return json_encode([
-            'is_error' => '0',
-            'message' => 'berhasil'
-        ]);
+        if(count(User::whereUserId($request->nama_meja)->get())==0){
+            $user = new User;
+            $user->user_id = $request->nama_meja;
+            $user->full_name = is_null($request->full_name) ? $request->nama_meja : $request->full_name;
+            $user->password = $request->user_role == '1'? 'udin123' : $request->password;
+            $user->password = bcrypt($user->password);
+            $user->user_role = 1;
+            $user->save();
+            return json_encode([
+                'is_error' => '0',
+                'message' => 'berhasil'
+            ]);
+        }else{
+            return json_encode([
+                'is_error' => '1',
+                'message' => 'id data meja sudah digunakan'
+            ]);
+        }
     }
 
     public function registerAdmin(request $request){
