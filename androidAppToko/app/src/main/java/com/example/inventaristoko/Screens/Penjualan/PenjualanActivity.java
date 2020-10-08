@@ -140,7 +140,7 @@ public class PenjualanActivity extends AppCompatActivity implements View.OnClick
             builder.setMessage(R.string.confirmation_dialog_download);
             builder.setCancelable(false);
             builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
-                PDFDownload pdf = new PDFDownload();
+                PDFDownload pdf = new PDFDownload("Penjualan On Going");
 
                 List<String> columnName = new ArrayList<>();
                 columnName.add("number");

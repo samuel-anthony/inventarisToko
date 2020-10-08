@@ -23,6 +23,10 @@ import java.util.List;
 public class PDFDownload {
 
     String header_title = "Warung Bakso Mbah Welo";
+    String file_name;
+    public PDFDownload(String file_name){
+        this.file_name = file_name+CommonUtils.dateFormat();
+    }
 
     public void download(List<String> columnName, List<String> jsonKey, JSONArray data, Context appContext) throws JSONException {
 
@@ -68,7 +72,12 @@ public class PDFDownload {
          }
 
          pdfDocument.finishPage(myPage);
-         File file = new File(Environment.getExternalStorageDirectory(),"/testAja.pdf");
+         File file = new File(Environment.getExternalStorageDirectory(),"/"+file_name+".pdf");
+         int i = 1;
+         while(file.exists()){
+             file = new File(Environment.getExternalStorageDirectory(),"/"+file_name+"("+i+").pdf");
+             i++;
+         }
          try {
              pdfDocument.writeTo(new FileOutputStream(file));
              CommonUtils.showToast(appContext, appContext.getString(R.string.label_berhasil_download) + " " + file);
