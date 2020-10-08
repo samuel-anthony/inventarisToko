@@ -5,11 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.BahanPokok.BahanPokokPemasokAdapter;
-import com.example.inventaristoko.Adapter.Makanan.MakananBahanPokokAdapter;
 import com.example.inventaristoko.Model.BahanPokok.BahanPokokPemasok;
 import com.example.inventaristoko.Model.BahanPokok.Pemasok;
 import com.example.inventaristoko.R;
@@ -28,92 +26,70 @@ import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-public class BahanPokokEntryActivity extends AppCompatActivity{
-    private RecyclerView mRecyclerView;
-    private EditText etNamaBahanPokok, etJumlahBahanPokok, etHargaBahanPokok;
-    private TextView tvDaftarPemasokBahanPokok, tvHargaBahanPokok;
+
+public class BahanPokokEntryActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+    private Context appContext;
+    private RecyclerView rvBahanPokokPemasok;
+    private BahanPokokPemasokAdapter bahanPokokPemasokAdapter;
+    private ArrayList<BahanPokokPemasok> mBahanPokokPemasok = new ArrayList<>();
+    private ArrayList<Pemasok> mPemasok = new ArrayList<>();
+    private ArrayList<Pemasok> mPemasokResponse = new ArrayList<>();
+    private ArrayList<Pemasok> mPemasokSelected = new ArrayList<>();
+    private ArrayList<Pemasok> mSpnPemasok = new ArrayList<>();
     private Button btnKirimBahanPokok, btnTambahPemasokBahanPokok;
+    private EditText etNamaBahanPokok, etJumlahBahanPokok, etHargaBahanPokok;
     private Spinner spnSatuanBahanPokok, spnDaftarPemasok;
+    private TextView tvDaftarPemasokBahanPokok, tvHargaBahanPokok;
     private String[] spnSatuan = {"Mg", "Dg", "Cg", "G", "Hg", "Dg", "Kg"};
     private String satuanSelected;
-    private int position;
-    private BahanPokokPemasokAdapter bahanPokokPemasokAdapter;
-    private ArrayList<BahanPokokPemasok> bahanPokokPemasoks = new ArrayList<>();
-    private ArrayList<Pemasok> mPemasok = new ArrayList<>();
-    private ArrayList<Pemasok> pemasoks = new ArrayList<>();
-    private String idPemasokSelected, namaPemasokSelected;
+    private String idPemasokSelected, idBahanPokok, namaPemasokSelected, screenState, txtNamaBahanPokok, txtJumlahBahanPokok, txtHargaBahanPokok;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bahan_pokok_entry);
-
-        Bundle bundle = getIntent().getExtras();
-        String screenState = bundle.getString("screenState");
-        String satuan = bundle.getString("satuanBahanPokok");
-        mPemasok = (ArrayList<Pemasok>) bundle.getSerializable("daftarPemasok");
-
-        if(screenState.equals(MyConstants.TAMBAH_BAHAN_POKOK)) {
-            for (int i = 0; i < mPemasok.size(); i++) {
-                pemasoks.add(new Pemasok(mPemasok.get(i).getIdPemasok(), mPemasok.get(i).getNamaPemasok()));
-            }
-        }
-
-        mRecyclerView = findViewById(R.id.rvDataPemasokBahanPokok);
+    private void init() {
+        appContext = getApplicationContext();
+        rvBahanPokokPemasok = findViewById(R.id.rvBahanPokokPemasok);
         etNamaBahanPokok = findViewById(R.id.etNamaBahanPokok);
         etHargaBahanPokok = findViewById(R.id.etHargaBahanPokok);
         etJumlahBahanPokok = findViewById(R.id.etJumlahBahanPokok);
         tvHargaBahanPokok = findViewById(R.id.tvHargaBahanPokok);
         tvDaftarPemasokBahanPokok = findViewById(R.id.tvDaftarPemasokBahanPokok);
         spnDaftarPemasok = findViewById(R.id.spnDaftarPemasok);
-        btnTambahPemasokBahanPokok = findViewById(R.id.btnTambahPemasokBahanPokok);
-
-        ArrayAdapter<Pemasok> adapterPemasok = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, pemasoks);
-        adapterPemasok.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-        spnDaftarPemasok.setAdapter(adapterPemasok);
-        spnDaftarPemasok.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(screenState.equals(MyConstants.TAMBAH_BAHAN_POKOK)) {
-                    idPemasokSelected = pemasoks.get(position).getIdPemasok();
-                    namaPemasokSelected = pemasoks.get(position).getNamaPemasok();
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-        mRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        bahanPokokPemasokAdapter = new BahanPokokPemasokAdapter(getApplicationContext(), bahanPokokPemasoks, (bahanPokokPemasok, pos) -> position = pos);
-        mRecyclerView.setAdapter(bahanPokokPemasokAdapter);
-
         spnSatuanBahanPokok = findViewById(R.id.spnSatuanBahanPokok);
-        spnSatuanBahanPokok.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                satuanSelected = spnSatuan[position];
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        btnTambahPemasokBahanPokok = findViewById(R.id.btnTambahPemasokBahanPokok);
+        btnKirimBahanPokok = findViewById(R.id.btnKirimBahanPokok);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, spnSatuan);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnSatuanBahanPokok.setAdapter(adapter);
+        getSemuaPemasok();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bahan_pokok_entry);
+
+        init();
+
+        Bundle bundle = getIntent().getExtras();
+        assert bundle != null;
+        screenState = bundle.getString("screenState");
+        idBahanPokok = bundle.getString("idBahanPokok");
+        String satuan = bundle.getString("satuanBahanPokok");
+
+        spnSatuanBahanPokok.setOnItemSelectedListener(this);
+
+        ArrayAdapter<String> satuanAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spnSatuan);
+        satuanAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnSatuanBahanPokok.setAdapter(satuanAdapter);
 
         if(screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
-            getSupportActionBar().setTitle(R.string.menu_tambah_detail_bahan_pokok);
+            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_tambah_detail_bahan_pokok);
             etNamaBahanPokok.setText(bundle.getString("namaBahanPokok"));
             etJumlahBahanPokok.setText(bundle.getString("jumlahBahanPokok"));
 
@@ -133,10 +109,10 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
                 satuanSelected = MyConstants.KILO_GRAM;
             }
 
-            int spinnerPosition = adapter.getPosition(satuanSelected);
+            int spinnerPosition = satuanAdapter.getPosition(satuanSelected);
             spnSatuanBahanPokok.setSelection(spinnerPosition);
         } else {
-            getSupportActionBar().setTitle(R.string.menu_tambah_bahan_pokok);
+            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_tambah_bahan_pokok);
             spnSatuanBahanPokok.setSelection(6);
             spnDaftarPemasok.setVisibility(View.GONE);
             btnTambahPemasokBahanPokok.setVisibility(View.GONE);
@@ -145,55 +121,176 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
             etHargaBahanPokok.setVisibility(View.GONE);
         }
 
-        btnTambahPemasokBahanPokok.setOnClickListener(v -> {
-            if(bahanPokokPemasoks.size() > mPemasok.size()-1) {
-                Toast.makeText(getApplicationContext(),R.string.label_data_melampaui, Toast.LENGTH_SHORT).show();
-                return;
-            }
+        btnTambahPemasokBahanPokok.setOnClickListener(this);
+        btnKirimBahanPokok.setOnClickListener(this);
 
-            insertMethod(idPemasokSelected, namaPemasokSelected);
+        etNamaBahanPokok.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                CommonUtils.hideKeyboard(appContext, v);
+            }
         });
 
-        btnKirimBahanPokok = findViewById(R.id.btnKirimBahanPokok);
-        btnKirimBahanPokok.setOnClickListener(v -> {
-            if(String.valueOf(etNamaBahanPokok.getText()).equals("") || String.valueOf(etJumlahBahanPokok.getText()).equals("")) {
-                Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
-                return;
+        etHargaBahanPokok.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                CommonUtils.hideKeyboard(appContext, v);
             }
+        });
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            builder.setMessage(R.string.confirmation_dialog_submit);
-            builder.setCancelable(false);
-            builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
-                CommonUtils.showLoading(v.getContext());
-                VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
+        etJumlahBahanPokok.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                CommonUtils.hideKeyboard(appContext, v);
+            }
+        });
+    }
 
-                Map<String, String> params = new HashMap<>();
-                params.put("nama", etNamaBahanPokok.getText().toString()); //disable
-                params.put("jumlah", etJumlahBahanPokok.getText().toString());
+    private void getSemuaPemasok() {
+        CommonUtils.showLoading(BahanPokokEntryActivity.this);
+        VolleyAPI volleyAPI = new VolleyAPI(BahanPokokEntryActivity.this);
 
-                if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
-                    params.put("bahan_pokok_id", bundle.getString("idMeja"));
-                    params.put("harga", etHargaBahanPokok.getText().toString());
-                    //params.put("supplier_id", bundle.getString("idMeja"));
-                    params.put("aksi", "1");
-                } else {
-                    params.put("satuan", satuanSelected);
+        Map<String, String> params = new HashMap<>();
+
+        volleyAPI.getRequest(MyConstants.BAHAN_POKOK_GET_SUPPLIER_ACTION, params, result -> {
+            try {
+                JSONObject resultJSON = new JSONObject(result);
+                JSONArray resultArray = resultJSON.getJSONArray("result");
+
+                for(int i = 0 ; i < resultArray.length() ; i ++ ) {
+                    JSONObject dataPemasok = (JSONObject) resultArray.get(i);
+                    Pemasok pemasok = new Pemasok();
+                    pemasok.setIdPemasok(dataPemasok.getString("supplier_id"));
+                    pemasok.setNamaPemasok(dataPemasok.getString("nama"));
+                    pemasok.setAlamatPemasok(dataPemasok.getString("alamat"));
+                    pemasok.setNomorTeleponPemasok(dataPemasok.getString("nomor_telepon"));
+                    pemasok.setTanggalTambahPemasok(dataPemasok.getString("created_at"));
+                    pemasok.setTanggalUbahPemasok(dataPemasok.getString("updated_at"));
+                    mPemasokResponse.add(pemasok);
                 }
 
-                if (screenState.equals(MyConstants.TAMBAH_BAHAN_POKOK)) {
-                    volleyAPI.postRequest("addBahanPokokBaru", params, result -> {
-                        try {
-                            JSONObject resultJSON = new JSONObject(result);
-                            Intent myIntent = new Intent(getApplicationContext(), BahanPokokActivity.class);
-                            startActivityForResult(myIntent, 0);
-                            Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                } else if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
-//                    volleyAPI.postRequest("addRiwayatBahanPokok", params, result -> {
+                mPemasok = mPemasokResponse;
+
+                for (int i = 0; i < mPemasok.size(); i++) {
+                    mSpnPemasok.add(new Pemasok(mPemasok.get(i).getIdPemasok(), mPemasok.get(i).getNamaPemasok()));
+                }
+
+                ArrayAdapter<Pemasok> adapter = new ArrayAdapter<>(appContext, android.R.layout.simple_spinner_dropdown_item, mSpnPemasok);
+                adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+                spnDaftarPemasok.setAdapter(adapter);
+                spnDaftarPemasok.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        idPemasokSelected = mSpnPemasok.get(position).getIdPemasok();
+                        namaPemasokSelected = mSpnPemasok.get(position).getNamaPemasok();
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+
+                rvBahanPokokPemasok.setHasFixedSize(true);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(appContext, LinearLayoutManager.VERTICAL, false);
+                rvBahanPokokPemasok.setLayoutManager(layoutManager);
+                bahanPokokPemasokAdapter = new BahanPokokPemasokAdapter(appContext, mBahanPokokPemasok, (bahanPokokPemasok, pos) -> {
+                });
+                rvBahanPokokPemasok.setAdapter(bahanPokokPemasokAdapter);
+
+//                if(screenState.equals(MyConstants.UBAH_KATEGORI)) {
+//                    Bundle bundle = getIntent().getExtras();
+//                    mPemasokSelected = (ArrayList<Pemasok>) bundle.getSerializable("daftarPemasokSelected");
+//
+//                    for (int i = 0; i < mPemasokSelected.size(); i++) {
+//                        insertMethod(mPemasokSelected.get(i).getIdMakanan(), mPemasokSelected.get(i).getNamaMakanan());
+//                    }
+//                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+
+        CommonUtils.hideLoading();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> arg0, View v, int position, long id) {
+        satuanSelected = spnSatuan[position];
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnTambahDetailBahanPokok: {
+                if (mBahanPokokPemasok.size() > mPemasok.size() - 1) {
+                    CommonUtils.showToast(appContext, appContext.getString(R.string.label_data_melampaui));
+                    return;
+                }
+
+                for(int i = 0 ; i < mBahanPokokPemasok.size() ; i++) {
+                    if(String.valueOf(mBahanPokokPemasok.get(i).getSupplier_id()).equals(idPemasokSelected)) {
+                        CommonUtils.showToast(appContext, appContext.getString(R.string.label_data_sama));
+                        return;
+                    }
+                }
+
+                insertMethod(idPemasokSelected, namaPemasokSelected);
+                CommonUtils.hideKeyboard(appContext, v);
+            }
+            break;
+            case R.id.btnKirimBahanPokok: {
+                txtNamaBahanPokok = etNamaBahanPokok.getText().toString();
+                txtJumlahBahanPokok = etJumlahBahanPokok.getText().toString();
+                txtHargaBahanPokok = etHargaBahanPokok.getText().toString();
+
+                if(txtNamaBahanPokok.isEmpty() || txtJumlahBahanPokok.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setMessage(R.string.confirmation_dialog_submit);
+                builder.setCancelable(false);
+                builder.setPositiveButton(R.string.label_yes, (dialog, which) -> callSubmitDataBahanPokokRequest(v.getContext()));
+                builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+                });
+                builder.show();
+            }
+            break;
+        }
+    }
+
+    private void callSubmitDataBahanPokokRequest(Context context) {
+        CommonUtils.showLoading(context);
+        VolleyAPI volleyAPI = new VolleyAPI(context);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("nama", txtNamaBahanPokok); //disable
+        params.put("jumlah", txtJumlahBahanPokok);
+
+        if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
+            params.put("bahan_pokok_id", idBahanPokok);
+            params.put("harga", txtHargaBahanPokok);
+            //params.put("supplier_id", bundle.getString("idBahanPokok"));
+            params.put("aksi", "1");
+        } else {
+            params.put("satuan", satuanSelected);
+        }
+
+        if (screenState.equals(MyConstants.TAMBAH_BAHAN_POKOK)) {
+            volleyAPI.postRequest(MyConstants.BAHAN_POKOK_ADD_ACTION, params, result -> {
+                try {
+                    JSONObject resultJSON = new JSONObject(result);
+                    Intent myIntent = new Intent(getApplicationContext(), BahanPokokActivity.class);
+                    startActivityForResult(myIntent, 0);
+
+                    CommonUtils.showToast(context, resultJSON.getString("message"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            });
+        } else if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
+//                    volleyAPI.postRequest(MyConstants.BAHAN_POKOK_ADD_HISTORY_ACTION, params, result -> {
 //                        try {
 //                            JSONObject resultJSON = new JSONObject(result);
 //                            Intent myIntent = new Intent(getApplicationContext(), BahanPokokActivity.class);
@@ -203,32 +300,10 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
 //                            e.printStackTrace();
 //                        }
 //                    });
-                    Toast.makeText(getApplicationContext(), "Tambah Detail Bahan Pokok", Toast.LENGTH_SHORT).show();
-                }
-                CommonUtils.hideLoading();
-            });
-            builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
-            });
-            builder.show();
-        });
+            CommonUtils.showToast(context, "Tambah Riwayat Detail");
+        }
 
-        etNamaBahanPokok.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                hideKeyboard(v);
-            }
-        });
-
-        etHargaBahanPokok.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                hideKeyboard(v);
-            }
-        });
-
-        etJumlahBahanPokok.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                hideKeyboard(v);
-            }
-        });
+        CommonUtils.hideLoading();
     }
 
     private void insertMethod(String id, String name) {
@@ -237,16 +312,12 @@ public class BahanPokokEntryActivity extends AppCompatActivity{
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("supplier_id", id);
             jsonObject.put("name", name);
-            BahanPokokPemasok pemasokBahanPokok = gson.fromJson(String.valueOf(jsonObject), BahanPokokPemasok.class);
-            bahanPokokPemasoks.add(pemasokBahanPokok);
+
+            BahanPokokPemasok bahanPokokPemasok = gson.fromJson(String.valueOf(jsonObject), BahanPokokPemasok.class);
+            mBahanPokokPemasok.add(bahanPokokPemasok);
             bahanPokokPemasokAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

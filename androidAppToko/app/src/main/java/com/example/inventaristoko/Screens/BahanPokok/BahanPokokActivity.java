@@ -2,13 +2,12 @@ package com.example.inventaristoko.Screens.BahanPokok;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import com.example.inventaristoko.Adapter.BahanPokok.BahanPokokAdapter;
 import com.example.inventaristoko.Model.BahanPokok.BahanPokok;
-import com.example.inventaristoko.Model.BahanPokok.Pemasok;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.Makanan.MakananEntryActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
@@ -22,86 +21,58 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.ButterKnife;
 
-public class BahanPokokActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
-    private BahanPokokAdapter mBahanPokokAdapter;
+
+public class BahanPokokActivity extends AppCompatActivity implements View.OnClickListener {
+    private FloatingActionButton fabDataBahanPokok;
+    private RecyclerView rvDataBahanPokok;
+    private BahanPokokAdapter bahanPokokAdapter;
     private Button btnTambahBahanPokok;
+
+    private void init() {
+        rvDataBahanPokok = findViewById(R.id.rvDataBahanPokok);
+        fabDataBahanPokok = findViewById(R.id.fabDataBahanPokok);
+        btnTambahBahanPokok = findViewById(R.id.btnTambahBahanPokok);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bahan_pokok);
 
-        getSupportActionBar().setTitle(R.string.menu_detail_bahan_pokok);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_detail_bahan_pokok);
 
-        FloatingActionButton fab = findViewById(R.id.fabDataBahanPokok);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show());
+        init();
 
-        btnTambahBahanPokok = findViewById(R.id.btnTambahBahanPokok);
-        btnTambahBahanPokok.setOnClickListener(v -> {
-            ArrayList<Pemasok> mPemasok = new ArrayList<>();
-            VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
+        fabDataBahanPokok.setOnClickListener(this);
+        btnTambahBahanPokok.setOnClickListener(this);
 
-            Map<String, String> params = new HashMap<>();
-
-            volleyAPI.getRequest("getSemuaSupplier", params, result -> {
-                try {
-                    JSONObject resultJSON = new JSONObject(result);
-                    JSONArray resultArray = resultJSON.getJSONArray("result");
-
-                    for(int i = 0 ; i < resultArray.length() ; i ++ ) {
-                        JSONObject dataPemasok = (JSONObject) resultArray.get(i);
-                        Pemasok pemasok = new Pemasok();
-                        pemasok.setIdPemasok(dataPemasok.getString("supplier_id"));
-                        pemasok.setNamaPemasok(dataPemasok.getString("nama"));
-                        pemasok.setAlamatPemasok(dataPemasok.getString("alamat"));
-                        pemasok.setNomorTeleponPemasok(dataPemasok.getString("nomor_telepon"));
-                        pemasok.setTanggalTambahPemasok(dataPemasok.getString("created_at"));
-                        pemasok.setTanggalUbahPemasok(dataPemasok.getString("updated_at"));
-                        mPemasok.add(pemasok);
-                    }
-
-                    Intent intent = new Intent(v.getContext(), BahanPokokEntryActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("screenState", MyConstants.TAMBAH_BAHAN_POKOK);
-                    bundle.putSerializable("daftarPemasok", mPemasok);
-                    intent.putExtras(bundle);
-                    v.getContext().startActivity(intent);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            });
-        });
-
-        mRecyclerView = findViewById(R.id.rvDataBahanPokok);
-        ButterKnife.bind(this);
         setUp();
     }
 
     private void setUp() {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mBahanPokokAdapter = new BahanPokokAdapter(new ArrayList<>());
+        rvDataBahanPokok.setLayoutManager(mLayoutManager);
+        rvDataBahanPokok.setItemAnimator(new DefaultItemAnimator());
+        bahanPokokAdapter = new BahanPokokAdapter(new ArrayList<>());
 
-        prepareDataBahanPokok();
+        callDataBahanPokokRequest();
     }
 
-    private void prepareDataBahanPokok() {
+    private void callDataBahanPokokRequest() {
         CommonUtils.showLoading(BahanPokokActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
 
         Map<String, String> params = new HashMap<>();
 
-        volleyAPI.getRequest("getSemuaBahanPokok", params, result -> {
+        volleyAPI.getRequest(MyConstants.BAHAN_POKOK_GET_ACTION, params, result -> {
             try {
                 ArrayList<BahanPokok> mBahanPokok = new ArrayList<>();
                 JSONObject resultJSON = new JSONObject(result);
@@ -121,12 +92,29 @@ public class BahanPokokActivity extends AppCompatActivity {
                     mBahanPokok.add(bahanPokok);
                 }
 
-                mBahanPokokAdapter.addItems(mBahanPokok);
-                mRecyclerView.setAdapter(mBahanPokokAdapter);
-                CommonUtils.hideLoading();
+                bahanPokokAdapter.addItems(mBahanPokok);
+                rvDataBahanPokok.setAdapter(bahanPokokAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         });
+
+        CommonUtils.hideLoading();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fabDataBahanPokok :
+                Snackbar.make(v, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                break;
+            case R.id.btnTambahBahanPokok :
+                Intent intent = new Intent(v.getContext(), BahanPokokEntryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("screenState", MyConstants.TAMBAH_BAHAN_POKOK);
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
+                break;
+        }
     }
 }
