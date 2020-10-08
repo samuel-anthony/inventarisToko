@@ -6,11 +6,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Makanan.MakananAdapter;
 import com.example.inventaristoko.Model.Makanan.Makanan;
@@ -26,99 +27,64 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-import butterknife.ButterKnife;
 
-public class KategoriDetailActivity extends AppCompatActivity {
-    ArrayList<Makanan> mMakanan = new ArrayList<>();
-    private RecyclerView mRecyclerView;
-    private MakananAdapter mMakananAdapter;
+public class KategoriDetailActivity extends AppCompatActivity implements View.OnClickListener {
+    private ArrayList<Makanan> mMakanan = new ArrayList<>();
+    private RecyclerView rvKategoriDetail;
+    private MakananAdapter makananAdapter;
     private Button btnHapusKategori, btnUbahKategori;
     private TextView tvNamaKategori, tvIdKategori;
     private String idKategori;
+
+    private void init() {
+        rvKategoriDetail = findViewById(R.id.rvKategoriDetail);
+        tvNamaKategori = findViewById(R.id.tvValueNamaKategori);
+        tvIdKategori = findViewById(R.id.tvValueIdKategori);
+        btnHapusKategori = findViewById(R.id.btnHapusKategori);
+        btnUbahKategori = findViewById(R.id.btnUbahKategori);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kategori_detail);
 
-        getSupportActionBar().setTitle(R.string.menu_detail_kategori);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_detail_kategori);
 
-        tvNamaKategori = findViewById(R.id.tvValueNamaKategori);
-        tvIdKategori = findViewById(R.id.tvValueIdKategori);
-        btnHapusKategori = findViewById(R.id.btnHapusKategori);
-        btnUbahKategori = findViewById(R.id.btnUbahKategori);
+        init();
 
         Bundle bundle = getIntent().getExtras();
+        assert bundle != null;
         tvNamaKategori.setText(bundle.getString("namaKategori"));
         tvIdKategori.setText(bundle.getString("idKategori"));
         idKategori = bundle.getString("idKategori");
 
-        btnHapusKategori.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            builder.setMessage(R.string.confirmation_dialog_delete);
-            builder.setCancelable(false);
-            builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
-                CommonUtils.showLoading(v.getContext());
-                VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
+        btnHapusKategori.setOnClickListener(this);
+        btnUbahKategori.setOnClickListener(this);
 
-                Map<String, String> params = new HashMap<>();
-                params.put("jenis_menu_id", idKategori);
-
-                volleyAPI.putRequest("deleteJenisMenu", params, result -> {
-                    try {
-                        JSONObject resultJSON = new JSONObject(result);
-                        Intent myIntent = new Intent(getApplicationContext(), KategoriActivity.class);
-                        startActivityForResult(myIntent, 0);
-                        Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                });
-            });
-            builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
-            });
-            builder.show();
-        });
-
-        btnUbahKategori.setOnClickListener(v -> {
-            Intent intent = new Intent (v.getContext(), KategoriEntryActivity.class);
-            Bundle mBundle = new Bundle();
-            mBundle.putString("screenState", MyConstants.UBAH_KATEGORI);
-            mBundle.putString("idKategori", tvIdKategori.getText().toString());
-            mBundle.putString("namaKategori", tvNamaKategori.getText().toString());
-
-            if(mMakanan != null) {
-                mBundle.putSerializable("daftarMakananSelected", mMakanan);
-            }
-
-            intent.putExtras(mBundle);
-            v.getContext().startActivity(intent);
-        });
-
-        mRecyclerView = findViewById(R.id.rvKategoriDetailMakanan);
-        ButterKnife.bind(this);
         setUp();
     }
 
     private void setUp() {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mMakananAdapter = new MakananAdapter(new ArrayList<>());
+        rvKategoriDetail.setLayoutManager(mLayoutManager);
+        rvKategoriDetail.setItemAnimator(new DefaultItemAnimator());
+        makananAdapter = new MakananAdapter(new ArrayList<>());
 
-        prepareDataMakanan();
+        callDataKategoriDetailRequest();
     }
 
-    private void prepareDataMakanan() {
+    private void callDataKategoriDetailRequest() {
         CommonUtils.showLoading(KategoriDetailActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
 
         Map<String, String> params = new HashMap<>();
         params.put("jenis_menu_id", idKategori);
 
-        volleyAPI.getRequest("getSemuaJenisMenuDetail", params, result -> {
+        volleyAPI.getRequest(MyConstants.KATEGORI_GET_DETAILS_ACTION, params, result -> {
             try {
                 JSONObject resultJSON = new JSONObject(result);
                 JSONObject resultArray = resultJSON.getJSONObject("result");
@@ -137,12 +103,64 @@ public class KategoriDetailActivity extends AppCompatActivity {
                     mMakanan.add(makanan);
                 }
 
-                mMakananAdapter.addItems(mMakanan);
-                mRecyclerView.setAdapter(mMakananAdapter);
-                CommonUtils.hideLoading();
+                makananAdapter.addItems(mMakanan);
+                rvKategoriDetail.setAdapter(makananAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         });
+
+        CommonUtils.hideLoading();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnHapusKategori :
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setMessage(R.string.confirmation_dialog_delete);
+                builder.setCancelable(false);
+                builder.setPositiveButton(R.string.label_yes, (dialog, which) -> callDeleteDataPenggunaRequest(v.getContext()));
+                builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+                });
+                builder.show();
+                break;
+            case R.id.btnUbahKategori :
+                Intent intent = new Intent (v.getContext(), KategoriEntryActivity.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putString("screenState", MyConstants.UBAH_KATEGORI);
+                mBundle.putString("idKategori", tvIdKategori.getText().toString());
+                mBundle.putString("namaKategori", tvNamaKategori.getText().toString());
+
+                if(mMakanan != null) {
+                    mBundle.putSerializable("daftarMakananSelected", mMakanan);
+                }
+
+                intent.putExtras(mBundle);
+                v.getContext().startActivity(intent);
+                break;
+        }
+    }
+
+    private void callDeleteDataPenggunaRequest(Context context) {
+        CommonUtils.showLoading(context);
+        VolleyAPI volleyAPI = new VolleyAPI(context);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("jenis_menu_id", idKategori);
+
+        volleyAPI.putRequest(MyConstants.KATEGORI_DELETE_ACTION, params, result -> {
+            try {
+                JSONObject resultJSON = new JSONObject(result);
+                Intent myIntent = new Intent(getApplicationContext(), KategoriActivity.class);
+                startActivityForResult(myIntent, 0);
+
+                CommonUtils.showToast(context, resultJSON.getString("message"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+
+        CommonUtils.hideLoading();
     }
 }

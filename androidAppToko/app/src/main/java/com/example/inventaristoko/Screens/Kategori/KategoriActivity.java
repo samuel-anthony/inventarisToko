@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import com.example.inventaristoko.Adapter.Kategori.KategoriAdapter;
@@ -25,53 +26,53 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-import butterknife.ButterKnife;
 
-public class KategoriActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
-    private KategoriAdapter mKategoriAdapter;
+public class KategoriActivity extends AppCompatActivity implements View.OnClickListener {
+    private FloatingActionButton fabDataKategori;
+    private RecyclerView rvDataKategori;
+    private KategoriAdapter kategoriAdapter;
     private Button btnTambahKategori;
+
+    private void init() {
+        rvDataKategori = findViewById(R.id.rvDataKategori);
+        fabDataKategori = findViewById(R.id.fabDataKategori);
+        btnTambahKategori = findViewById(R.id.btnTambahKategori);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kategori);
 
-        getSupportActionBar().setTitle(R.string.menu_kategori);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_kategori);
 
-        FloatingActionButton fab = findViewById(R.id.fabKategori);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show());
+        init();
 
-        btnTambahKategori = findViewById(R.id.btnTambahKategori);
-        btnTambahKategori.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), KategoriEntryActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("screenState", MyConstants.TAMBAH_KATEGORI);
-            intent.putExtras(bundle);
-            v.getContext().startActivity(intent);
-        });
+        fabDataKategori.setOnClickListener(this);
+        btnTambahKategori.setOnClickListener(this);
 
-        mRecyclerView = findViewById(R.id.rvKategori);
-        ButterKnife.bind(this);
         setUp();
     }
 
     private void setUp() {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mKategoriAdapter = new KategoriAdapter(new ArrayList<>());
+        rvDataKategori.setLayoutManager(mLayoutManager);
+        rvDataKategori.setItemAnimator(new DefaultItemAnimator());
+        kategoriAdapter = new KategoriAdapter(new ArrayList<>());
 
-        prepareDataKategori();
+        callDataKategoriRequest();
     }
 
-    private void prepareDataKategori() {
+    private void callDataKategoriRequest() {
         CommonUtils.showLoading(KategoriActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(this);
+
         Map<String, String> params = new HashMap<>();
-        volleyAPI.getRequest("getSemuaJenisMenu", params, result -> {
+
+        volleyAPI.getRequest(MyConstants.KATEGORI_GET_ACTION, params, result -> {
             try {
                 ArrayList<Kategori> mKategori = new ArrayList<>();
                 JSONObject resultJSON = new JSONObject(result);
@@ -88,12 +89,29 @@ public class KategoriActivity extends AppCompatActivity {
                     mKategori.add(kategori);
                 }
 
-                mKategoriAdapter.addItems(mKategori);
-                mRecyclerView.setAdapter(mKategoriAdapter);
-                CommonUtils.hideLoading();
+                kategoriAdapter.addItems(mKategori);
+                rvDataKategori.setAdapter(kategoriAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         });
+
+        CommonUtils.hideLoading();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fabDataKategori :
+                Snackbar.make(v, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                break;
+            case R.id.btnTambahKategori :
+                Intent intent = new Intent(v.getContext(), KategoriEntryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("screenState", MyConstants.TAMBAH_KATEGORI);
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
+                break;
+        }
     }
 }

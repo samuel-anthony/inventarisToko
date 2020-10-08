@@ -5,17 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.inventaristoko.Adapter.Kategori.KategoriMakananAdapter;
 import com.example.inventaristoko.Model.Kategori.KategoriMakanan;
@@ -33,44 +31,51 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
 
 public class KategoriEntryActivity extends AppCompatActivity implements View.OnClickListener  {
-    private ArrayList<KategoriMakanan> kategoryMakanans = new ArrayList<>();
-    private ArrayList<Makanan> mMakanan = new ArrayList<>();
-    private ArrayList<Makanan> mMakananNew = new ArrayList<>();
-    private ArrayList<Makanan> makanans = new ArrayList<>();
-    private RecyclerView mRecyclerView;
+    private Context appContext;
+    private RecyclerView rvKategoriMakanan;
     private KategoriMakananAdapter kategoriMakananAdapter;
+    private ArrayList<KategoriMakanan> kategoryMakanan = new ArrayList<>();
+    private ArrayList<Makanan> mMakanan = new ArrayList<>();
+    private ArrayList<Makanan> mMakananResponse = new ArrayList<>();
+    private ArrayList<Makanan> mMakananSelected = new ArrayList<>();
+    private ArrayList<Makanan> mSpnMakanan = new ArrayList<>();
     private Button btnTambahMakananKategori, btnKirimKategori;
     private EditText etNamaKategori;
-    private int position;
-    private String screenState;
     private Spinner spnDaftarMakanan;
-    private String idMakananSelected, makananSelected, idKategori;
+    private String screenState, txtNamaKategori, idMakananSelected, makananSelected, oldIdKategori;
+
+    private void init() {
+        appContext = getApplicationContext();
+        rvKategoriMakanan = findViewById(R.id.rvKategoriMakanan);
+        etNamaKategori = findViewById((R.id.etNamaKategori));
+        spnDaftarMakanan = findViewById(R.id.spnDaftarMakanan);
+        btnTambahMakananKategori = findViewById(R.id.btnTambahMakananKategori);
+        btnKirimKategori = findViewById(R.id.btnKirimKategori);
+
+        getSemuaMakanan();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kategori_entry);
 
-        mRecyclerView = findViewById(R.id.rvDataMakananKategori);
-        etNamaKategori = findViewById((R.id.etNamaKategori));
-        btnTambahMakananKategori = findViewById(R.id.btnTambahMakananKategori);
-        btnKirimKategori = findViewById(R.id.btnKirimKategori);
+        init();
 
         Bundle bundle = getIntent().getExtras();
+        assert bundle != null;
         screenState = bundle.getString("screenState");
-        idKategori = bundle.getString("idKategori");
-
-        spnDaftarMakanan = findViewById(R.id.spnDaftarMakanan);
-
-        getSemuaMakanan();
+        oldIdKategori = bundle.getString("idKategori");
 
         if(screenState.equals(MyConstants.UBAH_KATEGORI)) {
-            getSupportActionBar().setTitle(R.string.menu_ubah_kategori);
+            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_ubah_kategori);
             etNamaKategori.setText(bundle.getString("namaKategori"));
         } else {
-            getSupportActionBar().setTitle(R.string.menu_tambah_kategori);
+            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_tambah_kategori);
         }
 
         btnTambahMakananKategori.setOnClickListener(this);
@@ -78,18 +83,18 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
         
         etNamaKategori.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                hideKeyboard(v);
+                CommonUtils.hideKeyboard(appContext, v);
             }
         });
     }
 
     private void getSemuaMakanan() {
-        ArrayList<Makanan> mMakanans = new ArrayList<>();
+        CommonUtils.showLoading(KategoriEntryActivity.this);
         VolleyAPI volleyAPI = new VolleyAPI(KategoriEntryActivity.this);
 
         Map<String, String> params = new HashMap<>();
 
-        volleyAPI.getRequest("getSemuaMakanan", params, result -> {
+        volleyAPI.getRequest(MyConstants.MAKANAN_GET_ACTION, params, result -> {
             try {
                 JSONObject resultJSON = new JSONObject(result);
                 JSONArray resultArray = resultJSON.getJSONArray("result");
@@ -99,125 +104,82 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
                     Makanan makanan = new Makanan();
                     makanan.setIdMakanan(dataMakanan.getString("makanan_id"));
                     makanan.setNamaMakanan(dataMakanan.getString("nama"));
-                    mMakanans.add(makanan);
+                    mMakananResponse.add(makanan);
                 }
-                mMakanan = mMakanans;
+                mMakanan = mMakananResponse;
 
-                if(mMakanan != null) {
-                    for (int i = 0; i < mMakanan.size(); i++) {
-                        makanans.add(new Makanan(mMakanan.get(i).getIdMakanan(), mMakanan.get(i).getNamaMakanan()));
-                    }
+                for (int i = 0; i < mMakanan.size(); i++) {
+                    mSpnMakanan.add(new Makanan(mMakanan.get(i).getIdMakanan(), mMakanan.get(i).getNamaMakanan()));
                 }
 
-                ArrayAdapter<Makanan> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, makanans);
+                ArrayAdapter<Makanan> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, mSpnMakanan);
                 adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
                 spnDaftarMakanan.setAdapter(adapter);
                 spnDaftarMakanan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        makananSelected = makanans.get(position).getNamaMakanan();
-                        idMakananSelected = makanans.get(position).getIdMakanan();
+                        makananSelected = mSpnMakanan.get(position).getNamaMakanan();
+                        idMakananSelected = mSpnMakanan.get(position).getIdMakanan();
                     }
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
 
-                mRecyclerView.setHasFixedSize(true);
+                rvKategoriMakanan.setHasFixedSize(true);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-                mRecyclerView.setLayoutManager(layoutManager);
-                kategoriMakananAdapter = new KategoriMakananAdapter(getApplicationContext(), kategoryMakanans, (kategoriMakanan, pos) -> position = pos);
-                mRecyclerView.setAdapter(kategoriMakananAdapter);
+                rvKategoriMakanan.setLayoutManager(layoutManager);
+                kategoriMakananAdapter = new KategoriMakananAdapter(getApplicationContext(), kategoryMakanan, (kategoriMakanan, pos) -> {
+                });
+                rvKategoriMakanan.setAdapter(kategoriMakananAdapter);
 
                 if(screenState.equals(MyConstants.UBAH_KATEGORI)) {
                     Bundle bundle = getIntent().getExtras();
-                    mMakananNew = (ArrayList<Makanan>) bundle.getSerializable("daftarMakananSelected");
-                    for (int i = 0; i < mMakananNew.size(); i++) {
-                        insertMethod(mMakananNew.get(i).getIdMakanan(), mMakananNew.get(i).getNamaMakanan());
+                    mMakananSelected = (ArrayList<Makanan>) bundle.getSerializable("daftarMakananSelected");
+
+                    for (int i = 0; i < mMakananSelected.size(); i++) {
+                        insertMethod(mMakananSelected.get(i).getIdMakanan(), mMakananSelected.get(i).getNamaMakanan());
                     }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         });
+
+        CommonUtils.hideLoading();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnTambahMakananKategori: {
-                if (kategoryMakanans.size() > mMakanan.size() - 1) {
-                    Toast.makeText(getApplicationContext(), R.string.label_data_melampaui, Toast.LENGTH_SHORT).show();
+                if (kategoryMakanan.size() > mMakanan.size() - 1) {
+                    CommonUtils.showToast(appContext, appContext.getString(R.string.label_data_melampaui));
                     return;
                 }
 
-                for(int i = 0 ; i < kategoryMakanans.size() ; i++) {
-                    if(String.valueOf(kategoryMakanans.get(i).getMakanan_id()).equals(idMakananSelected)) {
-                        Toast.makeText(getApplicationContext(), R.string.label_data_sama, Toast.LENGTH_SHORT).show();
+                for(int i = 0 ; i < kategoryMakanan.size() ; i++) {
+                    if(String.valueOf(kategoryMakanan.get(i).getMakanan_id()).equals(idMakananSelected)) {
+                        CommonUtils.showToast(appContext, appContext.getString(R.string.label_data_sama));
                         return;
                     }
                 }
-
+                
                 insertMethod(idMakananSelected, makananSelected);
+                CommonUtils.hideKeyboard(appContext, v);
             }
             break;
-
             case R.id.btnKirimKategori: {
-                if(String.valueOf(etNamaKategori.getText()).equals("") || kategoryMakanans.size() < 1) {
-                    Toast.makeText(getApplicationContext(), R.string.label_data_kosong, Toast.LENGTH_SHORT).show();
+                txtNamaKategori = etNamaKategori.getText().toString();
+
+                if(txtNamaKategori.isEmpty() || kategoryMakanan.size() < 1) {
+                    CommonUtils.showToast(appContext, appContext.getString(R.string.label_data_kosong));
                     return;
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                     builder.setMessage(R.string.confirmation_dialog_submit);
                     builder.setCancelable(false);
-                    builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
-                        CommonUtils.showLoading(v.getContext());
-                        VolleyAPI volleyAPI = new VolleyAPI(v.getContext());
-                        JSONArray jsonArray = new JSONArray();
-
-                        for(int i = 0; i < kategoryMakanans.size() ; i++){
-                            try {
-                                JSONObject jsonObject = new JSONObject();
-                                jsonObject.put("makanan_id", kategoryMakanans.get(i).makanan_id);
-                                jsonArray.put(jsonObject);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        Map<String, String> params = new HashMap<>();
-                        params.put("nama", etNamaKategori.getText().toString());
-                        params.put("makanans", jsonArray.toString());
-
-                        if (screenState.equals(MyConstants.UBAH_KATEGORI)) {
-                            params.put("jenis_menu_id", idKategori);
-                        }
-
-                        if (screenState.equals(MyConstants.UBAH_KATEGORI)) {
-                            volleyAPI.putRequest("updateJenisMenu", params, result -> {
-                                try {
-                                    JSONObject resultJSON = new JSONObject(result);
-                                    Intent myIntent = new Intent(getApplicationContext(), KategoriActivity.class);
-                                    startActivityForResult(myIntent, 0);
-                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            });
-                        } else if (screenState.equals(MyConstants.TAMBAH_KATEGORI)) {
-                            volleyAPI.postRequest("addJenisMenu", params, result -> {
-                                try {
-                                    JSONObject resultJSON = new JSONObject(result);
-                                    Intent myIntent = new Intent(getApplicationContext(), KategoriActivity.class);
-                                    startActivityForResult(myIntent, 0);
-                                    Toast.makeText(getApplicationContext(), resultJSON.getString("message"), Toast.LENGTH_SHORT).show();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            });
-                        }
-                        CommonUtils.hideLoading();
-                    });
+                    builder.setPositiveButton(R.string.label_yes, (dialog, which) -> callSubmitDataKategoriRequest(v.getContext()));
                     builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
                     });
                     builder.show();
@@ -227,22 +189,70 @@ public class KategoriEntryActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    private void callSubmitDataKategoriRequest(Context context) {
+        CommonUtils.showLoading(context);
+        VolleyAPI volleyAPI = new VolleyAPI(context);
+        JSONArray jsonArray = new JSONArray();
+
+        for(int i = 0; i < kategoryMakanan.size() ; i++){
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("makanan_id", kategoryMakanan.get(i).makanan_id);
+                jsonArray.put(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("nama", txtNamaKategori);
+        params.put("makanans", jsonArray.toString());
+
+        if (screenState.equals(MyConstants.UBAH_KATEGORI)) {
+            params.put("jenis_menu_id", oldIdKategori);
+        }
+
+        if (screenState.equals(MyConstants.UBAH_KATEGORI)) {
+            volleyAPI.putRequest(MyConstants.KATEGORI_EDIT_ACTION, params, result -> {
+                try {
+                    JSONObject resultJSON = new JSONObject(result);
+                    Intent myIntent = new Intent(context, KategoriActivity.class);
+                    startActivityForResult(myIntent, 0);
+
+                    CommonUtils.showToast(context, resultJSON.getString("message"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            });
+        } else if (screenState.equals(MyConstants.TAMBAH_KATEGORI)) {
+            volleyAPI.postRequest(MyConstants.KATEGORI_ADD_ACTION, params, result -> {
+                try {
+                    JSONObject resultJSON = new JSONObject(result);
+                    Intent myIntent = new Intent(context, KategoriActivity.class);
+                    startActivityForResult(myIntent, 0);
+
+                    CommonUtils.showToast(context, resultJSON.getString("message"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        CommonUtils.hideLoading();
+    }
+
     private void insertMethod(String id, String name) {
         Gson gson = new Gson();
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("makanan_id", id);
             jsonObject.put("name", name);
+
             KategoriMakanan kategoriMakanan = gson.fromJson(String.valueOf(jsonObject), KategoriMakanan.class);
-            kategoryMakanans.add(kategoriMakanan);
+            kategoryMakanan.add(kategoriMakanan);
             kategoriMakananAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

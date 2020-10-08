@@ -32,32 +32,6 @@
                 android:layout_marginHorizontal="@dimen/_8dp">
 
                 <TextView
-                    android:id="@+id/tvNamaKategori"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="@style/TextAppearance.AppCompat.Title"
-                    android:padding="@dimen/_4dp"
-                    android:text="@string/label_nama_kategori"/>
-
-                <TextView
-                    android:id="@+id/tvValueNamaKategori"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="@style/TextAppearance.AppCompat.Subhead"
-                    android:padding="@dimen/_4dp"
-                    android:text="@string/label_value_nama_kategori"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginVertical="@dimen/_12dp"
-                android:layout_marginHorizontal="@dimen/_8dp">
-
-                <TextView
                     android:id="@+id/tvIdKategori"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -74,6 +48,32 @@
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:padding="@dimen/_4dp"
                     android:text="@string/label_value_id_kategori"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginVertical="@dimen/_12dp"
+                android:layout_marginHorizontal="@dimen/_8dp">
+
+                <TextView
+                    android:id="@+id/tvNamaKategori"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:padding="@dimen/_4dp"
+                    android:text="@string/label_nama_kategori"/>
+
+                <TextView
+                    android:id="@+id/tvValueNamaKategori"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/TextAppearance.AppCompat.Subhead"
+                    android:padding="@dimen/_4dp"
+                    android:text="@string/label_value_nama_kategori"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -123,7 +123,7 @@
             android:layout_marginVertical="@dimen/_12dp"
             android:layout_marginStart="@dimen/_12dp"/>
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvKategoriDetailMakanan"
+            android:id="@+id/rvKategoriDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin" />

@@ -58,4 +58,12 @@ public interface MyConstants {
     String PENGGUNA_DELETE_ACTION = "deleteAdmin";
     String PENGGUNA_EDIT_ACTION = "updateAdminUser";
     String PENGGUNA_ADD_ACTION = "registerAdmin";
+
+    String KATEGORI_GET_ACTION = "getSemuaJenisMenu";
+    String KATEGORI_GET_DETAILS_ACTION = "getSemuaJenisMenuDetail";
+    String KATEGORI_DELETE_ACTION = "deleteJenisMenu";
+    String KATEGORI_EDIT_ACTION = "updateJenisMenu";
+    String KATEGORI_ADD_ACTION = "addJenisMenu";
+
+    String MAKANAN_GET_ACTION = "getSemuaMakanan";
 }
