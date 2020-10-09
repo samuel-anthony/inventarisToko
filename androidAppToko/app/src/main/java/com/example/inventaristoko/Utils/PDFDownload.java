@@ -25,7 +25,7 @@ public class PDFDownload {
     String header_title = "Warung Bakso Mbah Welo";
     String file_name;
     public PDFDownload(String file_name){
-        this.file_name = file_name+CommonUtils.dateFormat();
+        this.file_name = file_name+" "+CommonUtils.dateFormat();
     }
 
     public void download(List<String> columnName, List<String> jsonKey, JSONArray data, Context appContext) throws JSONException {
@@ -77,7 +77,7 @@ public class PDFDownload {
              }
          }
          for(int i = 0; i < columnName.size(); i++){
-             canvas.drawLine(startPositionX+(myPageInfo.getPageWidth()/columnName.size()*(i+1)),startPositionY-50,startPositionX+(myPageInfo.getPageWidth()/columnName.size()*(i+1)),startPositionY+(25*(differ)-50),myPaintStroke);
+             canvas.drawLine(startPositionX+(myPageInfo.getPageWidth()/columnName.size()*(i+1)),startPositionY-(differ*25)-25,startPositionX+(myPageInfo.getPageWidth()/columnName.size()*(i+1)),startPositionY-25,myPaintStroke);
          }
          pdfDocument.finishPage(myPage);
          File file = new File(Environment.getExternalStorageDirectory(),"/"+file_name+".pdf");

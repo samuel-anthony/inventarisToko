@@ -13,7 +13,20 @@ class BahanPokokController extends Controller
 {
     //
     public function index(){
-        return json_encode(["result"=>bahanPokok::all()]);
+        $bahanPokok =bahanPokok::all();
+        $temp1 = array();
+        foreach($bahanPokok as $details){
+            $temp2 = array();
+            foreach($details->makananDetails as $detail){
+                array_push($temp2, $detail->makananMaster->nama);
+            }
+            $details->makanans = json_decode(json_encode($temp2));
+            $collection = collect($details);
+            $collection->forget("makanan_details");
+            
+            array_push($temp1, $collection);
+        }
+        return json_encode(["result"=>$temp1]);
     }
 
     public function addBahanPokokBaru(request $request){

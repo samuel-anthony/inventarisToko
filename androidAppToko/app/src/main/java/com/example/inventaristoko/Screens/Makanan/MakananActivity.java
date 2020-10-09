@@ -1,11 +1,16 @@
 package com.example.inventaristoko.Screens.Makanan;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +20,7 @@ import com.example.inventaristoko.Model.Makanan.Makanan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
+import com.example.inventaristoko.Utils.PDFDownload;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -34,6 +41,7 @@ public class MakananActivity extends AppCompatActivity implements View.OnClickLi
     private RecyclerView rvDataMakanan;
     private MakananAdapter makananAdapter;
     private Button btnTambahMakanan;
+    private JSONArray elementDownload = new JSONArray();
 
     private void init() {
         fabDataMakanan = findViewById(R.id.fabDataMakanan);
@@ -88,6 +96,18 @@ public class MakananActivity extends AppCompatActivity implements View.OnClickLi
                     makanan.setTanggalTambahMakanan(dataMakanan.getString("created_at"));
                     makanan.setTanggalUbahMakanan(dataMakanan.getString("updated_at"));
 
+                    JSONObject elementToDownload = new JSONObject();
+                    elementToDownload.put("number",i+1);
+                    elementToDownload.put("nama",dataMakanan.getString("nama"));
+                    elementToDownload.put("harga_jual",dataMakanan.getString("harga_jual"));
+                    String valueMakanan = "";
+                    JSONArray bahanPokoks = dataMakanan.getJSONArray("bahanPokok");
+                    for(int j = 0 ; j < bahanPokoks.length() ; j ++){
+                        valueMakanan = valueMakanan + bahanPokoks.get(j) + (j == bahanPokoks.length()-1 ? "" : "\n");
+                    }
+                    elementToDownload.put("bahanPokok",valueMakanan);
+                    elementToDownload.put("enter",bahanPokoks.length() == 0 ? 1 : bahanPokoks.length());
+                    elementDownload.put(elementToDownload);
                     mMakanan.add(makanan);
                 }
 
@@ -105,7 +125,41 @@ public class MakananActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fabDataMakanan :
-                Snackbar.make(v, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    } else {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                    }
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    builder.setMessage(R.string.confirmation_dialog_download);
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
+                        PDFDownload pdf = new PDFDownload("Data Makanan");
+
+                        List<String> columnName = new ArrayList<>();
+                        columnName.add("number");
+                        columnName.add("nama");
+                        columnName.add("harga jual");
+                        columnName.add("bahan pokok");
+
+                        List<String> key = new ArrayList<>();
+                        key.add("number");
+                        key.add("nama");
+                        key.add("harga_jual");
+                        key.add("bahanPokok");
+
+                        try {
+                            pdf.download(columnName, key, elementDownload, this);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+                    });
+                    builder.show();
+                }
                 break;
             case R.id.btnTambahMakanan :
                 Intent intent = new Intent(v.getContext(), MakananEntryActivity.class);

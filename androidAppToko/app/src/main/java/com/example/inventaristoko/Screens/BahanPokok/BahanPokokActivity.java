@@ -1,6 +1,8 @@
 package com.example.inventaristoko.Screens.BahanPokok;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +12,7 @@ import com.example.inventaristoko.Model.BahanPokok.BahanPokok;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
+import com.example.inventaristoko.Utils.PDFDownload;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -20,10 +23,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +41,7 @@ public class BahanPokokActivity extends AppCompatActivity implements View.OnClic
     private RecyclerView rvDataBahanPokok;
     private BahanPokokAdapter bahanPokokAdapter;
     private Button btnTambahBahanPokok;
+    private JSONArray elementDownload = new JSONArray();
 
     private void init() {
         rvDataBahanPokok = findViewById(R.id.rvDataBahanPokok);
@@ -89,6 +97,18 @@ public class BahanPokokActivity extends AppCompatActivity implements View.OnClic
                     bahanPokok.setTanggalTambahBahanPokok(dataBahanPokok.getString("created_at"));
                     bahanPokok.setTanggalUbahBahanPokok(dataBahanPokok.getString("updated_at"));
 
+                    JSONObject elementToDownload = new JSONObject();
+                    elementToDownload.put("number",i+1);
+                    elementToDownload.put("nama",dataBahanPokok.getString("nama"));
+                    elementToDownload.put("jumlah",dataBahanPokok.getString("jumlah") + " " +dataBahanPokok.getString("satuan"));
+                    String valueMakanan = "";
+                    JSONArray makanan = dataBahanPokok.getJSONArray("makanans");
+                    for(int j = 0 ; j < makanan.length() ; j ++){
+                        valueMakanan = valueMakanan + makanan.get(j) + (j == makanan.length()-1 ? "" : "\n");
+                    }
+                    elementToDownload.put("makanan",valueMakanan);
+                    elementToDownload.put("enter",makanan.length()  == 0 ? 1 :makanan.length());
+                    elementDownload.put(elementToDownload);
                     mBahanPokok.add(bahanPokok);
                 }
 
@@ -106,7 +126,41 @@ public class BahanPokokActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fabDataBahanPokok :
-                Snackbar.make(v, "Terjadi Kesalahan!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    } else {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                    }
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    builder.setMessage(R.string.confirmation_dialog_download);
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
+                        PDFDownload pdf = new PDFDownload("Data Bahan Pokok");
+
+                        List<String> columnName = new ArrayList<>();
+                        columnName.add("number");
+                        columnName.add("nama");
+                        columnName.add("jumlah");
+                        columnName.add("bahan untuk makanan");
+
+                        List<String> key = new ArrayList<>();
+                        key.add("number");
+                        key.add("nama");
+                        key.add("jumlah");
+                        key.add("makanan");
+
+                        try {
+                            pdf.download(columnName, key, elementDownload, this);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+                    });
+                    builder.show();
+                }
                 break;
             case R.id.btnTambahBahanPokok :
                 Intent intent = new Intent(v.getContext(), BahanPokokEntryActivity.class);

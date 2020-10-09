@@ -12,7 +12,20 @@ class MakananController extends Controller
     //
 
     public function index(){
-        return json_encode(['result'=>makanan::all()]);
+        $makanan =makanan::all();
+        $temp1 = array();
+        foreach($makanan as $details){
+            $temp2 = array();
+            foreach($details->makananDetails as $detail){
+                array_push($temp2, $detail->bahanPokok->nama." ".$detail->jumlah." ".$detail->bahanPokok->satuan);
+            }
+            $details->bahanPokok = json_decode(json_encode($temp2));
+            $collection = collect($details);
+            $collection->forget("makanan_details");
+            
+            array_push($temp1, $collection);
+        }
+        return json_encode(["result"=>$temp1]);
     }
 
     public function makananByDetail(request $request){
@@ -23,7 +36,7 @@ class MakananController extends Controller
             $bahanPokok = $detail->bahanPokok;
             $bahanPokok->jumlah = $detail->jumlah;
             array_push($temp,$bahanPokok);
-            array_push($temp2, $bahanPokok->bahan_pokok_id);
+            array_push($temp2, $bahanPokok->nama);
         }
         $makanan->bahanPokoks = $temp;
         return json_encode(['result'=>$makanan,"bahanPokokYangBelumMasuk"=>bahanPokok::whereNotIn('bahan_pokok_id',$temp2)->get()]);

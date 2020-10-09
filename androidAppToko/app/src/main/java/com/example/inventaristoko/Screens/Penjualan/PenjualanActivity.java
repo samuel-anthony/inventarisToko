@@ -1,7 +1,9 @@
 package com.example.inventaristoko.Screens.Penjualan;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -32,6 +34,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -137,31 +141,41 @@ public class PenjualanActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fabDataPenjualan) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            builder.setMessage(R.string.confirmation_dialog_download);
-            builder.setCancelable(false);
-            builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
-                PDFDownload pdf = new PDFDownload("Penjualan On Going");
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
-                List<String> columnName = new ArrayList<>();
-                columnName.add("number");
-                columnName.add("ref no");
-                columnName.add("total harga");
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
 
-                List<String> key = new ArrayList<>();
-                key.add("number");
-                key.add("ref_no");
-                key.add("total_harga");
+            }
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setMessage(R.string.confirmation_dialog_download);
+                builder.setCancelable(false);
+                builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
+                    PDFDownload pdf = new PDFDownload("Penjualan On Going");
 
-                try {
-                    pdf.download(columnName, key, elementDownload, appContext);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            });
-            builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
-            });
-            builder.show();
+                    List<String> columnName = new ArrayList<>();
+                    columnName.add("number");
+                    columnName.add("ref no");
+                    columnName.add("total harga");
+
+                    List<String> key = new ArrayList<>();
+                    key.add("number");
+                    key.add("ref_no");
+                    key.add("total_harga");
+
+                    try {
+                        pdf.download(columnName, key, elementDownload, appContext);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
+                builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+                });
+                builder.show();
+            }
         }
     }
 

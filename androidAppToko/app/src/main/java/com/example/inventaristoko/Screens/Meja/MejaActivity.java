@@ -2,11 +2,15 @@ package com.example.inventaristoko.Screens.Meja;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -113,31 +117,39 @@ public class MejaActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fabDataMeja :
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setMessage(R.string.confirmation_dialog_download);
-                builder.setCancelable(false);
-                builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
-                    PDFDownload pdf = new PDFDownload("Data Meja");
-
-                    List<String> columnName = new ArrayList<>();
-                    columnName.add("number");
-                    columnName.add("id meja");
-                    columnName.add("nama meja");
-
-                    List<String> key = new ArrayList<>();
-                    key.add("number");
-                    key.add("user_id");
-                    key.add("full_name");
-
-                    try {
-                        pdf.download(columnName, key, elementDownload, this);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    } else {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                     }
-                });
-                builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
-                });
-                builder.show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    builder.setMessage(R.string.confirmation_dialog_download);
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
+                        PDFDownload pdf = new PDFDownload("Data Meja");
+
+                        List<String> columnName = new ArrayList<>();
+                        columnName.add("number");
+                        columnName.add("id meja");
+                        columnName.add("nama meja");
+
+                        List<String> key = new ArrayList<>();
+                        key.add("number");
+                        key.add("user_id");
+                        key.add("full_name");
+
+                        try {
+                            pdf.download(columnName, key, elementDownload, this);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
+                    });
+                    builder.show();
+                }
                 break;
             case R.id.btnTambahMeja :
                 Intent intent = new Intent (v.getContext(), MejaEntryActivity.class);
