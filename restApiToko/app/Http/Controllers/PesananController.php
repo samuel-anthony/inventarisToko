@@ -10,8 +10,9 @@ use App\makanan;
 class PesananController extends Controller
 {
     //
-    public function getAllTodayFinishedOrder(){
-        $pesanans = pesananMaster::where('status_code','=','003')->get();
+    public function getAllTodayFinishedOrder(request $request){
+        
+        $pesanans = pesananMaster::where('status_code','=','003')->whereDate('updated_at', '>=', date('Y-m-d',$request->datefrom))->whereDate('updated_at', '<=', date('Y-m-d',$request->dateto))->get();
         foreach($pesanans as $pesanan){    
             $total_harga = 0;
             foreach($pesanan->details as $pesanan_detail){
