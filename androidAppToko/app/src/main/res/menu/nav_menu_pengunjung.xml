@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@string/tombol_history"
+        android:orderInCategory="1"
+        android:title="@string/tombol_history"
+        android:icon="@drawable/ic_history_white"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@string/tombol_notification"
+        android:orderInCategory="2"
+        android:title="@string/tombol_notification"
+        android:icon="@drawable/ic_notification_white"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@string/tombol_keluar"
+        android:orderInCategory="3"
+        android:title="@string/tombol_keluar"
+        android:icon="@drawable/ic_close_white"
+        app:showAsAction="ifRoom" />
+</menu>

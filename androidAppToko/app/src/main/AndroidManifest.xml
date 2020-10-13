@@ -23,6 +23,9 @@
             android:name=".Screens.Front.HomeActivity"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".Screens.Pengunjung.PengunjungActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Screens.Front.LoginActivity"
             android:theme="@style/AppTheme" />
         <activity
@@ -89,9 +92,9 @@
             android:name=".Screens.Resi.ResiDetailActivity"
             android:parentActivityName=".Screens.Resi.ResiActivity" />
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

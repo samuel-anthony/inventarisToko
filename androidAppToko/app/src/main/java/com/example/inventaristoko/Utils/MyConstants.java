@@ -42,6 +42,7 @@ public interface MyConstants {
 
     // Service
     String LOGIN_ACTION = "login";
+    String LOGIN_CUSTOMER_ACTION = "loginQR";
     String CHANGE_PASSWORD_ACTION = "updateUserPassword";
 
     String MEJA_GET_ACTION = "getSemuaDataMeja";
