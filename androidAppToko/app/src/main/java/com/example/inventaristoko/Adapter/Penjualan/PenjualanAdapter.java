@@ -139,14 +139,25 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             itemView.setOnClickListener(v -> {
                 if (mPenjualan.getIdPenjualan() != null) {
                     try {
-                        Intent intent = new Intent (v.getContext(), PenjualanDetailActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("idPenjualan", mPenjualan.getIdPenjualan());
-                        bundle.putString("tanggalTambah", mPenjualan.getTanggalTambahPenjualan());
-                        bundle.putString("kodeStatus", mPenjualan.getKodeStatusPenjualan());
-                        bundle.putString("totalHarga", CommonUtils.currencyFormat(mPenjualan.getTotalHargaPenjualan()));
-                        intent.putExtras(bundle);
-                        v.getContext().startActivity(intent);
+                        if(String.valueOf(mPenjualan.getKodeStatusPenjualan()).equals(MyConstants.FINISH_CODE)) {
+                            Intent intent = new Intent(v.getContext(), PenjualanDetailActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("idPenjualan", mPenjualan.getIdPenjualan());
+                            bundle.putString("tanggalTambah", mPenjualan.getTanggalTambahPenjualan());
+                            bundle.putString("kodeStatus", mPenjualan.getKodeStatusPenjualan());
+                            bundle.putString("totalHarga", CommonUtils.currencyFormat(mPenjualan.getTotalHargaPenjualan()));
+                            intent.putExtras(bundle);
+                            v.getContext().startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(v.getContext(), PenjualanDetailActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("idPenjualan", mPenjualan.getIdPenjualan());
+                            bundle.putString("tanggalTambah", mPenjualan.getTanggalTambahPenjualan());
+                            bundle.putString("kodeStatus", mPenjualan.getKodeStatusPenjualan());
+                            bundle.putString("totalHarga", CommonUtils.currencyFormat(mPenjualan.getTotalHargaPenjualan()));
+                            intent.putExtras(bundle);
+                            v.getContext().startActivity(intent);
+                        }
                     } catch (Exception e) {
                         Log.e(TAG, "onClick: Url is not correct");
                     }
