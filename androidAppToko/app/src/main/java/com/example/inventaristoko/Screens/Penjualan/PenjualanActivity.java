@@ -142,13 +142,11 @@ public class PenjualanActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         if (v.getId() == R.id.fabDataPenjualan) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-
-            }
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                }
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setMessage(R.string.confirmation_dialog_download);
@@ -206,7 +204,7 @@ public class PenjualanActivity extends AppCompatActivity implements View.OnClick
                 intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
                 startActivityForResult(intent, 0);
                 break;
-            case R.string.menu_receipt :
+            case R.string.menu_resi :
                 intent = new Intent(getApplicationContext(), ResiActivity.class);
                 startActivityForResult(intent, 0);
                 break;
@@ -243,7 +241,6 @@ public class PenjualanActivity extends AppCompatActivity implements View.OnClick
             super.onBackPressed();
             return;
         } else {
-            Toast.makeText(getBaseContext(), R.string.press_once_again, Toast.LENGTH_SHORT).show();
             CommonUtils.showToast(appContext, appContext.getString(R.string.press_once_again));
         }
 

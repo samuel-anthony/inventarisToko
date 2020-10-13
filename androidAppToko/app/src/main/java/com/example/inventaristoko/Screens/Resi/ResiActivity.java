@@ -12,18 +12,10 @@ import android.widget.EditText;
 
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Utils.CommonUtils;
-import com.example.inventaristoko.Utils.MyConstants;
-import com.example.inventaristoko.Utils.VolleyAPI;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Objects;
 
 public class ResiActivity extends AppCompatActivity implements View.OnClickListener {
     private Context appContext;
@@ -43,6 +35,8 @@ public class ResiActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resi);
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_resi);
 
         init();
 
@@ -75,7 +69,12 @@ public class ResiActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
-                callCariDataResiRequest(v.getContext());
+                Intent intent = new Intent (v.getContext(), ResiDaftarActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("tanggalDari", txtTanggalDariResi);
+                bundle.putString("tanggalSampai", txtTanggalSampaiResi);
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
                 break;
             case R.id.etTanggalDariResi :
                 final Calendar calDari = Calendar.getInstance();
@@ -110,43 +109,5 @@ public class ResiActivity extends AppCompatActivity implements View.OnClickListe
                 datePicker2.show();
                 break;
         }
-    }
-
-    private void callCariDataResiRequest(Context context) {
-        CommonUtils.showLoading(context);
-        VolleyAPI volleyAPI = new VolleyAPI(context);
-
-        Map<String, String> params = new HashMap<>();
-        params.put("tanggal_dari", txtTanggalDariResi);
-        params.put("tanggal_sampai", txtTanggalSampaiResi);
-
-//        volleyAPI.getRequest(MyConstants.RESI_GET_ACTION, params, result -> {
-//            try {
-//                ArrayList<Resi> mResiResponse = new ArrayList<>();
-//                JSONObject resultJSON = new JSONObject(result);
-//                JSONArray resultArray = resultJSON.getJSONArray("result");
-//
-//                for (int i = 0; i < resultArray.length(); i++) {
-//                    JSONObject dataResi = (JSONObject) resultArray.get(i);
-//                    Resi resi = new Resi();
-//                    resi.setIdResi(dataResi.getString("makanan_id"));
-//                    resi.setNamaResi(dataResi.getString("nama"));
-//                    mResiResponse.add(resi);
-//                }
-//
-//                Intent intent = new Intent(context, ResiDaftarActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("daftarResi", mResiResponse);
-//                intent.putExtras(bundle);
-//                v.getContext().startActivity(intent);
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        });
-
-        CommonUtils.showToast(context, "Tekan Cari Resi");
-
-        CommonUtils.hideLoading();
     }
 }

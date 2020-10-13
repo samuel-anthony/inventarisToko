@@ -57,6 +57,8 @@
     <string name="menu_detail_meja">Detail Meja</string>
     <string name="menu_tambah_meja">Tambah Meja</string>
     <string name="menu_ubah_meja">Ubah Meja</string>
+    <string name="menu_daftar_resi">Daftar Resi</string>
+    <string name="menu_detail_resi">Detail Resi</string>
 
     <!--Menu-->
     <string name="menu_penjualan">Data Penjualan</string>
@@ -66,7 +68,7 @@
     <string name="menu_bahan_pokok">Data Bahan Pokok</string>
     <string name="menu_meja">Data Meja</string>
     <string name="menu_password">Ubah Password</string>
-    <string name="menu_receipt">Data Receipt</string>
+    <string name="menu_resi">Data Resi</string>
 
     <!--Tombol-->
     <string name="tombol_tambah">Tambah</string>
@@ -83,6 +85,7 @@
     <string name="tombol_tambah_makanan">Tambah Gambar</string>
     <string name="tombol_tambah_bahan_pokok">Tambah Bahan Pokok</string>
     <string name="tombol_cari_resi">Cari Resi</string>
+    <string name="tombol_download_resi">Download Resi</string>
 
     <!--Data Penjualan-->
     <string name="label_nomor_penjualan">Nomor Penjualan</string>

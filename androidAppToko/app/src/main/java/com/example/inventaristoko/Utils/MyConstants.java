@@ -78,5 +78,5 @@ public interface MyConstants {
     String BAHAN_POKOK_ADD_ACTION = "addBahanPokokBaru";
     String BAHAN_POKOK_ADD_HISTORY_ACTION = "addRiwayatBahanPokok";
 
-    String RESI_GET_ACTION = "getSemuaResi";
+    String RESI_GET_ACTION = "getPesananSudahSelesai";
 }
