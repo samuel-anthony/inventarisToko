@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.inventaristoko.Model.Penjualan.Penjualan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.Penjualan.PenjualanDetailActivity;
+import com.example.inventaristoko.Screens.Resi.ResiDetailActivity;
 import com.example.inventaristoko.Utils.BaseViewHolder;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
@@ -140,7 +141,7 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 if (mPenjualan.getIdPenjualan() != null) {
                     try {
                         if(String.valueOf(mPenjualan.getKodeStatusPenjualan()).equals(MyConstants.FINISH_CODE)) {
-                            Intent intent = new Intent(v.getContext(), PenjualanDetailActivity.class);
+                            Intent intent = new Intent(v.getContext(), ResiDetailActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("idPenjualan", mPenjualan.getIdPenjualan());
                             bundle.putString("tanggalTambah", mPenjualan.getTanggalTambahPenjualan());
