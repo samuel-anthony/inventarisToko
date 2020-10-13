@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@string/menu_receipt"
+        android:id="@string/menu_resi"
         android:orderInCategory="100"
-        android:title="@string/menu_receipt"
+        android:title="@string/menu_resi"
         android:icon="@drawable/ic_receipt_white"
         app:showAsAction="ifRoom" />
 
