@@ -16,8 +16,7 @@ class UserController extends Controller
             $user = new User;
             $user->user_id = $request->nama_meja;
             $user->full_name = is_null($request->full_name) ? $request->nama_meja : $request->full_name;
-            $user->password = $request->user_role == '1'? 'udin123' : $request->password;
-            $user->password = bcrypt($user->password);
+            $user->password = bcrypt('udin123');
             $user->user_role = 1;
             $user->save();
             return json_encode([
@@ -148,7 +147,7 @@ class UserController extends Controller
         else{
             return json_encode([
                 'is_error' => '1',
-                'message' => 'user atau kata sandi salah'
+                'message' => 'user tidak ditemukan'
             ]);
         }        
     }

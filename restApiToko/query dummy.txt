@@ -3,7 +3,7 @@ INSERT INTO users (id, user_id, full_name, user_role, email_verified_at, passwor
 (2, 'admin', 'Aldo Wijaya', 0, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL),
 (3, 'budi123', 'Samuel Anthony', 0, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL),
 (4, 'sulaideh', 'Kevin Sulistio', 0, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL),
-(5, 'table_1', 'table 1',1, NULL, '$2y$10$k3.s2E.RlcCVaydLSyuhDeYrcLkbCfyLjCldVPItpQXmo7c4IuDKa', '', NULL, NULL);
+(5, 'meja_1', 'meja 1',1, NULL, '$2y$10$ax1mV.vwLkU78NlQigI3XutlmhFIgzzWkRw/NheOlE2LCZa/FPKE2', '', NULL, NULL);
 
 INSERT INTO `suppliers` (`supplier_id`, `nama`, `alamat`, `nomor_telepon`, `created_at`, `updated_at`) VALUES
 (1, 'toko aldo', 'alamat aldo', '08123456789', NULL, NULL);
@@ -32,8 +32,8 @@ INSERT INTO `makanan_details` (`makanan_detail_id`, `jumlah`, `makanan_id`, `bah
 (3, 100, 1, 2, NULL, NULL);
 
 INSERT INTO `pesanan_masters` (`pesanan_master_id`, `ref_no`, `status`, `status_code`, `total_harga`, `total_charges`, `total_pesanan`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, '202008150001', 'dipesan', '001', 13000, 1300, 2, 'table_1', NULL, NULL),
-(2, '202008150002', 'sedang dibuat', '002', 14000, 1400, 2, 'table_1', NULL, NULL);
+(1, '202008150001', 'dipesan', '001', 13000, 1300, 2, '5', NULL, NULL),
+(2, '202008150002', 'sedang dibuat', '002', 14000, 1400, 2, '5', NULL, NULL);
 
 INSERT INTO `pesanan_details` (`pesanan_detail_id`, `makanan_id`, `pesanan_master_id`, `harga_makanan`, `jumlah`, `notes`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 14500, 2, 'Tidak Pakai Seledri', NULL, NULL),

@@ -21,8 +21,8 @@ class CreatePesananMastersTable extends Migration
             $table->integer('total_harga');
             $table->integer('total_charges');//charges bisa termasuk pajak + service charge
             $table->integer('total_pesanan');
-            $table->string('user_id');//userid benerannya
-            $table->foreign('user_id')->references('user_id')->on('users');
+            $table->unsignedBigInteger('user_id');//userid benerannya
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
