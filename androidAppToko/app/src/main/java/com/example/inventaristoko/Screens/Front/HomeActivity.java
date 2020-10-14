@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.Pengunjung.PengunjungActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
+import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -65,28 +66,22 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     params.put("user_id", idMeja);
                     params.put("password", passwordMeja);
 
-//                    volleyAPI.getRequest(MyConstants.LOGIN_CUSTOMER_ACTION, params, result -> {
-//                        try {
-//                            JSONObject resultJSON = new JSONObject(result);
-//                            if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
-//                                Intent intent = new Intent (HomeActivity.this, PelangganActivity.class);
-//                                Bundle bundle = new Bundle();
-//                                bundle.putString("namaMeja", namaMeja);
-//                                intent.putExtras(bundle);
-//                                HomeActivity.this.startActivity(intent);
-//                            }
-//
-//                            CommonUtils.showToast(appContext, resultJSON.getString("message"));
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    });
+                    volleyAPI.getRequest(MyConstants.LOGIN_CUSTOMER_ACTION, params, result -> {
+                        try {
+                            JSONObject resultJSON = new JSONObject(result);
+                            if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
+                                Intent intent = new Intent (HomeActivity.this, PengunjungActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("namaMeja", namaMeja);
+                                intent.putExtras(bundle);
+                                HomeActivity.this.startActivity(intent);
+                            }
 
-                    Intent intent = new Intent (HomeActivity.this, PengunjungActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("namaMeja", namaMeja);
-                    intent.putExtras(bundle);
-                    HomeActivity.this.startActivity(intent);
+                            CommonUtils.showToast(appContext, resultJSON.getString("message"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    });
                 } catch(JSONException e) {
                     e.printStackTrace();
                     CommonUtils.showToast(appContext, resultIntent.getContents());
