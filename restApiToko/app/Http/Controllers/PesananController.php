@@ -12,7 +12,7 @@ class PesananController extends Controller
     //
     public function getAllTodayFinishedOrder(request $request){
         
-        $pesanans = pesananMaster::where('status_code','=','003')->whereDate('updated_at', '>=', date('Y-m-d',strtotime($request->tanggalDari)))->whereDate('updated_at', '<=', date('Y-m-d',strtotime($request->tanggalSampai)))->get();
+        $pesanans = pesananMaster::where('status_code','=','003')->whereDate('updated_at', '>=', date('Y-m-d',strtotime($request->tanggalDari)))->whereDate('updated_at', '<=', date('Y-m-d',strtotime($request->tanggalSampai)))->orderBy('updated_at', 'DESC')->get();
         foreach($pesanans as $pesanan){    
             $total_harga = 0;
             foreach($pesanan->details as $pesanan_detail){
