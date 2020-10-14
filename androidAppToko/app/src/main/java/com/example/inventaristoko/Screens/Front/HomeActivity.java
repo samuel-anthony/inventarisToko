@@ -53,8 +53,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             if(resultIntent.getContents() == null) {
                 CommonUtils.showToast(appContext, getResources().getString(R.string.label_data_tidak_ditemukan));
             } else {
+                CommonUtils.showLoading(HomeActivity.this);
+
                 try {
-                    CommonUtils.showLoading(HomeActivity.this);
                     VolleyAPI volleyAPI = new VolleyAPI(HomeActivity.this);
 
                     JSONObject object = new JSONObject(resultIntent.getContents());
@@ -86,6 +87,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                     CommonUtils.showToast(appContext, resultIntent.getContents());
                 }
+
+                CommonUtils.hideLoading();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
