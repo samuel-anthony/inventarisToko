@@ -20,6 +20,7 @@ import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.Penjualan.PenjualanDetailActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
+import com.example.inventaristoko.Utils.PDFDownload;
 import com.example.inventaristoko.Utils.VolleyAPI;
 
 import org.json.JSONArray;
@@ -37,7 +38,7 @@ public class ResiDetailActivity extends AppCompatActivity implements View.OnClic
     private TextView tvIdDetailResi, tvTanggalDetailResi, tvStatusDetailResi, tvTotalHargaDetailResi;
     private Button btnDownloadResi;
     private String txtIdDetailResi;
-
+    JSONArray elementDownload = new JSONArray();
     private void init() {
         rvDataResiDetail = findViewById(R.id.rvDataResiDetail);
         tvIdDetailResi = findViewById(R.id.tvIdDetailResi);
@@ -109,6 +110,12 @@ public class ResiDetailActivity extends AppCompatActivity implements View.OnClic
                     resiDetail.setTanggalTambahDetailPenjualan(dataResiDetail.getString("created_at"));
                     resiDetail.setTanggalUbahDetailPenjualan(dataResiDetail.getString("updated_at"));
                     mResiDetail.add(resiDetail);
+
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("makanan",dataResiDetail.getString("nama")+" (@"+CommonUtils.currencyFormatWithoutRupiah(dataResiDetail.getString("harga_makanan"))+")");
+                    jsonObject.put("jumlah",dataResiDetail.getString("jumlah"));
+                    jsonObject.put("harga",dataResiDetail.getInt("harga_makanan")*dataResiDetail.getInt("jumlah"));
+                    elementDownload.put(jsonObject);
                 }
 
                 resiDetailAdapter.addItems(mResiDetail);
@@ -135,6 +142,7 @@ public class ResiDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void callDownloadDataResiRequest(Context context) {
-
+        PDFDownload pdf = new PDFDownload(txtIdDetailResi);
+        pdf.downloadResi(elementDownload,context);
     }
 }
