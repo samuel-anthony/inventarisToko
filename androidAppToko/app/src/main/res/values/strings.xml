@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Warung Bakso Mba Welo</string>
+    <string name="app_name">Warung Bakso Mbah Welo</string>
 
     <!--Label-->
-    <string name="nama_toko">Warung Bakso Mba Welo</string>
+    <string name="nama_toko">Warung Bakso Mbah Welo</string>
     <string name="label_id">1</string>
     <string name="label_yes">Iya</string>
     <string name="label_no">Tidak</string>

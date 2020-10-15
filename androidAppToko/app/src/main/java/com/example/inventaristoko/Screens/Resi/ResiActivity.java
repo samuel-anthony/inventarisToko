@@ -29,6 +29,16 @@ public class ResiActivity extends AppCompatActivity implements View.OnClickListe
         etTanggalDariResi = findViewById(R.id.etTanggalDariResi);
         etTanggalSampaiResi = findViewById(R.id.etTanggalSampaiResi);
         btnCariResi = findViewById(R.id.btnCariResi);
+
+        final Calendar calDefault = Calendar.getInstance();
+        day = calDefault.get(Calendar.DAY_OF_MONTH);
+        month = calDefault.get(Calendar.MONTH);
+        year = calDefault.get(Calendar.YEAR);
+
+        if(etTanggalDariResi.getText().toString().matches("") && etTanggalSampaiResi.getText().toString().matches("")) {
+            etTanggalDariResi.setText(String.format(Locale.getDefault(), "%d-%s-%s", year, month, day));
+            etTanggalSampaiResi.setText(String.format(Locale.getDefault(), "%d-%s-%s", year, month, day));
+        }
     }
 
     @Override
