@@ -74,6 +74,19 @@ public final class CommonUtils {
         return hasil;
     }
 
+    public static String currencyFormatWithoutRupiah(String nominal){
+        DecimalFormat toRupiah = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols formatAngka = new DecimalFormatSymbols();
+
+        formatAngka.setMonetaryDecimalSeparator('.');
+        formatAngka.setGroupingSeparator('.');
+
+        toRupiah.setDecimalFormatSymbols(formatAngka);
+        String hasil = toRupiah.format(Double.valueOf(nominal));
+
+        return hasil.substring(1);
+    }
+
     public static String dateFormat() {
         Date d = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());

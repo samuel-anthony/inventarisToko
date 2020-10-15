@@ -10,6 +10,11 @@ use App\makanan;
 class PesananController extends Controller
 {
     //
+    public function __construct()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+    }
+    
     public function getAllTodayFinishedOrder(request $request){
         
         $pesanans = pesananMaster::where('status_code','=','003')->whereDate('updated_at', '>=', date('Y-m-d',strtotime($request->tanggalDari)))->whereDate('updated_at', '<=', date('Y-m-d',strtotime($request->tanggalSampai)))->orderBy('updated_at', 'DESC')->get();
