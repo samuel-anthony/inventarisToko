@@ -94,4 +94,77 @@ public class PDFDownload {
          }
          pdfDocument.close();
     }
+
+    public void downloadResi(JSONArray data, Context appContext){
+
+        PdfDocument pdfDocument = new PdfDocument();
+        Paint myPaint = new Paint();
+        Paint myPaintStroke = new Paint();
+
+        PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(600,900,1).create();
+        PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
+        Canvas canvas = myPage.getCanvas();
+
+        myPaint.setTextSize(12f);
+        myPaint.setStrokeWidth(3);
+        myPaint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText(header_title,myPageInfo.getPageWidth()/2,40,myPaint);
+
+
+        myPaint.setTextSize(10f);
+        myPaint.setStrokeWidth(2);
+        myPaint.setTextAlign(Paint.Align.LEFT);
+        myPaintStroke.setStrokeWidth(1);
+        myPaintStroke.setStyle(Paint.Style.STROKE);
+        int startPositionY = 100,startPositionX = 10,endPositionX = myPageInfo.getPageWidth() - 10,startHargaX = ((myPageInfo.getPageWidth()-20)/10*7);
+        canvas.drawText("List Makanan",startPositionX+10,startPositionY,myPaint);
+        myPaint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText("Jumlah",startHargaX+10,startPositionY,myPaint);
+        myPaint.setTextAlign(Paint.Align.RIGHT);
+        canvas.drawText("Total",myPageInfo.getPageWidth()-10,startPositionY,myPaint);
+        myPaint.setTextAlign(Paint.Align.LEFT);
+        myPaint.setStrokeWidth(1);
+        startPositionY+=25;
+        canvas.drawLine(startPositionX,startPositionY,endPositionX,startPositionY,myPaintStroke);
+        startPositionY+=25;
+        int total = 0;
+        for(int i = 0; i < data.length(); i++){
+            try{
+                JSONObject obj = data.getJSONObject(i);
+                String makanan = obj.getString("makanan");
+                String jumlah = obj.getString("jumlah");
+                String harga = obj.getString("harga");
+                canvas.drawText(makanan,startPositionX+10,startPositionY,myPaint);
+                myPaint.setTextAlign(Paint.Align.CENTER);
+                canvas.drawText(jumlah,startHargaX+10,startPositionY,myPaint);
+                myPaint.setTextAlign(Paint.Align.RIGHT);
+                canvas.drawText(CommonUtils.currencyFormat(harga),myPageInfo.getPageWidth()-10,startPositionY,myPaint);
+                myPaint.setTextAlign(Paint.Align.LEFT);
+                startPositionY+=25;
+                total+=Integer.parseInt(harga);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        myPaint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText("Total",startHargaX,startPositionY,myPaint);
+        myPaint.setTextAlign(Paint.Align.RIGHT);
+        canvas.drawText(CommonUtils.currencyFormat(String.valueOf(total)),myPageInfo.getPageWidth()-10,startPositionY,myPaint);
+
+        pdfDocument.finishPage(myPage);
+        File file = new File(Environment.getExternalStorageDirectory(),"/"+file_name+".pdf");
+        int i = 1;
+        while(file.exists()){
+            file = new File(Environment.getExternalStorageDirectory(),"/"+file_name+"("+i+").pdf");
+            i++;
+        }
+        try {
+            pdfDocument.writeTo(new FileOutputStream(file));
+            CommonUtils.showToast(appContext, appContext.getString(R.string.label_berhasil_download) + " " + file);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        pdfDocument.close();
+    }
 }
