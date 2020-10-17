@@ -55,10 +55,6 @@ public class PengunjungActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbarPengunjung);
 
-        Bundle bundle = getIntent().getExtras();
-        assert bundle != null;
-        tvNamaMejaPengunjung.setText(bundle.getString("namaMeja"));
-
         setUp();
     }
 

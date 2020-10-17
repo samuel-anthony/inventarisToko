@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.Pengunjung.PengunjungActivity;
+import com.example.inventaristoko.Screens.Penjualan.PenjualanActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.Preferences;
@@ -73,11 +74,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             JSONObject resultJSON = new JSONObject(result);
                             if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
                                 Preferences.setLoggedInUserCustomer(HomeActivity.this, idMeja);
-                                Intent intent = new Intent (HomeActivity.this, PengunjungActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("namaMeja", namaMeja);
-                                intent.putExtras(bundle);
-                                HomeActivity.this.startActivity(intent);
+                                startActivity(new Intent(HomeActivity.this, PengunjungActivity.class));
+                                finish();
                             }
 
                             CommonUtils.showToast(appContext, resultJSON.getString("message"));
