@@ -11,10 +11,14 @@ class CartCustomerController extends Controller
     public function getCartDetailByUserId(request $request){
         $user = User::whereUserId($request->user_id)->first();
         $carts = cartCustomer::whereUserId($user->id)->get();
+        $temp1 = array();
         foreach($carts as $detail){
-            $detail->makanan;
+            $detail->nama_makanan = $detail->makanan->nama;
+            $collection = collect($detail);
+            $collection->forget("makanan");
+            array_push($temp1,$collection);
         }
-        return json_encode(["result"=>$carts]);
+        return json_encode(["result"=>$temp1]);
     }
 
     public function appendDataToCart(request $request){
