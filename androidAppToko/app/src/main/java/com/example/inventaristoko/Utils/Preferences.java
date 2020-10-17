@@ -80,10 +80,11 @@ public class Preferences {
 
     /** Deklarasi Edit Preferences dan menghapus data, sehingga menjadikannya bernilai default
      *  khusus data yang memiliki key KEY_USERNAME_SEDANG_LOGIN dan KEY_STATUS_SEDANG_LOGIN */
-    public static void clearLoggedInUser (Context context){
+    public static void clearLoggedInUser(Context context) {
         SharedPreferences.Editor editor = getSharedPreference(context).edit();
         editor.remove(KEY_USERNAME_SEDANG_LOGIN);
         editor.remove(KEY_STATUS_SEDANG_LOGIN);
+        editor.remove(KEY_USERNAME_CUSTOMER);
         editor.apply();
     }
 }

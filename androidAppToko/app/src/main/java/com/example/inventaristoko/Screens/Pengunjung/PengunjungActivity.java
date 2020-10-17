@@ -20,6 +20,7 @@ import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.Front.HomeActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
+import com.example.inventaristoko.Utils.Preferences;
 import com.example.inventaristoko.Utils.VolleyAPI;
 
 import org.json.JSONArray;
@@ -123,6 +124,7 @@ public class PengunjungActivity extends AppCompatActivity {
                 builder.setCancelable(false);
                 builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
                     CommonUtils.showLoading(PengunjungActivity.this);
+                    Preferences.clearLoggedInUser(getBaseContext());
                     startActivity(new Intent(getBaseContext(), HomeActivity.class));
                     finish();
                     CommonUtils.hideLoading();
