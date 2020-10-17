@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\pesananMaster;
 use App\pesananDetail;
 use App\makanan;
+use App\cartCustomer;
 
 class PesananController extends Controller
 {
@@ -17,7 +18,7 @@ class PesananController extends Controller
     
     public function getAllTodayFinishedOrder(request $request){
         
-        $pesanans = pesananMaster::where('status_code','=','003')->whereDate('updated_at', '>=', date('Y-m-d',strtotime($request->tanggalDari)))->whereDate('updated_at', '<=', date('Y-m-d',strtotime($request->tanggalSampai)))->orderBy('updated_at', 'DESC')->get();
+        $pesanans = pesananMaster::where('status_code','=','004')->whereDate('updated_at', '>=', date('Y-m-d',strtotime($request->tanggalDari)))->whereDate('updated_at', '<=', date('Y-m-d',strtotime($request->tanggalSampai)))->orderBy('updated_at', 'DESC')->get();
         foreach($pesanans as $pesanan){    
             $total_harga = 0;
             foreach($pesanan->details as $pesanan_detail){
@@ -30,7 +31,7 @@ class PesananController extends Controller
 
 
     public function getAllTodayUnfinishedOrder(){
-        $pesanans = pesananMaster::where('status_code','<>','003')->get();
+        $pesanans = pesananMaster::where('status_code','<>','004')->get();
         foreach($pesanans as $pesanan){    
             $total_harga = 0;
             foreach($pesanan->details as $pesanan_detail){
@@ -64,10 +65,10 @@ class PesananController extends Controller
                 $pesanan->status_code = '002';
                 $pesanan->status = 'pesanan dibuat';
                 break;
-            // case '003' :
-            //     $pesanan->status_code = '002';
-            //     $pesanan->status = 'pesanan dibuat';
-            //     break;
+            case '003' :
+                $pesanan->status_code = '003';
+                $pesanan->status = 'pesanan selesai';
+                break;
         } 
         $pesanan->save();
         return json_encode([
@@ -77,12 +78,16 @@ class PesananController extends Controller
 
     public function updateStatusFinishRefNo(request $request){
         $pesanan = pesananMaster::whereRefNo($request->ref_no)->first();
-        $pesanan->status_code = '003';
-        $pesanan->status = 'pesanan selesai';
+        $pesanan->status_code = '004';
+        $pesanan->status = 'pesanan sudah dibayar';
         $pesanan->save();
         return json_encode([
             'is_error' => '0',
             "message"=>"Berhasil Selesaikan Pesanan"
         ]);
+    }
+
+    public function addPesananBaru(request $request){
+        $carts = cartCustomer::whereUserId($request->user_id)->get();
     }
 }

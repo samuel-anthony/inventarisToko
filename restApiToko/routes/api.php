@@ -35,6 +35,7 @@ Route::get('getGambarMakananDetail','MakananController@getGambarMakananByDetail'
 Route::get('getMakananDetail','MakananController@makananByDetail');
 Route::get('getSemuaJenisMenuDetail','JenisMenuController@jenisMenuDetailByid');
 Route::get('getBahanPokokDetailHistory','BahanPokokController@showBahanPokokDetail');
+Route::get('getCartUser','CartCustomerController@getCartDetailByUserId');
 
 Route::post('testApi','UserController@testApi');
 Route::post('register','UserController@register');
@@ -43,6 +44,7 @@ Route::post('addBahanPokokBaru','BahanPokokController@addBahanPokokBaru');
 Route::post('addRiwayatBahanPokok','BahanPokokController@addRiwayatBahanPokok');
 Route::post('addMakanan','MakananController@addNewMakanan');
 Route::post('addJenisMenu','JenisMenuController@addJenisMenu');
+Route::post('tambahDataCart','CartCustomerController@appendDataToCart');
 
 Route::put('updateStatusPesanan','PesananController@updateStatusRefNo');
 Route::put('updateStatusPesananSelesai','PesananController@updateStatusFinishRefNo');
@@ -55,3 +57,4 @@ Route::put('updateMakanan','MakananController@editMakanan');
 Route::put('deleteMakanan','MakananController@deleteMakanan');
 Route::put('updateJenisMenu','JenisMenuController@updateJenisMenu');
 Route::put('deleteJenisMenu','JenisMenuController@deleteJenisMenu');
+Route::put('clearCart','CartCustomerController@clearCart');
