@@ -12,7 +12,7 @@ class CartCustomerController extends Controller
         $user = User::whereUserId($request->user_id)->first();
         $carts = cartCustomer::whereUserId($user->id)->get();
         foreach($carts as $detail){
-            $detail->makanan();
+            $detail->makanan;
         }
         return json_encode(["result"=>$carts]);
     }
