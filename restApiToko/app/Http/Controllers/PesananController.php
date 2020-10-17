@@ -89,5 +89,40 @@ class PesananController extends Controller
 
     public function addPesananBaru(request $request){
         $carts = cartCustomer::whereUserId($request->user_id)->get();
+        $user = User::whereUserId($request->user_id)->first();
+        $refno = date("Y").date("m").date("d");
+        $pesananMaster = new pesananMaster;
+        $countPesananMasterToday = count(pesananMaster::where('ref_no','LIKE',$refno.'%')->get())+1;
+        switch(strlen($countPesananMasterToday)){
+            case 1:
+                $pesananMaster->ref_no = $refno.'000'.$countPesananMasterToday;
+                break;
+            case 2:
+                $pesananMaster->ref_no = $refno.'00'.$countPesananMasterToday;
+                break;
+            case 3:
+                $pesananMaster->ref_no = $refno.'0'.$countPesananMasterToday;
+                break;
+            case 4:
+                $pesananMaster->ref_no = $refno.$countPesananMasterToday;
+                break;
+        }
+        $pesananMaster->status_code = '001';
+        $pesananMaster->status = 'pesanan dipesan';
+        $pesananMaster->total_harga = $request->total_harga;
+        $pesananMaster->total_charges = 0;
+        $pesananMaster->total_pesanan = count($carts);
+        $pesananMaster->user_id = $user->id;
+        $pesananMaster->save();
+        foreach($carts as $detail){
+            $pesananDetail = new pesananDetail;
+            $pesananDetail->pesanan_master_id = $pesananMaster->id;
+            $pesananDetail->makanan_id = $detail->makanan_id;
+            $pesananDetail->harga_makanan = $detail->harga_makanan;
+            $pesananDetail->jumlah = $detail->jumlah;
+            $pesananDetail->notes = $detail->notes;
+            $detail->delete();
+            $pesananDetail->save();
+        }
     }
 }
