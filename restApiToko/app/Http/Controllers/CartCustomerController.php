@@ -28,7 +28,7 @@ class CartCustomerController extends Controller
         $cart->makanan_id = $request->makanan_id;
         $cart->harga_makanan = $request->harga_makanan;
         $cart->jumlah = $request->jumlah;
-        $cart->notes = $request->notes;    
+        $cart->notes = !empty($request->notes) ? $request->notes : "";    
         $cart->save();
         return json_encode([
             'is_error' => '0',

@@ -45,6 +45,7 @@ Route::post('addRiwayatBahanPokok','BahanPokokController@addRiwayatBahanPokok');
 Route::post('addMakanan','MakananController@addNewMakanan');
 Route::post('addJenisMenu','JenisMenuController@addJenisMenu');
 Route::post('tambahDataCart','CartCustomerController@appendDataToCart');
+Route::post('addPesananBaru','PesananController@addPesananBaru');
 
 Route::put('updateStatusPesanan','PesananController@updateStatusRefNo');
 Route::put('updateStatusPesananSelesai','PesananController@updateStatusFinishRefNo');
