@@ -63,9 +63,9 @@ public class ResiDetailActivity extends AppCompatActivity implements View.OnClic
         tvTanggalDetailResi.setText(bundle.getString("tanggalTambah"));
         tvTotalHargaDetailResi.setText(bundle.getString("totalHarga"));
 
-        if(String.valueOf(bundle.getString("kodeStatus")).equals(MyConstants.FINISH_CODE)) {
+        if(String.valueOf(bundle.getString("kodeStatus")).equals(MyConstants.PAID_CODE)) {
             tvStatusDetailResi.setTextColor(getResources().getColor(R.color.colorSuccess));
-            tvStatusDetailResi.setText(MyConstants.FINISH_NAME);
+            tvStatusDetailResi.setText(MyConstants.PAID_NAME);
         }
 
         txtIdDetailResi = tvIdDetailResi.getText().toString();

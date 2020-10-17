@@ -39,7 +39,7 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
     private RecyclerView rvDataPenjualanDetail;
     private PenjualanDetailAdapter penjualanDetailAdapter;
     private TextView tvIdPenjualan, tvTanggalPenjualan, tvStatusPenjualan, tvTotalHargaPenjualan;
-    private String[] statues = { "Dipesan", "Sedang Dibuat" };
+    private String[] statues = { "Dipesan", "Sedang Dibuat", "Sudah Selesai" };
     private Button btnSelesaiPesanan;
     private Spinner spnDaftarStatus;
     private int positionStatus;
@@ -74,9 +74,12 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
         if(String.valueOf(bundle.getString("kodeStatus")).equals(MyConstants.ORDER_CODE)) {
             tvStatusPenjualan.setTextColor(getResources().getColor(R.color.colorBlack));
             tvStatusPenjualan.setText(MyConstants.ORDER_NAME);
-        } else {
+        } else if (String.valueOf(bundle.getString("kodeStatus")).equals(MyConstants.GOING_CODE)) {
             tvStatusPenjualan.setTextColor(getResources().getColor(R.color.colorProcess));
             tvStatusPenjualan.setText(MyConstants.GOING_NAME);
+        } else {
+            tvStatusPenjualan.setTextColor(getResources().getColor(R.color.colorSuccess));
+            tvStatusPenjualan.setText(MyConstants.FINISH_NAME);
         }
 
         txtIdDetailPenjualan = tvIdPenjualan.getText().toString();
@@ -184,6 +187,9 @@ public class PenjualanDetailActivity extends AppCompatActivity implements Adapte
         } else if(tvStatusPenjualan.getText() == MyConstants.GOING_NAME) {
             statusCode = "002";
             tvStatusPenjualan.setTextColor(getResources().getColor(R.color.colorProcess));
+        } else {
+            statusCode = "003";
+            tvStatusPenjualan.setTextColor(getResources().getColor(R.color.colorSuccess));
         }
 
         Map<String, String> params = new HashMap<>();

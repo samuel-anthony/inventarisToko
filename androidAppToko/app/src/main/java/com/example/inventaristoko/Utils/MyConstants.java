@@ -4,6 +4,7 @@ public interface MyConstants {
     String ORDER_CODE = "001";
     String GOING_CODE = "002";
     String FINISH_CODE = "003";
+    String PAID_CODE = "004";
 
     String MILI_GRAM = "Mg";
     String DESI_GRAM = "Dg";
@@ -19,6 +20,7 @@ public interface MyConstants {
     String ORDER_NAME = "Dipesan";
     String GOING_NAME = "Sedang Dibuat";
     String FINISH_NAME = "Sudah Selesai";
+    String PAID_NAME = "Sudah Dibayar";
 
     int ORDER_COLOR = 0xFF000000;
     int GOING_COLOR = 0xFF409AE1;

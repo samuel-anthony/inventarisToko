@@ -140,7 +140,7 @@ public class PenjualanAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             itemView.setOnClickListener(v -> {
                 if (mPenjualan.getIdPenjualan() != null) {
                     try {
-                        if(String.valueOf(mPenjualan.getKodeStatusPenjualan()).equals(MyConstants.FINISH_CODE)) {
+                        if(String.valueOf(mPenjualan.getKodeStatusPenjualan()).equals(MyConstants.PAID_CODE)) {
                             Intent intent = new Intent(v.getContext(), ResiDetailActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("idPenjualan", mPenjualan.getIdPenjualan());
