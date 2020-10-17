@@ -29,6 +29,7 @@
 
     <string name="label_input_password_baru_salah">Password Baru anda tidak sama</string>
     <string name="label_input_kosong">Input tidak boleh kosong</string>
+    <string name="label_gambar_kosong">Gambar tidak boleh kosong</string>
     <string name="label_jumlah_makanan">Jumlah Makanan tidak boleh kurang dari 1</string>
 
     <!--Dialog-->

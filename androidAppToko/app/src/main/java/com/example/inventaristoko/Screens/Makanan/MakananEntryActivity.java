@@ -222,7 +222,12 @@ public class MakananEntryActivity extends AppCompatActivity implements View.OnCl
                 if(txtNamaMakanan.isEmpty() || txtHargaMakanan.isEmpty() || mMakananBahanPokok.size() < 1) {
                     CommonUtils.showToast(appContext, appContext.getString(R.string.label_input_kosong));
                     return;
-                } else {
+                }
+                else if(encodedImage.isEmpty()){
+                    CommonUtils.showToast(appContext, appContext.getString(R.string.label_gambar_kosong));
+                    return;
+                }
+                else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                     builder.setMessage(R.string.confirmation_dialog_submit);
                     builder.setCancelable(false);
