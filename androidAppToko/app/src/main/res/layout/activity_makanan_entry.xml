@@ -82,6 +82,7 @@
                         android:paddingStart="20dp"
                         android:maxLines="1"
                         android:lines="1"
+                        android:inputType="number"
                         android:singleLine="true"
                         android:maxLength="50"
                         android:textColor="#000"

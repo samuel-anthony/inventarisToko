@@ -35,7 +35,6 @@ import java.util.Map;
 public class PengunjungActivity extends AppCompatActivity {
     private Context appContext;
     private Toolbar toolbarPengunjung;
-    private TextView tvNamaMejaPengunjung;
     private RecyclerView rvDataPengunjung;
     private PengunjungMakananAdapter pengunjungMakananAdapter;
     private long backPressedTime;
@@ -43,7 +42,6 @@ public class PengunjungActivity extends AppCompatActivity {
     private void init() {
         appContext = getApplicationContext();
         toolbarPengunjung = findViewById(R.id.toolbarPengunjung);
-        tvNamaMejaPengunjung = findViewById(R.id.tvNamaMejaPengunjung);
         rvDataPengunjung = findViewById(R.id.rvDataPengunjung);
     }
 
@@ -113,10 +111,9 @@ public class PengunjungActivity extends AppCompatActivity {
                 CommonUtils.showToast(appContext, "Menu Riwayat");
                 break;
             case R.string.tombol_notification :
-//                intent = new Intent(getApplicationContext(), PengunjungDaftarActivity.class);
-//                startActivityForResult(intent, 0);
+                Intent intent2 = new Intent(getApplicationContext(), PengunjungCartActivity.class);
+                startActivityForResult(intent2, 0);
 
-                CommonUtils.showToast(appContext, "Menu Daftar");
                 break;
             case R.string.tombol_keluar :
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);

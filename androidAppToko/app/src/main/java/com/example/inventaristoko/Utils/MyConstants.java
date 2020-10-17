@@ -84,4 +84,6 @@ public interface MyConstants {
     String RESI_GET_ACTION = "getPesananSudahSelesai";
 
     String PENGUNJUNG_ADD_CART_ACTION = "tambahDataCart";
+    String PENGUNJUNG_GET_CARD_ACTION = "getCartUser";
+    String PENGUNJUNG_ADD_NEW_ORDER_ACTION = "addPesananBaru";
 }

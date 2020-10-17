@@ -131,14 +131,7 @@ public class PengunjungDetailActivity extends AppCompatActivity implements View.
                 break;
             case R.id.btnTambahPesanan :
                 txtCatatanMakananPengunjungDetail = etCatatanMakananPengunjungDetail.getText().toString();
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setMessage(R.string.confirmation_dialog_add);
-                builder.setCancelable(false);
-                builder.setPositiveButton(R.string.label_yes, (dialog, which) -> callAddDataMakananRequest(v.getContext()));
-                builder.setNegativeButton(R.string.label_no, (dialog, which) -> {
-                });
-                builder.show();
+                callAddDataMakananRequest(v.getContext());
                 break;
         }
     }
@@ -154,7 +147,7 @@ public class PengunjungDetailActivity extends AppCompatActivity implements View.
         params.put("jumlah", String.valueOf(amount));
         params.put("notes", txtCatatanMakananPengunjungDetail);
 
-        volleyAPI.putRequest(MyConstants.PENGUNJUNG_ADD_CART_ACTION, params, result -> {
+        volleyAPI.postRequest(MyConstants.PENGUNJUNG_ADD_CART_ACTION, params, result -> {
             try {
                 JSONObject resultJSON = new JSONObject(result);
                 Intent myIntent = new Intent(getApplicationContext(), PengunjungActivity.class);

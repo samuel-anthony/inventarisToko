@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/SecondTheme">
+
         <activity
             android:name=".Screens.Front.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -31,7 +32,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Screens.Pengunjung.PengunjungDetailActivity"
-            android:parentActivityName=".Screens.Pengunjung.PengunjungActivity"/>
+            android:parentActivityName=".Screens.Pengunjung.PengunjungActivity" />
+        <activity android:name=".Screens.Pengunjung.PengunjungCartActivity"
+            android:parentActivityName=".Screens.Pengunjung.PengunjungActivity" />
         <activity
             android:name=".Screens.Front.LoginActivity"
             android:theme="@style/AppTheme" />

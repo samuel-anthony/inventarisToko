@@ -63,6 +63,7 @@
     <string name="menu_daftar_resi">Daftar Resi</string>
     <string name="menu_detail_resi">Detail Resi</string>
     <string name="menu_detail">Detail Menu</string>
+    <string name="menu_cart">Keranjang Pesanan</string>
 
     <!--Menu-->
     <string name="menu_penjualan">Data Penjualan</string>
