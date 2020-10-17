@@ -32,8 +32,7 @@
                     style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8dp"
-                    android:padding="@dimen/_8dp"
+                    android:paddingVertical="@dimen/_8dp"
                     android:text="@string/label_nama_makanan"
                     android:textStyle="bold" />
 
@@ -42,8 +41,7 @@
                     style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8dp"
-                    android:padding="@dimen/_8dp"
+                    android:paddingVertical="@dimen/_8dp"
                     android:text="@string/label_harga_makanan"
                     android:textStyle="bold" />
             </LinearLayout>

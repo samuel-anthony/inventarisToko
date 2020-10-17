@@ -14,15 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.inventaristoko.Adapter.Makanan.MakananAdapter;
 import com.example.inventaristoko.Adapter.Pengunjung.PengunjungMakananAdapter;
 import com.example.inventaristoko.Model.Makanan.Makanan;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.Makanan.MakananActivity;
+import com.example.inventaristoko.Screens.Front.HomeActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
 
 public class PengunjungActivity extends AppCompatActivity {
     private Context appContext;
@@ -56,7 +54,6 @@ public class PengunjungActivity extends AppCompatActivity {
         init();
 
         setSupportActionBar(toolbarPengunjung);
-//        Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.label_welcome));
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
@@ -130,8 +127,7 @@ public class PengunjungActivity extends AppCompatActivity {
                 builder.setCancelable(false);
                 builder.setPositiveButton(R.string.label_yes, (dialog, which) -> {
                     CommonUtils.showLoading(PengunjungActivity.this);
-//                    Preferences.clearLoggedInUser(getBaseContext());
-                    startActivity(new Intent(getBaseContext(), PengunjungActivity.class));
+                    startActivity(new Intent(getBaseContext(), HomeActivity.class));
                     finish();
                     CommonUtils.hideLoading();
                 });

@@ -11,6 +11,7 @@ public class Preferences {
     static final String KEY_USER ="username";
     static final String KEY_PASSWORD ="password";
     static final String KEY_USERNAME_SEDANG_LOGIN = "Username_logged_in";
+    static final String KEY_USERNAME_CUSTOMER = "Username_customer";
     static final String KEY_STATUS_SEDANG_LOGIN = "Status_logged_in";
 
 
@@ -41,6 +42,16 @@ public class Preferences {
     /** Mengembalikan nilai dari key KEY_PASS_TEREGISTER berupa String */
     public static String getRegisteredPass(Context context){
         return getSharedPreference(context).getString(KEY_PASSWORD,"");
+    }
+
+    public static void setLoggedInUserCustomer(Context context, String username){
+        SharedPreferences.Editor editor = getSharedPreference(context).edit();
+        editor.putString(KEY_USERNAME_CUSTOMER, username);
+        editor.apply();
+    }
+
+    public static String getLoggedInUserCustomer(Context context){
+        return getSharedPreference(context).getString(KEY_USERNAME_CUSTOMER,"");
     }
 
     /** Deklarasi Edit Preferences dan mengubah data

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.inventaristoko">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,6 +29,9 @@
         <activity
             android:name=".Screens.Pengunjung.PengunjungActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Screens.Pengunjung.PengunjungDetailActivity"
+            android:parentActivityName=".Screens.Pengunjung.PengunjungActivity"/>
         <activity
             android:name=".Screens.Front.LoginActivity"
             android:theme="@style/AppTheme" />
@@ -92,9 +99,5 @@
             android:name=".Screens.Resi.ResiDetailActivity"
             android:parentActivityName=".Screens.Resi.ResiActivity" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

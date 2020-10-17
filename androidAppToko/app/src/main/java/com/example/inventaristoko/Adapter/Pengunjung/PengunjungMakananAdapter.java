@@ -20,6 +20,7 @@ import com.example.inventaristoko.Model.Makanan.Makanan;
 import com.example.inventaristoko.R;
 import com.example.inventaristoko.Screens.Makanan.MakananDetailActivity;
 import com.example.inventaristoko.Screens.Pengunjung.PengunjungActivity;
+import com.example.inventaristoko.Screens.Pengunjung.PengunjungDetailActivity;
 import com.example.inventaristoko.Utils.BaseViewHolder;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
@@ -142,18 +143,13 @@ public class PengunjungMakananAdapter extends RecyclerView.Adapter<BaseViewHolde
 
             itemView.setOnClickListener(v -> {
                 if (mMakanan.getNamaMakanan() != null) {
-//                    try {
-//                        Intent intent = new Intent (v.getContext(), PengunjungActivity.class);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("idMakanan", mMakanan.getIdMakanan());
-//                        bundle.putString("namaMakanan", mMakanan.getNamaMakanan());
-//                        bundle.putString("hargaMakanan", mMakanan.getHargaMakanan());
-//                        intent.putExtras(bundle);
-//                        v.getContext().startActivity(intent);
-//                    } catch (Exception e) {
-//                        Log.e(TAG, "onClick: Url is not correct");
-//                    }
-                    CommonUtils.showToast(v.getContext(), mMakanan.getNamaMakanan());
+                    Intent intent = new Intent (v.getContext(), PengunjungDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("idMakanan", mMakanan.getIdMakanan());
+                    bundle.putString("namaMakanan", mMakanan.getNamaMakanan());
+                    bundle.putString("hargaMakanan", mMakanan.getHargaMakanan());
+                    intent.putExtras(bundle);
+                    v.getContext().startActivity(intent);
                 }
             });
         }

@@ -80,4 +80,6 @@ public interface MyConstants {
     String BAHAN_POKOK_ADD_HISTORY_ACTION = "addRiwayatBahanPokok";
 
     String RESI_GET_ACTION = "getPesananSudahSelesai";
+
+    String PENGUNJUNG_ADD_CART_ACTION = "tambahDataCart";
 }

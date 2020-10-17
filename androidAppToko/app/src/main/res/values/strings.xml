@@ -29,6 +29,7 @@
 
     <string name="label_input_password_baru_salah">Password Baru anda tidak sama</string>
     <string name="label_input_kosong">Input tidak boleh kosong</string>
+    <string name="label_jumlah_makanan">Jumlah Makanan tidak boleh kurang dari 1</string>
 
     <!--Dialog-->
     <string name="confirmation_dialog_password">Anda Yakin Ingin Mengganti Password?</string>
@@ -38,6 +39,7 @@
     <string name="confirmation_dialog_submit">Anda Yakin Ingin Kirim Data ini?</string>
     <string name="confirmation_dialog_delete">Anda Yakin Ingin Menghapus Data ini?</string>
     <string name="confirmation_dialog_edit_status">Anda Yakin Ingin Mengubah Status Pesanan Menjadi</string>
+    <string name="confirmation_dialog_add">Anda Yakin Ingin Menambahkan Data ini ?</string>
 
     <!--Title Menu Bar-->
     <string name="menu_admin">Admin</string>
@@ -59,6 +61,7 @@
     <string name="menu_ubah_meja">Ubah Meja</string>
     <string name="menu_daftar_resi">Daftar Resi</string>
     <string name="menu_detail_resi">Detail Resi</string>
+    <string name="menu_detail">Detail Menu</string>
 
     <!--Menu-->
     <string name="menu_penjualan">Data Penjualan</string>
@@ -79,6 +82,7 @@
     <string name="tombol_admin">Masuk Sebagai Admin</string>
     <string name="tombol_login">Masuk</string>
     <string name="tombol_selesai_pesanan">Selesai Pesanan</string>
+    <string name="tombol_tambah_pesanan">Tambah</string>
     <string name="tombol_keluar">Keluar</string>
     <string name="tombol_kirim">Kirim</string>
     <string name="tombol_generate">Generate QR Code</string>
