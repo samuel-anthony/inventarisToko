@@ -9,9 +9,10 @@ use App\cartCustomer;
 class CartCustomerController extends Controller
 {
     public function getCartDetailByUserId(request $request){
-        $carts = cartCustomer::whereUserId($request->user_id)->get();
+        $user = User::whereUserId($request->user_id)->first();
+        $carts = cartCustomer::whereUserId($user->id)->get();
         foreach($carts as $detail){
-            $cart->makanan();
+            $detail->makanan();
         }
         return json_encode(["result"=>$carts]);
     }
