@@ -7,6 +7,7 @@ use App\pesananMaster;
 use App\pesananDetail;
 use App\makanan;
 use App\cartCustomer;
+use App\User;
 
 class PesananController extends Controller
 {
@@ -88,8 +89,8 @@ class PesananController extends Controller
     }
 
     public function addPesananBaru(request $request){
-        $carts = cartCustomer::whereUserId($request->user_id)->get();
         $user = User::whereUserId($request->user_id)->first();
+        $carts = cartCustomer::whereUserId($user->id)->get();
         $refno = date("Y").date("m").date("d");
         $pesananMaster = new pesananMaster;
         $countPesananMasterToday = count(pesananMaster::where('ref_no','LIKE',$refno.'%')->get())+1;
@@ -116,7 +117,7 @@ class PesananController extends Controller
         $pesananMaster->save();
         foreach($carts as $detail){
             $pesananDetail = new pesananDetail;
-            $pesananDetail->pesanan_master_id = $pesananMaster->id;
+            $pesananDetail->pesanan_master_id = $pesananMaster->pesanan_master_id;
             $pesananDetail->makanan_id = $detail->makanan_id;
             $pesananDetail->harga_makanan = $detail->harga_makanan;
             $pesananDetail->jumlah = $detail->jumlah;
@@ -124,5 +125,9 @@ class PesananController extends Controller
             $detail->delete();
             $pesananDetail->save();
         }
+        return json_encode([
+            'is_error' => '0',
+            "message"=>"Berhasil Pesan Pesanan"
+        ]);
     }
 }
