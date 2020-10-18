@@ -36,6 +36,8 @@ Route::get('getMakananDetail','MakananController@makananByDetail');
 Route::get('getSemuaJenisMenuDetail','JenisMenuController@jenisMenuDetailByid');
 Route::get('getBahanPokokDetailHistory','BahanPokokController@showBahanPokokDetail');
 Route::get('getCartUser','CartCustomerController@getCartDetailByUserId');
+Route::get('getPesananBelumSelesaiUntukPelanggan','PesananController@getAllTodayUnfinishedOrderForCustomer');
+
 
 Route::post('testApi','UserController@testApi');
 Route::post('register','UserController@register');

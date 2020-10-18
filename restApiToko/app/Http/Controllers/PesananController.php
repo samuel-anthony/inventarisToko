@@ -43,6 +43,19 @@ class PesananController extends Controller
         return json_encode(["result"=>$pesanans]);
     }
 
+    public function getAllTodayUnfinishedOrderForCustomer(request $request){
+        $user = User::whereUserId($request->user_id)->first();
+        $pesanans = pesananMaster::where('status_code','<>','004')->whereUserId($user->id)->get();
+        foreach($pesanans as $pesanan){    
+            $total_harga = 0;
+            foreach($pesanan->details as $pesanan_detail){
+                $total_harga += $pesanan_detail->jumlah*$pesanan_detail->harga_makanan;
+            }
+            $pesanan->total_harga = $total_harga;
+        }   
+        return json_encode(["result"=>$pesanans]);
+    }
+
     public function getOrderByRefNo(request $request){
         $pesanan = pesananMaster::whereRefNo($request->ref_no)->first();
         $pesanan_details = pesananDetail::wherePesananMasterId($pesanan->pesanan_master_id)->get();
