@@ -53,6 +53,7 @@
     <string name="menu_tambah_pengguna">Tambah Pengguna</string>
     <string name="menu_detail_bahan_pokok">Detail Bahan Pokok</string>
     <string name="menu_tambah_bahan_pokok">Tambah Bahan Pokok</string>
+    <string name="menu_tambah_pemasok">Tambah Pemasok</string>
     <string name="menu_tambah_detail_bahan_pokok">Tambah Bahan Pokok Detail</string>
     <string name="menu_detail_makanan">Detail Makanan</string>
     <string name="menu_tambah_makanan">Tambah Makanan</string>
@@ -64,6 +65,7 @@
     <string name="menu_detail_resi">Detail Resi</string>
     <string name="menu_detail">Detail Menu</string>
     <string name="menu_cart">Keranjang Pesanan</string>
+    <string name="menu_status">Status Pesanan</string>
 
     <!--Menu-->
     <string name="menu_penjualan">Data Penjualan</string>
@@ -79,6 +81,7 @@
     <!--Tombol-->
     <string name="tombol_tambah">Tambah</string>
     <string name="tombol_hapus">Hapus</string>
+    <string name="tombol_hapus_cart">Hapus Keranjang</string>
     <string name="tombol_ubah">Ubah</string>
     <string name="tombol_pengunjung">Masuk Sebagai Pengunjung</string>
     <string name="tombol_admin">Masuk Sebagai Admin</string>
@@ -89,6 +92,7 @@
     <string name="tombol_kirim">Kirim</string>
     <string name="tombol_generate">Generate QR Code</string>
     <string name="tombol_tambah_detail">Tambah Detil</string>
+    <string name="tombol_tambah_pemasok">Tambah Pemasok</string>
     <string name="tombol_tambah_makanan">Tambah Gambar</string>
     <string name="tombol_tambah_bahan_pokok">Tambah Bahan Pokok</string>
     <string name="tombol_cari_resi">Cari Resi</string>
@@ -152,6 +156,9 @@
     <string name="label_value_harga_detail_bahan_pokok">1</string>
     <string name="label_value_tanggal_detail_bahan_pokok">01 - 01 - 2001</string>
     <string name="label_value_nama_pemasok_bahan_pokok">Nama Pemasok</string>
+    <string name="label_nama_pemasok">Nama Pemasok</string>
+    <string name="label_alamat_pemasok">Alamat Pemasok</string>
+    <string name="label_nomor_telepon_pemasok">Nomor Telepon Pemasok</string>
 
     <!--Data Resi-->
     <string name="label_tanggal_dari_resi">Dari Tanggal</string>

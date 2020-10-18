@@ -105,15 +105,12 @@ public class PengunjungActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.string.tombol_history :
-//                Intent intent = new Intent(getApplicationContext(), PengunjungHistoryActivity.class);
-//                startActivityForResult(intent, 0);
-
-                CommonUtils.showToast(appContext, "Menu Riwayat");
+                Intent intent1 = new Intent(getApplicationContext(), PengunjungStatusActivity.class);
+                startActivityForResult(intent1, 0);
                 break;
             case R.string.tombol_notification :
                 Intent intent2 = new Intent(getApplicationContext(), PengunjungCartActivity.class);
                 startActivityForResult(intent2, 0);
-
                 break;
             case R.string.tombol_keluar :
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);

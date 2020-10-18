@@ -29,7 +29,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Context appContext;
     private Button btnPengunjung, btnAdmin;
     private IntentIntegrator intentIntegrator;
-    private String idMeja, namaMeja, passwordMeja;
+    private String idMeja, passwordMeja;
 
     private void init() {
         appContext = getApplicationContext();
@@ -57,36 +57,29 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 CommonUtils.showLoading(HomeActivity.this);
 
-                try {
-                    VolleyAPI volleyAPI = new VolleyAPI(HomeActivity.this);
+                VolleyAPI volleyAPI = new VolleyAPI(HomeActivity.this);
 
-                    JSONObject object = new JSONObject(resultIntent.getContents());
-                    idMeja = object.getString("user_id");
-                    namaMeja = object.getString("user_name");
-                    passwordMeja = "udin123";
+                idMeja = resultIntent.getContents();
+                passwordMeja = "udin123";
 
-                    Map<String, String> params = new HashMap<>();
-                    params.put("user_id", idMeja);
-                    params.put("password", passwordMeja);
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", idMeja);
+                params.put("password", passwordMeja);
 
-                    volleyAPI.getRequest(MyConstants.LOGIN_CUSTOMER_ACTION, params, result -> {
-                        try {
-                            JSONObject resultJSON = new JSONObject(result);
-                            if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
-                                Preferences.setLoggedInUserCustomer(HomeActivity.this, idMeja);
-                                startActivity(new Intent(HomeActivity.this, PengunjungActivity.class));
-                                finish();
-                            }
-
-                            CommonUtils.showToast(appContext, resultJSON.getString("message"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                volleyAPI.getRequest(MyConstants.LOGIN_CUSTOMER_ACTION, params, result -> {
+                    try {
+                        JSONObject resultJSON = new JSONObject(result);
+                        if(resultJSON.getString("is_error").equalsIgnoreCase("0")) {
+                            Preferences.setLoggedInUserCustomer(HomeActivity.this, idMeja);
+                            startActivity(new Intent(HomeActivity.this, PengunjungActivity.class));
+                            finish();
                         }
-                    });
-                } catch(JSONException e) {
-                    e.printStackTrace();
-                    CommonUtils.showToast(appContext, resultIntent.getContents());
-                }
+
+                        CommonUtils.showToast(appContext, resultJSON.getString("message"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
 
                 CommonUtils.hideLoading();
             }

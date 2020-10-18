@@ -16,6 +16,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <Button
+                android:id="@+id/btnHapusMakananCart"
+                android:paddingRight="50dp"
+                android:paddingLeft="50dp"
+                android:background="@drawable/button_danger"
+                android:text="@string/tombol_hapus_cart"
+                android:textColor="@drawable/button_danger_text"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+                android:layout_marginVertical="20dp"
+                android:layout_marginHorizontal="@dimen/_4dp"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvDataPengunjungMakananCart"
                 android:layout_width="match_parent"

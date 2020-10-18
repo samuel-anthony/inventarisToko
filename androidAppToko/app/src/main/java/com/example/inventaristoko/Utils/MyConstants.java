@@ -80,10 +80,13 @@ public interface MyConstants {
     String BAHAN_POKOK_GET_SUPPLIER_ACTION = "getSemuaSupplier";
     String BAHAN_POKOK_ADD_ACTION = "addBahanPokokBaru";
     String BAHAN_POKOK_ADD_HISTORY_ACTION = "addRiwayatBahanPokok";
+    String BAHAN_POKOK_ADD_SUPPLIER_ACTION = "addSupplier";
 
     String RESI_GET_ACTION = "getPesananSudahSelesai";
 
     String PENGUNJUNG_ADD_CART_ACTION = "tambahDataCart";
-    String PENGUNJUNG_GET_CARD_ACTION = "getCartUser";
+    String PENGUNJUNG_GET_CART_ACTION = "getCartUser";
     String PENGUNJUNG_ADD_NEW_ORDER_ACTION = "addPesananBaru";
+    String PENGUNJUNG_DELETE_CART_ACTION = "clearCart";
+    String PENGUNJUNG_GET_STATUS_ACTION = "getPesananBelumSelesaiUntukPelanggan";
 }

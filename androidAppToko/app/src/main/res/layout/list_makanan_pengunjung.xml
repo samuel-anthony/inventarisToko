@@ -55,8 +55,8 @@
 
                 <ImageView
                     android:id="@+id/ivGambarMakananPengunjung"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_logo"
                     android:scaleType="fitXY"

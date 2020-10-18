@@ -245,7 +245,7 @@ public class BahanPokokEntryActivity extends AppCompatActivity implements Adapte
         VolleyAPI volleyAPI = new VolleyAPI(context);
 
         Map<String, String> params = new HashMap<>();
-        params.put("nama", txtNamaBahanPokok); //disable
+        params.put("nama", txtNamaBahanPokok);
         params.put("jumlah", txtJumlahBahanPokok);
 
         if (screenState.equals(MyConstants.TAMBAH_DETAIL_BAHAN_POKOK)) {
