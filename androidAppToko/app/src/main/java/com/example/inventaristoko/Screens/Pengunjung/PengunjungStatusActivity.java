@@ -70,7 +70,7 @@ public class PengunjungStatusActivity extends AppCompatActivity {
                     pengunjung.setIdPenjualan(dataPengunjung.getString("ref_no"));
                     pengunjung.setKodeStatusPenjualan(dataPengunjung.getString("status_code"));
                     pengunjung.setTotalHargaPenjualan(dataPengunjung.getString("total_harga"));
-                    pengunjung.setTanggalTambahPenjualan(CommonUtils.dateFormat(dataPengunjung.getString("created_at")));
+                    pengunjung.setTanggalTambahPenjualan(dataPengunjung.getString("created_at"));
                     mPengunjungStatus.add(pengunjung);
                 }
 
