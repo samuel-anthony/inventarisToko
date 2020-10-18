@@ -45,7 +45,7 @@ class PesananController extends Controller
 
     public function getAllTodayUnfinishedOrderForCustomer(request $request){
         $user = User::whereUserId($request->user_id)->first();
-        $pesanans = pesananMaster::where('status_code','<>','004')->whereUserId($user->id)->get();
+        $pesanans = pesananMaster::where('status_code','<>','004')->whereUserId($user->id)->orderBy('updated_at', 'DESC')->get();
         foreach($pesanans as $pesanan){    
             $total_harga = 0;
             foreach($pesanan->details as $pesanan_detail){
