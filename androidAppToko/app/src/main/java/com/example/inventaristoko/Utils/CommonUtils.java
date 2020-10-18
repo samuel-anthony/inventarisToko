@@ -19,8 +19,10 @@ import com.example.inventaristoko.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Calendar;
@@ -96,10 +98,16 @@ public final class CommonUtils {
     }
 
     public static String dateFormat(String input) {
-        Instant instant = Instant.parse( input );  // `Instant` is always in UTC.
-        Date d = Date.from(instant);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        Date date = Calendar.getInstance().getTime();
+        try {
+            date = format.parse(input);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-        String hasil = df.format(d);
+        String hasil = df.format(date);
 
         return hasil;
     }
