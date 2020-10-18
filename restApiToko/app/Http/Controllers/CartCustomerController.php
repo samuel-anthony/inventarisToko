@@ -37,7 +37,8 @@ class CartCustomerController extends Controller
     }
 
     public function clearCart(request $request){
-        $carts = cartCustomer::whereUserId($request->user_id)->get();
+        $user = User::whereUserId($request->user_id)->first();
+        $carts = cartCustomer::whereUserId($user->id)->get();
         foreach($carts as $detail){
             $detail->delete();
         }

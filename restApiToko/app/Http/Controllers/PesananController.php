@@ -127,7 +127,7 @@ class PesananController extends Controller
         }
         return json_encode([
             'is_error' => '0',
-            "message"=>"Berhasil Pesan Pesanan"
+            "message"=>"Berhasil dipesanan"
         ]);
     }
 }
