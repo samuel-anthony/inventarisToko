@@ -108,7 +108,7 @@ class BahanPokokController extends Controller
     public function getStatus($bahan_pokok_id){
         $bahanPokok = bahanPokok::find($bahan_pokok_id);
         if(count($bahanPokok->riwayats) > 0){
-            if($bahanPokok->jumlah == 0){
+            if($bahanPokok->jumlah != 0){
                 $total = 0;
                 foreach($bahanPokok->riwayats as $riwayat){
                     if($riwayat->aksi == 0)
