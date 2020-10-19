@@ -62,3 +62,4 @@ Route::put('deleteMakanan','MakananController@deleteMakanan');
 Route::put('updateJenisMenu','JenisMenuController@updateJenisMenu');
 Route::put('deleteJenisMenu','JenisMenuController@deleteJenisMenu');
 Route::put('clearCart','CartCustomerController@clearCart');
+Route::put('deleteCartSingle','CartCustomerController@deleteCartSingle');
