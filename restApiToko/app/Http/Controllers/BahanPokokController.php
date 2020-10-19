@@ -118,7 +118,8 @@ class BahanPokokController extends Controller
                 foreach($results as $riwayat){
                     $total += $riwayat->jumlah;
                 }
-                $total /= count($results);
+                if(count($results)>0)
+                    $total /= count($results);
                 if($total*2 < $bahanPokok->jumlah)
                     return "Tersedia";   
                 return $bahanPokok->jumlah; 
