@@ -8,6 +8,7 @@ use App\pesananDetail;
 use App\makanan;
 use App\cartCustomer;
 use App\User;
+use App\riwayatBahanPokok;
 
 class PesananController extends Controller
 {
@@ -137,6 +138,16 @@ class PesananController extends Controller
             $pesananDetail->notes = $detail->notes;
             $detail->delete();
             $pesananDetail->save();
+            $makanan = makanan::find($detail->makanan_id);
+            foreach($makanan->makananDetails as $makananDetail){
+                $bahanPokok = $makananDetail->bahanPokok;
+                $riwayatBahanPokok = new riwayatBahanPokok;
+                $riwayatBahanPokok->aksi = 0; //expect nilai 0, dan 1... 0 untuk pengambilan, 1 untuk penambahan
+                $riwayatBahanPokok->jumlah = $makananDetail->jumlah;
+                $riwayatBahanPokok->harga = 0;
+                $riwayatBahanPokok->bahan_pokok_id = $bahanPokok->bahan_pokok_id;
+                $riwayatBahanPokok->save();
+            }
         }
         return json_encode([
             'is_error' => '0',

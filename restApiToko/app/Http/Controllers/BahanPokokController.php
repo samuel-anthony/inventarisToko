@@ -21,6 +21,7 @@ class BahanPokokController extends Controller
                 array_push($temp2, $detail->makananMaster->nama);
             }
             $details->makanans = json_decode(json_encode($temp2));
+            $details->status = getStatus($details->bahan_pokok_id);
             $collection = collect($details);
             $collection->forget("makanan_details");
             
@@ -99,6 +100,29 @@ class BahanPokokController extends Controller
             if($counter>2)break;
         }
         $bahanPokok->riwayats = $arr;
+        
+        $bahanPokok->status = getStatus($details->bahan_pokok_id);
         return json_encode(['result'=>$bahanPokok]);
+    }
+
+    public function getStatus($bahan_pokok_id){
+        $bahanPokok = bahanPokok::find($bahan_pokok_id);
+        if(count($bahanPokok->riwayats) > 0){
+            if($bahanPokok->jumlah == 0){
+                $total = 0;
+                foreach($bahanPokok->riwayats as $riwayat){
+                    if($riwayat->aksi == 0)
+                        $total += $riwayat->jumlah;
+                }
+                $total /= count($bahanPokok->riwayats);
+                if($total*2 > $bahanPokok->jumlah)
+                    return "Tersedia";   
+                return "Hampir Habis"; 
+            }
+            return "Habis";
+        }
+        else{
+            return "Tersedia";
+        }
     }
 }
