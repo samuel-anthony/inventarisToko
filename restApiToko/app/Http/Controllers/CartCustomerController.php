@@ -47,4 +47,13 @@ class CartCustomerController extends Controller
             'message' => 'berhasil'
         ]);
     }
+
+    public function deleteCartSingle(request $request){
+        $cart = cartCustomer::find($request->cart_id);
+        $cart->delete();
+        return json_encode([
+            'is_error' => '0',
+            'message' => 'berhasil'
+        ]);
+    }
 }
