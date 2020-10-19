@@ -21,7 +21,7 @@ class BahanPokokController extends Controller
                 array_push($temp2, $detail->makananMaster->nama);
             }
             $details->makanans = json_decode(json_encode($temp2));
-            $details->status = getStatus($details->bahan_pokok_id);
+            $details->status = $this->getStatus($details->bahan_pokok_id);
             $collection = collect($details);
             $collection->forget("makanan_details");
             
@@ -101,7 +101,7 @@ class BahanPokokController extends Controller
         }
         $bahanPokok->riwayats = $arr;
         
-        $bahanPokok->status = getStatus($details->bahan_pokok_id);
+        $bahanPokok->status = $this->getStatus($details->bahan_pokok_id);
         return json_encode(['result'=>$bahanPokok]);
     }
 
