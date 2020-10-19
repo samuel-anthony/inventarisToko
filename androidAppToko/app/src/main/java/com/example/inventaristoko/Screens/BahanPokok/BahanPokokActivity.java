@@ -40,13 +40,14 @@ public class BahanPokokActivity extends AppCompatActivity implements View.OnClic
     private FloatingActionButton fabDataBahanPokok;
     private RecyclerView rvDataBahanPokok;
     private BahanPokokAdapter bahanPokokAdapter;
-    private Button btnTambahBahanPokok;
+    private Button btnTambahBahanPokok, btnTambahPemasok;
     private JSONArray elementDownload = new JSONArray();
 
     private void init() {
         rvDataBahanPokok = findViewById(R.id.rvDataBahanPokok);
         fabDataBahanPokok = findViewById(R.id.fabDataBahanPokok);
         btnTambahBahanPokok = findViewById(R.id.btnTambahBahanPokok);
+        btnTambahPemasok = findViewById(R.id.btnTambahPemasok);
     }
 
     @Override
@@ -54,12 +55,13 @@ public class BahanPokokActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bahan_pokok);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_detail_bahan_pokok);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_bahan_pokok);
 
         init();
 
         fabDataBahanPokok.setOnClickListener(this);
         btnTambahBahanPokok.setOnClickListener(this);
+        btnTambahPemasok.setOnClickListener(this);
 
         setUp();
     }
@@ -94,6 +96,7 @@ public class BahanPokokActivity extends AppCompatActivity implements View.OnClic
                     bahanPokok.setNamaBahanPokok(dataBahanPokok.getString("nama"));
                     bahanPokok.setJumlahBahanPokok(dataBahanPokok.getString("jumlah"));
                     bahanPokok.setSatuanBahanPokok(dataBahanPokok.getString("satuan"));
+                    bahanPokok.setStatusBahanPokok(dataBahanPokok.getString("status"));
                     bahanPokok.setTanggalTambahBahanPokok(dataBahanPokok.getString("created_at"));
                     bahanPokok.setTanggalUbahBahanPokok(dataBahanPokok.getString("updated_at"));
 
@@ -168,6 +171,10 @@ public class BahanPokokActivity extends AppCompatActivity implements View.OnClic
                 bundle.putString("screenState", MyConstants.TAMBAH_BAHAN_POKOK);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
+                break;
+            case R.id.btnTambahPemasok:
+                Intent intent2 = new Intent(getApplicationContext(), BahanPokokSupplierActivity.class);
+                startActivityForResult(intent2, 0);
                 break;
         }
     }

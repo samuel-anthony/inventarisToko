@@ -149,9 +149,11 @@
     <string name="label_jumlah_bahan_pokok_satuan">Jumlah</string>
     <string name="label_harga_bahan_pokok">Harga</string>
     <string name="label_satuan_bahan_pokok">Satuan</string>
+    <string name="label_status_bahan_pokok">Status</string>
     <string name="label_pemasok_bahan_pokok">Pemasok Bahan Pokok</string>
     <string name="label_value_nama_bahan_pokok">Nama Bahan Pokok</string>
     <string name="label_value_jumlah_bahan_pokok">1</string>
+    <string name="label_value_status_bahan_pokok">Status</string>
     <string name="label_value_nama_tokok_detail_bahan_pokok">Toko Bahan Pokok</string>
     <string name="label_value_harga_detail_bahan_pokok">1</string>
     <string name="label_value_tanggal_detail_bahan_pokok">01 - 01 - 2001</string>

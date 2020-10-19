@@ -121,6 +121,7 @@ public class BahanPokokAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         bundle.putString("namaBahanPokok", mBahanPokok.getNamaBahanPokok());
                         bundle.putString("jumlahBahanPokok", mBahanPokok.getJumlahBahanPokok());
                         bundle.putString("satuanBahanPokok", mBahanPokok.getSatuanBahanPokok());
+                        bundle.putString("statusBahanPokok", mBahanPokok.getStatusBahanPokok());
                         intent.putExtras(bundle);
                         v.getContext().startActivity(intent);
                     } catch (Exception e) {

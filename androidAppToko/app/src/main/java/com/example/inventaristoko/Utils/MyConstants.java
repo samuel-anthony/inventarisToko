@@ -6,6 +6,10 @@ public interface MyConstants {
     String FINISH_CODE = "003";
     String PAID_CODE = "004";
 
+    String READY = "Tersedia";
+    String ALMOST = "Hampir Habis";
+    String EMPTY = "Kosong";
+
     String MILI_GRAM = "Mg";
     String DESI_GRAM = "Dg";
     String CENTI_GRAM = "Cg";
@@ -89,4 +93,5 @@ public interface MyConstants {
     String PENGUNJUNG_ADD_NEW_ORDER_ACTION = "addPesananBaru";
     String PENGUNJUNG_DELETE_CART_ACTION = "clearCart";
     String PENGUNJUNG_GET_STATUS_ACTION = "getPesananBelumSelesaiUntukPelanggan";
+    String PENGUNJUNG_DELETE_SELECTED_CART_ACTION = "deleteCartSingle";
 }

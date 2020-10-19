@@ -8,6 +8,7 @@ public class BahanPokok implements Serializable  {
     private String namaBahanPokok;
     private String jumlahBahanPokok;
     private String satuanBahanPokok;
+    private String statusBahanPokok;
     private String tanggalTambahBahanPokok;
     private String tanggalUbahBahanPokok;
 
@@ -58,6 +59,14 @@ public class BahanPokok implements Serializable  {
 
     public void setSatuanBahanPokok(String satuanBahanPokok) {
         this.satuanBahanPokok = satuanBahanPokok;
+    }
+
+    public String getStatusBahanPokok() {
+        return statusBahanPokok;
+    }
+
+    public void setStatusBahanPokok(String statusBahanPokok) {
+        this.statusBahanPokok = statusBahanPokok;
     }
 
     public String getTanggalTambahBahanPokok() {
