@@ -147,6 +147,8 @@ class PesananController extends Controller
                 $riwayatBahanPokok->harga = 0;
                 $riwayatBahanPokok->bahan_pokok_id = $bahanPokok->bahan_pokok_id;
                 $riwayatBahanPokok->save();
+                $bahanPokok->jumlah -= $makananDetail->jumlah;
+                $bahanPokok->save();
             }
         }
         return json_encode([

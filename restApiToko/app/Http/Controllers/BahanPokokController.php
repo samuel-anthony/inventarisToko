@@ -8,6 +8,7 @@ use App\riwayatBahanPokok;
 use App\supplier;
 use App\makanan;
 use DateTime;
+use Illuminate\Support\Facades\DB;
 
 class BahanPokokController extends Controller
 {
@@ -101,7 +102,7 @@ class BahanPokokController extends Controller
         }
         $bahanPokok->riwayats = $arr;
         
-        $bahanPokok->status = $this->getStatus($details->bahan_pokok_id);
+        $bahanPokok->status = $this->getStatus($bahanPokok->bahan_pokok_id);
         return json_encode(['result'=>$bahanPokok]);
     }
 
@@ -110,14 +111,17 @@ class BahanPokokController extends Controller
         if(count($bahanPokok->riwayats) > 0){
             if($bahanPokok->jumlah != 0){
                 $total = 0;
-                foreach($bahanPokok->riwayats as $riwayat){
-                    if($riwayat->aksi == 0)
-                        $total += $riwayat->jumlah;
+                $results = riwayatBahanPokok::whereAksi(0)->whereBahanPokokId($bahan_pokok_id)->groupBy('date')->get(array(
+                                DB::raw('Date(created_at) as date'),
+                                DB::raw('sum(jumlah) as "jumlah"')
+                            ));
+                foreach($results as $riwayat){
+                    $total += $riwayat->jumlah;
                 }
-                $total /= count($bahanPokok->riwayats);
-                if($total*2 > $bahanPokok->jumlah)
+                $total /= count($results);
+                if($total*2 < $bahanPokok->jumlah)
                     return "Tersedia";   
-                return "Hampir Habis"; 
+                return $bahanPokok->jumlah; 
             }
             return "Habis";
         }
