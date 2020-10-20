@@ -82,6 +82,32 @@
                         android:padding="@dimen/_4dp"
                         android:text="@string/label_value_jumlah_bahan_pokok"/>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginVertical="@dimen/_12dp"
+                    android:layout_marginHorizontal="@dimen/_8dp">
+
+                    <TextView
+                        android:id="@+id/tvStatusBahanPokok"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:padding="@dimen/_4dp"
+                        android:text="@string/label_status_bahan_pokok"/>
+
+                    <TextView
+                        android:id="@+id/tvValueStatusBahanPokok"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        android:padding="@dimen/_4dp"
+                        android:text="@string/label_value_status_bahan_pokok"/>
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -98,16 +124,6 @@
                 android:paddingLeft="30dp"
                 android:background="@drawable/button_primary"
                 android:text="@string/tombol_tambah_detail"
-                android:textColor="@drawable/button_primary_text"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_margin="@dimen/_4dp"/>
-            <Button
-                android:id="@+id/btnTambahDetailPemasok"
-                android:paddingRight="30dp"
-                android:paddingLeft="30dp"
-                android:background="@drawable/button_primary"
-                android:text="@string/tombol_tambah_pemasok"
                 android:textColor="@drawable/button_primary_text"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"

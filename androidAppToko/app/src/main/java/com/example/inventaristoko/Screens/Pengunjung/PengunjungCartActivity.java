@@ -10,16 +10,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.inventaristoko.Adapter.Penjualan.PenjualanDetailAdapter;
+import com.example.inventaristoko.Adapter.Pengunjung.PengunjungKeranjangAdapter;
 import com.example.inventaristoko.Model.Penjualan.PenjualanDetail;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.Penjualan.PenjualanActivity;
-import com.example.inventaristoko.Screens.Penjualan.PenjualanDetailActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.Preferences;
@@ -36,7 +32,7 @@ import java.util.Objects;
 
 public class PengunjungCartActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView rvDataPengunjungMakananCart;
-    private PenjualanDetailAdapter makananCartAdapter;
+    private PengunjungKeranjangAdapter makananCartAdapter;
     private TextView tvTotalMakananPengunjungCart;
     private Button btnPesanMakanan, btnHapusMakananCart;
     private int amount, price, totalPrice;
@@ -68,7 +64,7 @@ public class PengunjungCartActivity extends AppCompatActivity implements View.On
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rvDataPengunjungMakananCart.setLayoutManager(mLayoutManager);
         rvDataPengunjungMakananCart.setItemAnimator(new DefaultItemAnimator());
-        makananCartAdapter = new PenjualanDetailAdapter(new ArrayList<>());
+        makananCartAdapter = new PengunjungKeranjangAdapter(new ArrayList<>());
 
         callDataPengunjungKeranjangRequest();
     }

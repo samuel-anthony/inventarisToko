@@ -16,7 +16,6 @@ import com.example.inventaristoko.Adapter.BahanPokok.BahanPokokHistoryAdapter;
 import com.example.inventaristoko.Model.BahanPokok.BahanPokokHistory;
 import com.example.inventaristoko.Model.BahanPokok.BahanPokokFood;
 import com.example.inventaristoko.R;
-import com.example.inventaristoko.Screens.Pengunjung.PengunjungCartActivity;
 import com.example.inventaristoko.Utils.CommonUtils;
 import com.example.inventaristoko.Utils.MyConstants;
 import com.example.inventaristoko.Utils.VolleyAPI;
@@ -35,8 +34,8 @@ public class BahanPokokDetailActivity extends AppCompatActivity implements View.
     private RecyclerView rvBahanPokokHistoryDetail, rvBahanPokokFoodDetail;
     private BahanPokokHistoryAdapter bahanPokokHistoryAdapter;
     private BahanPokokFoodAdapter bahanPokokFoodAdapter;
-    private Button btnTambahDetailBahanPokok, btnTambahDetailPemasok;
-    private TextView tvNamaBahanPokok, tvJumlahBahanPokok;
+    private Button btnTambahDetailBahanPokok;
+    private TextView tvNamaBahanPokok, tvJumlahBahanPokok, tvStatusBahanPokok;
     private String idBahanPokok, jumlahBahanPokok, satuanBahanPokok;
 
     private void init() {
@@ -44,8 +43,8 @@ public class BahanPokokDetailActivity extends AppCompatActivity implements View.
         rvBahanPokokFoodDetail = findViewById(R.id.rvBahanPokokFoodDetail);
         tvNamaBahanPokok = findViewById(R.id.tvValueNamaBahanPokok);
         tvJumlahBahanPokok = findViewById(R.id.tvValueJumlahBahanPokok);
+        tvStatusBahanPokok = findViewById(R.id.tvValueStatusBahanPokok);
         btnTambahDetailBahanPokok = findViewById(R.id.btnTambahDetailBahanPokok);
-        btnTambahDetailPemasok = findViewById(R.id.btnTambahDetailPemasok);
     }
 
     @Override
@@ -66,8 +65,18 @@ public class BahanPokokDetailActivity extends AppCompatActivity implements View.
         tvNamaBahanPokok.setText(bundle.getString("namaBahanPokok"));
         tvJumlahBahanPokok.setText(String.format("%s %s", bundle.getString("jumlahBahanPokok"), bundle.getString("satuanBahanPokok")));
 
+        if(String.valueOf(bundle.getString("statusBahanPokok")).equalsIgnoreCase(MyConstants.READY)) {
+            tvStatusBahanPokok.setTextColor(getResources().getColor(R.color.colorSuccess));
+            tvStatusBahanPokok.setText(MyConstants.READY);
+        } else if (String.valueOf(bundle.getString("kodeStatus")).equalsIgnoreCase(MyConstants.ALMOST)) {
+            tvStatusBahanPokok.setTextColor(getResources().getColor(R.color.colorPrimary));
+            tvStatusBahanPokok.setText(MyConstants.ALMOST);
+        } else {
+            tvStatusBahanPokok.setTextColor(getResources().getColor(R.color.colorFailed));
+            tvStatusBahanPokok.setText(MyConstants.EMPTY);
+        }
+
         btnTambahDetailBahanPokok.setOnClickListener(this);
-        btnTambahDetailPemasok.setOnClickListener(this);
 
         setUpRiwayatMakanan();
         setUpDetailMakanan();
@@ -167,22 +176,16 @@ public class BahanPokokDetailActivity extends AppCompatActivity implements View.
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnTambahDetailBahanPokok:
-                Intent intent = new Intent(v.getContext(), BahanPokokEntryActivity.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putString("screenState", MyConstants.TAMBAH_DETAIL_BAHAN_POKOK);
-                mBundle.putString("idBahanPokok", idBahanPokok);
-                mBundle.putString("namaBahanPokok", tvNamaBahanPokok.getText().toString());
-                mBundle.putString("jumlahBahanPokok", jumlahBahanPokok);
-                mBundle.putString("satuanBahanPokok", satuanBahanPokok);
-                intent.putExtras(mBundle);
-                v.getContext().startActivity(intent);
-                break;
-            case R.id.btnTambahDetailPemasok:
-                Intent intent2 = new Intent(getApplicationContext(), BahanPokokSupplierActivity.class);
-                startActivityForResult(intent2, 0);
-                break;
+        if (v.getId() == R.id.btnTambahDetailBahanPokok) {
+            Intent intent = new Intent(v.getContext(), BahanPokokEntryActivity.class);
+            Bundle mBundle = new Bundle();
+            mBundle.putString("screenState", MyConstants.TAMBAH_DETAIL_BAHAN_POKOK);
+            mBundle.putString("idBahanPokok", idBahanPokok);
+            mBundle.putString("namaBahanPokok", tvNamaBahanPokok.getText().toString());
+            mBundle.putString("jumlahBahanPokok", jumlahBahanPokok);
+            mBundle.putString("satuanBahanPokok", satuanBahanPokok);
+            intent.putExtras(mBundle);
+            v.getContext().startActivity(intent);
         }
     }
 }
