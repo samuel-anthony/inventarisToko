@@ -87,7 +87,7 @@ class UserController extends Controller
 
     public function deleteAdmin(request $request){
         $user = User::whereUserId($request->user_name)->first();
-        $userAdmin = userAdmin::whereUserId($user->id);
+        $userAdmin = userAdmin::whereUserId($user->id)->first();
         $userAdmin->delete();
         $user->delete();
         return json_encode([
